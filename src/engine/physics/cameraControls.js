@@ -49,9 +49,16 @@ function followObj( target ) {
 
 		threeCore.camera.position.applyAxisAngle( target.up, angle * CAMERA_EASING * additionalEasing );
 
-		/* look at the player */
+		/* look in front of the player */
 
-		threeCore.camera.lookAt( target.position );
+		// target
+		_vec1.copy( target.position );
+		target.getWorldDirection( _vec2 );
+		_vec2.negate();
+		_vec2.multiplyScalar( 3 );
+		_vec1.add( _vec2 );
+
+		threeCore.camera.lookAt( _vec1 );
 
 	}
 

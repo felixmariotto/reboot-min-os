@@ -7,6 +7,10 @@ function elem( options ) {
 
 	if ( options.id ) element.id = options.id;
 
+	if ( options.html ) element.append( options.html );
+
+	if ( options.classes ) element.classList.add( ...options.classes.split(' ') );
+
 	return element
 
 }

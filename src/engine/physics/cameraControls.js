@@ -12,7 +12,7 @@ let loopCallback;
 
 //
 
-const CAMERA_EASING = 0.1;
+const CAMERA_EASING = 0.04;
 
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
@@ -35,10 +35,11 @@ function followObj( target ) {
 		_vec1.copy( threeCore.camera.position );
 		_vec1.sub( target.position );
 		_vec1.y = 0;
-		let angle = _vec1.angleTo( _vec2 );
 
+		// get signed angle
+		let angle = _vec1.angleTo( _vec2 );
 		_vec3.crossVectors( _vec1, _vec2 );
-		if ( _vec3.dot( target.up ) < 0 ) { // Or > 0
+		if ( _vec3.dot( target.up ) < 0 ) {
 			angle = -angle;
 		}
 

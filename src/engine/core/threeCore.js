@@ -25,6 +25,10 @@ function init() {
 
 	document.body.append( renderer.domElement );
 
+	resize();
+
+	loop();
+
 }
 
 //
@@ -40,6 +44,19 @@ function resize() {
 
 //
 
+function loop() {
+
+	requestAnimationFrame( loop );
+
+	renderer.render( scene, camera );
+
+}
+
+//
+
 export default {
-	init
+	init,
+	scene,
+	camera,
+	renderer
 }

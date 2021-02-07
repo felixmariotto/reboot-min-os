@@ -34,7 +34,7 @@
         "no-useless-call": 1,
         "no-delete-var": 1,
         "no-undef-init": 1,
-        "no-undef": 1,
+        "no-undef": 0,
         "no-unused-vars": 1,
         "camelcase": 1,
         "eol-last": 1,

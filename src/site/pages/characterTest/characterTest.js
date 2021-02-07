@@ -15,7 +15,7 @@ gamePage.start = function start() {
 
 	engine.threeCore.init();
 
-	engine.threeCore.camera.position.z += 5;
+	// engine.threeCore.camera.position.z += 5;
 
 	engine.files.load( mainChar, (glb) => {
 
@@ -24,6 +24,8 @@ gamePage.start = function start() {
 		})
 
 		engine.threeCore.scene.add( glb.scene );
+
+		engine.cameraControls.followObj( glb.scene );
 
 	} );
 

@@ -17,6 +17,8 @@ const camera = new THREE.PerspectiveCamera(
 	params.cameraFar
 );
 
+const loopCallbacks = [];
+
 //
 
 function init() {
@@ -48,7 +50,17 @@ function loop() {
 
 	requestAnimationFrame( loop );
 
+	loopCallbacks.forEach( callback => callback() );
+
 	renderer.render( scene, camera );
+
+}
+
+//
+
+function callInLoop( fn ) {
+
+	loopCallbacks.push( fn );
 
 }
 
@@ -58,5 +70,6 @@ export default {
 	init,
 	scene,
 	camera,
-	renderer
+	renderer,
+	callInLoop
 }

@@ -12,7 +12,7 @@ let loopCallback;
 
 //
 
-const CAMERA_EASING = 0.04;
+const CAMERA_EASING = 0.06;
 
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
@@ -43,7 +43,11 @@ function followObj( target ) {
 			angle = -angle;
 		}
 
-		threeCore.camera.position.applyAxisAngle( target.up, angle * CAMERA_EASING );
+		// the more the camera is far from the target angle, so less fast it turns
+		let additionalEasing = ( Math.PI - Math.abs( angle ) ) / Math.PI;
+		additionalEasing = Math.pow( additionalEasing, 3 );
+
+		threeCore.camera.position.applyAxisAngle( target.up, angle * CAMERA_EASING * additionalEasing );
 
 		/* look at the player */
 

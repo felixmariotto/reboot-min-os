@@ -42,7 +42,11 @@ function control( target ) {
 		// boost u-turns speed
 		if ( _vec3.distanceTo( target.position ) < 0.5 ) {
 			
-			_vec3.lerpVectors( _vec1, _vec2, 0.6 );
+			target.getWorldDirection( _vec2 );
+			_vec2.crossVectors( _vec2, target.up );
+			_vec2.add( target.position );
+
+			_vec3.lerpVectors( _vec1, _vec2, 0.5 );
 
 		}
 

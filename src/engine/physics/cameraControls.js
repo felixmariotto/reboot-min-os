@@ -58,7 +58,12 @@ function followObj( target ) {
 		_vec2.multiplyScalar( 3 );
 		_vec1.add( _vec2 );
 
-		threeCore.camera.lookAt( _vec1 );
+		threeCore.camera.getWorldDirection( _vec2 );
+		_vec2.add( threeCore.camera.position );
+
+		_vec3.lerpVectors( _vec1, _vec2, 0.995 );
+
+		threeCore.camera.lookAt( _vec3 );
 
 	}
 

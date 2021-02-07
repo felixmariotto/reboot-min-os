@@ -11,6 +11,10 @@ let loopCallback;
 
 //
 
+const MOVE_SPEED = 0.11;
+const TURN_SPEED = 0.76;
+const U_TURN_THRESHOLD = 0.65;
+
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
 const _vec3 = new THREE.Vector3();
@@ -44,7 +48,7 @@ function control( target ) {
 
 			// move forward
 
-			target.position.addScaledVector( targetDirection, -0.1 );
+			target.position.addScaledVector( targetDirection, -1 * MOVE_SPEED );
 
 		}
 
@@ -58,17 +62,17 @@ function control( target ) {
 		_vec1.copy( targetDirection );
 		_vec1.add( target.position );
 
-		_vec3.lerpVectors( _vec1, _vec2, 0.65 );
+		_vec3.lerpVectors( _vec1, _vec2, TURN_SPEED );
 
 		// boost u-turns speed
-		if ( _vec3.distanceTo( target.position ) < 0.5 ) {
+		if ( _vec3.distanceTo( target.position ) < U_TURN_THRESHOLD ) {
 			
 			// new base dir at cross position
 			target.getWorldDirection( _vec2 );
 			_vec2.crossVectors( _vec2, target.up );
 			_vec2.add( target.position );
 
-			_vec3.lerpVectors( _vec1, _vec2, 0.5 );
+			_vec3.lerpVectors( _vec1, _vec2, 0.97 );
 
 		}
 

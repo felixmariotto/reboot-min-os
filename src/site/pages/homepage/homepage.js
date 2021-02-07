@@ -2,8 +2,10 @@
 import './homepage.css';
 import { elem } from '../../utils.js';
 
-import loadingBox from '../../components/loadingBox.js';
+import loadingBox from '../../components/loadingBox/loadingBox.js';
+
 import mainGame from '../mainGame/mainGame.js';
+import characterTest from '../characterTest/characterTest.js';
 
 //
 
@@ -14,7 +16,8 @@ const title = elem({ tagName: 'H1', html: 'Game Title' });
 const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden truc' });
 
 gamePicking.append(
-	makeGameButton( 'main game', mainGame )
+	makeGameButton( 'main game', mainGame ),
+	makeGameButton( 'character test', characterTest)
 );
 
 homepage.append(

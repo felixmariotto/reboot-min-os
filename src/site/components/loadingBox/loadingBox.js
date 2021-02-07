@@ -1,6 +1,6 @@
 
 import './loadingBox.css';
-import { elem } from '../utils.js';
+import { elem } from '../../utils.js';
 
 //
 
@@ -16,19 +16,13 @@ loadingBox.setLoadingEngineState = function setLoadingEngineState() {
 
 loadingBox.setInitialState = function setInitialState() {
 
-	loadingBox.innerHTML = '0%';
+	loadingBox.innerHTML = 'click to play';
 
 }
 
 loadingBox.setUploadingState = function setUploadingState( percent ) {
 
 	loadingBox.innerHTML = percent + '%';
-
-}
-
-loadingBox.setEndState = function setEndState() {
-
-	loadingBox.innerHTML = 'click to play';
 
 }
 

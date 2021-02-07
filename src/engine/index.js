@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import threeCore from './core/threeCore.js';
 import files from './files/files.js';
 import cameraControls from './physics/cameraControls.js';
+import characterControls from './physics/characterControls.js';
 
 //
 
@@ -12,7 +13,8 @@ if ( window ) {
 		THREE,
 		threeCore,
 		files,
-		cameraControls
+		cameraControls,
+		characterControls
 	}
 
 } else {

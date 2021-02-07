@@ -42,6 +42,10 @@ function control( target ) {
 
 			targetDirection.applyAxisAngle( target.up, -angle );
 
+			// move forward
+
+			target.position.addScaledVector( targetDirection, -0.1 );
+
 		}
 
 		// smooth turn toward target direction

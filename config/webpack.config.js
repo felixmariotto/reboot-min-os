@@ -24,8 +24,8 @@ module.exports = env => {
 		mode: mode,
 
 		entry: {
-			'bundle': './src/index.js',
-			'engine': './src/engine/engine.js',
+			'bundle': './src/site/index.js',
+			'engine': './src/engine/index.js',
 		},
 
 		output: {
@@ -42,7 +42,7 @@ module.exports = env => {
 
 		plugins: [
 			new HtmlWebpackPlugin({
-				template: './src/index.html',
+				template: './src/site/index.html',
 				inject: false
 			}),
 			// 'prod' or 'dev', bundled in the modules as the __API__ global variable.

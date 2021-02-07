@@ -1,0 +1,41 @@
+{
+  "name": "dungeon-game",
+  "version": "0.0.0",
+  "description": "dungeon game",
+  "main": "app.js",
+  "engines": {
+    "node": "^14.0.0"
+  },
+  "scripts": {
+    "lint": "eslint -c config/.eslintrc src",
+    "lint-fix": "eslint --fix -c config/.eslintrc src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --config config/webpack.config.js --open --env.NODE_ENV=dev",
+    "build": "npx webpack --config config/webpack.config.js --env.NODE_ENV=prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felixmariotto/dungeon-game.git"
+  },
+  "keywords": [
+    "javascript",
+    "3D",
+    "game"
+  ],
+  "author": "felixmariotto@gmail.com",
+  "license": "AGPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/felixmariotto/dungeon-game/issues"
+  },
+  "homepage": "https://github.com/felixmariotto/dungeon-game#readme",
+  "dependencies": {
+    "css-loader": "^5.0.1",
+    "eslint": "^7.19.0",
+    "file-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.0.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.21.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.2"
+  }
+}

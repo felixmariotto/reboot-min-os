@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+		<title>Dungeon Game</title>
+
+		<meta name="description" content="110 chars, for humans">
+
+		<meta property="og:title" content="35 chars, long name" />
+
+		<meta property="og:url" content="preferred url" />
+
+		<meta property="og:description" content="50 chars, human readable">
+
+		<meta property="og:image" content="image social media">
+
+		<meta property="og:image:type" content="image/jpg">
+
+		<meta property="og:image:width" content="1024">
+		<meta property="og:image:height" content="1024">
+
+		<meta property="og:type" content="website" />
+
+		<link rel="icon" sizes="any" href="logo svg" type="image/svg+xml">
+
+		<link rel="icon" href="logo ico" />
+
+		<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+		<script src="./bundle.js"></script>
+
+	</head>
+
+	<body>
+
+		<script>
+
+			window.addEventListener( 'load', () => {
+				
+				const script = document.createElement('script');
+
+				script.src = "./engine.js";
+
+				script.onload = function () {
+
+					const event = new Event( 'engine-loaded' );
+
+					window.dispatchEvent( event );
+
+				};
+
+				document.head.appendChild(script);
+
+			} );
+
+		</script>
+
+	</body>
+
+</html>

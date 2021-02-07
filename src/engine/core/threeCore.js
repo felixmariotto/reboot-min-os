@@ -21,6 +21,10 @@ const loopCallbacks = [];
 
 //
 
+window.addEventListener( 'resize', resize );
+
+//
+
 function init() {
 
 	document.body.innerHTML = '';

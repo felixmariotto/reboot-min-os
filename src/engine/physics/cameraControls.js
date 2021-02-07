@@ -12,20 +12,37 @@ let loopCallback;
 
 //
 
+const CAMERA_EASING = 0.1;
+
 const _vec1 = new THREE.Vector3();
+const _vec2 = new THREE.Vector3();
+const _vec3 = new THREE.Vector3();
 
 //
 
 function followObj( target ) {
 
+	threeCore.camera.position.copy( params.thirdPersCameraTarget );
+
+	threeCore.camera.lookAt( target.position );
+
 	loopCallback = () => {
 
 		/* position behind the player */
 
-		threeCore.camera.position.copy( params.thirdPersCameraTarget );
+		target.getWorldDirection( _vec2 )
 
-		// target.getWorldDirection( _vec1 );
-		// _vec1.add( target.position );
+		_vec1.copy( threeCore.camera.position );
+		_vec1.sub( target.position );
+		_vec1.y = 0;
+		let angle = _vec1.angleTo( _vec2 );
+
+		_vec3.crossVectors( _vec1, _vec2 );
+		if ( _vec3.dot( target.up ) < 0 ) { // Or > 0
+			angle = -angle;
+		}
+
+		threeCore.camera.position.applyAxisAngle( target.up, angle * CAMERA_EASING );
 
 		/* look at the player */
 

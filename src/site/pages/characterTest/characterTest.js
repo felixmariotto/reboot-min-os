@@ -2,7 +2,7 @@
 import { elem } from '../../utils.js';
 import loadingBox from '../../components/loadingBox/loadingBox.js';
 
-import mainChar from '../../../assets/mainChar.glb';
+import mainChar from '../../../assets/main_char.glb';
 import uvGrid from '../../../assets/uv_grid.jpg';
 
 //
@@ -43,8 +43,8 @@ gamePage.start = function start() {
 
 		engine.threeCore.scene.add( glb.scene );
 
-		// engine.cameraControls.followObj( glb.scene );
-		engine.cameraControls.orbitObj( glb.scene );
+		engine.cameraControls.followObj( glb.scene );
+		// engine.cameraControls.orbitObj( glb.scene );
 
 		engine.characterControls.control( glb.scene );
 

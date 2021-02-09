@@ -6,6 +6,7 @@ import loadingBox from '../../components/loadingBox/loadingBox.js';
 
 import mainGame from '../mainGame/mainGame.js';
 import characterTest from '../characterTest/characterTest.js';
+import mapTest from '../mapTest/mapTest.js';
 
 //
 
@@ -17,7 +18,8 @@ const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden truc' })
 
 gamePicking.append(
 	makeGameButton( 'main game', mainGame ),
-	makeGameButton( 'character test', characterTest)
+	makeGameButton( 'character test', characterTest ),
+	makeGameButton( 'map test', mapTest )
 );
 
 homepage.append(

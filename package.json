@@ -36,6 +36,7 @@
     "html-webpack-plugin": "^5.0.0",
     "style-loader": "^2.0.0",
     "three": "^0.125.2",
+    "three-mesh-bvh": "^0.3.3",
     "webpack": "^5.21.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"

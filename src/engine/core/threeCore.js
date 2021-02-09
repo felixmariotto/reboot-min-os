@@ -17,6 +17,8 @@ const camera = new THREE.PerspectiveCamera(
 	params.cameraFar
 );
 
+const clock = new THREE.Clock();
+
 const loopCallbacks = [];
 
 //
@@ -32,6 +34,8 @@ function init() {
 	document.body.append( renderer.domElement );
 
 	resize();
+
+	clock.start();
 
 	loop();
 
@@ -75,5 +79,6 @@ export default {
 	scene,
 	camera,
 	renderer,
+	clock,
 	callInLoop
 }

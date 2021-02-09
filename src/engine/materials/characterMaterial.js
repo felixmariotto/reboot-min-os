@@ -18,6 +18,8 @@ void main() {
 const fragmentShader = `
 varying vec3 vNormal;
 
+uniform float time;
+
 void main() {
 
 	vec4 edgeColor = vec4( 1.0 );
@@ -26,13 +28,16 @@ void main() {
 	vec3 normal = normalize( vNormal );
 
 	float dotNormalCam = dot( normal, vec3( 0, 0, 1 ) );
-	float stepNormal = step( 0.5, dotNormalCam );
+	float edgeNormal = sin( time * 4.0 ) * 0.5 + 0.5;
+	float stepNormal = step( edgeNormal * 0.1 + 0.55, dotNormalCam );
 
 	gl_FragColor = mix( edgeColor, centerColor, stepNormal );
 }
 `;
 
-const uniforms = {};
+const uniforms = {
+	time: { value: 0.5 }
+};
 
 const material = new THREE.ShaderMaterial({
 	vertexShader,
@@ -40,6 +45,10 @@ const material = new THREE.ShaderMaterial({
 	uniforms,
 	transparent: true
 });
+
+material.userData.update = function ( elapsedTime ) {
+	material.uniforms.time.value = elapsedTime;
+}
 
 //
 

@@ -36,6 +36,8 @@ gamePage.start = function start() {
 
 	} );
 
+	engine.worldPhysics.makePlayerCapsule( 0.25, 1 );
+
 }
 
 //

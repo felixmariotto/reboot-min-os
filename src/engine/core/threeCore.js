@@ -4,6 +4,8 @@ import params from '../params.js';
 
 //
 
+let delta;
+
 const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -18,6 +20,7 @@ const camera = new THREE.PerspectiveCamera(
 );
 
 const clock = new THREE.Clock();
+const deltaClock = new THREE.Clock();
 
 const loopCallbacks = [];
 
@@ -56,9 +59,11 @@ function resize() {
 
 function loop() {
 
+	delta = deltaClock.getDelta();
+
 	requestAnimationFrame( loop );
 
-	loopCallbacks.forEach( callback => callback() );
+	loopCallbacks.forEach( callback => callback( delta ) );
 
 	renderer.render( scene, camera );
 

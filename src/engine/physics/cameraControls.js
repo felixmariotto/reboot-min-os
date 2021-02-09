@@ -1,5 +1,6 @@
 
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import threeCore from '../core/threeCore.js';
 import params from '../params.js';
@@ -94,6 +95,22 @@ function followObj( target ) {
 
 //
 
+function orbitObj( target ) {
+
+	const controls = new OrbitControls(
+		threeCore.camera,
+		threeCore.renderer.domElement
+	);
+
+	threeCore.camera.position.copy( target.position );
+	threeCore.camera.position.z += 5;
+
+	threeCore.camera.lookAt( target.position );
+
+}
+
+//
+
 function loop() {
 
 	if ( loopCallback ) loopCallback();
@@ -103,5 +120,6 @@ function loop() {
 //
 
 export default {
-	followObj
+	followObj,
+	orbitObj
 }

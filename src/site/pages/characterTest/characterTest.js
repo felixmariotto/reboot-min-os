@@ -38,7 +38,7 @@ gamePage.start = function start() {
 	engine.files.load( mainChar, (glb) => {
 
 		glb.scene.traverse( (child) => {
-			if ( child.material ) child.material = new engine.THREE.MeshNormalMaterial();
+			if ( child.material ) child.material = engine.materials.characterMaterial;
 		})
 
 		engine.threeCore.scene.add( glb.scene );

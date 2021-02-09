@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/felixmariotto/dungeon-game#readme",
   "dependencies": {
+    "@three-material-editor/vanilla": "^0.2.11",
     "css-loader": "^5.0.1",
     "eslint": "^7.19.0",
     "file-loader": "^6.2.0",

@@ -97,28 +97,49 @@ function followObj( target ) {
 
 function orbitDynamicObj( target ) {
 
-	const easing = 0.3;
+	const easing = 0.1;
 
-	let lastCamRot = 0;
 	let movementX = 0;
+	let movementY = 0;
+
+	// y rot
+	let targetRot = 0;
+	let lastRot = 0;
+
+	// slent
+	let targetSlent = 1;
+	let lastSlent = 1;
+
+	//
 
 	threeCore.renderer.domElement.requestPointerLock();
 
 	threeCore.renderer.domElement.addEventListener( 'mousemove', (event) => {
 
 		movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+		movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-	})
+		targetRot += ( movementX * 0.003 );
+		targetSlent += ( movementY * 0.003 );
+
+		targetSlent = Math.min( 1, Math.max( 0, targetSlent ) );
+
+	});
 
 	loopCallback = () => {
 
-		movementX *= easing;
+		lastRot += ( targetRot - lastRot ) * easing;
+		lastSlent += ( targetSlent - lastSlent ) * easing;
 
-		lastCamRot += ( movementX * 0.01 );
+		//
 
-		threeCore.camera.position.copy( params.thirdPersCameraTarget );
+		threeCore.camera.position.set(
+			0,
+			params.thirdPersCameraTarget.y,
+			params.thirdPersCameraTarget.z * ( lastSlent * 0.8 + 0.2 )
+		);
 
-		threeCore.camera.position.applyAxisAngle( target.up, lastCamRot );
+		threeCore.camera.position.applyAxisAngle( target.up, lastRot );
 
 		threeCore.camera.position.add( target.position );
 

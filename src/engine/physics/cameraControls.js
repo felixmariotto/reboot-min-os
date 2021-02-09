@@ -13,8 +13,8 @@ let loopCallback;
 
 //
 
-const CAMERA_ROTATION_EASING = 0.08;
-const CAMERA_TARGETING_EASING = 0.002;
+const CAMERA_ROTATION_EASING = 0.03;
+const CAMERA_TARGETING_EASING = 0.001;
 const CAM_TARGET_DISTANCE = 4;
 
 const _vec1 = new THREE.Vector3();
@@ -95,6 +95,41 @@ function followObj( target ) {
 
 //
 
+function orbitDynamicObj( target ) {
+
+	const easing = 0.3;
+
+	let lastCamRot = 0;
+	let movementX = 0;
+
+	threeCore.renderer.domElement.requestPointerLock();
+
+	threeCore.renderer.domElement.addEventListener( 'mousemove', (event) => {
+
+		movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+
+	})
+
+	loopCallback = () => {
+
+		movementX *= easing;
+
+		lastCamRot += ( movementX * 0.01 );
+
+		threeCore.camera.position.copy( params.thirdPersCameraTarget );
+
+		threeCore.camera.position.applyAxisAngle( target.up, lastCamRot );
+
+		threeCore.camera.position.add( target.position );
+
+		threeCore.camera.lookAt( target.position );
+
+	}
+
+}
+
+//
+
 function orbitObj( target ) {
 
 	const controls = new OrbitControls(
@@ -104,8 +139,6 @@ function orbitObj( target ) {
 
 	threeCore.camera.position.copy( target.position );
 	threeCore.camera.position.z += 5;
-
-	threeCore.camera.lookAt( target.position );
 
 }
 
@@ -121,5 +154,6 @@ function loop() {
 
 export default {
 	followObj,
-	orbitObj
+	orbitObj,
+	orbitDynamicObj
 }

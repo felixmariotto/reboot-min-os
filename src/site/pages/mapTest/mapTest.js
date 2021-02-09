@@ -28,15 +28,18 @@ gamePage.start = function start() {
 
 				engine.threeCore.scene.add( child );
 
-				engine.cameraControls.orbitObj( child );
-
 			}
 		
 		});
 
 	} );
 
-	engine.worldPhysics.makePlayerCapsule( 0.25, 1 );
+	const playerCapsule = engine.worldPhysics.makePlayerCapsule( 0.25, 1 );
+
+	// engine.cameraControls.followObj( playerCapsule );
+	engine.cameraControls.orbitDynamicObj( playerCapsule );
+
+	engine.characterControls.control( playerCapsule );
 
 }
 

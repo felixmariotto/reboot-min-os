@@ -65,6 +65,8 @@ function makePlayerCapsule( radius, height ) {
 
 	threeCore.scene.add( playerCapsule );
 
+	return playerCapsule
+
 }
 
 //
@@ -76,7 +78,7 @@ function updatePhysics( delta ) {
 
 	// add gravity to objects velocity
 
-	playerVelocity.add( GRAVITY );
+	playerVelocity.addScaledVector( GRAVITY, speedRatio );
 
 	// update objects position
 
@@ -84,21 +86,25 @@ function updatePhysics( delta ) {
 
 		playerCapsule.position.addScaledVector( playerVelocity, speedRatio );
 
+		playerCapsule.updateMatrix();
+
 	}
 
 	// collide objects
 
-	playerCapsule.updateMatrix();
+	if ( playerCapsule ) {
 
-	if (
-		environment &&
-		environment.geometry.boundsTree.intersectsGeometry(
-			playerCapsule,
-			playerCapsule.geometry,
-			playerCapsule.matrix
-		)
-	) {
-		playerCapsule.position.addScaledVector( playerVelocity, -speedRatio );
+		if (
+			environment &&
+			environment.geometry.boundsTree.intersectsGeometry(
+				playerCapsule,
+				playerCapsule.geometry,
+				playerCapsule.matrix
+			)
+		) {
+			playerCapsule.position.addScaledVector( playerVelocity, -speedRatio );
+		}
+
 	}
 
 }

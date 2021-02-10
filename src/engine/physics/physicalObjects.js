@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { MeshBVH } from 'three-mesh-bvh';
 
+import core from '../core/core.js';
+
 //
 
 function makeCapsule( radius, height ) {
@@ -11,7 +13,7 @@ function makeCapsule( radius, height ) {
 		radius * 2, // width
 		height,
 		radius * 2, // depth
-		16, // segments
+		4, // segments
 		radius
 	)
 
@@ -20,6 +22,11 @@ function makeCapsule( radius, height ) {
 	geometry.boundsTree = new MeshBVH( geometry );
 
 	const capsule = new THREE.Mesh( geometry );
+
+	capsule.isPhysicalObject = true;
+	capsule.isCapsule = true;
+
+	capsule.makeHelper = makeHelper;
 
 	capsule.capsuleInfo = {
 		radius: radius,
@@ -32,6 +39,22 @@ function makeCapsule( radius, height ) {
 	return capsule
 
 }
+
+//
+
+function makeHelper( wireframe ) {
+
+	this.material = new THREE.MeshBasicMaterial({
+		wireframe,
+		transparent: true,
+		opacity: 0.5
+	});
+
+	core.scene.add( this );
+
+}
+
+//
 
 export default {
 	makeCapsule

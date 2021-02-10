@@ -54,15 +54,6 @@ function makePlayerCapsule( radius, height ) {
 
 	playerCapsule = physicalObjects.makeCapsule( radius, height );
 
-	// helper
-
-	playerCapsule.material = new THREE.MeshBasicMaterial({
-		transparent: true,
-		opacity: 0.5
-	});
-
-	core.scene.add( playerCapsule );
-
 	return playerCapsule
 
 }

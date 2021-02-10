@@ -36,6 +36,8 @@ gamePage.start = function start() {
 
 	const playerCapsule = engine.physics.makePlayerCapsule( 0.25, 1 );
 
+	playerCapsule.makeHelper( true );
+
 	engine.cameraControls.orbitDynamicObj( playerCapsule );
 
 	engine.characterControls.control( playerCapsule );

@@ -1,6 +1,6 @@
 
 import * as THREE from 'three';
-import threeCore from './core/threeCore.js';
+import core from './core/core.js';
 import files from './files/files.js';
 import cameraControls from './physics/cameraControls.js';
 import characterControls from './physics/characterControls.js';
@@ -13,7 +13,7 @@ if ( window ) {
 
 	window.engine = {
 		THREE,
-		threeCore,
+		core,
 		files,
 		cameraControls,
 		characterControls,

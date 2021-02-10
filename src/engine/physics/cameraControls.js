@@ -2,12 +2,12 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-import threeCore from '../core/threeCore.js';
+import core from '../core/core.js';
 import params from '../params.js';
 
 //
 
-threeCore.callInLoop( loop );
+core.callInLoop( loop );
 
 let loopCallback;
 
@@ -27,16 +27,16 @@ function followObj( target ) {
 
 	let lastCamPos = new THREE.Vector3().copy( params.thirdPersCameraTarget );
 
-	threeCore.camera.position.copy( lastCamPos );
-	threeCore.camera.position.add( target.position );
-	threeCore.camera.lookAt( target.position );
+	core.camera.position.copy( lastCamPos );
+	core.camera.position.add( target.position );
+	core.camera.lookAt( target.position );
 
 	function getCameraTargetAngle() {
 
 		target.getWorldDirection( _vec2 );
 
 		// current direction of camera behind the player
-		_vec1.copy( threeCore.camera.position );
+		_vec1.copy( core.camera.position );
 		_vec1.sub( target.position );
 		_vec1.y = 0;
 
@@ -55,8 +55,8 @@ function followObj( target ) {
 
 		/* position the camera behind the player with tweening */
 
-		threeCore.camera.position.copy( lastCamPos );
-		threeCore.camera.position.add( target.position );
+		core.camera.position.copy( lastCamPos );
+		core.camera.position.add( target.position );
 
 		//
 
@@ -66,11 +66,11 @@ function followObj( target ) {
 		let additionalEasing = ( Math.PI - Math.abs( angle ) ) / Math.PI;
 		additionalEasing = Math.pow( additionalEasing, 3 );
 
-		threeCore.camera.position.sub( target.position );
-		threeCore.camera.position.applyAxisAngle( target.up, angle * CAMERA_ROTATION_EASING * additionalEasing );
-		threeCore.camera.position.add( target.position );
+		core.camera.position.sub( target.position );
+		core.camera.position.applyAxisAngle( target.up, angle * CAMERA_ROTATION_EASING * additionalEasing );
+		core.camera.position.add( target.position );
 
-		lastCamPos.copy( threeCore.camera.position );
+		lastCamPos.copy( core.camera.position );
 		lastCamPos.sub( target.position );
 
 		/* look in front of the player */
@@ -82,12 +82,12 @@ function followObj( target ) {
 		_vec2.multiplyScalar( CAM_TARGET_DISTANCE );
 		_vec1.add( _vec2 );
 
-		threeCore.camera.getWorldDirection( _vec2 );
-		_vec2.add( threeCore.camera.position );
+		core.camera.getWorldDirection( _vec2 );
+		_vec2.add( core.camera.position );
 
 		_vec3.lerpVectors( _vec1, _vec2, 1 - CAMERA_TARGETING_EASING );
 
-		threeCore.camera.lookAt( _vec3 );
+		core.camera.lookAt( _vec3 );
 
 	}
 
@@ -122,9 +122,9 @@ function orbitDynamicObj( target ) {
 
 	//
 
-	threeCore.renderer.domElement.requestPointerLock();
+	core.renderer.domElement.requestPointerLock();
 
-	threeCore.renderer.domElement.addEventListener( 'mousemove', (event) => {
+	core.renderer.domElement.addEventListener( 'mousemove', (event) => {
 
 		movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 		movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
@@ -171,9 +171,9 @@ function orbitDynamicObj( target ) {
 
 		//
 
-		threeCore.camera.position.copy( lastPosition );
+		core.camera.position.copy( lastPosition );
 
-		threeCore.camera.lookAt( _vec1 );
+		core.camera.lookAt( _vec1 );
 
 	}
 
@@ -184,12 +184,12 @@ function orbitDynamicObj( target ) {
 function orbitObj( target ) {
 
 	const controls = new OrbitControls(
-		threeCore.camera,
-		threeCore.renderer.domElement
+		core.camera,
+		core.renderer.domElement
 	);
 
-	threeCore.camera.position.copy( target.position );
-	threeCore.camera.position.z += 5;
+	core.camera.position.copy( target.position );
+	core.camera.position.z += 5;
 
 }
 

@@ -1,13 +1,13 @@
 
-import threeCore from '../core/threeCore.js';
+import core from '../core/core.js';
 
 import characterMaterial from './characterMaterial.js';
 
 //
 
-threeCore.callInLoop( function updateMaterials() {
+core.callInLoop( function updateMaterials() {
 
-	characterMaterial.userData.update( threeCore.clock.getElapsedTime() );
+	characterMaterial.userData.update( core.clock.getElapsedTime() );
 
 } );
 

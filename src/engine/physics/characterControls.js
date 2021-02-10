@@ -1,11 +1,11 @@
 
 import * as THREE from 'three';
-import threeCore from '../core/threeCore.js';
+import core from '../core/core.js';
 import input from '../misc/input.js';
 
 //
 
-threeCore.callInLoop( loop );
+core.callInLoop( loop );
 
 let loopCallback;
 
@@ -31,7 +31,7 @@ function control( target ) {
 
 		if ( input.targetDirection.length() > 0 ) {
 
-			_vec1.copy( threeCore.camera.position );
+			_vec1.copy( core.camera.position );
 			_vec1.sub( target.position );
 			_vec1.y = 0;
 			

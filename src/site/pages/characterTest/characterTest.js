@@ -15,7 +15,7 @@ gamePage.start = function start() {
 
 	loadingBox.setUploadingState( 50 );
 
-	engine.threeCore.init();
+	engine.core.init();
 
 	engine.files.load( uvGrid, (texture) => {
 
@@ -31,7 +31,7 @@ gamePage.start = function start() {
 		plane.scale.setScalar( 20 );
 		plane.rotation.x = -Math.PI / 2;
 
-		engine.threeCore.scene.add( plane );
+		engine.core.scene.add( plane );
 
 	} )
 
@@ -41,7 +41,7 @@ gamePage.start = function start() {
 			if ( child.material ) child.material = engine.materials.characterMaterial;
 		})
 
-		engine.threeCore.scene.add( glb.scene );
+		engine.core.scene.add( glb.scene );
 
 		engine.cameraControls.followObj( glb.scene );
 		// engine.cameraControls.orbitObj( glb.scene );

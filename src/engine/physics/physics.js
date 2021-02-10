@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh';
 
-import threeCore from '../core/threeCore.js';
+import core from '../core/core.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
@@ -45,7 +45,7 @@ function setEnvironmentGeom( geometry ) {
 	/*
 	const collider = new THREE.Mesh( environmentGeom, new THREE.MeshBasicMaterial() );
 	collider.material.wireframe = true;
-	threeCore.scene.add( collider );
+	core.scene.add( collider );
 	*/
 
 }
@@ -78,7 +78,7 @@ function makePlayerCapsule( radius, height ) {
 		opacity: 0.5
 	});
 
-	threeCore.scene.add( playerCapsule );
+	core.scene.add( playerCapsule );
 
 	return playerCapsule
 
@@ -181,7 +181,7 @@ The update function calls updatePhysics several times per frame, in order
 to avoid tunneling.
 */
 
-threeCore.callInLoop( function ( delta ) {
+core.callInLoop( function ( delta ) {
 
 	ticks = Math.round( ( delta / ( 1 / 60 ) ) * TICKS_PER_FRAME );
 

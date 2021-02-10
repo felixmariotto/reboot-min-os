@@ -14,7 +14,7 @@ gamePage.start = function start() {
 
 	loadingBox.setUploadingState( 50 );
 
-	engine.threeCore.init();
+	engine.core.init();
 
 	engine.files.load( testMapModel, (glb) => {
 
@@ -26,7 +26,7 @@ gamePage.start = function start() {
 
 				engine.physics.setEnvironmentGeom( child.geometry );
 
-				engine.threeCore.scene.add( child );
+				engine.core.scene.add( child );
 
 			}
 		

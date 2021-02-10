@@ -24,7 +24,7 @@ gamePage.start = function start() {
 
 				child.material = new engine.THREE.MeshNormalMaterial();
 
-				engine.worldPhysics.setEnvironmentGeom( child.geometry );
+				engine.physics.setEnvironmentGeom( child.geometry );
 
 				engine.threeCore.scene.add( child );
 
@@ -34,9 +34,8 @@ gamePage.start = function start() {
 
 	} );
 
-	const playerCapsule = engine.worldPhysics.makePlayerCapsule( 0.25, 1 );
+	const playerCapsule = engine.physics.makePlayerCapsule( 0.25, 1 );
 
-	// engine.cameraControls.followObj( playerCapsule );
 	engine.cameraControls.orbitDynamicObj( playerCapsule );
 
 	engine.characterControls.control( playerCapsule );

@@ -5,7 +5,7 @@ import files from './files/files.js';
 import cameraControls from './physics/cameraControls.js';
 import characterControls from './physics/characterControls.js';
 import materials from './materials/materials.js';
-import worldPhysics from './physics/worldPhysics.js';
+import physics from './physics/physics.js';
 
 //
 
@@ -18,7 +18,7 @@ if ( window ) {
 		cameraControls,
 		characterControls,
 		materials,
-		worldPhysics
+		physics
 	}
 
 } else {

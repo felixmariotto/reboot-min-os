@@ -5,6 +5,9 @@ import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh';
 
 import threeCore from '../core/threeCore.js';
 
+// article on chain physics :
+// https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
+
 // Add the raycast function. Assumes the BVH is available on
 // the `boundsTree` variable
 THREE.Mesh.prototype.raycast = acceleratedRaycast;

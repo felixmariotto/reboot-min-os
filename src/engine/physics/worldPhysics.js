@@ -15,7 +15,7 @@ THREE.Mesh.prototype.raycast = acceleratedRaycast;
 const TICKS_PER_FRAME = 5;
 const MAX_TICKS_PER_FRAME = 15;
 
-const GRAVITY = new THREE.Vector3( 0, -0.00005, 0 );
+const GRAVITY = new THREE.Vector3( 0, -0.0005, 0 );
 
 const playerVelocity = new THREE.Vector3();
 
@@ -88,13 +88,13 @@ function updatePhysics( delta ) {
 	speedRatio = delta / ( ( 1 / 60 ) / TICKS_PER_FRAME );
 	speedRatio = Math.min( speedRatio, 2 );
 
-	// add gravity to objects velocity
+	if ( playerCapsule && environment ) {
 
-	playerVelocity.addScaledVector( GRAVITY, speedRatio );
+		// add gravity to objects velocity
 
-	// update objects position
+		playerVelocity.addScaledVector( GRAVITY, speedRatio );
 
-	if ( playerCapsule ) {
+		// update objects position
 
 		playerCapsule.position.addScaledVector( playerVelocity, speedRatio );
 

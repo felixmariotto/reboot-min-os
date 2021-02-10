@@ -15,7 +15,7 @@ let loopCallback;
 
 const CAMERA_ROTATION_EASING = 0.03;
 const CAMERA_TARGETING_EASING = 0.001;
-const CAM_TARGET_DISTANCE = 4;
+const CAM_TARGET_DISTANCE = 2.5;
 
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
@@ -97,7 +97,7 @@ function followObj( target ) {
 
 function orbitDynamicObj( target ) {
 
-	const easing = 0.1;
+	const rotEasing = 0.1;
 
 	let movementX = 0;
 	let movementY = 0;
@@ -109,6 +109,10 @@ function orbitDynamicObj( target ) {
 	// slent
 	let targetSlent = 1;
 	let lastSlent = 1;
+
+	// camera target
+	let lastTarget = new THREE.Vector3();
+	let targetTarget = new THREE.Vector3();
 
 	//
 
@@ -128,22 +132,32 @@ function orbitDynamicObj( target ) {
 
 	loopCallback = () => {
 
-		lastRot += ( targetRot - lastRot ) * easing;
-		lastSlent += ( targetSlent - lastSlent ) * easing;
+		lastRot += ( targetRot - lastRot ) * rotEasing;
+		lastSlent += ( targetSlent - lastSlent ) * rotEasing;
+
+		//
+
+		target.getWorldDirection( targetTarget );
+		targetTarget.multiplyScalar( -CAM_TARGET_DISTANCE );
+		targetTarget.add( target.position );
+
+		lastTarget.lerpVectors( lastTarget, targetTarget, 0.01 );
+
+		// console.log( lastTarget );
 
 		//
 
 		threeCore.camera.position.set(
 			0,
 			params.thirdPersCameraTarget.y,
-			params.thirdPersCameraTarget.z * ( lastSlent * 0.8 + 0.2 )
+			params.thirdPersCameraTarget.z * ( lastSlent * 0.6 + 0.4 )
 		);
 
 		threeCore.camera.position.applyAxisAngle( target.up, lastRot );
 
-		threeCore.camera.position.add( target.position );
+		threeCore.camera.position.add( lastTarget );
 
-		threeCore.camera.lookAt( target.position );
+		threeCore.camera.lookAt( lastTarget );
 
 	}
 

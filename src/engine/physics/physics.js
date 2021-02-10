@@ -1,9 +1,9 @@
 
 import * as THREE from 'three';
-import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
 import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh';
 
 import core from '../core/core.js';
+import physicalObjects from './physicalObjects.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
@@ -52,24 +52,7 @@ function setEnvironmentGeom( geometry ) {
 
 function makePlayerCapsule( radius, height ) {
 
-	const geometry = new RoundedBoxGeometry(
-		radius * 2, // width
-		height,
-		radius * 2, // depth
-		16, // segments
-		radius
-	)
-
-	geometry.translate( 0, height * 0.5, 0 );
-
-	geometry.boundsTree = new MeshBVH( geometry );
-
-	playerCapsule = new THREE.Mesh( geometry );
-
-	playerCapsule.capsuleInfo = {
-		radius: radius,
-		segment: new THREE.Line3( new THREE.Vector3(), new THREE.Vector3( 0, 1.0, 0.0 ) )
-	};
+	playerCapsule = physicalObjects.makeCapsule( radius, height );
 
 	// helper
 
@@ -199,5 +182,6 @@ core.callInLoop( function ( delta ) {
 
 export default {
 	setEnvironmentGeom,
-	makePlayerCapsule
+	makePlayerCapsule,
+	makeCapsule: physicalObjects.makeCapsule
 }

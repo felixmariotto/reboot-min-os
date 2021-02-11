@@ -23,11 +23,9 @@ const GRAVITY = new THREE.Vector3( 0, -0.0005, 0 );
 
 const playerVelocity = new THREE.Vector3();
 
-let playerIsOnGround = false;
+let isOnGround = false;
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
-const _box = new THREE.Box3();
-const _mat = new THREE.Matrix4();
 const _line = new THREE.Line3();
 
 let ticks, speedRatio;
@@ -68,47 +66,52 @@ function updatePhysics( delta ) {
 
 	if ( playerCapsule && environment ) {
 
-		// add gravity to objects velocity
-
-		playerVelocity.addScaledVector( GRAVITY, speedRatio );
-
-		// update objects position
-
-		playerCapsule.position.addScaledVector( playerVelocity, speedRatio );
-
-		playerCapsule.updateMatrix();
-
-		playerCapsule.updateMatrixWorld();
+		resolveCapsule( playerCapsule, playerVelocity, delta );
 
 	}
 
-	// collide objects
-	// blind paste from https://github.com/gkjohnson/three-mesh-bvh/blob/master/example/characterMovement.js
+}
 
-	if ( playerCapsule && environment ) {
+//
 
-		collide.capsuleAgainstMesh( playerCapsule, environment, _line );
+function resolveCapsule( capsule, velocity, delta ) {
 
-		const newPosition = _vec1;
-		newPosition.copy( _line.start ).applyMatrix4( environment.matrixWorld );
+	// add gravity to objects velocity
 
-		const deltaVector = _vec2;
-		deltaVector.subVectors( newPosition, playerCapsule.position );
+	velocity.addScaledVector( GRAVITY, speedRatio );
 
-		playerCapsule.position.copy( newPosition );
+	// update objects position
 
-		playerIsOnGround = deltaVector.y > Math.abs( delta * playerVelocity.y * 0.25 );
+	capsule.position.addScaledVector( velocity, speedRatio );
 
-		if ( ! playerIsOnGround ) {
+	capsule.updateMatrix();
 
-			deltaVector.normalize();
-			playerVelocity.addScaledVector( deltaVector, - deltaVector.dot( playerVelocity ) );
+	capsule.updateMatrixWorld();
 
-		} else {
+	// collide against environment
 
-			playerVelocity.set( 0, 0, 0 );
+	collide.capsuleAgainstMesh( capsule, environment, _line );
 
-		}
+	// update after collision
+
+	const newPosition = _vec1;
+	newPosition.copy( _line.start ).applyMatrix4( environment.matrixWorld );
+
+	const deltaVector = _vec2;
+	deltaVector.subVectors( newPosition, capsule.position );
+
+	capsule.position.copy( newPosition );
+
+	isOnGround = deltaVector.y > Math.abs( delta * velocity.y * 0.25 );
+
+	if ( ! isOnGround ) {
+
+		deltaVector.normalize();
+		velocity.addScaledVector( deltaVector, - deltaVector.dot( velocity ) );
+
+	} else {
+
+		velocity.set( 0, 0, 0 );
 
 	}
 

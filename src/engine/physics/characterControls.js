@@ -31,20 +31,26 @@ function control( target ) {
 
 		if ( input.targetDirection.length() > 0 ) {
 
-			_vec1.copy( core.camera.position );
-			_vec1.sub( target.position );
-			_vec1.y = 0;
+			_vec1
+			.copy( core.camera.position )
+			.sub( target.position )
+			.setY( 0 );
 			
 			// get signed angle
+
 			let angle = _vec1.angleTo( FORWARD );
+
 			_vec3.crossVectors( _vec1, FORWARD );
+
 			if ( _vec3.dot( target.up ) < 0 ) {
 				angle = -angle;
 			}
 
-			targetDirection.set( -input.targetDirection.x, 0, -input.targetDirection.y );
+			// get world direction
 
-			targetDirection.applyAxisAngle( target.up, -angle );
+			targetDirection
+			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
+			.applyAxisAngle( target.up, -angle );
 
 			// move forward
 
@@ -59,8 +65,9 @@ function control( target ) {
 		_vec2.add( target.position );
 
 		// target dir
-		_vec1.copy( targetDirection );
-		_vec1.add( target.position );
+		_vec1
+		.copy( targetDirection )
+		.add( target.position );
 
 		_vec3.lerpVectors( _vec1, _vec2, TURN_SPEED );
 
@@ -69,8 +76,10 @@ function control( target ) {
 			
 			// new base dir at cross position
 			target.getWorldDirection( _vec2 );
-			_vec2.crossVectors( _vec2, target.up );
-			_vec2.add( target.position );
+			
+			_vec2
+			.crossVectors( _vec2, target.up )
+			.add( target.position );
 
 			_vec3.lerpVectors( _vec1, _vec2, 0.97 );
 

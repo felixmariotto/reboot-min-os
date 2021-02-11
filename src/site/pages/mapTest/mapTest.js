@@ -22,11 +22,9 @@ gamePage.start = function start() {
 
 			if ( child.isMesh ) {
 
-				child.material = new engine.THREE.MeshNormalMaterial();
+				const envMesh = engine.physics.setEnvironmentGeom( child.geometry );
 
-				engine.physics.setEnvironmentGeom( child.geometry );
-
-				engine.core.scene.add( child );
+				envMesh.makeHelper();
 
 			}
 		

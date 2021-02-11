@@ -42,6 +42,25 @@ function makeCapsule( radius, height ) {
 
 //
 
+function makeMesh( geometry ) {
+
+	geometry = geometry.clone();
+
+	geometry.boundsTree = new MeshBVH( geometry );
+
+	const mesh = new THREE.Mesh( geometry );
+
+	mesh.isPhysicalObject = true;
+	mesh.isPhysicalMesh = true;
+
+	mesh.makeHelper = makeHelper;
+
+	return mesh
+
+}
+
+//
+
 function makeHelper( wireframe ) {
 
 	this.material = new THREE.MeshBasicMaterial({
@@ -57,5 +76,6 @@ function makeHelper( wireframe ) {
 //
 
 export default {
-	makeCapsule
+	makeCapsule,
+	makeMesh
 }

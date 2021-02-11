@@ -36,17 +36,9 @@ let environment, playerCapsule;
 
 function setEnvironmentGeom( geometry ) {
 
-	geometry = geometry.clone();
+	environment = physicalObjects.makeMesh( geometry );
 
-	geometry.boundsTree = new MeshBVH( geometry );
-
-	environment = new THREE.Mesh( geometry );
-
-	/*
-	const collider = new THREE.Mesh( environmentGeom, new THREE.MeshBasicMaterial() );
-	collider.material.wireframe = true;
-	core.scene.add( collider );
-	*/
+	return environment
 
 }
 

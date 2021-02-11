@@ -26,9 +26,8 @@ function makeCapsule( radius, height ) {
 
 	geometry.boundsTree = new MeshBVH( geometry, { lazyGeneration: false } );
 
-	const capsule = new THREE.Mesh( geometry );
+	const capsule = PhysicalMesh( geometry );
 
-	capsule.isPhysicalObject = true;
 	capsule.isCapsule = true;
 
 	capsule.makeHelper = makeHelper;
@@ -53,12 +52,25 @@ function makeMesh( geometry ) {
 
 	geometry.boundsTree = new MeshBVH( geometry, { lazyGeneration: false } );
 
-	const mesh = new THREE.Mesh( geometry );
+	const mesh = PhysicalMesh( geometry );
 
-	mesh.isPhysicalObject = true;
 	mesh.isPhysicalMesh = true;
 
 	mesh.makeHelper = makeHelper;
+
+	return mesh
+
+}
+
+//
+
+function PhysicalMesh( geometry ) {
+
+	const mesh = new THREE.Mesh( geometry );
+
+	mesh.isPhysicalObject = true;
+
+	mesh.velocity = new THREE.Vector3();
 
 	return mesh
 

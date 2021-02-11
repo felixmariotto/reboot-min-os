@@ -36,7 +36,7 @@ gamePage.start = function start() {
 
 	// player
 
-	const playerCapsule = engine.physics.makePlayerCapsule( 0.25, 1 );
+	const playerCapsule = engine.physics.makePhysicalCapsule( 0.25, 1 );
 
 	playerCapsule.makeHelper( true );
 

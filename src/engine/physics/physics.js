@@ -21,15 +21,15 @@ const MAX_TICKS_PER_FRAME = 15;
 
 const GRAVITY = new THREE.Vector3( 0, -0.0005, 0 );
 
-const playerVelocity = new THREE.Vector3();
-
 let isOnGround = false;
 const _vec1 = new THREE.Vector3();
 const _vec2 = new THREE.Vector3();
 const _line = new THREE.Line3();
 
 let ticks, speedRatio;
-let environment, playerCapsule;
+let environment;
+
+const objectsToUpdate = [];
 
 //
 
@@ -41,17 +41,21 @@ function setEnvironmentGeom( geometry ) {
 
 }
 
-function makePlayerCapsule( radius, height ) {
+function makePhysicalCapsule( radius, height ) {
 
-	playerCapsule = physicalObjects.makeCapsule( radius, height );
+	const capsule = physicalObjects.makeCapsule( radius, height );
 
-	return playerCapsule
+	objectsToUpdate.push( capsule );
+
+	return capsule
 
 }
 
 function makePhysicalMesh( geometry ) {
 
 	const mesh = physicalObjects.makeMesh( geometry );
+
+	objectsToUpdate.push( mesh );
 
 	return mesh
 
@@ -64,9 +68,17 @@ function updatePhysics( delta ) {
 	speedRatio = delta / ( ( 1 / 60 ) / TICKS_PER_FRAME );
 	speedRatio = Math.min( speedRatio, 2 );
 
-	if ( playerCapsule && environment ) {
+	if ( environment ) {
 
-		resolveCapsule( playerCapsule, playerVelocity, delta );
+		objectsToUpdate.forEach( (physicalMesh) => {
+
+			if ( physicalMesh.isCapsule ) {
+
+				resolveCapsule( physicalMesh, delta );
+
+			}
+
+		});
 
 	}
 
@@ -74,7 +86,9 @@ function updatePhysics( delta ) {
 
 //
 
-function resolveCapsule( capsule, velocity, delta ) {
+function resolveCapsule( capsule, delta ) {
+
+	const velocity = capsule.velocity;
 
 	// add gravity to objects velocity
 
@@ -141,7 +155,6 @@ core.callInLoop( function ( delta ) {
 
 export default {
 	setEnvironmentGeom,
-	makePlayerCapsule,
-	makePhysicalMesh,
-	makeCapsule: physicalObjects.makeCapsule
+	makePhysicalCapsule,
+	makePhysicalMesh
 }

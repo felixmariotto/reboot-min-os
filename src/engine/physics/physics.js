@@ -4,6 +4,7 @@ import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh';
 
 import core from '../core/core.js';
 import physicalObjects from './physicalObjects.js';
+import collide from './collide.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
@@ -50,6 +51,14 @@ function makePlayerCapsule( radius, height ) {
 
 }
 
+function makePhysicalMesh( geometry ) {
+
+	const mesh = physicalObjects.makeMesh( geometry );
+
+	return mesh
+
+}
+
 //
 
 function updatePhysics( delta ) {
@@ -78,43 +87,7 @@ function updatePhysics( delta ) {
 
 	if ( playerCapsule && environment ) {
 
-		// adjust player position based on collisions
-		const capsuleInfo = playerCapsule.capsuleInfo;
-		_box.makeEmpty();
-		_mat.copy( environment.matrixWorld ).invert();
-		_line.copy( capsuleInfo.segment );
-
-		_line.start.applyMatrix4( playerCapsule.matrixWorld ).applyMatrix4( _mat );
-		_line.end.applyMatrix4( playerCapsule.matrixWorld ).applyMatrix4( _mat );
-
-		_box.expandByPoint( _line.start );
-		_box.expandByPoint( _line.end );
-
-		_box.min.addScalar( - capsuleInfo.radius );
-		_box.max.addScalar( capsuleInfo.radius );
-
-		environment.geometry.boundsTree.shapecast(
-			environment,
-			box => box.intersectsBox( _box ),
-			tri => {
-
-				const triPoint = _vec1;
-				const capsulePoint = _vec2;
-
-				const distance = tri.closestPointToSegment( _line, triPoint, capsulePoint );
-
-				if ( distance < capsuleInfo.radius ) {
-
-					const depth = capsuleInfo.radius - distance;
-					const direction = capsulePoint.sub( triPoint ).normalize();
-
-					_line.start.addScaledVector( direction, depth );
-					_line.end.addScaledVector( direction, depth );
-
-				}
-
-			}
-		);
+		collide.capsuleAgainstMesh( playerCapsule, environment, _line );
 
 		const newPosition = _vec1;
 		newPosition.copy( _line.start ).applyMatrix4( environment.matrixWorld );
@@ -166,5 +139,6 @@ core.callInLoop( function ( delta ) {
 export default {
 	setEnvironmentGeom,
 	makePlayerCapsule,
+	makePhysicalMesh,
 	makeCapsule: physicalObjects.makeCapsule
 }

@@ -16,6 +16,8 @@ gamePage.start = function start() {
 
 	engine.core.init();
 
+	// environment
+
 	engine.files.load( testMapModel, (glb) => {
 
 		glb.scene.traverse( (child) => {
@@ -32,13 +34,27 @@ gamePage.start = function start() {
 
 	} );
 
+	// player
+
 	const playerCapsule = engine.physics.makePlayerCapsule( 0.25, 1 );
 
 	playerCapsule.makeHelper( true );
 
-	engine.cameraControls.orbitDynamicObj( playerCapsule );
+	// engine.cameraControls.orbitDynamicObj( playerCapsule );
 
 	engine.characterControls.control( playerCapsule );
+
+	// box
+
+	const boxGeom = new engine.THREE.BoxBufferGeometry();
+
+	const box = engine.physics.makePhysicalMesh( boxGeom );
+
+	box.position.x += 1;
+
+	box.makeHelper( true );
+
+	engine.cameraControls.orbitObj( box );
 
 }
 

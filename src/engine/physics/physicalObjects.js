@@ -69,8 +69,8 @@ function makeMesh( geometry ) {
 function makeHelper( wireframe ) {
 
 	this.material = new THREE.MeshNormalMaterial({
-		wireframe,
-		transparent: wireframe,
+		wireframe: wireframe ? true : false,
+		transparent: wireframe ? true : false,
 		opacity: 0.5
 	});
 

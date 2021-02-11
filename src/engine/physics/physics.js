@@ -19,7 +19,7 @@ THREE.Mesh.prototype.raycast = acceleratedRaycast;
 const TICKS_PER_FRAME = 5;
 const MAX_TICKS_PER_FRAME = 15;
 
-const GRAVITY = new THREE.Vector3( 0, -0.0005, 0 );
+const GRAVITY = new THREE.Vector3( 0, -0.025, 0 );
 
 let isOnGround = false;
 const _vec1 = new THREE.Vector3();
@@ -65,7 +65,7 @@ function makePhysicalMesh( geometry ) {
 
 function updatePhysics( delta ) {
 
-	speedRatio = delta / ( ( 1 / 60 ) / TICKS_PER_FRAME );
+	speedRatio = delta / ( 1 / 60 );
 	speedRatio = Math.min( speedRatio, 2 );
 
 	if ( environment ) {
@@ -74,7 +74,7 @@ function updatePhysics( delta ) {
 
 			if ( physicalMesh.isCapsule ) {
 
-				resolveCapsule( physicalMesh, delta );
+				resolveCapsule( physicalMesh, speedRatio );
 
 			}
 
@@ -86,7 +86,7 @@ function updatePhysics( delta ) {
 
 //
 
-function resolveCapsule( capsule, delta ) {
+function resolveCapsule( capsule, speedRatio ) {
 
 	const velocity = capsule.velocity;
 
@@ -116,7 +116,7 @@ function resolveCapsule( capsule, delta ) {
 
 	capsule.position.copy( newPosition );
 
-	isOnGround = deltaVector.y > Math.abs( delta * velocity.y * 0.25 );
+	isOnGround = deltaVector.y > Math.abs( speedRatio * velocity.y * 0.25 );
 
 	if ( ! isOnGround ) {
 

@@ -40,7 +40,7 @@ gamePage.start = function start() {
 
 	playerCapsule.makeHelper( true );
 
-	engine.cameraControls.orbitDynamicObj( playerCapsule );
+	// engine.cameraControls.orbitDynamicObj( playerCapsule );
 
 	engine.characterControls.control( playerCapsule );
 
@@ -54,7 +54,7 @@ gamePage.start = function start() {
 
 	box.makeHelper( true );
 
-	// engine.cameraControls.orbitObj( box );
+	engine.cameraControls.orbitObj( box );
 
 }
 

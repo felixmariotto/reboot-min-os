@@ -143,13 +143,16 @@ function orbitDynamicObj( target ) {
 
 		//
 
-		target.getWorldDirection( targetTarget );
-		targetTarget.multiplyScalar( -CAM_TARGET_DISTANCE );
+		targetTarget
+		.copy( target.velocity )
+		.normalize()
+		.multiplyScalar( -CAM_TARGET_DISTANCE );
 
 		lastTarget.lerpVectors( lastTarget, targetTarget, CAMERA_TARGETING_EASING );
 
-		_vec1.copy( lastTarget );
-		_vec1.add( target.position )
+		_vec1
+		.copy( lastTarget )
+		.add( target.position );
 
 		//
 

@@ -18,6 +18,7 @@ gamePage.start = function start() {
 
 	// environment
 
+	/*
 	engine.files.load( testMapModel, (glb) => {
 
 		glb.scene.traverse( (child) => {
@@ -33,26 +34,11 @@ gamePage.start = function start() {
 		});
 
 	} );
-
-	/*
-	// player
-
-	const playerCapsule = engine.physics.makePhysicalCapsule( 0.25, 1 );
-
-	playerCapsule.makeHelper( true );
-
-	// engine.cameraControls.orbitDynamicObj( playerCapsule );
-
-	engine.characterControls.control( playerCapsule );
 	*/
 
 	// box
 
-	const box = engine.physics.makePhysicalBox( 1, 1, 1 );
-
-	box.position.x += 1;
-
-	box.makeHelper( true );
+	const box = engine.physics.makePhysicalBox();
 
 	engine.cameraControls.orbitObj( box );
 

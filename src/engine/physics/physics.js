@@ -1,65 +1,34 @@
 
 import * as THREE from 'three';
+import * as CANNON from 'cannon-es';
 
 import core from '../core/core.js';
-import physicalObjects from './physicalObjects.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
 
-//
-
-// number of simulation steps per graphic frame
-const TICKS_PER_FRAME = 5;
-const MAX_TICKS_PER_FRAME = 15;
-
-const GRAVITY = new THREE.Vector3( 0, -0.025, 0 );
-
-let isOnGround = false;
-const _vec1 = new THREE.Vector3();
-const _vec2 = new THREE.Vector3();
-const _line = new THREE.Line3();
-
-let ticks, speedRatio;
-let environment;
-
-const objectsToUpdate = [];
-
-//
-
-function makeEnvironmentMesh( geometry ) {
-
-	environment = physicalObjects.makeMesh( geometry );
-
-	return environment
-
-}
-
-function makePhysicalCapsule( radius, height ) {
-
-	const capsule = physicalObjects.makeCapsule( radius, height );
-
-	objectsToUpdate.push( capsule );
-
-	return capsule
-
-}
+const world = new CANNON.World();
+let body, mesh;
 
 function makePhysicalBox( width, height, depth ) {
 
-	const box = physicalObjects.makeBox( width, height, depth );
+	// Box
+	const shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
+	body = new CANNON.Body({
+		mass: 1,
+	})
+	body.addShape(shape)
+	body.angularVelocity.set(0, 10, 0)
+	body.angularDamping = 0.5
+	world.addBody(body);
 
-	objectsToUpdate.push( box );
+	// three
 
-	return box
+	const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
+	const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
 
-}
-
-function makePhysicalMesh( geometry ) {
-
-	const mesh = physicalObjects.makeMesh( geometry );
-
-	objectsToUpdate.push( mesh );
+	mesh = new THREE.Mesh(geometry, material)
+	core.scene.add(mesh)
 
 	return mesh
 
@@ -67,60 +36,22 @@ function makePhysicalMesh( geometry ) {
 
 //
 
-function updatePhysics( delta ) {
+core.callInLoop( function updatePhysics( delta ) {
 
-	speedRatio = delta / ( 1 / 60 );
-	speedRatio = Math.min( speedRatio, 2 );
+	if ( body && mesh ) {
 
-	if ( environment ) {
+		world.step( delta );
 
-		objectsToUpdate.forEach( (physicalMesh) => {
-
-			if ( physicalMesh.isCapsule ) {
-
-				resolveCapsule( physicalMesh, speedRatio );
-
-			}
-
-		});
-
+		// Copy coordinates from cannon.js to three.js
+		mesh.position.copy(body.position)
+		mesh.quaternion.copy(body.quaternion)
+		
 	}
 
-}
-
-//
-
-function resolveCapsule( capsule, speedRatio ) {
-
-
-
-}
-
-/*
-Register the update function to the game loop.
-The update function calls updatePhysics several times per frame, in order
-to avoid tunneling.
-*/
-
-core.callInLoop( function ( delta ) {
-
-	ticks = Math.round( ( delta / ( 1 / 60 ) ) * TICKS_PER_FRAME );
-
-	ticks = Math.min( ticks, MAX_TICKS_PER_FRAME );
-
-	for ( let i = 0 ; i < ticks ; i++ ) {
-
-		updatePhysics( delta / ticks );
-
-	};
-
-});
+})
 
 //
 
 export default {
-	makeEnvironmentMesh,
-	makePhysicalCapsule,
-	makePhysicalBox,
-	makePhysicalMesh
+	makePhysicalBox
 }

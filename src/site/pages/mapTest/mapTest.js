@@ -3,6 +3,7 @@ import { elem } from '../../utils.js';
 import loadingBox from '../../components/loadingBox/loadingBox.js';
 
 import testMapModel from '../../../assets/test_map_merged.glb';
+import suzanneHullModel from '../../../assets/suzanne_hull.glb';
 
 //
 
@@ -39,9 +40,9 @@ gamePage.start = function start() {
 	// ground
 
 	const ground = engine.physics.makePhysicalBox({
-		width: 10,
-		height: 0.2,
-		depth: 10
+		width: 20,
+		height: 0.5,
+		depth: 20
 	});
 
 	ground.moveTo( 0, -2, 0 );
@@ -55,8 +56,6 @@ gamePage.start = function start() {
 		mass: 1
 	});
 
-	engine.cameraControls.orbitObj( box );
-
 	// sphere
 
 	const sphere = engine.physics.makePhysicalSphere({
@@ -65,6 +64,23 @@ gamePage.start = function start() {
 	});
 
 	sphere.moveTo( 0.5, 2, 0 );
+
+	// suzanne
+
+	engine.files.load( suzanneHullModel, (glb) => {
+
+		const suzanne = engine.physics.makePhysicalHullCompo({
+			sourceObject: glb.scene,
+			mass: 1
+		});
+
+		suzanne.moveTo( 0, 3, 0 );
+
+	} );
+
+	//
+
+	engine.cameraControls.orbitObj( engine.core.scene );
 
 }
 

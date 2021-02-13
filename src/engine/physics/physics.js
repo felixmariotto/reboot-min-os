@@ -20,8 +20,8 @@ const helperMaterial = new THREE.MeshNormalMaterial({
 const physicsMaterial = new CANNON.Material('physics');
 
 const physics_physics = new CANNON.ContactMaterial( physicsMaterial, physicsMaterial, {
-	friction: 0.1,
-	restitution: 0.3
+	friction: 0.6,
+	restitution: 0.0
 });
 
 // We must add the contact materials to the world
@@ -233,8 +233,11 @@ function moveTo( x, y, z ) {
 //
 
 const TICKS_PER_FRAME = 7;
+const MAX_DELTA = ( 1 / 60 ) * 5;
 
 core.callInLoop( function updatePhysics( delta ) {
+
+	delta = Math.min( delta, MAX_DELTA );
 
 	for ( let i=0 ; i<TICKS_PER_FRAME ; i++) {
 

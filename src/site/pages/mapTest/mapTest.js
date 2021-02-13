@@ -4,6 +4,7 @@ import loadingBox from '../../components/loadingBox/loadingBox.js';
 
 import testMapModel from '../../../assets/test_map_merged.glb';
 import suzanneHullModel from '../../../assets/suzanne_hull.glb';
+import marcoModel from '../../../assets/marco_model.glb';
 
 //
 
@@ -67,7 +68,7 @@ gamePage.start = function start() {
 
 	// suzanne
 
-	engine.files.load( suzanneHullModel, (glb) => {
+	engine.files.load( marcoModel, (glb) => {
 
 		const suzanne = engine.physics.makePhysicalHullCompo({
 			sourceObject: glb.scene,

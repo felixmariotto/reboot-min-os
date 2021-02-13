@@ -8,27 +8,69 @@ import core from '../core/core.js';
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
 
 const world = new CANNON.World();
-let body, mesh;
 
-function makePhysicalBox( width, height, depth ) {
+world.gravity.set(0, -20, 0)
 
-	// Box
-	const shape = new CANNON.Box(new CANNON.Vec3(1, 1, 1))
-	body = new CANNON.Body({
-		mass: 1,
-	})
-	body.addShape(shape)
-	body.angularVelocity.set(0, 10, 0)
-	body.angularDamping = 0.5
-	world.addBody(body);
+const helperMaterial = new THREE.MeshNormalMaterial({
+	wireframe: true
+});
 
-	// three
+const physicsMaterial = new CANNON.Material('physics');
 
-	const geometry = new THREE.BoxBufferGeometry( 2, 2, 2 );
-	const material = new THREE.MeshBasicMaterial({ color: 0xff0000, wireframe: true })
+const physics_physics = new CANNON.ContactMaterial(physicsMaterial, physicsMaterial, {
+	friction: 0.0,
+	restitution: 0.3
+})
 
-	mesh = new THREE.Mesh(geometry, material)
-	core.scene.add(mesh)
+// We must add the contact materials to the world
+world.addContactMaterial( physics_physics );
+
+const objectsToUpdate = [];
+
+//
+
+function makePhysicalBox( options ) {
+
+	// CANNON
+
+	const shape = new CANNON.Box(
+		new CANNON.Vec3(
+			options.width * 0.5,
+			options.height * 0.5,
+			options.depth * 0.5
+		)
+	);
+
+	const body = new CANNON.Body({
+		mass: options.mass,
+		material: physicsMaterial
+	});
+
+	body.addShape( shape );
+
+	world.addBody( body );
+
+	// THREE
+
+	const geometry = new THREE.BoxGeometry(
+		options.width,
+		options.height,
+		options.depth
+	);
+
+	const mesh = new THREE.Mesh( geometry, helperMaterial );
+
+	core.scene.add( mesh );
+
+	//
+
+	mesh.body = body;
+
+	mesh.moveTo = moveTo;
+
+	objectsToUpdate.push( mesh );
+
+	//
 
 	return mesh
 
@@ -36,22 +78,73 @@ function makePhysicalBox( width, height, depth ) {
 
 //
 
+function makePhysicalSphere( options ) {
+
+	// CANNON
+
+	const shape = new CANNON.Sphere( options.radius );
+
+	const body = new CANNON.Body({
+		mass: options.mass,
+		material: physicsMaterial
+	});
+
+	body.addShape( shape );
+
+	world.addBody( body );
+
+	// THREE
+
+	const geometry = new THREE.IcosahedronGeometry(
+		options.radius,
+		3
+	);
+
+	const mesh = new THREE.Mesh( geometry, helperMaterial );
+
+	core.scene.add( mesh );
+
+	//
+
+	mesh.body = body;
+
+	mesh.moveTo = moveTo;
+
+	objectsToUpdate.push( mesh );
+
+	//
+
+	return mesh
+
+}
+
+//
+
+function moveTo( x, y, z ) {
+
+	this.body.position.set( x, y, z );
+
+}
+
+//
+
 core.callInLoop( function updatePhysics( delta ) {
 
-	if ( body && mesh ) {
+	world.step( delta );
 
-		world.step( delta );
+	objectsToUpdate.forEach( (mesh) => {
 
 		// Copy coordinates from cannon.js to three.js
-		mesh.position.copy(body.position)
-		mesh.quaternion.copy(body.quaternion)
-		
-	}
+		mesh.position.copy( mesh.body.position );
+		mesh.quaternion.copy( mesh.body.quaternion );
+
+	});
 
 })
 
 //
 
 export default {
-	makePhysicalBox
+	makePhysicalBox,
+	makePhysicalSphere
 }

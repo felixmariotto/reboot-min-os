@@ -36,11 +36,35 @@ gamePage.start = function start() {
 	} );
 	*/
 
+	// ground
+
+	const ground = engine.physics.makePhysicalBox({
+		width: 10,
+		height: 0.2,
+		depth: 10
+	});
+
+	ground.moveTo( 0, -2, 0 );
+
 	// box
 
-	const box = engine.physics.makePhysicalBox();
+	const box = engine.physics.makePhysicalBox({
+		width: 1,
+		height: 1,
+		depth: 1,
+		mass: 1
+	});
 
 	engine.cameraControls.orbitObj( box );
+
+	// sphere
+
+	const sphere = engine.physics.makePhysicalSphere({
+		radius: 0.5,
+		mass: 1
+	});
+
+	sphere.moveTo( 0.5, 2, 0 );
 
 }
 

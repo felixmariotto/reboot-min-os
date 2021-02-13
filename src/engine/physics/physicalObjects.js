@@ -1,14 +1,8 @@
 
 import * as THREE from 'three';
 import { RoundedBoxGeometry } from 'three/examples/jsm/geometries/RoundedBoxGeometry.js';
-import { MeshBVH, MeshBVHVisualizer } from 'three-mesh-bvh';
 
 import core from '../core/core.js';
-
-//
-
-const VISUALIZE_BVH = false;
-const VISUALIZE_DEPTH = 10;
 
 //
 
@@ -23,8 +17,6 @@ function makeCapsule( radius, height ) {
 	)
 
 	geometry.translate( 0, height * 0.5, 0 );
-
-	geometry.boundsTree = new MeshBVH( geometry, { lazyGeneration: false } );
 
 	const capsule = PhysicalMesh( geometry );
 
@@ -49,8 +41,6 @@ function makeCapsule( radius, height ) {
 function makeMesh( geometry ) {
 
 	geometry = geometry.clone();
-
-	geometry.boundsTree = new MeshBVH( geometry, { lazyGeneration: false } );
 
 	const mesh = PhysicalMesh( geometry );
 
@@ -87,14 +77,6 @@ function makeHelper( wireframe ) {
 	});
 
 	core.scene.add( this );
-
-	if ( VISUALIZE_BVH ) {
-
-		const visualizer = new MeshBVHVisualizer( this, VISUALIZE_DEPTH );
-
-		core.scene.add( visualizer );
-
-	}
 
 }
 

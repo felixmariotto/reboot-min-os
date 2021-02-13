@@ -1,6 +1,5 @@
 
 import * as THREE from 'three';
-import { MeshBVH, acceleratedRaycast } from 'three-mesh-bvh';
 
 import core from '../core/core.js';
 import physicalObjects from './physicalObjects.js';
@@ -8,10 +7,6 @@ import collide from './collide.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
-
-// Add the raycast function. Assumes the BVH is available on
-// the `boundsTree` variable
-THREE.Mesh.prototype.raycast = acceleratedRaycast;
 
 //
 
@@ -33,7 +28,7 @@ const objectsToUpdate = [];
 
 //
 
-function setEnvironmentGeom( geometry ) {
+function makeEnvironmentMesh( geometry ) {
 
 	environment = physicalObjects.makeMesh( geometry );
 
@@ -88,46 +83,7 @@ function updatePhysics( delta ) {
 
 function resolveCapsule( capsule, speedRatio ) {
 
-	const velocity = capsule.velocity;
 
-	// add gravity to objects velocity
-
-	velocity.addScaledVector( GRAVITY, speedRatio );
-
-	// update objects position
-
-	capsule.position.addScaledVector( velocity, speedRatio );
-
-	capsule.updateMatrix();
-
-	capsule.updateMatrixWorld();
-
-	// collide against environment
-
-	collide.capsuleAgainstMesh( capsule, environment, _line );
-
-	// update after collision
-
-	const newPosition = _vec1;
-	newPosition.copy( _line.start ).applyMatrix4( environment.matrixWorld );
-
-	const deltaVector = _vec2;
-	deltaVector.subVectors( newPosition, capsule.position );
-
-	capsule.position.copy( newPosition );
-
-	isOnGround = deltaVector.y > Math.abs( speedRatio * velocity.y * 0.25 );
-
-	if ( ! isOnGround ) {
-
-		deltaVector.normalize();
-		velocity.addScaledVector( deltaVector, - deltaVector.dot( velocity ) );
-
-	} else {
-
-		velocity.set( 0, 0, 0 );
-
-	}
 
 }
 
@@ -154,7 +110,7 @@ core.callInLoop( function ( delta ) {
 //
 
 export default {
-	setEnvironmentGeom,
+	makeEnvironmentMesh,
 	makePhysicalCapsule,
 	makePhysicalMesh
 }

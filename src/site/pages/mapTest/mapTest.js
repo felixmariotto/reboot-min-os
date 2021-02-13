@@ -24,7 +24,7 @@ gamePage.start = function start() {
 
 			if ( child.isMesh ) {
 
-				const envMesh = engine.physics.setEnvironmentGeom( child.geometry );
+				const envMesh = engine.physics.makeEnvironmentMesh( child.geometry );
 
 				envMesh.makeHelper();
 
@@ -34,6 +34,7 @@ gamePage.start = function start() {
 
 	} );
 
+	/*
 	// player
 
 	const playerCapsule = engine.physics.makePhysicalCapsule( 0.25, 1 );
@@ -43,6 +44,7 @@ gamePage.start = function start() {
 	// engine.cameraControls.orbitDynamicObj( playerCapsule );
 
 	engine.characterControls.control( playerCapsule );
+	*/
 
 	// box
 

@@ -48,9 +48,7 @@ gamePage.start = function start() {
 
 	// box
 
-	const boxGeom = new engine.THREE.BoxBufferGeometry();
-
-	const box = engine.physics.makePhysicalMesh( boxGeom );
+	const box = engine.physics.makePhysicalBox( 1, 1, 1 );
 
 	box.position.x += 1;
 

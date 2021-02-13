@@ -1,11 +1,14 @@
 
 import * as THREE from 'three';
+
 import core from './core/core.js';
 import files from './files/files.js';
+
 import cameraControls from './physics/cameraControls.js';
 import characterControls from './physics/characterControls.js';
-import materials from './materials/materials.js';
 import physics from './physics/physics.js';
+
+import materials from './graphics/materials.js';
 
 //
 

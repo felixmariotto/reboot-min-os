@@ -3,7 +3,6 @@ import * as THREE from 'three';
 
 import core from '../core/core.js';
 import physicalObjects from './physicalObjects.js';
-import collide from './collide.js';
 
 // article on chain physics :
 // https://stackoverflow.com/questions/42609279/how-to-simulate-chain-physics-game-design/42618200
@@ -43,6 +42,16 @@ function makePhysicalCapsule( radius, height ) {
 	objectsToUpdate.push( capsule );
 
 	return capsule
+
+}
+
+function makePhysicalBox( width, height, depth ) {
+
+	const box = physicalObjects.makeBox( width, height, depth );
+
+	objectsToUpdate.push( box );
+
+	return box
 
 }
 
@@ -112,5 +121,6 @@ core.callInLoop( function ( delta ) {
 export default {
 	makeEnvironmentMesh,
 	makePhysicalCapsule,
+	makePhysicalBox,
 	makePhysicalMesh
 }

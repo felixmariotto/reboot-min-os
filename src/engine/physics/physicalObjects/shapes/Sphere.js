@@ -23,7 +23,7 @@ export default function Sphere( radius=0.5 ) {
 
 	function collideWith( colliderShape, targetVec ) {
 
-		return targetVec;
+		return null;
 
 	}
 

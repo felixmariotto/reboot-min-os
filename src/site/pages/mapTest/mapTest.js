@@ -45,7 +45,7 @@ gamePage.start = function start() {
 	const groundBody = engine.physics.Body( null ); 
 	groundBody.position.y -= 3;
 
-	const groundShape = engine.physics.Box( 10, 0.5, 10 );
+	const groundShape = engine.physics.Box( 2, 0.5, 0.95 );
 	groundShape.rotation.z += 0.2;
 
 	groundBody.addShape( groundShape );

@@ -35,6 +35,12 @@ export default function World() {
 		// frame gravity, dependant on frame rate
 		const gravity = params.gravity * delta;
 
+		//
+
+		this.bodies.forEach( body => body.updateMatrixWorld() );
+
+		//
+
 		this.bodies.forEach( (body) => {
 
 			if ( body.mass === null ) {

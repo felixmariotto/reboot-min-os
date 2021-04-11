@@ -31,6 +31,7 @@ gamePage.start = function start() {
 	body.velocity.set( 0, 1, 0 );
 
 	const boxShape = engine.physics.Box();
+	boxShape.rotation.z = -0.2;
 
 	boxShape.position.set( 0.5, 0.5, 0 );
 

@@ -4,6 +4,10 @@ import params from '../../../params.js';
 
 //
 
+const _vec = new THREE.Vector3();
+
+//
+
 export default function Sphere( radius=0.5 ) {
 
 	function makeHelper() {
@@ -29,13 +33,30 @@ export default function Sphere( radius=0.5 ) {
 
 	//
 
+	function expandBB() {
+
+		_vec.copy( this.position );
+		_vec.addScalar( this.radius );
+
+		this.parent.boundingBox.expandByPoint( _vec );
+
+		_vec.copy( this.position );
+		_vec.subScalar( this.radius );
+
+		this.parent.boundingBox.expandByPoint( _vec );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D ),
 		{
 			radius,
 			type: 'sphere',
 			makeHelper,
-			collideWith
+			collideWith,
+			expandBB
 		}
 	);
 

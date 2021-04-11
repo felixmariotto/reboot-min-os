@@ -5,6 +5,10 @@ import collisions from './collisions.js';
 
 //
 
+const _mat4 = new THREE.Matrix4();
+
+//
+
 export default function Box( width=1, height=1, depth=1 ) {
 
 	const vectors = [];
@@ -53,6 +57,30 @@ export default function Box( width=1, height=1, depth=1 ) {
 
 	//
 
+	function expandBB() {
+
+		this.updateMatrix();
+
+		vectors.forEach( (vector) => {
+
+			vector.applyMatrix4( this.matrix );
+
+			//
+
+			this.parent.boundingBox.expandByPoint( vector );
+
+			//
+
+			_mat4.copy( this.matrix );
+			_mat4.invert();
+			vector.applyMatrix4( _mat4 );
+
+		} );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D ),
 		{
@@ -62,7 +90,8 @@ export default function Box( width=1, height=1, depth=1 ) {
 			vectors,
 			type: 'box',
 			makeHelper,
-			collideWith
+			collideWith,
+			expandBB
 		}
 	);
 

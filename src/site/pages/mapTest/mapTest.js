@@ -5,6 +5,7 @@ import loadingBox from '../../components/loadingBox/loadingBox.js';
 import testMapModel from '../../../assets/test_map_merged.glb';
 import suzanneHullModel from '../../../assets/suzanne_hull.glb';
 import marcoModel from '../../../assets/marco_model.glb';
+import footballMap from '../../../assets/football_map.glb';
 
 //
 
@@ -18,70 +19,32 @@ gamePage.start = function start() {
 
 	engine.core.init();
 
-	// environment
-
-	/*
-	engine.files.load( testMapModel, (glb) => {
-
-		glb.scene.traverse( (child) => {
-
-			if ( child.isMesh ) {
-
-				const envMesh = engine.physics.makeEnvironmentMesh( child.geometry );
-
-				envMesh.makeHelper();
-
-			}
-		
-		});
-
-	} );
-	*/
-
-	// ground
-
-	const ground = engine.physics.makePhysicalBox({
-		width: 20,
-		height: 0.5,
-		depth: 20
-	});
-
-	ground.moveTo( 0, -2, 0 );
-
-	// box
-
-	const box = engine.physics.makePhysicalBox({
-		width: 1,
-		height: 1,
-		depth: 1,
-		mass: 1
-	});
-
-	// sphere
-
-	const sphere = engine.physics.makePhysicalSphere({
-		radius: 0.5,
-		mass: 1
-	});
-
-	sphere.moveTo( 0.5, 2, 0 );
-
-	// suzanne
-
-	engine.files.load( marcoModel, (glb) => {
-
-		const suzanne = engine.physics.makePhysicalHullCompo({
-			sourceObject: glb.scene,
-			mass: 1
-		});
-
-		suzanne.moveTo( 0, 3, 0 );
-
-	} );
-
-	//
-
 	engine.cameraControls.orbitObj( engine.core.scene );
+
+	// physics tests
+
+	const world = engine.physics.World();
+
+	const body = engine.physics.Body();
+	body.velocity.set( 0, 1, 0 );
+
+	const boxShape = engine.physics.Box();
+
+	boxShape.position.set( 0.5, 0.5, 0 );
+
+	const sphereShape = engine.physics.Sphere();
+
+	body.addShape( boxShape, sphereShape );
+
+	body.initHelper( engine.core.scene );
+
+	world.addBody( body );
+
+	world.play();
+
+	setTimeout( () => {
+		world.pause();
+	}, 1000 );
 
 }
 

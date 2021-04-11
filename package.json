@@ -29,14 +29,13 @@
   },
   "homepage": "https://github.com/felixmariotto/dungeon-game#readme",
   "dependencies": {
-    "cannon-es": "^0.16.0",
-    "css-loader": "^5.0.1",
-    "eslint": "^7.19.0",
+    "css-loader": "^5.2.1",
+    "eslint": "^7.24.0",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^5.0.0",
+    "html-webpack-plugin": "^5.3.1",
     "style-loader": "^2.0.0",
     "three": "^0.125.2",
-    "webpack": "^5.21.1",
+    "webpack": "^5.31.2",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.2"
   }

@@ -13,17 +13,30 @@ export default function Sphere( radius=0.5 ) {
 			params.helpersMaterial
 		);
 
-		mesh.position.copy( this.position );
+		this.add( mesh );
 
 		return mesh
 
 	}
 
-	return {
-		radius,
-		type: 'sphere',
-		position: new THREE.Vector3(),
-		makeHelper
+	//
+
+	function collideWith( colliderShape, targetVec ) {
+
+		return targetVec;
+
 	}
+
+	//
+
+	return Object.assign(
+		Object.create( new THREE.Object3D ),
+		{
+			radius,
+			type: 'sphere',
+			makeHelper,
+			collideWith
+		}
+	);
 
 }

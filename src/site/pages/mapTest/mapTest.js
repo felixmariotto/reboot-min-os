@@ -25,7 +25,9 @@ gamePage.start = function start() {
 
 	const world = engine.physics.World();
 
-	const body = engine.physics.Body();
+	// moving compound
+
+	const body = engine.physics.Body( 0.3 );
 	body.velocity.set( 0, 1, 0 );
 
 	const boxShape = engine.physics.Box();
@@ -38,7 +40,21 @@ gamePage.start = function start() {
 
 	body.initHelper( engine.core.scene );
 
-	world.addBody( body );
+	// static ground
+
+	const groundBody = engine.physics.Body( null ); 
+	groundBody.position.y -= 3;
+
+	const groundShape = engine.physics.Box( 10, 0.5, 10 );
+	groundShape.rotation.z += 0.2;
+
+	groundBody.addShape( groundShape );
+
+	groundBody.initHelper( engine.core.scene );
+
+	//
+
+	world.addBody( body, groundBody );
 
 	world.play();
 

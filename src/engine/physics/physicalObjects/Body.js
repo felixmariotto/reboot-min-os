@@ -3,6 +3,10 @@ import * as THREE from 'three';
 
 //
 
+const _vec = new THREE.Vector3();
+
+//
+
 export default function Body( mass=0.5 /* between 0 and 1 */ ) {
 
 	function addShape() {
@@ -19,19 +23,42 @@ export default function Body( mass=0.5 /* between 0 and 1 */ ) {
 
 		this.shapes.forEach( (shape) => {
 
-			this.helper.add( shape.makeHelper() );
+			shape.makeHelper();
+
+			this.helper.add( shape );
 
 		} );
 
 	}
 
-	return {
-		position: new THREE.Vector3(),
-		velocity: new THREE.Vector3(),
-		mass,
-		shapes: [],
-		addShape,
-		initHelper
+	function collideWith( colliderBody ) {
+
+		this.shapes.forEach( (shape) => {
+
+			colliderBody.shapes.forEach( (colliderShape) => {
+
+				const collisionPoint = shape.collideWith( colliderShape, _vec );
+
+			} );
+
+		} );
+
+		// console.log( colliderBody );
+
+		// debugger
+
 	}
+
+	return Object.assign(
+		Object.create( new THREE.Object3D ),
+		{
+			velocity: new THREE.Vector3(),
+			mass,
+			shapes: [],
+			addShape,
+			initHelper,
+			collideWith
+		}
+	);
 
 }

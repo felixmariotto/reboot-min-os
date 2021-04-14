@@ -41,7 +41,7 @@ export default function Sphere( radius=1 ) {
 
 				targetVec
 				.sub( this.position )
-				.setLength( this.radius - distance + 0.05 /* we add 0.05 for safety */ );
+				.setLength( this.radius - distance );
 
 				return targetVec
 

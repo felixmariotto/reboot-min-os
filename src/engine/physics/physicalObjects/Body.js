@@ -21,12 +21,10 @@ export default function Body( isDynamic, mass=1 ) {
 
 					this.position.sub( penetrationVec );
 
-					// this.velocity.set( 0, 0.22, 0 );
-
 					penetrationVec.normalize();
 					this.velocity.reflect( penetrationVec );
 
-					// this.velocity.multiplyScalar( 1 );
+					this.velocity.multiplyScalar( this.bounciness );
 
 				}
 
@@ -42,6 +40,7 @@ export default function Body( isDynamic, mass=1 ) {
 			isBody: true,
 			isDynamic,
 			mass,
+			bounciness: 0.95,
 			velocity: new THREE.Vector3(), // used only if isDynamic == true
 			collideWith
 		}

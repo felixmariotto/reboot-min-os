@@ -9,7 +9,7 @@ export default function Box( width=1, height=1, depth=1 ) {
 	function makeHelper() {
 
 		const mesh = new THREE.Mesh(
-			new THREE.BoxGeometry( width, height, depth ),
+			new THREE.BoxGeometry( this.width, this.height, this.depth ),
 			params.helpersMaterial
 		)
 

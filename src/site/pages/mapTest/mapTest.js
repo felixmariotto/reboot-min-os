@@ -62,9 +62,18 @@ gamePage.start = function start() {
 
 	} );
 
+	// sphere
+
+	const sphere = engine.physics.Sphere();
+	sphere.makeHelper();
+
+	const sphereBody = engine.physics.Body( true, 1 );
+	sphereBody.velocity.y += 0.2;
+	sphereBody.add( sphere );
+
 	//
 
-	world.add( map, bladeBody );
+	world.add( map, bladeBody, sphereBody );
 
 	console.log( world )
 

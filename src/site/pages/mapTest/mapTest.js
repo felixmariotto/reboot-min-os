@@ -31,6 +31,7 @@ gamePage.start = function start() {
 	// ground
 	const ground = engine.physics.Box( 15, 1, 10 );
 	ground.position.y -= 3;
+	ground.rotation.x = -0.15;
 	ground.makeHelper();
 
 	// wall back

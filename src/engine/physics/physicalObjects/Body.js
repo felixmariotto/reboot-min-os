@@ -4,6 +4,7 @@ import * as THREE from 'three';
 //
 
 const tragetVec = new THREE.Vector3();
+const _vec = new THREE.Vector3();
 
 //
 
@@ -22,9 +23,15 @@ export default function Body( isDynamic, mass=1 ) {
 					this.position.sub( penetrationVec );
 
 					penetrationVec.normalize();
-					this.velocity.reflect( penetrationVec );
 
-					this.velocity.multiplyScalar( this.bounciness );
+					const bounceDampVec = _vec
+					.copy( this.velocity )
+					.projectOnVector( penetrationVec )
+					.negate();
+
+					this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
+
+					this.velocity.reflect( penetrationVec );
 
 				}
 
@@ -40,7 +47,7 @@ export default function Body( isDynamic, mass=1 ) {
 			isBody: true,
 			isDynamic,
 			mass,
-			bounciness: 0.95,
+			bounciness: 0.5,
 			velocity: new THREE.Vector3(), // used only if isDynamic == true
 			collideWith
 		}

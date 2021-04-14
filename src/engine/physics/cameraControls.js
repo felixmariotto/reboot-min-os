@@ -193,7 +193,7 @@ function orbitObj( target ) {
 
 	core.camera.position.copy( target.position );
 
-	core.camera.position.set( 0, 1, 10 );
+	core.camera.position.set( 10, 17, 15 );
 
 	core.camera.lookAt( target.position );
 

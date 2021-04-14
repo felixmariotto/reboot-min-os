@@ -7,8 +7,6 @@ import suzanneHullModel from '../../../assets/suzanne_hull.glb';
 import marcoModel from '../../../assets/marco_model.glb';
 import footballMap from '../../../assets/football_map.glb';
 
-import * as THREE from 'three';
-
 //
 
 const gamePage = elem({ id:'main-game-page' });
@@ -28,13 +26,45 @@ gamePage.start = function start() {
 	const world = engine.physics.World();
 	engine.core.scene.add( world );
 
-	const body = engine.physics.Body();
+	const map = engine.physics.Body();
 
-	const box = engine.physics.Box();
-	box.makeHelper();
+	// ground
+	const ground = engine.physics.Box( 15, 1, 10 );
+	ground.position.y -= 3;
+	ground.makeHelper();
 
-	body.add( box );
-	world.add( body );
+	// wall back
+	const wallBack = engine.physics.Box( 15, 8, 1 );
+	wallBack.position.z -= 7;
+	wallBack.rotation.x = -0.7;
+	wallBack.makeHelper();
+
+	// wall front
+	const wallFront = engine.physics.Box( 15, 8, 1 );
+	wallFront.position.z = 7;
+	wallFront.rotation.x = 0.7;
+	wallFront.makeHelper();
+
+	map.add( ground, wallBack, wallFront );
+
+	// blade
+
+	const bladeBox = engine.physics.Box( 5, 8, 1 );
+	bladeBox.makeHelper();
+
+	const bladeBody = engine.physics.Body();
+	bladeBody.position.y -= 5;
+	bladeBody.add( bladeBox );
+
+	engine.core.callInLoop( () => {
+
+		bladeBody.rotation.x += 0.1;
+
+	} );
+
+	//
+
+	world.add( map, bladeBody );
 
 	console.log( world )
 

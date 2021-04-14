@@ -4,17 +4,16 @@ import core from '../core/core.js';
 
 //
 
-import Body from './physicalObjects/Body.js';
 import World from './physicalObjects/World.js';
-
-import Box from './physicalObjects/shapes/Box.js';
-import Sphere from './physicalObjects/shapes/Sphere.js';
+import Body from './physicalObjects/Body.js';
+import Box from './physicalObjects/Box.js';
+import Sphere from './physicalObjects/Sphere.js';
 
 //
 
 export default {
-	Body,
 	World,
+	Body,
 	Box,
 	Sphere
 }

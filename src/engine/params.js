@@ -11,6 +11,4 @@ export default {
 	thirdPersCameraTarget: new THREE.Vector3( 0, 18, 7.5 ),
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	physicsSimTicks: 4,
-	gravity: 1, // in m/s
-	maxBodySpeed: 100  // in m/s, for a body of maximum mass
 }

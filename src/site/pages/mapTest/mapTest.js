@@ -31,7 +31,6 @@ gamePage.start = function start() {
 	// ground
 	const ground = engine.physics.Box( 15, 1, 10 );
 	ground.position.y -= 3;
-	ground.rotation.x = -0.15;
 	ground.makeHelper();
 
 	// wall back
@@ -54,12 +53,12 @@ gamePage.start = function start() {
 	bladeBox.makeHelper();
 
 	const bladeBody = engine.physics.Body();
-	bladeBody.position.y -= 5;
+	bladeBody.rotation.x = Math.PI / 2;
 	bladeBody.add( bladeBox );
 
 	engine.core.callInLoop( () => {
 
-		bladeBody.rotation.x += 0.1;
+		bladeBody.position.y = Math.min( 0, Math.sin( Date.now() / 300 ) ) * 7;
 
 	} );
 
@@ -69,8 +68,7 @@ gamePage.start = function start() {
 	sphere.makeHelper();
 
 	const sphereBody = engine.physics.Body( true, 1 );
-	sphereBody.position.y = 0.5;
-	sphereBody.velocity.y += 0.2;
+	sphereBody.position.y = 5;
 	sphereBody.add( sphere );
 
 	//

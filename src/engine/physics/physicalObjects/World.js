@@ -57,6 +57,8 @@ export default function World() {
 
 				body.position.add( body.velocity );
 
+				body.updateMatrixWorld();
+
 				// collide with non-dynamic bodies
 
 				this.children.forEach( (collider) => {

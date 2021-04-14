@@ -19,14 +19,14 @@ export default function Body( isDynamic, mass=1 ) {
 
 				if ( penetrationVec ) {
 
-					// console.log( penetrationVec );
-
-					// debugger
-
 					this.position.sub( penetrationVec );
 
+					// this.velocity.set( 0, 0.22, 0 );
+
+					penetrationVec.normalize();
 					this.velocity.reflect( penetrationVec );
-					this.velocity.multiplyScalar( 1 );
+
+					// this.velocity.multiplyScalar( 1 );
 
 				}
 

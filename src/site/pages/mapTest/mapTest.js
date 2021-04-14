@@ -74,7 +74,7 @@ gamePage.start = function start() {
 
 	//
 
-	world.add( map, bladeBody, sphereBody );
+	world.add( map, sphereBody/* , bladeBody */ );
 
 }
 

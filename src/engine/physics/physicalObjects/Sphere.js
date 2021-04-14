@@ -21,9 +21,6 @@ export default function Sphere( radius=1 ) {
 
 			collidingShape.worldToLocal( sphereCenter );
 
-			// console.log( 'sphereCenter', sphereCenter );
-			// console.log( 'collidingShape', collidingShape );
-
 			// get box closest point to sphere center by clamping
 			const closestPoint = _vec0.set(
 				Math.max( -collidingShape.width / 2, Math.min( sphereCenter.x, collidingShape.width / 2 ) ),
@@ -32,31 +29,19 @@ export default function Sphere( radius=1 ) {
 			);
 
 			// distance between closest point and sphere center
-			const distance = Math.sqrt(
-				( closestPoint.x - sphereCenter.x ) * ( closestPoint.x - sphereCenter.x ) +
-				( closestPoint.y - sphereCenter.y ) * ( closestPoint.y - sphereCenter.y ) +
-				( closestPoint.z - sphereCenter.z ) * ( closestPoint.z - sphereCenter.z )
-			);
-
-			// console.log( 'distance', distance );
-			// console.log( 'y', y )
+			const distance = closestPoint.distanceTo( sphereCenter );
 
 			if ( distance < this.radius ) {
 
-				/*
-				console.log('intersect')
-				debugger
-				*/
-
-				targetVec.copy( closestPoint );
-
-				targetVec.applyMatrix4( collidingShape.matrixWorld );
+				targetVec
+				.copy( closestPoint )
+				.applyMatrix4( collidingShape.matrixWorld );
 
 				this.worldToLocal( targetVec );
 
-				targetVec.sub( this.position );
-
-				targetVec.setLength( this.radius - distance + 0.05 );
+				targetVec
+				.sub( this.position )
+				.setLength( this.radius - distance + 0.05 /* we add 0.05 for safety */ );
 
 				return targetVec
 

@@ -68,6 +68,7 @@ gamePage.start = function start() {
 	sphere.makeHelper();
 
 	const sphereBody = engine.physics.Body( true, 1 );
+	sphereBody.position.y = 0.5;
 	sphereBody.velocity.y += 0.2;
 	sphereBody.add( sphere );
 

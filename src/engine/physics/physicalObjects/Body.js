@@ -17,9 +17,18 @@ export default function Body( isDynamic, mass=1 ) {
 
 				const penetrationVec = shape.penetrationIn( colliderShape, tragetVec );
 
-				this.position.add( penetrationVec );
+				if ( penetrationVec ) {
 
-				this.velocity.add( penetrationVec );
+					// console.log( penetrationVec );
+
+					// debugger
+
+					this.position.sub( penetrationVec );
+
+					this.velocity.reflect( penetrationVec );
+					this.velocity.multiplyScalar( 1 );
+
+				}
 
 			} );
 

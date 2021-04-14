@@ -39,6 +39,10 @@ export default function World() {
 
 	function updatePhysics( delta ) {
 
+		this.children.forEach( body => body.updateMatrixWorld() );
+
+		//
+
 		this.children.forEach( (body) => {
 
 			if ( !body.isBody ) console.warn( 'an object that is not a body was added to the world' )

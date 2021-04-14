@@ -53,6 +53,14 @@ export default function World() {
 
 				body.position.add( body.velocity );
 
+				// collide with non-dynamic bodies
+
+				this.children.forEach( (collider) => {
+
+					if ( !collider.isDynamic ) body.collideWith( collider );
+
+				} );
+
 			}
 
 		} );

@@ -88,6 +88,15 @@ gamePage.start = function start() {
 	engine.cameraControls.orbitDynamicObj( sphereBody );
 	engine.characterControls.controlVelocity( sphereBody );
 
+	// chain
+
+	const chain = engine.physics.Chain( 10 );
+	chain.makeHelper();
+	
+	console.log( chain );
+
+	world.add( ...chain.spheres );
+
 	//
 
 	world.add( map, sphereBody, bladeBody );

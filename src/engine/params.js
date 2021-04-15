@@ -11,5 +11,7 @@ export default {
 	thirdPersCameraTarget: new THREE.Vector3( 0, 20, 9 ),
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	physicsSimTicks: 15,
-	gravity: new THREE.Vector3( 0, -0.035, 0 )
+	gravity: new THREE.Vector3( 0, -0.035, 0 ),
+	chainPointDistance: 0.3,
+	chainSphereRadius: 0.3
 }

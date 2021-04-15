@@ -89,7 +89,27 @@ export default function Chain( length ) {
 				const p1 = this.points[ j ];
 				const p2 = this.points[ j + 1 ];
 
-				this.constrainPoints( p1, p2 );
+				const diff = this.constrainPoints( p1, p2 );
+
+				// add the diff to the velocity of each chain sphere
+
+				const sphere1 = !j ? null : this.spheres[ j - 1 ];
+				const sphere2 = j === this.pointsNumber - 2 ? null : this.spheres[ j ];
+
+				if ( sphere1 ) sphere1.velocity.sub( diff );
+				if ( sphere2 ) sphere2.velocity.add( diff );
+
+				/*
+				if ( j > 0 && j < this.pointsNumber - 2 ) {
+
+					const sphere1 = this.spheres[ j - 1 ];
+					const sphere2 = this.spheres[ j ];
+
+					sphere1.velocity.sub( diff );
+					sphere2.velocity.add( diff );
+
+				}
+				*/
 
 			}
 			
@@ -119,6 +139,10 @@ export default function Chain( length ) {
 		diff.multiplyScalar( fraction );
 		p1.sub( diff );
 		p2.add( diff );
+
+		//
+
+		return diff
 
 	}
 
@@ -165,6 +189,15 @@ export default function Chain( length ) {
 	const points = [ startPoint ];
 	points.push( ...spheres.map( sphereBody => sphereBody.position ) );
 	points.push( endPoint );
+
+	// test
+	window.printPoints = function () {
+		console.log( points );
+	}
+
+	window.printVelocities = function () {
+		spheres.forEach( sphereBody => console.log( sphereBody.velocity ) )
+	}
 
 	//
 

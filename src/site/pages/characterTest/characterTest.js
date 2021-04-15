@@ -43,8 +43,7 @@ gamePage.start = function start() {
 
 		engine.core.scene.add( glb.scene );
 
-		engine.cameraControls.followObj( glb.scene );
-		// engine.cameraControls.orbitObj( glb.scene );
+		engine.cameraControls.orbitObj( glb.scene );
 
 		engine.characterControls.control( glb.scene );
 

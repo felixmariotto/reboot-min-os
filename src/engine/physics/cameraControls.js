@@ -97,6 +97,10 @@ function followObj( target ) {
 
 function orbitDynamicObj( target ) {
 
+	if ( !target.isBody ) {
+		console.warn('characterControl.controlVelocity : target is not a body');
+	}
+
 	const CAM_TARGET_DISTANCE = 2.5;
 	const CAMERA_ROTATION_EASING = 0.1;
 	const CAMERA_TARGETING_EASING = 0.014;
@@ -143,16 +147,20 @@ function orbitDynamicObj( target ) {
 
 		//
 
-		targetTarget
-		.copy( target.velocity )
-		.normalize()
-		.multiplyScalar( -CAM_TARGET_DISTANCE );
+		if ( target.velocity.length() > 0.0001 ) {
 
-		lastTarget.lerpVectors( lastTarget, targetTarget, CAMERA_TARGETING_EASING );
+			targetTarget
+			.copy( target.velocity )
+			.normalize()
+			.multiplyScalar( CAM_TARGET_DISTANCE );
 
-		_vec1
-		.copy( lastTarget )
-		.add( target.position );
+			lastTarget.lerpVectors( lastTarget, targetTarget, CAMERA_TARGETING_EASING );
+
+			_vec1
+			.copy( lastTarget )
+			.add( target.position );
+
+		}
 
 		//
 

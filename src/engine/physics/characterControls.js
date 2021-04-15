@@ -93,6 +93,49 @@ function control( target ) {
 
 //
 
+function controlVelocity( target ) {
+
+	if ( !target.isBody ) {
+		console.warn('characterControl.controlVelocity : target is not a body');
+	}
+
+	loopCallback = () => {
+
+		if ( input.targetDirection.length() > 0 ) {
+
+			_vec1
+			.copy( core.camera.position )
+			.sub( target.position )
+			.setY( 0 );
+			
+			// get signed angle
+
+			let angle = _vec1.angleTo( FORWARD );
+
+			_vec3.crossVectors( _vec1, FORWARD );
+
+			if ( _vec3.dot( target.up ) < 0 ) {
+				angle = -angle;
+			}
+
+			// get world direction
+
+			targetDirection
+			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
+			.applyAxisAngle( target.up, -angle );
+
+			// move forward
+
+			target.velocity.addScaledVector( targetDirection, -0.016 );
+
+		}
+
+	}
+
+}
+
+//
+
 function loop() {
 
 	if ( loopCallback ) loopCallback();
@@ -102,5 +145,6 @@ function loop() {
 //
 
 export default {
-	control
+	control,
+	controlVelocity
 }

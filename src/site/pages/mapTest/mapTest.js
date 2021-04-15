@@ -27,7 +27,7 @@ gamePage.start = function start() {
 	// ground
 	const ground = engine.physics.Box( 15, 1, 30 );
 	ground.position.y -= 3;
-	ground.rotation.x = -0.1;
+	// ground.rotation.x = -0.1;
 	ground.makeHelper();
 
 	// wall back
@@ -84,6 +84,9 @@ gamePage.start = function start() {
 	const sphereBody = engine.physics.Body( engine.DYNAMIC_BODY, 0.3 );
 	sphereBody.position.y = 5;
 	sphereBody.add( sphere );
+
+	engine.cameraControls.orbitDynamicObj( sphereBody );
+	engine.characterControls.controlVelocity( sphereBody );
 
 	//
 

@@ -1,5 +1,6 @@
 
 import * as THREE from 'three';
+import constants from '../../misc/constants.js';
 
 //
 
@@ -8,7 +9,7 @@ const _vec = new THREE.Vector3();
 
 //
 
-export default function Body( isDynamic, mass=1 ) {
+export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	function collideWith( collider ) {
 
@@ -45,10 +46,10 @@ export default function Body( isDynamic, mass=1 ) {
 		Object.create( new THREE.Object3D() ),
 		{
 			isBody: true,
-			isDynamic,
+			bodyType,
 			mass,
 			bounciness: 0.5,
-			velocity: new THREE.Vector3(), // used only if isDynamic == true
+			velocity: new THREE.Vector3(), // used only if bodyType is DYNAMIC_BODY
 			collideWith
 		}
 	)

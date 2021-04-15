@@ -52,22 +52,21 @@ gamePage.start = function start() {
 	const bladeBox = engine.physics.Box( 5, 8, 1 );
 	bladeBox.makeHelper();
 
-	const bladeBody = engine.physics.Body();
+	const bladeBody = engine.physics.Body( engine.KINEMATIC_BODY );
 	bladeBody.rotation.x = Math.PI / 2;
 	bladeBody.add( bladeBox );
+	bladeBody.updateTransform = function () {
 
-	engine.core.callInLoop( () => {
+		this.position.y = Math.min( 0, Math.sin( Date.now() / 300 ) ) * 7;
 
-		bladeBody.position.y = Math.min( 0, Math.sin( Date.now() / 300 ) ) * 7;
-
-	} );
+	}
 
 	// sphere
 
 	const sphere = engine.physics.Sphere();
 	sphere.makeHelper();
 
-	const sphereBody = engine.physics.Body( true, 1 );
+	const sphereBody = engine.physics.Body( engine.DYNAMIC_BODY, 1 );
 	sphereBody.position.y = 5;
 	sphereBody.add( sphere );
 

@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import core from '../../core/core.js';
 import params from '../../params.js';
+import constants from '../../misc/constants.js';
 
 //
 
@@ -39,6 +40,21 @@ export default function World() {
 
 	function updatePhysics( delta ) {
 
+		// call every kinematic body transformation callback
+
+		this.children.forEach( (body) => {
+
+			if (
+				body.bodyType === constants.KINEMATIC_BODY &&
+				body.updateTransform
+			) {
+				body.updateTransform();
+			}
+
+		} );
+
+		//
+
 		this.children.forEach( body => body.updateMatrixWorld() );
 
 		//
@@ -47,7 +63,7 @@ export default function World() {
 
 			if ( !body.isBody ) console.warn( 'an object that is not a body was added to the world' )
 
-			if ( body.isDynamic ) {
+			if ( body.bodyType === constants.DYNAMIC_BODY ) {
 
 				// add gravity to velocity
 
@@ -63,7 +79,7 @@ export default function World() {
 
 				this.children.forEach( (collider) => {
 
-					if ( !collider.isDynamic ) body.collideWith( collider );
+					if ( collider.bodyType !== constants.DYNAMIC_BODY ) body.collideWith( collider );
 
 				} );
 

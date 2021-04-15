@@ -2,11 +2,6 @@
 import { elem } from '../../utils.js';
 import loadingBox from '../../components/loadingBox/loadingBox.js';
 
-import testMapModel from '../../../assets/test_map_merged.glb';
-import suzanneHullModel from '../../../assets/suzanne_hull.glb';
-import marcoModel from '../../../assets/marco_model.glb';
-import footballMap from '../../../assets/football_map.glb';
-
 //
 
 const gamePage = elem({ id:'main-game-page' });

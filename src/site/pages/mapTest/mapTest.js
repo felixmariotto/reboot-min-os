@@ -49,7 +49,7 @@ gamePage.start = function start() {
 
 	// blade
 
-	const bladeBox = engine.physics.Box( 5, 8, 1 );
+	const bladeBox = engine.physics.Box( 5, 8, 3 );
 	bladeBox.makeHelper();
 
 	const bladeBody = engine.physics.Body( engine.KINEMATIC_BODY );
@@ -57,7 +57,7 @@ gamePage.start = function start() {
 	bladeBody.add( bladeBox );
 	bladeBody.updateTransform = function ( time ) {
 
-		this.position.y = Math.min( 0, Math.sin( time / 300 ) ) * 7;
+		this.position.y = Math.min( 0, Math.sin( time / 200 ) ) * 7;
 
 	}
 
@@ -66,7 +66,7 @@ gamePage.start = function start() {
 	const sphere = engine.physics.Sphere();
 	sphere.makeHelper();
 
-	const sphereBody = engine.physics.Body( engine.DYNAMIC_BODY, 1 );
+	const sphereBody = engine.physics.Body( engine.DYNAMIC_BODY, 0.4 );
 	sphereBody.position.y = 5;
 	sphereBody.add( sphere );
 

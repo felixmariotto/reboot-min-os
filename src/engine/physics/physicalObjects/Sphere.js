@@ -37,7 +37,7 @@ export default function Sphere( radius=1 ) {
 				.copy( closestPoint )
 				.applyMatrix4( collidingShape.matrixWorld );
 
-				this.worldToLocal( targetVec );
+				this.parent.worldToLocal( targetVec );
 
 				targetVec
 				.sub( this.position )

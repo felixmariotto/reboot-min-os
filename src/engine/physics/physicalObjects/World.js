@@ -6,6 +6,7 @@ import constants from '../../misc/constants.js';
 
 //
 
+const MAX_DELTA = 1 / 30;
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
 //
@@ -34,9 +35,25 @@ export default function World() {
 
 			for ( let i=0 ; i<params.physicsSimTicks ; i++ ) {
 
-				updatePhysics.call( world, delta / params.physicsSimTicks );
+				updatePhysics.call( world, Math.min( delta, MAX_DELTA ) / params.physicsSimTicks );
 
 			}
+
+			/*
+			if ( this.children.length ) {
+
+				this.children.forEach( (body) => {
+
+					if ( body.bodyType === constants.DYNAMIC_BODY ) {
+
+						console.log( body.velocity )
+						debugger
+
+					}
+
+				} );
+			}
+			*/
 
 		}
 
@@ -59,6 +76,12 @@ export default function World() {
 
 				body.lastTransformTime = time;
 
+				body.updateMatrixWorld();
+
+			} else {
+
+				body.updateMatrixWorld();
+
 			}
 
 		} );
@@ -77,11 +100,11 @@ export default function World() {
 
 				// add gravity to velocity
 
-				body.velocity.addScaledVector( params.gravity, delta * body.mass );
+				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * ( delta / NOMINAL_TICK_TIME ) * body.mass );
 
 				// update position according to velocity
 
-				body.position.addScaledVector( body.velocity, delta / NOMINAL_TICK_TIME );
+				body.position.addScaledVector( body.velocity, ( delta / NOMINAL_TICK_TIME ) / params.physicsSimTicks );
 
 				body.updateMatrixWorld();
 

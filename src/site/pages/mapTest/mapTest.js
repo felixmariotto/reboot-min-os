@@ -46,7 +46,7 @@ gamePage.start = function start() {
 
 	// blade
 
-	const bladeBox = engine.physics.Box( 1, 10, 1 );
+	const bladeBox = engine.physics.Box( 1, 20, 1 );
 	bladeBox.makeHelper();
 
 	/*
@@ -72,7 +72,7 @@ gamePage.start = function start() {
 		// this.rotation.x = ( time / 700 ) % ( Math.PI * 2 );
 
 		// this.rotation.x = Math.PI / 2;
-		this.position.z = ( Math.min( 0, Math.sin( time / 300 ) ) * 7 ) + 2;
+		this.position.z = ( Math.min( 0, Math.sin( time / 1200 ) ) * 20 ) + 6;
 
 	}
 
@@ -93,8 +93,8 @@ gamePage.start = function start() {
 	const chain = engine.physics.Chain( 10 );
 	chain.makeHelper();
 
-	chain.attachStartTo( world, -4, 4, 0 );
-	chain.attachEndTo( world, 4, 4, 0 );
+	chain.attachStartTo( world, -4, 0, 0 );
+	chain.attachEndTo( sphereBody, 0, 0, 0 );
 
 	console.log( chain );
 

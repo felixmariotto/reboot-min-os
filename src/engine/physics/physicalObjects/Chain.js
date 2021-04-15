@@ -99,17 +99,15 @@ export default function Chain( length ) {
 				if ( sphere1 ) sphere1.velocity.sub( diff );
 				if ( sphere2 ) sphere2.velocity.add( diff );
 
-				/*
-				if ( j > 0 && j < this.pointsNumber - 2 ) {
+				// transform body at the end of the chain
 
-					const sphere1 = this.spheres[ j - 1 ];
-					const sphere2 = this.spheres[ j ];
+				if ( j === this.pointsNumber - 2 ) {
 
-					sphere1.velocity.sub( diff );
-					sphere2.velocity.add( diff );
+					this.end.body.position.add( diff );
+					
+					this.end.body.velocity.add( diff );
 
 				}
-				*/
 
 			}
 			

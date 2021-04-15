@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import core from '../core/core.js';
 import input from '../misc/input.js';
+import params from '../params.js';
 
 //
 
@@ -126,7 +127,7 @@ function controlVelocity( target ) {
 
 			// move forward
 
-			target.velocity.addScaledVector( targetDirection, -0.016 );
+			target.velocity.addScaledVector( targetDirection, -1 * params.playerSpeed );
 
 		}
 

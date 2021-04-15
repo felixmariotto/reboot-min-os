@@ -29,27 +29,28 @@ gamePage.start = function start() {
 	const map = engine.physics.Body();
 
 	// ground
-	const ground = engine.physics.Box( 15, 1, 10 );
+	const ground = engine.physics.Box( 15, 1, 15 );
 	ground.position.y -= 3;
+	// ground.rotation.x = -0.2;
 	ground.makeHelper();
 
 	// wall back
 	const wallBack = engine.physics.Box( 15, 8, 1 );
 	wallBack.position.z -= 7;
-	wallBack.rotation.x = -0.7;
+	wallBack.rotation.x = -0.4;
 	wallBack.makeHelper();
 
 	// wall front
 	const wallFront = engine.physics.Box( 15, 8, 1 );
 	wallFront.position.z = 7;
-	wallFront.rotation.x = 0.7;
+	wallFront.rotation.x = 0.4;
 	wallFront.makeHelper();
 
 	map.add( ground, wallBack, wallFront );
 
 	// blade
 
-	const bladeBox = engine.physics.Box( 5, 8, 1 );
+	const bladeBox = engine.physics.Box( 5, 10, 1 );
 	bladeBox.makeHelper();
 
 	/*
@@ -68,7 +69,14 @@ gamePage.start = function start() {
 
 	bladeBody.updateTransform = function ( time ) {
 
-		this.rotation.x = ( time / 1000 ) % ( Math.PI * 2 );
+		// this.position.y = -2;
+		// this.rotation.x = ( Math.sin( time / 500 ) * 0.3 ) + ( Math.PI / 2 );
+
+		this.position.set( 0, 0, -2 );
+		this.rotation.x = ( time / 700 ) % ( Math.PI * 2 );
+
+		// this.rotation.x = Math.PI / 2;
+		// this.position.y = Math.min( 0, Math.sin( time / 300 ) ) * 7;
 
 	}
 

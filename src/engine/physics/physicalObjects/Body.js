@@ -29,12 +29,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						// compute transforms of the kinematic body in the next tick
 
-						const beforeTransform = collider.position;
+						this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
 
 						collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
 						collider.updateMatrixWorld();
-
-						const afterTransform = collider.position;
 
 						// compute the penetration vector with the kinematic body more forward in time
 
@@ -48,9 +46,18 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 							.sub( penetrationVec )
 							.multiplyScalar( params.physicsSimTicks );
 
-							this.resolvePenetration( penetrationVec );
+							if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
+
+								penetrationVec2.multiplyScalar( 0.2 );
+								penetrationVec2.negate();
+
+							}
 
 							this.velocity.add( penetrationVec2 );
+
+							this.resolvePenetration( penetrationVec );
+
+							
 
 						} else {
 
@@ -58,10 +65,12 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						}
 
-						// reset kinematic body transforms
+						// reset body transforms
 
 						collider.updateTransform( collider.lastTransformTime );
 						collider.updateMatrixWorld();
+
+						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
 
 					} else {
 
@@ -107,8 +116,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			isBody: true,
 			bodyType,
 			mass,
-			bounciness: 0.5,
-			velocity: new THREE.Vector3(), // used only if bodyType is DYNAMIC_BODY
+			bounciness: 0,
+			// velocity is in length-unit/graphic-frame
+			// used only if bodyType is DYNAMIC_BODY
+			velocity: new THREE.Vector3(),
 			collideWith,
 			resolvePenetration
 		}

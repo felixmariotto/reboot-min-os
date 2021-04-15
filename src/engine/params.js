@@ -10,6 +10,6 @@ export default {
 	// thirdPersCameraTarget: new THREE.Vector3( 0, 5, 6 )
 	thirdPersCameraTarget: new THREE.Vector3( 0, 18, 7.5 ),
 	helpersMaterial: new THREE.MeshNormalMaterial(),
-	physicsSimTicks: 5,
+	physicsSimTicks: 15,
 	gravity: new THREE.Vector3( 0, -0.035, 0 )
 }

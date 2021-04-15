@@ -83,6 +83,9 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 		this.position.sub( penetrationVec );
 
+		// no bounce if the dynamic object is already going away from the collision
+		if ( penetrationVec.dot( this.velocity ) < 0 ) return
+
 		penetrationVec.normalize();
 
 		const bounceDampVec = _vec

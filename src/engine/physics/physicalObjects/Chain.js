@@ -7,19 +7,34 @@ import constants from '../../misc/constants.js';
 
 //
 
+const _vec0 = new THREE.Vector3();
+const _vec1 = new THREE.Vector3();
+
+//
+
 export default function Chain( length ) {
 
-	function attachStartTo( body ) {
+	function attachStartTo( body, x, y, z ) {
 
+		this.start = {
+			body,
+			point: new THREE.Vector3( x, y, z )
+		};
 
+		this.init();
 
 	}
 
 	//
 
-	function attachEndTo( body ) {
+	function attachEndTo( body, x, y, z ) {
 
+		this.end = {
+			body,
+			point: new THREE.Vector3( x, y, z )
+		};
 
+		this.init();
 
 	}
 
@@ -33,19 +48,106 @@ export default function Chain( length ) {
 	
 	//
 
-	function resolve() {
+	function init() {
 
+		if (
+			!this.start ||
+			!this.end ||
+			!this.spheresNumber
+		) {
+			return
+		}
 
+		this.computeEndStart();
+
+		for ( let i=0 ; i<this.spheresNumber ; i++ ) {
+
+			this.spheres[i].position.lerpVectors(
+				this.start.point,
+				this.end.point,
+				i / this.spheresNumber
+			);
+
+		}
 
 	}
 
 	//
 
-	const linksNumber = Math.floor( length / params.chainPointDistance );
+	function resolve() {
+
+		if ( !this.start || !this.end ) {
+			console.warn( 'chain.resolve : start or end is missing for resolution' );
+		};
+
+		for ( let i=0 ; i<params.chainPasses ; i++ ) {
+
+			this.computeEndStart();
+
+			for ( let j=0 ; j<this.pointsNumber - 1 ; j++ ) {
+
+				const p1 = this.points[ j ];
+				const p2 = this.points[ j + 1 ];
+
+				this.constrainPoints( p1, p2 );
+
+			}
+			
+		}
+
+	}
+
+	//
+
+	function constrainPoints( p1, p2 ) {
+
+		// get the distance between the points
+
+		const diff = _vec0
+		.copy( p2 )
+		.sub( p1 );
+
+		const distance = diff.length();
+
+		// get the fractional distance the points need to move toward or away from center of 
+		// line to make line length correct
+
+		const fraction = ( ( this.linkLength - distance ) / distance ) / 2; // divide by 2 as each point moves half the distance
+
+		//
+
+		diff.multiplyScalar( fraction );
+		p1.sub( diff );
+		p2.add( diff );
+
+	}
+
+	//
+
+	function computeEndStart() {
+
+		this.start.body.updateMatrixWorld();
+		this.end.body.updateMatrixWorld();
+
+		this.startPoint
+		.copy( this.start.point )
+		.applyMatrix4( this.start.body.matrixWorld );
+
+		this.endPoint
+		.copy( this.end.point )
+		.applyMatrix4( this.end.body.matrixWorld );
+
+	}
+
+	//
+
+	const pointsNumber = Math.floor( length / params.chainPointDistance );
+
+	const spheresNumber = Math.max( 0, pointsNumber - 2 );
 
 	const spheres = [];
 
-	for ( let i=0 ; i<linksNumber ; i++ ) {
+	for ( let i=0 ; i<spheresNumber ; i++ ) {
 
 		const sphereShape = Sphere( params.chainSphereRadius );
 
@@ -57,16 +159,31 @@ export default function Chain( length ) {
 
 	}
 
+	const startPoint = new THREE.Vector3();
+	const endPoint = new THREE.Vector3();
+
+	const points = [ startPoint ];
+	points.push( ...spheres.map( sphereBody => sphereBody.position ) );
+	points.push( endPoint );
+
 	//
 
 	return {
 		length,
-		linksNumber,
+		linkLength: length / ( pointsNumber - 1 ),
+		pointsNumber,
+		spheresNumber,
 		spheres,
+		points,
+		startPoint, // in world space
+		endPoint, // in world space
 		attachStartTo,
 		attachEndTo,
 		makeHelper,
-		resolve
+		resolve,
+		init,
+		computeEndStart,
+		constrainPoints
 	}
 
 }

@@ -17,7 +17,8 @@ export default function World() {
 		Object.create( new THREE.Object3D() ),
 		{
 			isWorld: true,
-			enabled: true
+			enabled: true,
+			chains: []
 		}
 	);
 
@@ -119,6 +120,10 @@ export default function World() {
 			}
 
 		} );
+
+		//
+
+		this.chains.forEach( chain => chain.resolve() );
 
 	}
 

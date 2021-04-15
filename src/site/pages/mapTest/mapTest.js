@@ -55,9 +55,9 @@ gamePage.start = function start() {
 	const bladeBody = engine.physics.Body( engine.KINEMATIC_BODY );
 	bladeBody.rotation.x = Math.PI / 2;
 	bladeBody.add( bladeBox );
-	bladeBody.updateTransform = function () {
+	bladeBody.updateTransform = function ( time ) {
 
-		this.position.y = Math.min( 0, Math.sin( Date.now() / 300 ) ) * 7;
+		this.position.y = Math.min( 0, Math.sin( time / 300 ) ) * 7;
 
 	}
 

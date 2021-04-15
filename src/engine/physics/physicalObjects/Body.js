@@ -21,18 +21,18 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 				if ( penetrationVec ) {
 
-					this.position.sub( penetrationVec );
+					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
 
-					penetrationVec.normalize();
+						// console.log('do the trick')
+						// debugger
 
-					const bounceDampVec = _vec
-					.copy( this.velocity )
-					.projectOnVector( penetrationVec )
-					.negate();
+						this.resolvePenetration( penetrationVec );
 
-					this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
+					} else {
 
-					this.velocity.reflect( penetrationVec );
+						this.resolvePenetration( penetrationVec );
+
+					}
 
 				}
 
@@ -42,6 +42,27 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	}
 
+	//
+
+	function resolvePenetration( penetrationVec ) {
+
+		this.position.sub( penetrationVec );
+
+		penetrationVec.normalize();
+
+		const bounceDampVec = _vec
+		.copy( this.velocity )
+		.projectOnVector( penetrationVec )
+		.negate();
+
+		this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
+
+		this.velocity.reflect( penetrationVec );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
@@ -50,7 +71,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			mass,
 			bounciness: 0.5,
 			velocity: new THREE.Vector3(), // used only if bodyType is DYNAMIC_BODY
-			collideWith
+			collideWith,
+			resolvePenetration
 		}
 	)
 

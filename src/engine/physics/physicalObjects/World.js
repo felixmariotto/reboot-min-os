@@ -6,6 +6,10 @@ import constants from '../../misc/constants.js';
 
 //
 
+const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
+
+//
+
 export default function World() {
 
 	const world = Object.assign(
@@ -42,13 +46,19 @@ export default function World() {
 
 		// call every kinematic body transformation callback
 
+		const time = Date.now();
+
 		this.children.forEach( (body) => {
 
 			if (
 				body.bodyType === constants.KINEMATIC_BODY &&
 				body.updateTransform
 			) {
-				body.updateTransform();
+
+				body.updateTransform( time );
+
+				body.lastTransformTime = time;
+
 			}
 
 		} );
@@ -71,7 +81,7 @@ export default function World() {
 
 				// update position according to velocity
 
-				body.position.add( body.velocity );
+				body.position.addScaledVector( body.velocity, delta / NOMINAL_TICK_TIME );
 
 				body.updateMatrixWorld();
 

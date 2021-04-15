@@ -27,11 +27,12 @@ gamePage.start = function start() {
 	engine.core.scene.add( world );
 
 	const map = engine.physics.Body();
+	// map.damping = 0;
 
 	// ground
-	const ground = engine.physics.Box( 15, 1, 15 );
+	const ground = engine.physics.Box( 15, 1, 30 );
 	ground.position.y -= 3;
-	// ground.rotation.x = -0.2;
+	ground.rotation.x = -0.1;
 	ground.makeHelper();
 
 	// wall back
@@ -42,7 +43,7 @@ gamePage.start = function start() {
 
 	// wall front
 	const wallFront = engine.physics.Box( 15, 8, 1 );
-	wallFront.position.z = 7;
+	wallFront.position.z = 15;
 	wallFront.rotation.x = 0.4;
 	wallFront.makeHelper();
 
@@ -72,11 +73,11 @@ gamePage.start = function start() {
 		// this.position.y = -2;
 		// this.rotation.x = ( Math.sin( time / 500 ) * 0.3 ) + ( Math.PI / 2 );
 
-		this.position.set( 0, 0, -2 );
-		this.rotation.x = ( time / 700 ) % ( Math.PI * 2 );
+		// this.position.set( 0, -3, -3 );
+		// this.rotation.x = ( time / 700 ) % ( Math.PI * 2 );
 
 		// this.rotation.x = Math.PI / 2;
-		// this.position.y = Math.min( 0, Math.sin( time / 300 ) ) * 7;
+		this.position.z = Math.min( 0, Math.sin( time / 300 ) ) * 7;
 
 	}
 

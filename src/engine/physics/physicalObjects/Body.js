@@ -55,13 +55,13 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 							this.velocity.add( penetrationVec2 );
 
-							this.resolvePenetration( penetrationVec );
+							this.resolvePenetration( penetrationVec, collider.damping );
 
 							
 
 						} else {
 
-							this.resolvePenetration( penetrationVec );
+							this.resolvePenetration( penetrationVec, collider.damping );
 
 						}
 
@@ -74,7 +74,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					} else {
 
-						this.resolvePenetration( penetrationVec );
+						this.resolvePenetration( penetrationVec, collider.damping );
 
 					}
 
@@ -88,7 +88,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	//
 
-	function resolvePenetration( penetrationVec ) {
+	function resolvePenetration( penetrationVec, colliderDamping ) {
 
 		this.position.sub( penetrationVec );
 
@@ -106,6 +106,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 		this.velocity.reflect( penetrationVec );
 
+		this.velocity.multiplyScalar( 1 - colliderDamping );
+
 	}
 
 	//
@@ -117,6 +119,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			bodyType,
 			mass,
 			bounciness: 0,
+			damping: 0.005,
 			// velocity is in length-unit/graphic-frame
 			// used only if bodyType is DYNAMIC_BODY
 			velocity: new THREE.Vector3(),

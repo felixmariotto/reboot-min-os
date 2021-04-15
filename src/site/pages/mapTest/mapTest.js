@@ -25,19 +25,19 @@ gamePage.start = function start() {
 	// map.damping = 0;
 
 	// ground
-	const ground = engine.physics.Box( 15, 1, 30 );
+	const ground = engine.physics.Box( 25, 1, 30 );
 	ground.position.y -= 3;
 	// ground.rotation.x = -0.1;
 	ground.makeHelper();
 
 	// wall back
-	const wallBack = engine.physics.Box( 15, 8, 1 );
-	wallBack.position.z -= 7;
+	const wallBack = engine.physics.Box( 25, 8, 1 );
+	wallBack.position.z -= 15;
 	wallBack.rotation.x = -0.4;
 	wallBack.makeHelper();
 
 	// wall front
-	const wallFront = engine.physics.Box( 15, 8, 1 );
+	const wallFront = engine.physics.Box( 25, 8, 1 );
 	wallFront.position.z = 15;
 	wallFront.rotation.x = 0.4;
 	wallFront.makeHelper();
@@ -90,7 +90,7 @@ gamePage.start = function start() {
 
 	// chain
 
-	const chain = engine.physics.Chain( 10 );
+	const chain = engine.physics.Chain( 20 );
 	chain.makeHelper();
 
 	chain.attachStartTo( world, -4, 0, 0 );

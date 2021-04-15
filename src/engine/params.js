@@ -15,8 +15,8 @@ export default {
 	physicsSimTicks: 15,
 	chainPasses: 5, // number of times the chain links are simulated per physics tick
 	gravity: new THREE.Vector3( 0, -0.035, 0 ),
-	chainPointDistance: 0.3,
-	chainSphereRadius: 0.3,
+	chainPointDistance: 0.7,
+	chainSphereRadius: 0.4,
 
 	playerSpeed: 0.1
 }

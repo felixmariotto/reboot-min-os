@@ -1,6 +1,8 @@
 
 function elem( options ) {
 
+	options = options || {};
+
 	const tagName = options.tagName || 'DIV';
 
 	const element = document.createElement( tagName );

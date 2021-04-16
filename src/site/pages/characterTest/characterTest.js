@@ -7,7 +7,7 @@ import uvGrid from '../../../assets/uv_grid.jpg';
 
 //
 
-const gamePage = elem({ id:'main-game-page' });
+const gamePage = elem({ id:'character-test-page', classes: 'game-container' });
 
 //
 
@@ -15,7 +15,7 @@ gamePage.start = function start() {
 
 	loadingBox.setUploadingState( 50 );
 
-	engine.core.init();
+	engine.core.init( gamePage );
 
 	engine.files.load( uvGrid, (texture) => {
 

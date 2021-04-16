@@ -1,0 +1,54 @@
+
+.ui-panel {
+	background-color: black;
+	border-radius: 5px;
+	border-style: solid;
+	border-color: white;
+	border-width: 1px;
+	overflow: hidden;
+}
+
+#editor-page {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	background-color: black;
+}
+
+	/* LEFT PANEL */
+
+	#editor-left-panel {
+		position: relative;
+		height: 100%;
+		width: calc( 100% - 400px );
+		display: flex;
+		flex-direction: column;
+	}
+
+		#editor-console {
+			height: 150px;
+			width: 100%;
+		}
+
+		#editor-viewport {
+			width: 100%;
+			height: calc( 100% - 150px );
+		}
+
+	/* RIGHT PANEL */
+
+	#editor-right-panel {
+		position: relative;
+		height: 100%;
+		width: 400px;
+	}
+
+		#editor-tools {
+			height: 600px;
+			width: 100%;
+		}
+
+		#editor-tools-options {
+			height: calc( 100% - 600px );
+			width: 100%;
+		}

@@ -5,6 +5,7 @@ import params from '../params.js';
 // THREE.js
 
 let delta;
+let container;
 
 const scene = new THREE.Scene();
 
@@ -30,11 +31,11 @@ window.addEventListener( 'resize', resize );
 
 //
 
-function init() {
+function init( domElement ) {
 
-	document.body.innerHTML = '';
+	container = domElement;
 
-	document.body.append( renderer.domElement );
+	container.append( renderer.domElement );
 
 	resize();
 
@@ -48,10 +49,10 @@ function init() {
 
 function resize() {
 
-	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.aspect = container.offsetWidth / container.offsetHeight;
 	camera.updateProjectionMatrix();
 
-	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.setSize( container.offsetWidth, container.offsetHeight );
 
 }
 

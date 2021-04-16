@@ -31,11 +31,22 @@ rightContainer.append( tools, toolsOptions );
 
 editorPage.start = function start() {
 
-	console.log('coucou');
-
 	engine.core.init( editorViewport );
 
+	const mesh = new engine.THREE.Mesh(
+		new engine.THREE.BoxGeometry(),
+		new engine.THREE.MeshNormalMaterial()
+	);
 
+	engine.core.scene.add( mesh );
+
+	engine.cameraControls.orbitObj( mesh );
+
+	engine.core.listenClick( (intersects) => {
+
+		console.log( 'intersects', intersects )
+
+	} );
 
 }
 

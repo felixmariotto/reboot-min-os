@@ -44,11 +44,11 @@
 	}
 
 		#editor-tools {
-			height: 600px;
+			height: 400px;
 			width: 100%;
 		}
 
 		#editor-tools-options {
-			height: calc( 100% - 600px );
+			height: calc( 100% - 400px );
 			width: 100%;
 		}

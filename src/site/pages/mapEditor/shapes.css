@@ -1,4 +1,15 @@
 
 #editor-shapes-options {
+	position: relative;
 	background-color: #777777;
+	padding: 10px;
 }
+
+	#editor-add-shape-toolbar {
+		width: 100%;
+		display: flex;
+	}
+
+		#editor-add-shape-toolbar > * {
+			margin: 0 5px;
+		}

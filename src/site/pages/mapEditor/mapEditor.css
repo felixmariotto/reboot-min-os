@@ -49,6 +49,7 @@
 			height: 400px;
 			width: 100%;
 			padding: 10px;
+			background-color: #333333;
 		}
 
 			#editor-tools > * {

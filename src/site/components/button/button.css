@@ -1,0 +1,15 @@
+
+.button {
+	background-color: var( --color-dark );
+	color: var(--color-white);
+	padding: 8px 16px;
+	border-radius: 30px;
+	cursor: pointer;
+	transition: all 0.1s linear;
+}
+
+@media ( hover: hover ) {
+	.button:hover {
+		background-color: #666666;
+	}
+}

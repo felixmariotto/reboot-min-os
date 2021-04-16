@@ -1,6 +1,8 @@
 
 import { elem } from '../../utils.js';
+import Button from '../../components/button/Button.js';
 import './mapEditor.css';
+import bodies from './bodies.js';
 
 //
 
@@ -26,6 +28,10 @@ const tools = elem({ id: 'editor-tools', classes: 'ui-panel' });
 const toolsOptions = elem({ id: 'editor-tools-options', classes: 'ui-panel' });
 
 rightContainer.append( tools, toolsOptions );
+
+//
+
+toolsOptions.append( bodies.domOptions );
 
 //
 

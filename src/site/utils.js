@@ -17,9 +17,22 @@ function elem( options ) {
 
 }
 
+// designed to make using FontAwesome icons easier.
+// pass it the string "fas fa-cube", it returns the icon.
+
+function icon( classString ) {
+	
+	const domElement = elem({ type: 'I', classes: classString })
+
+	return domElement
+
+}
+
 //
 
 export { elem }
+export { icon }
 export default {
-	elem
+	elem,
+	icon
 }

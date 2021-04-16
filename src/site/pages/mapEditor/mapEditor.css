@@ -48,7 +48,16 @@
 			width: 100%;
 		}
 
+		/* TOOLS OPTIONS */
+
 		#editor-tools-options {
+			position: relative;
 			height: calc( 100% - 400px );
 			width: 100%;
 		}
+
+			.tool-options {
+				height: 100%;
+				width: 100%;
+				background-color: black;
+			}

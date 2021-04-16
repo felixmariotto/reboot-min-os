@@ -27,7 +27,6 @@ toolBar.append(
 function makeTool( iconClasses, callback ) {
 
 	const toolIcon = icon( iconClasses );
-	toolIcon.style.fontSize = '25px';
 
 	const button = Button( toolIcon );
 

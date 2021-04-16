@@ -3,6 +3,9 @@ import { elem } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import './mapEditor.css';
 import bodies from './bodies.js';
+import shapes from './shapes.js';
+
+const toolModules = [ bodies, shapes ];
 
 //
 
@@ -31,13 +34,67 @@ rightContainer.append( tools, toolsOptions );
 
 //
 
-toolsOptions.append( bodies.domOptions );
+tools.append(
+	makeToolButton( 'bodies', bodies ),
+	makeToolButton( 'shapes', shapes ),
+);
+
+function makeToolButton( name, toolModule ) {
+
+	const button = Button( name );
+
+	button.onclick = () => {
+
+		if ( !toolModule.isEnabled ) {
+
+			hideAllTools();
+
+			toolModule.isEnabled = true;
+
+			toolModule.domOptions.style.display = 'inherit';
+
+		}
+
+	}
+
+	return button
+
+}
+
+function hideAllTools() {
+
+	toolModules.forEach( tool => {
+
+		tool.domOptions.style.display = 'none'
+
+		tool.isEnabled = false;
+
+	} );
+
+}
+
+//
+
+toolsOptions.append(
+	bodies.domOptions,
+	shapes.domOptions
+);
 
 //
 
 editorPage.start = function start() {
 
 	engine.core.init( editorViewport );
+
+	//
+
+	const size = 10;
+	const divisions = 10;
+
+	const gridHelper = new engine.THREE.GridHelper( size, divisions );
+	engine.core.scene.add( gridHelper );
+
+	//
 
 	const mesh = new engine.THREE.Mesh(
 		new engine.THREE.BoxGeometry(),
@@ -47,6 +104,8 @@ editorPage.start = function start() {
 	engine.core.scene.add( mesh );
 
 	engine.cameraControls.orbitObj( mesh );
+
+	//
 
 	engine.core.listenClick( (intersects) => {
 

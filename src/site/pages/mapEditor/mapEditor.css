@@ -43,10 +43,17 @@
 		width: 400px;
 	}
 
+		/* TOOLS BUTTONS */
+
 		#editor-tools {
 			height: 400px;
 			width: 100%;
+			padding: 10px;
 		}
+
+			#editor-tools > * {
+				margin: 5px 0;
+			}
 
 		/* TOOLS OPTIONS */
 
@@ -60,4 +67,5 @@
 				height: 100%;
 				width: 100%;
 				background-color: black;
+				display: none;
 			}

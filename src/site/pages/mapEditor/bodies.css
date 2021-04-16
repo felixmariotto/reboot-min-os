@@ -3,10 +3,23 @@
 	height: 40px;
 	width: 100%;
 	padding: 10px;
-	background-color: grey;
+	background-color: #777777;
 	display: flex;
 	align-items: center;
 }
+
+	#editor-bodies-toolbar .button {
+		height: 30px;
+		width: 30px;
+		font-size: 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+		#editor-bodies-toolbar > * {
+			margin: 0 5px;
+		}
 
 #editor-bodies-list-container {
 	position: relative;

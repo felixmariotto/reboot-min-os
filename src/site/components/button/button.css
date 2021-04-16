@@ -1,11 +1,11 @@
 
 .button {
-	background-color: var( --color-dark );
-	color: var(--color-white);
-	padding: 8px 16px;
-	border-radius: 30px;
+	background-color: #999999;
+	color: white;
+	padding: 8px 14px;
+	border-radius: 5px;
 	cursor: pointer;
-	transition: all 0.1s linear;
+	transition: all 0.05s linear;
 }
 
 @media ( hover: hover ) {

@@ -49,17 +49,6 @@ gamePage.start = function start() {
 	const bladeBox = engine.physics.Box( 1, 20, 1 );
 	bladeBox.makeHelper();
 
-	/*
-	const bladeBody = engine.physics.Body( engine.KINEMATIC_BODY );
-	bladeBody.rotation.x = Math.PI / 2;
-	bladeBody.add( bladeBox );
-	bladeBody.updateTransform = function ( time ) {
-
-		this.position.y = Math.min( 0, Math.sin( time / 200 ) ) * 7;
-
-	}
-	*/
-
 	const bladeBody = engine.physics.Body( engine.KINEMATIC_BODY );
 	bladeBody.add( bladeBox );
 
@@ -95,8 +84,6 @@ gamePage.start = function start() {
 
 	chain.attachStartTo( world, -4, 0, 0 );
 	chain.attachEndTo( sphereBody, 0, 0, 0 );
-
-	console.log( chain );
 
 	world.chains.push( chain );
 	world.add( ...chain.spheres );

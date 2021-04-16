@@ -140,10 +140,14 @@ function orbitDynamicObj( target ) {
 
 	});
 
+	//
+
 	loopCallback = () => {
 
 		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
 		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
+
+		/*
 
 		//
 
@@ -161,6 +165,10 @@ function orbitDynamicObj( target ) {
 			.add( target.position );
 
 		}
+
+		*/
+
+		_vec1.copy( target.position );
 
 		//
 

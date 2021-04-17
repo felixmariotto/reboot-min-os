@@ -58,7 +58,6 @@ function createBox() {
 
 	engine.core.scene.add( box );
 
-	// create and dispatch the event
 	const event = new CustomEvent( 'created-shape', { detail: box } );
 
 	window.dispatchEvent( event );

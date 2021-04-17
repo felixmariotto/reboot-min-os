@@ -84,7 +84,7 @@ toolsOptions.append(
 	shapes.domOptions
 );
 
-// SHAPE SELECTION
+// SHAPES
 
 let selectedShape = null;
 
@@ -100,6 +100,28 @@ function selectShape( shape ) {
 
 }
 
+window.addEventListener( 'created-shape', (e) => {
+
+	selectShape( e.detail );
+
+} );
+
+// BODIES
+
+let selectedBody = null;
+
+window.addEventListener( 'select-body', (e) => {
+
+	selectedBody = e.detail;
+
+} );
+
+window.addEventListener( 'unselected-body', () => {
+
+	selectedBody = null;
+
+} );
+
 //  EVENT LISTENERS
 
 window.addEventListener( 'keydown', (e) => {
@@ -109,12 +131,6 @@ window.addEventListener( 'keydown', (e) => {
 		case 83 : switchTransformMode();
 
 	}
-
-} );
-
-window.addEventListener( 'created-shape', (e) => {
-
-	selectShape( e.detail );
 
 } );
 

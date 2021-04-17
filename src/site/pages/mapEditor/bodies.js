@@ -21,7 +21,11 @@ toolBar.append(
 	makeTool( 'far fa-plus-square', addBody ),
 	makeTool( 'far fa-trash-alt', deleteBody ),
 	makeTool( 'fas fa-file-import', addToBody ),
-	makeTool( 'fas fa-file-export', removeFromBody )
+	makeTool( 'fas fa-file-export', removeFromBody ),
+	makeTool( 'fas fa-lightbulb-on', showBody ),
+	makeTool( 'far fa-lightbulb', hideBody ),
+	makeTool( 'fas fa-pen-alt', nameBody ),
+	makeTool( 'fas fa-code', setTransformFunction )
 );
 
 function makeTool( iconClasses, callback ) {
@@ -47,6 +51,28 @@ listContainer.append( bodiesList );
 
 //
 
+function selectBody( body ) {
+
+	unselectedAll();
+
+	body.domElement.classList.add( 'selected' );
+
+	const event = new CustomEvent( 'select-body', { detail: body } );
+
+	window.dispatchEvent( event );
+
+}
+
+function unselectedAll() {
+
+	bodies.forEach( body => body.domElement.classList.remove( 'selected' ) );
+
+	const event = new CustomEvent( 'unselected-body' );
+
+	window.dispatchEvent( event );
+
+}
+
 function addBody() {
 
 	const newBody = Body();
@@ -54,6 +80,10 @@ function addBody() {
 	bodies.push( newBody );
 
 	bodiesList.append( newBody.domElement );
+
+	newBody.domElement.onclick = () => { selectBody( newBody ) }
+
+	selectBody( newBody );
 
 }
 
@@ -75,17 +105,44 @@ function removeFromBody() {
 
 }
 
+function showBody() {
+
+	console.log( 'show body' );
+
+}
+
+function hideBody() {
+
+	console.log( 'hide body' );
+
+}
+
+function nameBody() {
+
+	console.log( 'name body' );
+
+}
+
+function setTransformFunction() {
+
+	console.log( 'set transform function' );
+
+}
+
 //
 
 function Body() {
+
+	const name = ( Math.random() * 1000000000 ).toFixed( 0 );
 
 	function updateName( text ) {
 		this.name = text
 	}
 
 	return {
+		name,
 		updateName,
-		domElement: elem({ classes: 'editor-body-line' })
+		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 
 }

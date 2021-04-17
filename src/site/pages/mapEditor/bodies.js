@@ -212,6 +212,7 @@ function Body() {
 		name,
 		clear,
 		threeObj,
+		isBody: true,
 		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 

@@ -8,7 +8,7 @@ import { elem, icon } from '../../utils.js';
 const filesOptions = elem({ id: 'editor-files-options', classes: 'tool-options' });
 
 filesOptions.append(
-	makeButton( 'save as JSON', saveAsJSON ),
+	makeButton( 'save as JSON', emitSceneGraphRequest ),
 	makeButton( 'import JSON', importJSON )
 );
 
@@ -24,9 +24,9 @@ function makeButton( text, callback ) {
 
 //
 
-function saveAsJSON() {
+function saveAsJSON( sceneGraph ) {
 
-	const content = JSON.stringify( { a: 'foo' } );
+	const content = JSON.stringify( sceneGraph );
 	const file = new Blob( [content], { type: 'text/plain' } );
 
 	const a = document.createElement("a");
@@ -59,14 +59,27 @@ function importJSON() {
 
 }
 
+//
+
+function emitSceneGraphRequest() {
+
+	const event = new CustomEvent( 'scene-graph-request' );
+
+	window.dispatchEvent( event );
+
+}
+
 function emitSceneData( sceneData ) {
 
-	console.log( sceneData )
+	const event = new CustomEvent( 'scene-graph-loaded', { detail: sceneData } );
+
+	window.dispatchEvent( event );
 
 }
 
 //
 
 export default {
-	domOptions: filesOptions
+	domOptions: filesOptions,
+	saveAsJSON
 }

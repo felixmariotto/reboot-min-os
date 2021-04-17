@@ -99,6 +99,44 @@ window.addEventListener( 'keydown', (e) => {
 
 } );
 
+window.addEventListener( 'scene-graph-request', (e) => {
+
+	const parsedBodies = bodies.bodies.map( (body) => {
+
+		const parsedBody = {};
+
+		parsedBody.shapes = body.threeObj.children.map( (shape) => {
+
+			switch ( shape.shapeType ) {
+
+				case 'box':
+					return {
+						pos: shape.position,
+						rot: shape.rotation,
+						width: shape.scale.x,
+						height: shape.scale.y,
+						depth: shape.scale.z
+					}
+				break
+
+			}
+
+		} );
+
+		return parsedBody
+
+	} );
+
+	files.saveAsJSON( parsedBodies );
+
+} );
+
+window.addEventListener( 'scene-graph-loaded', (e) => {
+
+	console.log( 'loaded scene graph', e.detail );
+
+} );
+
 // TRANSFORM CONTROLS
 
 const transformModes = [ 'translate', 'rotate', 'scale' ];

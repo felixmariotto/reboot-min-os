@@ -56,6 +56,8 @@ function createBox() {
 
 	box.isEditorShape = true;
 
+	box.shapeType = 'box';
+
 	shapes.push( box );
 
 	engine.core.scene.add( box );

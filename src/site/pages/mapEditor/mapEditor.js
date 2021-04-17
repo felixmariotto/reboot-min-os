@@ -149,6 +149,8 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 	engine.core.scene.clear();
 
+	engine.core.scene.add( transformControl );
+
 	makeGrid();
 
 	e.detail.forEach( (bodyInfo) => {

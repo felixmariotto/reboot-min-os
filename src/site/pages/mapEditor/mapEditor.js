@@ -80,6 +80,28 @@ toolsOptions.append(
 	shapes.domOptions
 );
 
+// SHAPE SELECTION
+
+let selectedShape = null;
+
+function selectShape( shape ) {
+
+	selectedShape = shape;
+
+	shapes.setAllUnselectedMaterial();
+
+	shapes.setSelectedMaterial( selectedShape );
+
+}
+
+// HANDLE TOOLS EVENTS
+
+window.addEventListener( 'created-shape', (e) => {
+
+	selectShape( e.detail );
+
+} );
+
 //
 
 editorPage.start = function start() {
@@ -88,28 +110,33 @@ editorPage.start = function start() {
 
 	//
 
-	const size = 10;
-	const divisions = 10;
+	const size = 50;
+	const divisions = 50;
 
 	const gridHelper = new engine.THREE.GridHelper( size, divisions );
-	engine.core.scene.add( gridHelper );
+	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
+	engine.core.scene.add( gridHelper, axesHelper );
 
 	//
 
+	/*
 	const mesh = new engine.THREE.Mesh(
 		new engine.THREE.BoxGeometry(),
 		new engine.THREE.MeshNormalMaterial()
 	);
 
 	engine.core.scene.add( mesh );
+	*/
 
-	engine.cameraControls.orbitObj( mesh );
+	engine.cameraControls.orbitObj( engine.core.scene );
 
 	//
 
 	engine.core.listenClick( (intersects) => {
 
-		console.log( 'intersects', intersects )
+		const a = intersects.find( intersect => intersect.object.isEditorShape );
+
+		if ( a ) selectShape( a.object );
 
 	} );
 

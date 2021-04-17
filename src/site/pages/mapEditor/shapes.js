@@ -47,7 +47,39 @@ function createSphere() {
 
 function createBox() {
 
-	console.log('create a box');
+	const box = new engine.THREE.Mesh(
+		new engine.THREE.BoxGeometry(),
+		new engine.THREE.MeshNormalMaterial()
+	);
+
+	box.isEditorShape = true;
+
+	shapes.push( box );
+
+	engine.core.scene.add( box );
+
+	// create and dispatch the event
+	const event = new CustomEvent( 'created-shape', { detail: box } );
+
+	window.dispatchEvent( event );
+
+}
+
+function setAllUnselectedMaterial() {
+
+	shapes.forEach( (shape) => {
+
+		shape.material.wireframe = false;
+
+	} );
+
+}
+
+function setSelectedMaterial( shape ) {
+
+	console.log( shape )
+
+	shape.material.wireframe = true;
 
 }
 
@@ -55,5 +87,7 @@ function createBox() {
 
 export default {
 	shapes,
-	domOptions: shapesOptions
+	domOptions: shapesOptions,
+	setAllUnselectedMaterial,
+	setSelectedMaterial
 }

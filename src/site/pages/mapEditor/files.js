@@ -26,7 +26,13 @@ function makeButton( text, callback ) {
 
 function saveAsJSON() {
 
-	console.log( 'save as JSON' );
+	const content = JSON.stringify( { a: 'foo' } );
+	const file = new Blob( [content], { type: 'text/plain' } );
+
+	const a = document.createElement("a");
+	a.href = URL.createObjectURL( file );
+	a.download = 'game-map-' + new Date().toLocaleString() + '.txt'; // name of the file
+	a.click();
 
 }
 
@@ -35,8 +41,27 @@ function importJSON() {
 	if ( window.confirm( 'Are you sure to import a scene and erase the current scene ?' ) ) {
 
 		console.log( 'import JSON' );
-		
+
+		const input = document.createElement('INPUT');
+		input.type = 'file';
+		input.addEventListener('change', (e) => {
+
+			const file = e.target.files[0];
+
+    		file
+    		.text()
+    		.then( (text) => emitSceneData( JSON.parse( text ) ) );
+
+		} );
+		input.click();
+
 	}
+
+}
+
+function emitSceneData( sceneData ) {
+
+	console.log( sceneData )
 
 }
 

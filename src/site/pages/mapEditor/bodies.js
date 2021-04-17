@@ -103,15 +103,33 @@ function deleteBody() {
 
 function addToBody() {
 
+	if ( !selectedBody ) return
+
 	const selectedShape = shapes.getSelected();
 
-	console.log( selectedShape );
+	if ( !selectedBody.shapes.some( v => v === selectedShape ) ) {
+
+		selectedBody.shapes.push( selectedShape );
+
+	}
+
+	console.log( selectedBody.shapes );
 
 }
 
 function removeFromBody() {
 
-	console.log( 'remove from body' )
+	if ( !selectedBody ) return
+
+	const selectedShape = shapes.getSelected();
+
+	if ( selectedBody.shapes.some( v => v === selectedShape ) ) {
+
+		selectedBody.shapes.splice( selectedBody.shapes.indexOf( selectedShape ), 1 );
+
+	}
+
+	console.log( selectedBody.shapes );
 
 }
 
@@ -161,6 +179,7 @@ function Body() {
 		name,
 		updateName,
 		clear,
+		shapes: [],
 		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 

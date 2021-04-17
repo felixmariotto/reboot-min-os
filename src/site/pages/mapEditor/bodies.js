@@ -7,6 +7,8 @@ import './bodies.css';
 
 const bodies = [];
 
+let selectedBody = null;
+
 const bodiesOptions = elem({ classes: 'tool-options' });
 
 //
@@ -57,19 +59,14 @@ function selectBody( body ) {
 
 	body.domElement.classList.add( 'selected' );
 
-	const event = new CustomEvent( 'select-body', { detail: body } );
-
-	window.dispatchEvent( event );
-
+	selectedBody = body;
 }
 
 function unselectedAll() {
 
 	bodies.forEach( body => body.domElement.classList.remove( 'selected' ) );
 
-	const event = new CustomEvent( 'unselected-body' );
-
-	window.dispatchEvent( event );
+	selectedBody = null;
 
 }
 
@@ -89,7 +86,17 @@ function addBody() {
 
 function deleteBody() {
 
-	console.log( 'delete body' )
+	if ( !selectedBody ) return
+
+	if ( window.confirm( 'Are you sure to delete this body ?' ) ) {
+
+		bodies.splice( bodies.indexOf( selectedBody ), 1 );
+
+		selectedBody.clear();
+
+		selectedBody = null;
+
+	}
 
 }
 
@@ -136,12 +143,21 @@ function Body() {
 	const name = ( Math.random() * 1000000000 ).toFixed( 0 );
 
 	function updateName( text ) {
-		this.name = text
+
+		this.name = text;
+
+	}
+
+	function clear() {
+
+		this.domElement.remove();
+
 	}
 
 	return {
 		name,
 		updateName,
+		clear,
 		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 

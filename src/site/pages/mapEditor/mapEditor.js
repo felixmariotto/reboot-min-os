@@ -106,22 +106,6 @@ window.addEventListener( 'created-shape', (e) => {
 
 } );
 
-// BODIES
-
-let selectedBody = null;
-
-window.addEventListener( 'select-body', (e) => {
-
-	selectedBody = e.detail;
-
-} );
-
-window.addEventListener( 'unselected-body', () => {
-
-	selectedBody = null;
-
-} );
-
 //  EVENT LISTENERS
 
 window.addEventListener( 'keydown', (e) => {

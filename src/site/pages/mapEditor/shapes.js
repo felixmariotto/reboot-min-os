@@ -108,11 +108,45 @@ function getSelected() {
 
 }
 
+function fromInfo( info ) {
+
+	switch ( info.type ) {
+
+		case 'box' :
+
+			const box = new engine.THREE.Mesh(
+				new engine.THREE.BoxGeometry(),
+				new engine.THREE.MeshNormalMaterial()
+			);
+
+			box.rotation.copy( info.rot );
+			box.position.copy( info.pos );
+			box.scale.set(
+				info.width,
+				info.height,
+				info.depth
+			);
+
+			box.isEditorShape = true;
+
+			box.shapeType = 'box';
+
+			shapes.push( box );
+
+			engine.core.scene.add( box );
+
+			return box
+
+	}
+
+}
+
 //
 
 export default {
 	shapes,
 	domOptions: shapesOptions,
 	selectShape,
-	getSelected
+	getSelected,
+	fromInfo
 }

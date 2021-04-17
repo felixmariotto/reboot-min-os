@@ -103,7 +103,9 @@ window.addEventListener( 'scene-graph-request', (e) => {
 
 	const parsedBodies = bodies.bodies.map( (body) => {
 
-		const parsedBody = {};
+		const parsedBody = {
+			trans: body.transformCode
+		};
 
 		parsedBody.shapes = body.threeObj.children.map( (shape) => {
 
@@ -115,7 +117,8 @@ window.addEventListener( 'scene-graph-request', (e) => {
 						rot: shape.rotation,
 						width: shape.scale.x,
 						height: shape.scale.y,
-						depth: shape.scale.z
+						depth: shape.scale.z,
+						type: 'box'
 					}
 				break
 
@@ -133,7 +136,26 @@ window.addEventListener( 'scene-graph-request', (e) => {
 
 window.addEventListener( 'scene-graph-loaded', (e) => {
 
-	console.log( 'loaded scene graph', e.detail );
+	engine.core.scene.traverse( (child) => {
+
+		if ( child.shapeType || child.isBody ) {
+
+			child.material.dispose();
+			child.geometry.dispose();
+
+		}
+
+	} );
+
+	engine.core.scene.clear();
+
+	makeGrid();
+
+	e.detail.forEach( (bodyInfo) => {
+
+		const body = bodies.fromInfo( bodyInfo );
+
+	} );
 
 } );
 
@@ -175,15 +197,9 @@ editorPage.start = function start() {
 
 	engine.core.scene.add( transformControl );
 
-	// GRID
+	//
 
-	const size = 50;
-	const divisions = 50;
-
-	const gridHelper = new engine.THREE.GridHelper( size, divisions );
-	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
-
-	engine.core.scene.add( gridHelper, axesHelper );
+	makeGrid();
 
 	//
 
@@ -220,6 +236,20 @@ editorPage.start = function start() {
 function updateObject( code ) {
 
 	eval( code );
+
+}
+
+//
+
+function makeGrid() {
+
+	const size = 50;
+	const divisions = 50;
+
+	const gridHelper = new engine.THREE.GridHelper( size, divisions );
+	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
+
+	engine.core.scene.add( gridHelper, axesHelper );
 
 }
 

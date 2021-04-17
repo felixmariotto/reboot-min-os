@@ -37,7 +37,7 @@ function makeTool( iconClasses, callback ) {
 
 	const button = Button( toolIcon );
 
-	button.onclick = callback;
+	button.onclick = () => callback();
 
 	return button
 
@@ -101,15 +101,15 @@ function deleteBody() {
 
 }
 
-function addToBody() {
+function addToBody( shape, body ) {
 
-	const selectedShape = shapes.getSelected();
+	shape = shape || shapes.getSelected();
+	body = body || selectedBody;
+	if ( !body || !shape ) return
 
-	if ( !selectedBody || !selectedShape ) return
+	body.threeObj.add( shape );
 
-	selectedBody.threeObj.add( selectedShape );
-
-	console.log( selectedBody.threeObj.children );
+	// console.log( body.threeObj.children );
 
 }
 
@@ -140,6 +140,26 @@ function hideBody() {
 	if ( !selectedBody ) return
 
 	selectedBody.threeObj.visible = false;
+
+}
+
+//
+
+function fromInfo( info ) {
+
+	const newBody = Body();
+
+	bodies.push( newBody );
+
+	bodiesList.append( newBody.domElement );
+
+	newBody.domElement.onclick = () => { selectBody( newBody ) }
+
+	info.shapes.forEach( (shapeInfo) => {
+
+		addToBody( shapes.fromInfo( shapeInfo ), newBody );
+
+	} );
 
 }
 
@@ -213,6 +233,7 @@ function Body() {
 		clear,
 		threeObj,
 		isBody: true,
+		transformCode: null,
 		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 
@@ -222,5 +243,6 @@ function Body() {
 
 export default {
 	bodies,
-	domOptions: bodiesOptions
+	domOptions: bodiesOptions,
+	fromInfo
 }

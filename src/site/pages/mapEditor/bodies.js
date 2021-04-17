@@ -149,6 +149,8 @@ function fromInfo( info ) {
 
 	const newBody = Body();
 
+	newBody.transformCode = info.trans;
+
 	bodies.push( newBody );
 
 	bodiesList.append( newBody.domElement );
@@ -197,6 +199,8 @@ codeInput.addEventListener( 'validate', (e) => {
 	codeInput.toggle();
 
 	if ( selectedBody ) selectedBody.transformCode = transformCode;
+
+	window.removeEventListener( 'keydown', handleEscapeCodeInput );
 
 } );
 

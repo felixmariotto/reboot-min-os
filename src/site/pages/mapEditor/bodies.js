@@ -107,13 +107,9 @@ function addToBody() {
 
 	const selectedShape = shapes.getSelected();
 
-	if ( !selectedBody.shapes.some( v => v === selectedShape ) ) {
+	selectedBody.threeObj.add( selectedShape );
 
-		selectedBody.shapes.push( selectedShape );
-
-	}
-
-	console.log( selectedBody.shapes );
+	console.log( selectedBody.threeObj.children );
 
 }
 
@@ -123,13 +119,11 @@ function removeFromBody() {
 
 	const selectedShape = shapes.getSelected();
 
-	if ( selectedBody.shapes.some( v => v === selectedShape ) ) {
+	selectedBody.threeObj.remove( selectedShape );
 
-		selectedBody.shapes.splice( selectedBody.shapes.indexOf( selectedShape ), 1 );
+	engine.core.scene.add( selectedShape );
 
-	}
-
-	console.log( selectedBody.shapes );
+	console.log( selectedBody.threeObj.chidlren );
 
 }
 
@@ -163,15 +157,33 @@ function Body() {
 
 	const name = ( Math.random() * 10000000 ).toFixed( 0 );
 
+	const threeObj = new engine.THREE.Object3D();
+
+	engine.core.scene.add( threeObj );
+
+	//
+
 	function updateName( text ) {
 
 		this.name = text;
 
 	}
 
+	//
+
 	function clear() {
 
 		this.domElement.remove();
+
+		this.threeObj.traverse( (child) => {
+
+			if ( child === this.threeObj ) return
+
+			engine.core.scene.add( child );
+
+		} );
+
+		this.threeObj.parent.remove( this.threeObj );
 
 	}
 
@@ -179,7 +191,7 @@ function Body() {
 		name,
 		updateName,
 		clear,
-		shapes: [],
+		threeObj,
 		domElement: elem({ classes: 'editor-body-line', html: name })
 	}
 

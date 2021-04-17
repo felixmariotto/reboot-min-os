@@ -115,7 +115,7 @@ function onClick() {
 		raycaster.setFromCamera( mouse, camera );
 
 		// calculate objects intersecting the picking ray
-		const intersects = raycaster.intersectObjects( scene.children );
+		const intersects = raycaster.intersectObjects( scene.children, true );
 
 		if ( intersects.length ) {
 

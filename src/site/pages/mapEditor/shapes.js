@@ -74,7 +74,17 @@ function unselectAll() {
 
 	selectedShape = null;
 
+	const event = new CustomEvent( 'end-transform' );
+
+	window.dispatchEvent( event );
+
 }
+
+window.addEventListener( 'keydown', (e) => {
+
+	if ( e.code === "Escape" ) unselectAll();
+
+} );
 
 function selectShape( shape ) {
 

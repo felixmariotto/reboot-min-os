@@ -117,6 +117,12 @@ window.addEventListener( 'transform-shape', (e) => {
 
 } );
 
+window.addEventListener( 'end-transform', (e) => {
+
+	transformControl.detach();
+
+} );
+
 // INITIALIZATION
 
 editorPage.start = function start() {

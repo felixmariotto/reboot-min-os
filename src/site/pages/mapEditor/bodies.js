@@ -104,9 +104,9 @@ function deleteBody() {
 
 function addToBody() {
 
-	if ( !selectedBody ) return
-
 	const selectedShape = shapes.getSelected();
+
+	if ( !selectedBody || !selectedShape ) return
 
 	selectedBody.threeObj.add( selectedShape );
 
@@ -116,9 +116,9 @@ function addToBody() {
 
 function removeFromBody() {
 
-	if ( !selectedBody ) return
-
 	const selectedShape = shapes.getSelected();
+
+	if ( !selectedBody || !selectedShape ) return
 
 	selectedBody.threeObj.remove( selectedShape );
 
@@ -130,13 +130,17 @@ function removeFromBody() {
 
 function showBody() {
 
-	console.log( 'show body' );
+	if ( !selectedBody ) return
+
+	selectedBody.threeObj.visible = true;
 
 }
 
 function hideBody() {
 
-	console.log( 'hide body' );
+	if ( !selectedBody ) return
+
+	selectedBody.threeObj.visible = false;
 
 }
 

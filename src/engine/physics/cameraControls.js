@@ -215,6 +215,8 @@ function orbitObj( target ) {
 
 	controls.target.copy( target.position );
 
+	return controls
+
 }
 
 //

@@ -77,8 +77,6 @@ function setAllUnselectedMaterial() {
 
 function setSelectedMaterial( shape ) {
 
-	console.log( shape )
-
 	shape.material.wireframe = true;
 
 }

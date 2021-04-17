@@ -1,5 +1,7 @@
 
 import * as THREE from 'three';
+import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 import core from './core/core.js';
 import files from './files/files.js';
@@ -19,6 +21,8 @@ if ( window ) {
 		{},
 		{
 			THREE,
+			TransformControls,
+			OrbitControls,
 			core,
 			files,
 			cameraControls,

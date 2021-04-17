@@ -83,6 +83,7 @@ function onMouseMove( event ) {
 
 		mouse.x -= 1;
 		mouse.y -= 1;
+		mouse.y *= -1;
 
 		// look for intersection in the scene
 

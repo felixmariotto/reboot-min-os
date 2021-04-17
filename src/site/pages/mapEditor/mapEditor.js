@@ -5,6 +5,10 @@ import './mapEditor.css';
 import bodies from './bodies.js';
 import shapes from './shapes.js';
 
+//
+
+let transformControl;
+
 const toolModules = [ bodies, shapes ];
 
 //
@@ -92,9 +96,21 @@ function selectShape( shape ) {
 
 	shapes.setSelectedMaterial( selectedShape );
 
+	transformControl.attach( shape );
+
 }
 
-// HANDLE TOOLS EVENTS
+//  EVENT LISTENERS
+
+window.addEventListener( 'keydown', (e) => {
+
+	switch ( e.keyCode ) {
+
+		case 83 : switchTransformMode();
+
+	}
+
+} );
 
 window.addEventListener( 'created-shape', (e) => {
 
@@ -102,33 +118,49 @@ window.addEventListener( 'created-shape', (e) => {
 
 } );
 
-//
+// TRANSFORM CONTROLS
+
+const transformModes = [ 'translate', 'rotate', 'scale' ];
+let transformMode = 0;
+
+function switchTransformMode() {
+
+	if ( !transformControl ) return
+
+	transformMode = ( transformMode + 1 ) % 3;
+
+	transformControl.setMode( transformModes[ transformMode ] );
+
+}
+
+// INITIALIZATION
 
 editorPage.start = function start() {
 
 	engine.core.init( editorViewport );
 
-	//
+	transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
+	transformControl.setSpace( 'local' );
+
+	engine.core.scene.add( transformControl );
+
+	// GRID
 
 	const size = 50;
 	const divisions = 50;
 
 	const gridHelper = new engine.THREE.GridHelper( size, divisions );
 	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
+
 	engine.core.scene.add( gridHelper, axesHelper );
 
 	//
 
-	/*
-	const mesh = new engine.THREE.Mesh(
-		new engine.THREE.BoxGeometry(),
-		new engine.THREE.MeshNormalMaterial()
-	);
+	const orbitControls = engine.cameraControls.orbitObj( engine.core.scene );
 
-	engine.core.scene.add( mesh );
-	*/
+	transformControl.addEventListener( 'mouseDown', () => orbitControls.enabled = false );
 
-	engine.cameraControls.orbitObj( engine.core.scene );
+	transformControl.addEventListener( 'mouseUp', () => orbitControls.enabled = true );
 
 	//
 

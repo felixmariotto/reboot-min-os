@@ -1,4 +1,9 @@
 
 #editor-files-options {
-	background-color: red;
+	background-color: #111111;
+	padding: 20px;
+}
+
+#editor-files-options > * {
+	margin-bottom: 10px;
 }

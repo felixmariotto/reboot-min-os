@@ -2,6 +2,7 @@
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import './bodies.css';
+import shapes from './shapes.js';
 
 //
 
@@ -102,7 +103,9 @@ function deleteBody() {
 
 function addToBody() {
 
-	console.log( 'add to body' )
+	const selectedShape = shapes.getSelected();
+
+	console.log( selectedShape );
 
 }
 
@@ -140,7 +143,7 @@ function setTransformFunction() {
 
 function Body() {
 
-	const name = ( Math.random() * 1000000000 ).toFixed( 0 );
+	const name = ( Math.random() * 10000000 ).toFixed( 0 );
 
 	function updateName( text ) {
 

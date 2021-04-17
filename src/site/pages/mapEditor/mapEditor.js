@@ -84,28 +84,6 @@ toolsOptions.append(
 	shapes.domOptions
 );
 
-// SHAPES
-
-let selectedShape = null;
-
-function selectShape( shape ) {
-
-	selectedShape = shape;
-
-	shapes.setAllUnselectedMaterial();
-
-	shapes.setSelectedMaterial( selectedShape );
-
-	transformControl.attach( shape );
-
-}
-
-window.addEventListener( 'created-shape', (e) => {
-
-	selectShape( e.detail );
-
-} );
-
 //  EVENT LISTENERS
 
 window.addEventListener( 'keydown', (e) => {
@@ -132,6 +110,12 @@ function switchTransformMode() {
 	transformControl.setMode( transformModes[ transformMode ] );
 
 }
+
+window.addEventListener( 'transform-shape', (e) => {
+
+	transformControl.attach( e.detail );
+
+} );
 
 // INITIALIZATION
 
@@ -168,7 +152,7 @@ editorPage.start = function start() {
 
 		const a = intersects.find( intersect => intersect.object.isEditorShape );
 
-		if ( a ) selectShape( a.object );
+		if ( a ) shapes.selectShape( a.object );
 
 	} );
 

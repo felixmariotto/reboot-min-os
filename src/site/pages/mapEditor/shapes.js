@@ -7,6 +7,8 @@ import './shapes.css';
 
 const shapes = [];
 
+let selectedShape;
+
 const shapesOptions = elem({ id: 'editor-shapes-options', classes: 'tool-options' });
 
 //
@@ -58,13 +60,11 @@ function createBox() {
 
 	engine.core.scene.add( box );
 
-	const event = new CustomEvent( 'created-shape', { detail: box } );
-
-	window.dispatchEvent( event );
+	selectShape( box );
 
 }
 
-function setAllUnselectedMaterial() {
+function unselectAll() {
 
 	shapes.forEach( (shape) => {
 
@@ -72,11 +72,27 @@ function setAllUnselectedMaterial() {
 
 	} );
 
+	selectedShape = null;
+
 }
 
-function setSelectedMaterial( shape ) {
+function selectShape( shape ) {
+
+	unselectAll();
 
 	shape.material.wireframe = true;
+
+	selectedShape = shape;
+
+	const event = new CustomEvent( 'transform-shape', { detail: shape } );
+
+	window.dispatchEvent( event );
+
+}
+
+function getSelected() {
+
+	return selectedShape;
 
 }
 
@@ -85,6 +101,6 @@ function setSelectedMaterial( shape ) {
 export default {
 	shapes,
 	domOptions: shapesOptions,
-	setAllUnselectedMaterial,
-	setSelectedMaterial
+	selectShape,
+	getSelected
 }

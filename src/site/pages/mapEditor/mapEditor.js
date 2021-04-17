@@ -156,6 +156,24 @@ editorPage.start = function start() {
 
 	} );
 
+	//
+
+	engine.core.callInLoop( () => {
+
+		bodies.bodies.forEach( (body) => {
+
+			updateObject.call( body.threeObj, body.transformCode );
+
+		} );
+
+	} );
+
+}
+
+function updateObject( code ) {
+
+	eval( code );
+
 }
 
 //

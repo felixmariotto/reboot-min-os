@@ -1,6 +1,7 @@
 
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
+import codeInput from '../../components/codeInput/codeInput.js';
 import './bodies.css';
 import shapes from './shapes.js';
 
@@ -28,7 +29,7 @@ toolBar.append(
 	makeTool( 'fas fa-lightbulb-on', showBody ),
 	makeTool( 'far fa-lightbulb', hideBody ),
 	makeTool( 'fas fa-pen-alt', nameBody ),
-	makeTool( 'fas fa-code', setTransformFunction )
+	makeTool( 'fas fa-code', showCodeInput )
 );
 
 function makeTool( iconClasses, callback ) {
@@ -123,7 +124,7 @@ function removeFromBody() {
 
 	engine.core.scene.add( selectedShape );
 
-	console.log( selectedBody.threeObj.chidlren );
+	console.log( selectedBody.threeObj.children );
 
 }
 
@@ -145,11 +146,42 @@ function nameBody() {
 
 }
 
-function setTransformFunction() {
+// TRANSFORMATION CODE
 
-	console.log( 'set transform function' );
+function showCodeInput() {
+
+	if ( !selectedBody ) return
+
+	window.addEventListener( 'keydown', handleEscapeCodeInput );
+
+	codeInput.toggle();
+	codeInput.setContent( selectedBody.transformCode );
 
 }
+
+function handleEscapeCodeInput( e ) {
+
+	if ( e.code === 'Escape' ) {
+
+		codeInput.reset();
+		codeInput.toggle();
+
+		window.removeEventListener( 'keydown', handleEscapeCodeInput );
+
+	}
+
+}
+
+codeInput.addEventListener( 'validate', (e) => {
+
+	const transformCode = e.detail;
+
+	codeInput.reset();
+	codeInput.toggle();
+
+	if ( selectedBody ) selectedBody.transformCode = transformCode;
+
+} );
 
 //
 

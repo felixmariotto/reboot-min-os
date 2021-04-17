@@ -28,7 +28,6 @@ toolBar.append(
 	makeTool( 'fas fa-file-export', removeFromBody ),
 	makeTool( 'fas fa-lightbulb-on', showBody ),
 	makeTool( 'far fa-lightbulb', hideBody ),
-	makeTool( 'fas fa-pen-alt', nameBody ),
 	makeTool( 'fas fa-code', showCodeInput )
 );
 
@@ -144,12 +143,6 @@ function hideBody() {
 
 }
 
-function nameBody() {
-
-	console.log( 'name body' );
-
-}
-
 // TRANSFORMATION CODE
 
 function showCodeInput() {
@@ -191,19 +184,11 @@ codeInput.addEventListener( 'validate', (e) => {
 
 function Body() {
 
-	const name = ( Math.random() * 10000000 ).toFixed( 0 );
+	const name = Math.random().toString(36).substring(7);
 
 	const threeObj = new engine.THREE.Object3D();
 
 	engine.core.scene.add( threeObj );
-
-	//
-
-	function updateName( text ) {
-
-		this.name = text;
-
-	}
 
 	//
 
@@ -225,7 +210,6 @@ function Body() {
 
 	return {
 		name,
-		updateName,
 		clear,
 		threeObj,
 		domElement: elem({ classes: 'editor-body-line', html: name })

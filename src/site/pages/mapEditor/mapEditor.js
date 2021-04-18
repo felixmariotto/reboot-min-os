@@ -10,7 +10,7 @@ import hero from './hero.js';
 
 //
 
-let transformControl, heroHelper, chainHelper;
+let transformControl, heroHelper, chainHelper, chainStartBody;
 
 const toolModules = [ bodies, shapes, files, chain, hero ];
 
@@ -110,6 +110,7 @@ window.addEventListener( 'scene-graph-request', (e) => {
 	const parsedBodies = bodies.bodies.map( (body) => {
 
 		const parsedBody = {
+			name: body.name,
 			trans: body.transformCode
 		};
 
@@ -212,6 +213,11 @@ window.addEventListener( 'end-transform', (e) => {
 
 editorPage.start = function start() {
 
+	const _vec0 = new engine.THREE.Vector3();
+	const _vec1 = new engine.THREE.Vector3();
+
+	//
+
 	engine.core.init( editorViewport );
 
 	transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
@@ -231,8 +237,8 @@ editorPage.start = function start() {
 	});
 
 	const chainHelperPoints = [
-		new engine.THREE.Vector3( 5, 5, 0 ),
-		new engine.THREE.Vector3( -5, -5, 0 )
+		new engine.THREE.Vector3( 0, 0, 0 ),
+		new engine.THREE.Vector3( 0, 0, 0 )
 	];
 
 	const chainHelperGeometry = new engine.THREE.BufferGeometry().setFromPoints( chainHelperPoints );
@@ -241,6 +247,12 @@ editorPage.start = function start() {
 	engine.core.scene.add( chainHelper );
 
 	chainHelper.updateHelper = function ( params ) {
+
+		const startBody = bodies.getFromName( params.start.bodyName );
+
+		chainStartBody = startBody;
+
+		//
 
 		heroHelper.updateMatrixWorld();
 
@@ -256,13 +268,37 @@ editorPage.start = function start() {
 			Number( params.end.z )
 		);
 
+		/*
+		//
+
 		heroHelper.localToWorld( chainHelperPoints[1] );
 
-		chainHelperGeometry.setFromPoints( chainHelperPoints );
+		if ( chainStartBody ) chainStartBody.localToWorld( chainHelperPoints[0] )
 
-		console.log( 'must update chain start' )
+		//
+
+		chainHelperGeometry.setFromPoints( chainHelperPoints );
+		*/
 
 	}
+
+	engine.core.callInLoop( () => {
+
+		_vec0.copy( chainHelperPoints[0] );
+
+		_vec1.copy( chainHelperPoints[1] );
+
+		//
+
+		if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec0 );
+
+		heroHelper.localToWorld( _vec1 );
+
+		//
+
+		chainHelperGeometry.setFromPoints( [ _vec0, _vec1 ] );
+
+	} );
 
 	//
 

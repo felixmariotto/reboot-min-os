@@ -165,6 +165,14 @@ function fromInfo( info ) {
 
 }
 
+//
+
+function getFromName( name ) {
+
+	return bodies.find( body => body.name === name );
+
+}
+
 // TRANSFORMATION CODE
 
 function showCodeInput() {
@@ -208,7 +216,7 @@ codeInput.addEventListener( 'validate', (e) => {
 
 function Body() {
 
-	const name = Math.random().toString(36).substring(7);
+	const name = Math.random().toString(36).substring(8);
 
 	const threeObj = new engine.THREE.Object3D();
 
@@ -248,5 +256,6 @@ function Body() {
 export default {
 	bodies,
 	domOptions: bodiesOptions,
-	fromInfo
+	fromInfo,
+	getFromName
 }

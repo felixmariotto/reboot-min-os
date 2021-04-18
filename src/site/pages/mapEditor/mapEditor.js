@@ -5,12 +5,13 @@ import './mapEditor.css';
 import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
+import chain from './chain.js';
 
 //
 
 let transformControl;
 
-const toolModules = [ bodies, shapes, files ];
+const toolModules = [ bodies, shapes, files, chain ];
 
 //
 
@@ -42,7 +43,8 @@ rightContainer.append( tools, toolsOptions );
 tools.append(
 	makeToolButton( 'bodies', bodies ),
 	makeToolButton( 'shapes', shapes ),
-	makeToolButton( 'files', files )
+	makeToolButton( 'files', files ),
+	makeToolButton( 'chain', chain )
 );
 
 function makeToolButton( name, toolModule ) {
@@ -84,7 +86,8 @@ function hideAllTools() {
 toolsOptions.append(
 	bodies.domOptions,
 	shapes.domOptions,
-	files.domOptions
+	files.domOptions,
+	chain.domOptions
 );
 
 //  EVENT LISTENERS

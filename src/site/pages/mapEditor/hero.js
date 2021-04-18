@@ -26,6 +26,7 @@ function makeInput( title ) {
 	container.append( title, input );
 
 	container.getValue = () => input.value;
+	container.setValue = (v) => input.value = v;
 
 	input.onchange = handleChange;
 
@@ -37,13 +38,7 @@ function makeInput( title ) {
 
 function handleChange() {
 
-	const pos = {
-		x: x.getValue(),
-		y: y.getValue(),
-		z: z.getValue()
-	};
-
-	const event = new CustomEvent( 'update-hero', { detail: pos } );
+	const event = new CustomEvent( 'update-hero', { detail: getPosition() } );
 
 	window.dispatchEvent( event );
 
@@ -51,6 +46,28 @@ function handleChange() {
 
 //
 
+function getPosition() {
+
+	return {
+		x: x.getValue(),
+		y: y.getValue(),
+		z: z.getValue()
+	};
+
+}
+
+function fromInfo( info ) {
+
+	x.setValue( info.x );
+	y.setValue( info.y );
+	z.setValue( info.z );
+
+}
+
+//
+
 export default {
-	domOptions: heroOptions
+	domOptions: heroOptions,
+	getPosition,
+	fromInfo
 }

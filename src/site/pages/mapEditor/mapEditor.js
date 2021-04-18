@@ -42,9 +42,11 @@ rightContainer.append( tools, toolsOptions );
 //
 
 tools.append(
+	makeToolButton( 'files', files ),
+	'//',
 	makeToolButton( 'bodies', bodies ),
 	makeToolButton( 'shapes', shapes ),
-	makeToolButton( 'files', files ),
+	'//',
 	makeToolButton( 'chain', chain ),
 	makeToolButton( 'hero', hero )
 );
@@ -107,7 +109,12 @@ window.addEventListener( 'keydown', (e) => {
 
 window.addEventListener( 'scene-graph-request', (e) => {
 
-	const parsedBodies = bodies.bodies.map( (body) => {
+	const sceneInfo = {
+		chain: chain.getParams(),
+		hero: hero.getPosition()
+	}
+
+	sceneInfo.bodies = bodies.bodies.map( (body) => {
 
 		const parsedBody = {
 			name: body.name,
@@ -137,11 +144,15 @@ window.addEventListener( 'scene-graph-request', (e) => {
 
 	} );
 
-	files.saveAsJSON( parsedBodies );
+	files.saveAsJSON( sceneInfo );
 
 } );
 
 window.addEventListener( 'scene-graph-loaded', (e) => {
+
+	const info = e.detail;
+
+	// clear old project
 
 	engine.core.scene.traverse( (child) => {
 
@@ -160,11 +171,17 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 	makeGrid();
 
-	e.detail.forEach( (bodyInfo) => {
+	// copy file params in project
+
+	info.bodies.forEach( (bodyInfo) => {
 
 		const body = bodies.fromInfo( bodyInfo );
 
 	} );
+
+	chain.fromInfo( info.chain );
+
+	hero.fromInfo( info.hero );
 
 } );
 

@@ -66,6 +66,7 @@ function makeInput( title, defaultVal ) {
 	container.append( title, input );
 
 	container.getValue = () => input.value;
+	container.setValue = (v) => input.value = v;
 
 	input.onchange = handleChange;
 
@@ -102,9 +103,23 @@ function handleChange() {
 
 }
 
+function fromInfo( info ) {
+
+	startBodyName.setValue( info.start.bodyName )
+	startX.setValue( info.start.x );
+	startY.setValue( info.start.y );
+	startZ.setValue( info.start.z );
+	endX.setValue( info.end.x );
+	endY.setValue( info.end.y );
+	endZ.setValue( info.end.z );
+	length.setValue( info.length );
+
+}
+
 //
 
 export default {
 	domOptions: chainOptions,
-	getParams
+	getParams,
+	fromInfo
 }

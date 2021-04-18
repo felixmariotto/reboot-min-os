@@ -10,32 +10,43 @@ const chainOptions = elem({ id: 'editor-chain-options', classes: 'tool-options' 
 
 const startSection = elem({ classes: 'editor-chain-section' });
 
+const startBodyName = makeInput( 'body name', '' )
+const startX = makeInput( 'x', 0 );
+const startY = makeInput( 'y', 0 );
+const startZ = makeInput( 'z', 0 );
+
 startSection.append(
 	elem({ tagName: 'P', html: 'START BODY END' }),
-	makeInput( 'body name', '' ),
-	makeInput( 'x', 0 ),
-	makeInput( 'y', 0 ),
-	makeInput( 'z', 0 )
+	startBodyName,
+	startX,
+	startY,
+	startZ
 );
 
 //
 
 const endSection = elem({ classes: 'editor-chain-section' });
 
+const endX = makeInput( 'x', 0 );
+const endY = makeInput( 'y', 0 );
+const endZ = makeInput( 'z', 0 );
+
 endSection.append(
 	elem({ tagName: 'P', html: 'PLAYER END' }),
-	makeInput( 'x', 0 ),
-	makeInput( 'y', 0 ),
-	makeInput( 'z', 0 )
+	endX,
+	endY,
+	endZ
 );
 
 //
 
 const lengthSection = elem({ classes: 'editor-chain-section' });
 
+const length = makeInput( 'length', 20 );
+
 lengthSection.append(
 	elem({ tagName: 'P', html: 'LENGTH' }),
-	makeInput( 'length', 20 )
+	length
 );
 
 //
@@ -54,12 +65,46 @@ function makeInput( title, defaultVal ) {
 
 	container.append( title, input );
 
+	container.getValue = () => input.value;
+
+	input.onchange = handleChange;
+
 	return container
 
 }
 
 //
 
+function getParams() {
+
+	return {
+		start: {
+			bodyName: startBodyName.getValue(),
+			x: startX.getValue(),
+			y: startY.getValue(),
+			z: startZ.getValue()
+		},
+		end: {
+			x: endX.getValue(),
+			y: endY.getValue(),
+			z: endZ.getValue()
+		},
+		length: length.getValue()
+	}
+
+}
+
+function handleChange() {
+
+	const event = new CustomEvent( 'update-chain', { detail: getParams() } );
+
+	window.dispatchEvent( event );
+
+}
+
+//
+
 export default {
-	domOptions: chainOptions
+	domOptions: chainOptions,
+	getParams
 }

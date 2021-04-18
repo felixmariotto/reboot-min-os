@@ -10,7 +10,7 @@ import hero from './hero.js';
 
 //
 
-let transformControl, heroHelper;
+let transformControl, heroHelper, chainHelper;
 
 const toolModules = [ bodies, shapes, files, chain, hero ];
 
@@ -171,6 +171,14 @@ window.addEventListener( 'update-hero', (e) => {
 
 	heroHelper.position.copy( e.detail );
 
+	chainHelper.updateHelper( chain.getParams() );
+
+} );
+
+window.addEventListener( 'update-chain', (e) => {
+
+	chainHelper.updateHelper( e.detail );
+
 } );
 
 // TRANSFORM CONTROLS
@@ -215,6 +223,46 @@ editorPage.start = function start() {
 	);
 
 	engine.core.scene.add( transformControl, heroHelper );
+
+	// chain helper
+
+	const material = new engine.THREE.LineBasicMaterial({
+		color: 0xff00ff
+	});
+
+	const chainHelperPoints = [
+		new engine.THREE.Vector3( 5, 5, 0 ),
+		new engine.THREE.Vector3( -5, -5, 0 )
+	];
+
+	const chainHelperGeometry = new engine.THREE.BufferGeometry().setFromPoints( chainHelperPoints );
+
+	chainHelper = new engine.THREE.Line( chainHelperGeometry, material );
+	engine.core.scene.add( chainHelper );
+
+	chainHelper.updateHelper = function ( params ) {
+
+		heroHelper.updateMatrixWorld();
+
+		chainHelperPoints[0].set(
+			Number( params.start.x ),
+			Number( params.start.y ),
+			Number( params.start.z )
+		);
+
+		chainHelperPoints[1].set(
+			Number( params.end.x ),
+			Number( params.end.y ),
+			Number( params.end.z )
+		);
+
+		heroHelper.localToWorld( chainHelperPoints[1] );
+
+		chainHelperGeometry.setFromPoints( chainHelperPoints );
+
+		console.log( 'must update chain start' )
+
+	}
 
 	//
 

@@ -40,22 +40,6 @@ export default function World() {
 
 			}
 
-			/*
-			if ( this.children.length ) {
-
-				this.children.forEach( (body) => {
-
-					if ( body.bodyType === constants.DYNAMIC_BODY ) {
-
-						console.log( body.velocity )
-						debugger
-
-					}
-
-				} );
-			}
-			*/
-
 		}
 
 	}

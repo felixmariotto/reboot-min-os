@@ -20,15 +20,10 @@ gamePage.start = function start() {
 
 	engine.files.loadLocalMapFile( ( sceneGraph ) => {
 
-		const world = engine.physics.WorldFromInfo( sceneGraph );
+		const params = engine.physics.WorldFromInfo( sceneGraph );
 
-		world.traverse( (child) => {
-
-			if ( child.makeHelper ) child.makeHelper();
-
-		} );
-
-		engine.core.scene.add( world );
+		engine.cameraControls.orbitDynamicObj( params.playerBody );
+		engine.characterControls.controlVelocity( params.playerBody );
 
 	} );
 

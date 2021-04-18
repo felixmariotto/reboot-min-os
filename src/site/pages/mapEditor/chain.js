@@ -12,10 +12,10 @@ const startSection = elem({ classes: 'editor-chain-section' });
 
 startSection.append(
 	elem({ tagName: 'P', html: 'START BODY END' }),
-	makeInput( 'body name' ),
-	makeInput( 'x' ),
-	makeInput( 'y' ),
-	makeInput( 'z' )
+	makeInput( 'body name', '' ),
+	makeInput( 'x', 0 ),
+	makeInput( 'y', 0 ),
+	makeInput( 'z', 0 )
 );
 
 //
@@ -24,23 +24,33 @@ const endSection = elem({ classes: 'editor-chain-section' });
 
 endSection.append(
 	elem({ tagName: 'P', html: 'PLAYER END' }),
-	makeInput( 'x' ),
-	makeInput( 'y' ),
-	makeInput( 'z' )
+	makeInput( 'x', 0 ),
+	makeInput( 'y', 0 ),
+	makeInput( 'z', 0 )
 );
 
 //
 
-chainOptions.append( startSection, endSection );
+const lengthSection = elem({ classes: 'editor-chain-section' });
+
+lengthSection.append(
+	elem({ tagName: 'P', html: 'LENGTH' }),
+	makeInput( 'length', 20 )
+);
 
 //
 
-function makeInput( title ) {
+chainOptions.append( startSection, endSection, lengthSection );
+
+//
+
+function makeInput( title, defaultVal ) {
 
 	const container = elem({ classes: 'editor-chain-input-container' });
 
 	const text = elem({ tagName: 'P', html: title });
 	const input = elem({ tagName: 'INPUT' });
+	input.value = defaultVal;
 
 	container.append( title, input );
 

@@ -123,7 +123,9 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			// transformation code that define pos and rot from a timestamp
 			transformCode: null,
 			updateTransform: function ( time ) {
-				if ( this.transformCode ) eval( this.tranformCode, time );
+				if ( this.transformCode ) {
+					eval( this.transformCode );
+				}
 			}, 
 			// velocity is in length-unit/graphic-frame
 			// used only if bodyType is DYNAMIC_BODY

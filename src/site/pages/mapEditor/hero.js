@@ -62,6 +62,8 @@ function fromInfo( info ) {
 	y.setValue( info.y );
 	z.setValue( info.z );
 
+	handleChange();
+
 }
 
 //

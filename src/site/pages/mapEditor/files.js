@@ -40,8 +40,6 @@ function importJSON() {
 
 	if ( window.confirm( 'Are you sure to import a scene and erase the current scene ?' ) ) {
 
-		console.log( 'import JSON' );
-
 		const input = document.createElement('INPUT');
 		input.type = 'file';
 		input.addEventListener('change', (e) => {

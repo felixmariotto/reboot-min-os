@@ -147,7 +147,7 @@ function hideBody() {
 
 function fromInfo( info ) {
 
-	const newBody = Body();
+	const newBody = Body( info.name );
 
 	newBody.transformCode = info.trans;
 
@@ -214,9 +214,9 @@ codeInput.addEventListener( 'validate', (e) => {
 
 //
 
-function Body() {
+function Body( name ) {
 
-	const name = Math.random().toString(36).substring(8);
+	name = name || Math.random().toString(36).substring(8);
 
 	const threeObj = new engine.THREE.Object3D();
 

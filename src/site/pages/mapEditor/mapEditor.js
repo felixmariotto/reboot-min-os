@@ -167,7 +167,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 	engine.core.scene.clear();
 
-	engine.core.scene.add( transformControl, heroHelper );
+	engine.core.scene.add( transformControl, heroHelper, chainHelper );
 
 	makeGrid();
 
@@ -182,6 +182,10 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 	chain.fromInfo( info.chain );
 
 	hero.fromInfo( info.hero );
+
+	//
+
+	if ( chainHelper ) chainHelper.updateHelper( chain.getParams() );
 
 } );
 
@@ -284,18 +288,6 @@ editorPage.start = function start() {
 			Number( params.end.y ),
 			Number( params.end.z )
 		);
-
-		/*
-		//
-
-		heroHelper.localToWorld( chainHelperPoints[1] );
-
-		if ( chainStartBody ) chainStartBody.localToWorld( chainHelperPoints[0] )
-
-		//
-
-		chainHelperGeometry.setFromPoints( chainHelperPoints );
-		*/
 
 	}
 

@@ -4,7 +4,7 @@ import loadingBox from '../../components/loadingBox/loadingBox.js';
 
 //
 
-const gamePage = elem({ id:'map-test-page', classes: 'game-container' });
+const gamePage = elem({ classes: 'game-container' });
 
 //
 

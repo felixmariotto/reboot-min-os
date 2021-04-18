@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import loadLocalMapFile from './loadLocalMapFile.js';
 
 //
 
@@ -26,5 +27,6 @@ function load( url, callback ) {
 //
 
 export default {
-	load
+	load,
+	loadLocalMapFile
 }

@@ -11,6 +11,8 @@ import Chain from './physicalObjects/Chain.js';
 import Box from './physicalObjects/Box.js';
 import Sphere from './physicalObjects/Sphere.js';
 
+import WorldFromInfo from './WorldFromInfo.js';
+
 //
 
 export default {
@@ -18,5 +20,6 @@ export default {
 	Body,
 	Chain,
 	Box,
-	Sphere
+	Sphere,
+	WorldFromInfo
 }

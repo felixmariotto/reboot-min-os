@@ -8,6 +8,7 @@ import mainGame from '../mainGame/mainGame.js';
 import characterTest from '../characterTest/characterTest.js';
 import physicsTest from '../physicsTest/physicsTest.js';
 import mapEditor from '../mapEditor/mapEditor.js';
+import mapTest from '../mapTest/mapTest.js';
 
 //
 
@@ -21,7 +22,8 @@ gamePicking.append(
 	makeGameButton( 'main game', mainGame ),
 	makeGameButton( 'character test', characterTest ),
 	makeGameButton( 'physics test', physicsTest ),
-	makeGameButton( 'map editor', mapEditor )
+	makeGameButton( 'map editor', mapEditor ),
+	makeGameButton( 'mapTest', mapTest )
 );
 
 homepage.append(

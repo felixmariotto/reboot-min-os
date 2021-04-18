@@ -120,6 +120,11 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			mass,
 			bounciness: 0,
 			damping: 0.005,
+			// transformation code that define pos and rot from a timestamp
+			transformCode: null,
+			updateTransform: function ( time ) {
+				if ( this.transformCode ) eval( this.tranformCode, time );
+			}, 
 			// velocity is in length-unit/graphic-frame
 			// used only if bodyType is DYNAMIC_BODY
 			velocity: new THREE.Vector3(),

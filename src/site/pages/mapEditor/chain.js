@@ -1,11 +1,10 @@
 
 import './chain.css';
-import Button from '../../components/button/Button.js';
-import { elem, icon } from '../../utils.js';
+import { elem } from '../../utils.js';
 
 //
 
-const miscOptions = elem({ id: 'editor-chain-options', classes: 'tool-options' });
+const chainOptions = elem({ id: 'editor-chain-options', classes: 'tool-options' });
 
 //
 
@@ -32,7 +31,7 @@ endSection.append(
 
 //
 
-miscOptions.append( startSection, endSection );
+chainOptions.append( startSection, endSection );
 
 //
 
@@ -52,5 +51,5 @@ function makeInput( title ) {
 //
 
 export default {
-	domOptions: miscOptions
+	domOptions: chainOptions
 }

@@ -1,0 +1,22 @@
+
+#editor-hero-options {
+	background-color: #111111;
+	padding: 20px;
+}
+
+	.editor-hero-input-container {
+		margin-bottom: 5px;
+		display: flex;
+		justify-content: space-between;
+		background-color: grey;
+		padding: 8px;
+	}
+
+		.editor-hero-input-container input {
+			width: 250px;
+			padding: 0 10px;
+		}
+
+		.editor-hero-input-container p {
+			margin-bottom: 10px;
+		}

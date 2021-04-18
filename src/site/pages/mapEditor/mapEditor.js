@@ -6,12 +6,13 @@ import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
 import chain from './chain.js';
+import hero from './hero.js';
 
 //
 
 let transformControl;
 
-const toolModules = [ bodies, shapes, files, chain ];
+const toolModules = [ bodies, shapes, files, chain, hero ];
 
 //
 
@@ -44,7 +45,8 @@ tools.append(
 	makeToolButton( 'bodies', bodies ),
 	makeToolButton( 'shapes', shapes ),
 	makeToolButton( 'files', files ),
-	makeToolButton( 'chain', chain )
+	makeToolButton( 'chain', chain ),
+	makeToolButton( 'hero', hero )
 );
 
 function makeToolButton( name, toolModule ) {
@@ -87,7 +89,8 @@ toolsOptions.append(
 	bodies.domOptions,
 	shapes.domOptions,
 	files.domOptions,
-	chain.domOptions
+	chain.domOptions,
+	hero.domOptions
 );
 
 //  EVENT LISTENERS

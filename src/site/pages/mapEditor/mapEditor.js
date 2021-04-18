@@ -10,7 +10,7 @@ import hero from './hero.js';
 
 //
 
-let transformControl;
+let transformControl, heroHelper;
 
 const toolModules = [ bodies, shapes, files, chain, hero ];
 
@@ -155,7 +155,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 	engine.core.scene.clear();
 
-	engine.core.scene.add( transformControl );
+	engine.core.scene.add( transformControl, heroHelper );
 
 	makeGrid();
 
@@ -164,6 +164,12 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 		const body = bodies.fromInfo( bodyInfo );
 
 	} );
+
+} );
+
+window.addEventListener( 'update-hero', (e) => {
+
+	heroHelper.position.copy( e.detail );
 
 } );
 
@@ -203,7 +209,12 @@ editorPage.start = function start() {
 	transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
 	transformControl.setSpace( 'local' );
 
-	engine.core.scene.add( transformControl );
+	heroHelper = new engine.THREE.Mesh(
+		new engine.THREE.SphereGeometry(),
+		engine.materials.characterMaterial
+	);
+
+	engine.core.scene.add( transformControl, heroHelper );
 
 	//
 

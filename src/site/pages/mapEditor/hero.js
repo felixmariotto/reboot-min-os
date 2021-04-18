@@ -8,11 +8,11 @@ const heroOptions = elem({ id: 'editor-hero-options', classes: 'tool-options' })
 
 //
 
-heroOptions.append(
-	makeInput( 'x' ),
-	makeInput( 'y' ),
-	makeInput( 'z' )
-);
+const x = makeInput( 'x' )
+const y = makeInput( 'y' )
+const z = makeInput( 'z' )
+
+heroOptions.append( x, y, z );
 
 //
 
@@ -25,7 +25,27 @@ function makeInput( title ) {
 
 	container.append( title, input );
 
+	container.getValue = () => input.value;
+
+	input.onchange = handleChange;
+
 	return container
+
+}
+
+//
+
+function handleChange() {
+
+	const pos = {
+		x: x.getValue(),
+		y: y.getValue(),
+		z: z.getValue()
+	};
+
+	const event = new CustomEvent( 'update-hero', { detail: pos } );
+
+	window.dispatchEvent( event );
 
 }
 

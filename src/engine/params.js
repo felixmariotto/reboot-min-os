@@ -18,5 +18,5 @@ export default {
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
 
-	playerSpeed: 0.1
+	playerSpeed: 0.032
 }

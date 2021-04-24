@@ -63,8 +63,8 @@ export default function Chain( length ) {
 		for ( let i=0 ; i<this.spheresNumber ; i++ ) {
 
 			this.spheres[i].position.lerpVectors(
-				this.start.point,
-				this.end.point,
+				this.startPoint,
+				this.endPoint,
 				i / this.spheresNumber
 			);
 

@@ -102,6 +102,9 @@ function controlVelocity( target ) {
 
 	loopCallback = () => {
 
+		// abort if the target is not colliding
+		if ( !target.isColliding ) return
+
 		if ( input.targetDirection.length() > 0 ) {
 
 			_vec1
@@ -127,7 +130,9 @@ function controlVelocity( target ) {
 
 			// move forward
 
-			target.velocity.addScaledVector( targetDirection, -1 * params.playerSpeed );
+			const factor = -1 * params.playerSpeed * ( target.isOnGround ? 1 : params.notOnGroundHandicap );
+
+			target.velocity.addScaledVector( targetDirection, factor );
 
 		}
 

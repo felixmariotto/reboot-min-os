@@ -9,6 +9,8 @@ const tragetVec = new THREE.Vector3();
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 
+const ground_test_vec = new THREE.Vector3( 0, 1, 0 );
+
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
 //
@@ -24,6 +26,17 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 				const penetrationVec = shape.penetrationIn( colliderShape, tragetVec );
 
 				if ( penetrationVec ) {
+
+					this.isColliding = true;
+
+					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+
+					if (
+						this.bodyType === constants.DYNAMIC_BODY &&
+						penetrationVec.dot( ground_test_vec ) < 0
+					) {
+						this.isOnGround = true
+					};
 
 					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
 
@@ -131,7 +144,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			// used only if bodyType is DYNAMIC_BODY
 			velocity: new THREE.Vector3(),
 			collideWith,
-			resolvePenetration
+			resolvePenetration,
+			// used to know how to control the player
+			isOnGround: false,
+			isColliding: false
 		}
 	)
 

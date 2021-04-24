@@ -18,5 +18,6 @@ export default {
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
 
-	playerSpeed: 0.032
+	playerSpeed: 0.032,
+	notOnGroundHandicap: 0.5 // how much the player speed is reduced if not touching the ground ( but still colliding )
 }

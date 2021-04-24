@@ -83,6 +83,12 @@ export default function World() {
 
 			if ( body.bodyType === constants.DYNAMIC_BODY ) {
 
+				// reset these values, which will be set to true again if still on ground/colliding.
+				// Used by characterControl.
+
+				body.isOnGround = false;
+				body.isColliding = false;
+
 				// add gravity to velocity
 
 				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * ( delta / NOMINAL_TICK_TIME ) * body.mass );

@@ -44,6 +44,8 @@ function makeGameButton( name, gamePage ) {
 
 		gamePage.start();
 
+		button.blur();
+
 	}
 
 	return button

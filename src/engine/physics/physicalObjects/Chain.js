@@ -10,8 +10,6 @@ import constants from '../../misc/constants.js';
 const _vec0 = new THREE.Vector3();
 const _vec1 = new THREE.Vector3();
 
-const CHAIN_WEIGHT = 0.13 // [ 0 - 1 ] value
-
 //
 
 export default function Chain( length ) {
@@ -105,9 +103,9 @@ export default function Chain( length ) {
 
 				if ( j === this.pointsNumber - 2 ) {
 
-					this.end.body.position.addScaledVector( diff, CHAIN_WEIGHT );
+					this.end.body.position.addScaledVector( diff, params.chainWeight );
 					
-					this.end.body.velocity.addScaledVector( diff, CHAIN_WEIGHT );
+					this.end.body.velocity.addScaledVector( diff, params.chainWeight );
 
 				}
 
@@ -175,7 +173,7 @@ export default function Chain( length ) {
 
 		const sphereShape = Sphere( params.chainSphereRadius );
 
-		const sphereBody = Body( constants.DYNAMIC_BODY, 0.6 );
+		const sphereBody = Body( constants.DYNAMIC_BODY, 0.4 );
 
 		sphereBody.add( sphereShape );
 

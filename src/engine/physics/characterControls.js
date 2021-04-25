@@ -102,13 +102,9 @@ function controlVelocity( target ) {
 
 	loopCallback = () => {
 
-		// abort if the target is not colliding
-
-		if ( !target.isColliding ) return
-
 		// add jump to velocity
 
-		if ( input.jumpState && target.isOnGround ) {
+		if ( target.isOnGround && input.jumpState ) {
 
 			target.velocity.y += 0.4;
 
@@ -116,7 +112,7 @@ function controlVelocity( target ) {
 
 		// move the player in X Z direction
 
-		if ( input.targetDirection.length() > 0 ) {
+		if ( target.isColliding && input.targetDirection.length() > 0 ) {
 
 			_vec1
 			.copy( core.camera.position )

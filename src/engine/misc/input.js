@@ -1,44 +1,49 @@
 
 import * as THREE from 'three';
+import events from './events.js';
 
 //
 
 const api = {
 	targetDirection: new THREE.Vector2(),
 	jumpState: false,
-	actionState: false
+	climbState: false
 }
 
 //
 
 const arrowState = {
-	up: 0,
-	down: 0,
-	right: 0,
-	left: 0
+	up: false,
+	down: false,
+	right: false,
+	left: false
 };
 
 window.addEventListener( 'keydown', (e) => {
 
 	switch ( e.code ) {
 		case 'KeyW' :
-			arrowState.up = 1;
+			arrowState.up = true;
 			computeTargetDir();
 			break
 		case 'KeyA' :
-			arrowState.right = 1;
+			arrowState.right = true;
 			computeTargetDir();
 			break
 		case 'KeyS' :
-			arrowState.down = 1;
+			arrowState.down = true;
 			computeTargetDir();
 			break
 		case 'KeyD' :
-			arrowState.left = 1;
+			arrowState.left = true;
 			computeTargetDir();
 			break
+		case 'KeyE' :
+			arrowState.e = true;
+			computeButtonsState();
+			break
 		case 'Space' :
-			arrowState.space = 1;
+			arrowState.space = true;
 			computeButtonsState();
 			break
 	}
@@ -49,23 +54,27 @@ window.addEventListener( 'keyup', (e) => {
 
 	switch ( e.code ) {
 		case 'KeyW' :
-			arrowState.up = 0;
+			arrowState.up = false;
 			computeTargetDir();
 			break
 		case 'KeyA' :
-			arrowState.right = 0;
+			arrowState.right = false;
 			computeTargetDir();
 			break
 		case 'KeyS' :
-			arrowState.down = 0;
+			arrowState.down = false;
 			computeTargetDir();
 			break
 		case 'KeyD' :
-			arrowState.left = 0;
+			arrowState.left = false;
 			computeTargetDir();
 			break
+		case 'KeyE' :
+			arrowState.e = false;
+			computeButtonsState();
+			break
 		case 'Space' :
-			arrowState.space = 0;
+			arrowState.space = false;
 			computeButtonsState();
 			break
 	}
@@ -83,7 +92,7 @@ function computeTargetDir() {
 
 function computeButtonsState() {
 
-	if ( arrowState.space === 1 ) {
+	if ( arrowState.space === true ) {
 
 		api.jumpState = true;
 
@@ -92,6 +101,18 @@ function computeButtonsState() {
 		api.jumpState = false;
 
 	}
+
+	if ( arrowState.e === true ) {
+
+		api.climbState = true;
+
+	} else {
+
+		api.climbState = false;
+
+	}
+
+	events.emit( 'button-state-change', api );
 
 }
 

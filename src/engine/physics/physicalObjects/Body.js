@@ -132,7 +132,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			bodyType,
 			mass,
 			bounciness: 0,
-			damping: 0.005,
+			damping: 0.007,
 			// transformation code that define pos and rot from a timestamp
 			transformCode: null,
 			updateTransform: function ( time ) {

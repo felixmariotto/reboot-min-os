@@ -135,7 +135,7 @@ function controlVelocity( target ) {
 
 			// move forward
 
-			const factor = -1 * params.playerSpeed * ( target.isOnGround ? 1 : params.notOnGroundHandicap );
+			const factor = -1 * params.playerAcceleration * ( target.isOnGround ? 1 : params.notOnGroundHandicap );
 
 			target.velocity.addScaledVector( targetDirection, factor );
 

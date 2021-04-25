@@ -6,8 +6,6 @@ import events from './events.js';
 
 const api = {
 	targetDirection: new THREE.Vector2(),
-	jumpState: false,
-	pullState: false
 }
 
 //
@@ -39,14 +37,13 @@ window.addEventListener( 'keydown', (e) => {
 			computeTargetDir();
 			break
 		case 'KeyE' :
-			arrowState.e = true;
-			computeButtonsState();
-			events.emit( 'pull-key-down', api );
+			events.emit( 'pull-key-down' );
+			break
+		case 'KeyQ' :
+			events.emit( 'release-key-down' );
 			break
 		case 'Space' :
-			arrowState.space = true;
-			computeButtonsState();
-			events.emit( 'jump-key-down', api );
+			events.emit( 'jump-key-down' );
 			break
 	}
 
@@ -71,17 +68,9 @@ window.addEventListener( 'keyup', (e) => {
 			arrowState.left = false;
 			computeTargetDir();
 			break
-		case 'KeyE' :
-			arrowState.e = false;
-			computeButtonsState();
-			break
-		case 'Space' :
-			arrowState.space = false;
-			computeButtonsState();
-			break
 	}
 
-});
+} );
 
 function computeTargetDir() {
 
@@ -89,32 +78,6 @@ function computeTargetDir() {
 	api.targetDirection.x = ( arrowState.right - arrowState.left );
 
 	api.targetDirection.normalize();
-
-}
-
-function computeButtonsState() {
-
-	if ( arrowState.space === true ) {
-
-		api.jumpState = true;
-
-	} else {
-
-		api.jumpState = false;
-
-	}
-
-	if ( arrowState.e === true ) {
-
-		api.pullState = true;
-
-	} else {
-
-		api.pullState = false;
-
-	}
-
-	events.emit( 'button-state-change', api );
 
 }
 

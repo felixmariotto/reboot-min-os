@@ -26,13 +26,13 @@ export default function Player() {
 
 	//
 
-	events.on( 'jump-key-down', (e) => {
+	events.on( 'jump-key-down', () => {
 
 		if ( playerBody.isOnGround ) playerBody.velocity.y += 0.4;
 
 	} );
 
-	events.on( 'pull-key-down', (e) => {
+	events.on( 'pull-key-down', () => {
 
 		if ( !playerBody.chain ) return
 
@@ -40,6 +40,12 @@ export default function Player() {
 			playerBody.currentLink + 1,
 			playerBody.chain.points.length - 2
 		);
+
+	} );
+
+	events.on( 'release-key-down', () => {
+
+		playerBody.currentLink = 0;
 
 	} );
 

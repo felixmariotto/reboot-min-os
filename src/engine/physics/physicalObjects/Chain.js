@@ -16,6 +16,8 @@ export default function Chain( length ) {
 
 	function attachStartTo( body, x, y, z ) {
 
+		body.chain = this;
+
 		this.start = {
 			body,
 			point: new THREE.Vector3( x, y, z )
@@ -28,6 +30,8 @@ export default function Chain( length ) {
 	//
 
 	function attachEndTo( body, x, y, z ) {
+
+		body.chain = this;
 
 		this.end = {
 			body,
@@ -163,6 +167,29 @@ export default function Chain( length ) {
 
 	//
 
+	function constrainLinkTo( pointID, constrainedBody ) {
+
+		const p1 = this.points[ pointID ];
+		const p2 = constrainedBody.position;
+
+		const diff = this.constrainPoints( p1, p2 );
+
+		// add the diff to the velocity of the particular link
+
+		const sphere1 = !pointID ? null : this.spheres[ pointID - 1 ];
+
+		if ( sphere1 ) sphere1.velocity.sub( diff );
+
+		// transform constrained body
+
+		this.end.body.position.addScaledVector( diff, params.chainWeight );
+			
+		this.end.body.velocity.addScaledVector( diff, params.chainWeight );
+
+	}
+
+	//
+
 	const pointsNumber = Math.floor( length / params.chainPointDistance );
 
 	const spheresNumber = Math.max( 0, pointsNumber - 2 );
@@ -188,15 +215,6 @@ export default function Chain( length ) {
 	points.push( ...spheres.map( sphereBody => sphereBody.position ) );
 	points.push( endPoint );
 
-	// test
-	window.printPoints = function () {
-		console.log( points );
-	}
-
-	window.printVelocities = function () {
-		spheres.forEach( sphereBody => console.log( sphereBody.velocity ) )
-	}
-
 	//
 
 	return {
@@ -214,7 +232,8 @@ export default function Chain( length ) {
 		resolve,
 		init,
 		computeEndStart,
-		constrainPoints
+		constrainPoints,
+		constrainLinkTo
 	}
 
 }

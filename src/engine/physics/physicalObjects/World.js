@@ -107,6 +107,20 @@ export default function World() {
 
 				} );
 
+				// if the body is the player, constrain the chain link it's attached to.
+
+				if (
+					body.isPlayer &&
+					body.chain &&
+					body.currentLink
+				) {
+
+					const linkID = ( body.chain.points.length - 1 ) - body.currentLink;
+
+					body.chain.constrainLinkTo( linkID, body );
+
+				}
+
 			}
 
 		} );

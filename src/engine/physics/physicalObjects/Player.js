@@ -11,11 +11,20 @@ import params from '../../params.js';
 export default function Player() {
 
 	const sphere = Sphere();
+
 	sphere.makeHelper();
+
+	//
 
 	const playerBody = Body( constants.DYNAMIC_BODY, params.playerWeight );
 
 	playerBody.add( sphere );
+
+	playerBody.currentLink = 0;
+
+	playerBody.isPlayer = true;
+
+	//
 
 	events.on( 'jump-key-down', (e) => {
 
@@ -25,7 +34,12 @@ export default function Player() {
 
 	events.on( 'pull-key-down', (e) => {
 
-		console.log('pull')
+		if ( !playerBody.chain ) return
+
+		playerBody.currentLink = Math.min(
+			playerBody.currentLink + 1,
+			playerBody.chain.points.length - 2
+		);
 
 	} );
 

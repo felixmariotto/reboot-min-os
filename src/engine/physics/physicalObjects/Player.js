@@ -38,7 +38,7 @@ export default function Player() {
 
 		playerBody.currentLink = Math.min(
 			playerBody.currentLink + 1,
-			playerBody.chain.points.length - 2
+			playerBody.chain.spheres.length
 		);
 
 	} );

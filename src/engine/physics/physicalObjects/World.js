@@ -115,7 +115,7 @@ export default function World() {
 					body.currentLink
 				) {
 
-					const linkID = ( body.chain.points.length - 1 ) - body.currentLink;
+					const linkID = ( body.chain.spheres.length ) - body.currentLink;
 
 					body.chain.constrainLinkTo( linkID, body );
 

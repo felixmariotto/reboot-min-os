@@ -3,7 +3,13 @@ import * as THREE from 'three';
 
 //
 
-const targetDirection = new THREE.Vector2();
+const api = {
+	targetDirection: new THREE.Vector2(),
+	jumpState: false,
+	actionState: false
+}
+
+//
 
 const arrowState = {
 	up: 0,
@@ -31,6 +37,10 @@ window.addEventListener( 'keydown', (e) => {
 			arrowState.left = 1;
 			computeTargetDir();
 			break
+		case 'Space' :
+			arrowState.space = 1;
+			computeButtonsState();
+			break
 	}
 
 });
@@ -54,21 +64,37 @@ window.addEventListener( 'keyup', (e) => {
 			arrowState.left = 0;
 			computeTargetDir();
 			break
+		case 'Space' :
+			arrowState.space = 0;
+			computeButtonsState();
+			break
 	}
 
 });
 
 function computeTargetDir() {
 
-	targetDirection.y = ( arrowState.up - arrowState.down );
-	targetDirection.x = ( arrowState.right - arrowState.left );
+	api.targetDirection.y = ( arrowState.up - arrowState.down );
+	api.targetDirection.x = ( arrowState.right - arrowState.left );
 
-	targetDirection.normalize();
+	api.targetDirection.normalize();
+
+}
+
+function computeButtonsState() {
+
+	if ( arrowState.space === 1 ) {
+
+		api.jumpState = true;
+
+	} else {
+
+		api.jumpState = false;
+
+	}
 
 }
 
 //
 
-export default {
-	targetDirection
-}
+export default api

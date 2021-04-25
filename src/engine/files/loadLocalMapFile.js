@@ -16,8 +16,4 @@ export default function loadLocalMapFile( callback ) {
 
 	input.click();
 
-	// document.body.focus();
-
-	// input.remove();
-
 }

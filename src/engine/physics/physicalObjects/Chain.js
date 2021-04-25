@@ -105,7 +105,12 @@ export default function Chain( length ) {
 
 				// transform body at the end of the chain
 
-				if ( j === this.pointsNumber - 2 ) {
+				if (
+					j === this.pointsNumber - 2 &&
+					// if the player is suspended on a middle link, we make the link
+					// before the last uneffectual on the player
+					!this.end.body.currentLink
+				) {
 
 					this.end.body.position.addScaledVector( diff, params.chainWeight );
 					

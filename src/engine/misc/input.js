@@ -41,10 +41,12 @@ window.addEventListener( 'keydown', (e) => {
 		case 'KeyE' :
 			arrowState.e = true;
 			computeButtonsState();
+			events.emit( 'climb-key-down', api );
 			break
 		case 'Space' :
 			arrowState.space = true;
 			computeButtonsState();
+			events.emit( 'jump-key-down', api );
 			break
 	}
 

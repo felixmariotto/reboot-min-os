@@ -22,8 +22,8 @@ gamePage.start = function start() {
 
 		const params = engine.physics.WorldFromInfo( sceneGraph );
 
-		engine.cameraControls.orbitDynamicObj( params.playerBody );
-		engine.characterControls.controlVelocity( params.playerBody );
+		engine.cameraControls.orbitDynamicObj( params.player );
+		engine.characterControls.controlVelocity( params.player );
 
 	} );
 

@@ -7,6 +7,7 @@ import Body from './physicalObjects/Body.js';
 import Box from './physicalObjects/Box.js';
 import Sphere from './physicalObjects/Sphere.js';
 import Chain from './physicalObjects/Chain.js';
+import Player from './physicalObjects/Player.js';
 
 //
 
@@ -64,20 +65,15 @@ export default function WorldFromInfo( info ) {
 
 	// hero
 
-	const sphere = Sphere();
-	sphere.makeHelper();
+	const player = Player();
 
-	const playerBody = Body( constants.DYNAMIC_BODY, 0.3 );
-
-	playerBody.position.set(
+	player.position.set(
 		Number( info.hero.x ),
 		Number( info.hero.y ),
 		Number( info.hero.z )
 	);
 
-	playerBody.add( sphere );
-
-	world.add( playerBody );
+	world.add( player );
 
 	// chain
 
@@ -94,7 +90,7 @@ export default function WorldFromInfo( info ) {
 	);
 
 	chain.attachEndTo(
-		playerBody,
+		player,
 		Number( info.chain.end.x ),
 		Number( info.chain.end.y ),
 		Number( info.chain.end.z )
@@ -106,7 +102,7 @@ export default function WorldFromInfo( info ) {
 	//
 
 	return {
-		playerBody
+		player
 	}
 
 }

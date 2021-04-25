@@ -20,5 +20,7 @@ export default {
 	chainWeight: 0.10, // [ 0 - 1 ] value
 
 	playerSpeed: 0.03,
-	notOnGroundHandicap: 0.5 // how much the player speed is reduced if not touching the ground ( but still colliding )
+	notOnGroundHandicap: 0.5, // how much the player speed is reduced if not touching the ground ( but still colliding )
+	playerWeight: 0.3
 }
+

@@ -10,6 +10,12 @@ core.callInLoop( loop );
 
 let loopCallback;
 
+function loop() {
+
+	if ( loopCallback ) loopCallback();
+
+}
+
 //
 
 const MOVE_SPEED = 0.11;
@@ -102,14 +108,6 @@ function controlVelocity( target ) {
 
 	loopCallback = () => {
 
-		// add jump to velocity
-
-		if ( target.isOnGround && input.jumpState ) {
-
-			target.velocity.y += 0.4;
-
-		}
-
 		// move the player in X Z direction
 
 		if ( target.isColliding && input.targetDirection.length() > 0 ) {
@@ -144,14 +142,6 @@ function controlVelocity( target ) {
 		}
 
 	}
-
-}
-
-//
-
-function loop() {
-
-	if ( loopCallback ) loopCallback();
 
 }
 

@@ -23,9 +23,9 @@ export default function Player() {
 
 	} );
 
-	events.on( 'climb-key-down', (e) => {
+	events.on( 'pull-key-down', (e) => {
 
-		console.log('climb')
+		console.log('pull')
 
 	} );
 

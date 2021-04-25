@@ -7,7 +7,7 @@ import events from './events.js';
 const api = {
 	targetDirection: new THREE.Vector2(),
 	jumpState: false,
-	climbState: false
+	pullState: false
 }
 
 //
@@ -41,7 +41,7 @@ window.addEventListener( 'keydown', (e) => {
 		case 'KeyE' :
 			arrowState.e = true;
 			computeButtonsState();
-			events.emit( 'climb-key-down', api );
+			events.emit( 'pull-key-down', api );
 			break
 		case 'Space' :
 			arrowState.space = true;
@@ -106,11 +106,11 @@ function computeButtonsState() {
 
 	if ( arrowState.e === true ) {
 
-		api.climbState = true;
+		api.pullState = true;
 
 	} else {
 
-		api.climbState = false;
+		api.pullState = false;
 
 	}
 

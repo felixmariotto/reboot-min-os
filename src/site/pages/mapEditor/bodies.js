@@ -167,6 +167,9 @@ function fromInfo( info ) {
 
 	newBody.domElement.onclick = () => { selectBody( newBody ) }
 
+	newBody.domElement.style.backgroundColor = '#' + new engine.THREE.Color( newBody.color ).getHexString();
+	newBody.domElement.style.color = 'black';
+
 	info.shapes.forEach( (shapeInfo) => {
 
 		addToBody( shapes.fromInfo( shapeInfo ), newBody );

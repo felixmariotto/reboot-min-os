@@ -52,5 +52,5 @@
 			.editor-body-line.selected {
 				border-style: solid;
 				border-width: 2px;
-				border-color: white;
+				border-color: black;
 			}

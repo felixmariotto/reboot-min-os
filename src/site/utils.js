@@ -1,4 +1,6 @@
 
+// helper function to make dom element creation quicker
+
 function elem( options ) {
 
 	options = options || {};

@@ -1,6 +1,5 @@
 
 import { elem } from '../../utils.js';
-import loadingBox from '../../components/loadingBox/loadingBox.js';
 
 import mainChar from '../../../assets/main_char.glb';
 import uvGrid from '../../../assets/uv_grid.jpg';
@@ -12,8 +11,6 @@ const gamePage = elem({ id:'character-test-page', classes: 'game-container' });
 //
 
 gamePage.start = function start() {
-
-	loadingBox.setUploadingState( 50 );
 
 	engine.core.init( gamePage );
 

@@ -131,7 +131,7 @@ function removeFromBody() {
 
 	engine.core.scene.add( selectedShape );
 
-	console.log( selectedBody.threeObj.children );
+	selectedShape.material = new engine.THREE.MeshNormalMaterial();
 
 }
 
@@ -249,6 +249,13 @@ function Body( name ) {
 
 	engine.core.scene.add( threeObj );
 
+	const color = makeRandomColor();
+
+	const domElement = elem({ classes: 'editor-body-line', html: name })
+
+	domElement.style.backgroundColor = '#' + new engine.THREE.Color( color ).getHexString();
+	domElement.style.color = 'black';
+
 	//
 
 	function clear() {
@@ -269,11 +276,12 @@ function Body( name ) {
 
 	return {
 		name,
+		color,
 		clear,
 		threeObj,
 		isBody: true,
 		transformCode: null,
-		domElement: elem({ classes: 'editor-body-line', html: name })
+		domElement,
 	}
 
 }

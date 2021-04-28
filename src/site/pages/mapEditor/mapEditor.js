@@ -104,6 +104,7 @@ window.addEventListener( 'keydown', (e) => {
 	switch ( e.keyCode ) {
 
 		case 83 : switchTransformMode(); break
+		case 68 : if ( isShiftPressed ) shapes.duplicateSelected(); break
 		case 16 : isShiftPressed = true; break
 
 	}
@@ -384,7 +385,7 @@ editorPage.start = function start() {
 
 		//
 
-		editorConsole.log( 'editor initialized' );
+		editorConsole.log( 'editor initialized. shift+click to select a shape. press S to switch transform mode. press shift+D to duplicate a shape.' );
 
 	} catch ( err ) {
 

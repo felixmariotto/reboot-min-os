@@ -2,6 +2,7 @@
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import './shapes.css';
+import editorConsole from './editorConsole.js';
 
 //
 
@@ -84,6 +85,8 @@ function createBox() {
 
 function unselectAll() {
 
+	if ( !selectedShape ) return
+
 	if ( selectedMaterial ) selectedMaterial.emissive.setScalar( 0 );
 	selectedMaterial = null;
 	selectedShape = null;
@@ -97,8 +100,33 @@ function unselectAll() {
 window.addEventListener( 'keydown', (e) => {
 
 	if ( e.code === "Escape" ) unselectAll();
+	else if ( e.code === "Delete" ) deleteSelected();
 
 } );
+
+//
+
+function deleteSelected() {
+
+	if ( selectedShape ) {
+
+		const shape = selectedShape;
+
+		unselectAll();
+
+		shape.parent.remove( shape );
+		shape.material.dispose();
+		shape.geometry.dispose();
+
+		editorConsole.log( 'Shape deleted' );
+
+	} else {
+
+		editorConsole.warn( 'No shape is selected, nothing to delete' );
+
+	}
+
+}
 
 function selectShape( shape ) {
 
@@ -155,10 +183,46 @@ function fromInfo( info ) {
 
 //
 
+function duplicateSelected() {
+
+	if ( selectedShape ) {
+
+		let info;
+
+		switch ( selectedShape.shapeType ) {
+
+			case 'box':
+				info = {
+					pos: selectedShape.position,
+					rot: selectedShape.rotation,
+					width: selectedShape.scale.x,
+					height: selectedShape.scale.y,
+					depth: selectedShape.scale.z,
+					type: 'box'
+				}
+			break
+
+		}
+
+		const newShape = fromInfo( info );
+
+		selectShape( newShape );
+
+	} else {
+
+		editorConsole.warn( 'no shape selected, impossible to duplicate.' )
+
+	}
+
+}
+
+//
+
 export default {
 	shapes,
 	domOptions: shapesOptions,
 	selectShape,
 	getSelected,
-	fromInfo
+	fromInfo,
+	duplicateSelected
 }

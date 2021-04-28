@@ -113,9 +113,7 @@ function addToBody( shape, body ) {
 
 	if ( body.color ) {
 
-		const material = new engine.THREE.MeshPhongMaterial({ color: body.color });
-
-		shape.material = material;
+		shape.material.color.set( body.color );
 
 	}
 

@@ -7,7 +7,23 @@ import './shapes.css';
 
 const shapes = [];
 
-let selectedShape;
+let selectedShape, selectedMaterial;
+
+setTimeout( () => {
+
+	engine.core.callInLoop( () => {
+
+		if ( selectedMaterial ) {
+
+			const scale = Math.sin( Date.now() / 100 ) * 0.2 + 0.2;
+
+			selectedMaterial.emissive.setScalar( scale );
+
+		}
+
+	} );
+
+}, 500 );
 
 const shapesOptions = elem({ id: 'editor-shapes-options', classes: 'tool-options' });
 
@@ -51,7 +67,7 @@ function createBox() {
 
 	const box = new engine.THREE.Mesh(
 		new engine.THREE.BoxGeometry(),
-		new engine.THREE.MeshNormalMaterial()
+		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
 	);
 
 	box.isEditorShape = true;
@@ -68,12 +84,8 @@ function createBox() {
 
 function unselectAll() {
 
-	shapes.forEach( (shape) => {
-
-		shape.material.wireframe = false;
-
-	} );
-
+	if ( selectedMaterial ) selectedMaterial.emissive.setScalar( 0 );
+	selectedMaterial = null;
 	selectedShape = null;
 
 	const event = new CustomEvent( 'end-transform' );
@@ -92,7 +104,7 @@ function selectShape( shape ) {
 
 	unselectAll();
 
-	shape.material.wireframe = true;
+	selectedMaterial = shape.material;
 
 	selectedShape = shape;
 
@@ -116,7 +128,7 @@ function fromInfo( info ) {
 
 			const box = new engine.THREE.Mesh(
 				new engine.THREE.BoxGeometry(),
-				new engine.THREE.MeshNormalMaterial()
+				new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
 			);
 
 			box.rotation.copy( info.rot );

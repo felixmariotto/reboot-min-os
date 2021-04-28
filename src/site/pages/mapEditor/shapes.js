@@ -152,8 +152,8 @@ function fromInfo( info ) {
 
 	switch ( info.type ) {
 
-		case 'box' :
-
+		case 'box' : {
+		
 			const box = new engine.THREE.Mesh(
 				new engine.THREE.BoxGeometry(),
 				new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
@@ -176,6 +176,8 @@ function fromInfo( info ) {
 			engine.core.scene.add( box );
 
 			return box
+			
+		}
 
 	}
 

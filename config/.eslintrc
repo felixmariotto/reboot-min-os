@@ -24,9 +24,9 @@
         "no-unreachable": 1,
         "use-isnan": 1,
         "valid-typeof": 1,
-        "no-alert": 1,
+        "no-alert": 0,
         "no-else-return": 1,
-        "no-eval": 1,
+        "no-eval": 0,
         "no-extra-bind": 1,
         "no-octal": 1,
         "no-proto": 1,
@@ -53,7 +53,7 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 8
+        "ecmaVersion": 2018,
+        "sourceType": "module"
     }
 }

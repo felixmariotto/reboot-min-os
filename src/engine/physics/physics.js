@@ -1,9 +1,4 @@
 
-import * as THREE from 'three';
-import core from '../core/core.js';
-
-//
-
 import World from './physicalObjects/World.js';
 import Body from './physicalObjects/Body.js';
 import Chain from './physicalObjects/Chain.js';

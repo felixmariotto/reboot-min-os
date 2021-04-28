@@ -1,7 +1,7 @@
 
 import './files.css';
 import Button from '../../components/button/Button.js';
-import { elem, icon } from '../../utils.js';
+import { elem } from '../../utils.js';
 import editorConsole from './editorConsole.js';
 
 //
@@ -60,9 +60,9 @@ function importJSON() {
 
 			const file = e.target.files[0];
 
-    		file
-    		.text()
-    		.then( (text) => emitSceneData( JSON.parse( text ) ) );
+			file
+			.text()
+			.then( (text) => emitSceneData( JSON.parse( text ) ) );
 
 		} );
 		input.click();

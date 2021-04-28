@@ -25,7 +25,7 @@ function followObj( target ) {
 	const CAMERA_ROTATION_EASING = 0.03;
 	const CAM_TARGET_DISTANCE = 2.5;
 
-	let lastCamPos = new THREE.Vector3().copy( params.thirdPersCameraTarget );
+	const lastCamPos = new THREE.Vector3().copy( params.thirdPersCameraTarget );
 
 	core.camera.position.copy( lastCamPos );
 	core.camera.position.add( target.position );
@@ -101,9 +101,7 @@ function orbitDynamicObj( target ) {
 		console.warn('characterControl.controlVelocity : target is not a body');
 	}
 
-	const CAM_TARGET_DISTANCE = 2.5;
 	const CAMERA_ROTATION_EASING = 0.1;
-	const CAMERA_TARGETING_EASING = 0.014;
 
 	let movementX = 0;
 	let movementY = 0;
@@ -116,13 +114,9 @@ function orbitDynamicObj( target ) {
 	let targetSlent = 1;
 	let lastSlent = 1;
 
-	// camera target
-	let lastTarget = new THREE.Vector3();
-	let targetTarget = new THREE.Vector3();
-
 	// camera position
-	let lastPosition = new THREE.Vector3();
-	let targetPosition = new THREE.Vector3();
+	const lastPosition = new THREE.Vector3();
+	const targetPosition = new THREE.Vector3();
 
 	//
 
@@ -146,27 +140,6 @@ function orbitDynamicObj( target ) {
 
 		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
 		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
-
-		/*
-
-		//
-
-		if ( target.velocity.length() > 0.0001 ) {
-
-			targetTarget
-			.copy( target.velocity )
-			.normalize()
-			.multiplyScalar( CAM_TARGET_DISTANCE );
-
-			lastTarget.lerpVectors( lastTarget, targetTarget, CAMERA_TARGETING_EASING );
-
-			_vec1
-			.copy( lastTarget )
-			.add( target.position );
-
-		}
-
-		*/
 
 		_vec1.copy( target.position );
 

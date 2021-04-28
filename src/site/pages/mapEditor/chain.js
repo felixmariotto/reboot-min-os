@@ -59,7 +59,6 @@ function makeInput( title, defaultVal ) {
 
 	const container = elem({ classes: 'editor-chain-input-container' });
 
-	const text = elem({ tagName: 'P', html: title });
 	const input = elem({ tagName: 'INPUT' });
 	input.value = defaultVal;
 

@@ -121,7 +121,7 @@ window.addEventListener( 'keyup', (e) => {
 
 } );
 
-window.addEventListener( 'scene-graph-request', (e) => {
+window.addEventListener( 'scene-graph-request', () => {
 
 	const sceneInfo = {
 		chain: chain.getParams(),
@@ -152,7 +152,6 @@ window.addEventListener( 'scene-graph-request', (e) => {
 						depth: shape.scale.z,
 						type: 'box'
 					}
-				break
 
 			}
 
@@ -256,7 +255,7 @@ window.addEventListener( 'transform-shape', (e) => {
 
 } );
 
-window.addEventListener( 'end-transform', (e) => {
+window.addEventListener( 'end-transform', () => {
 
 	transformControl.detach();
 

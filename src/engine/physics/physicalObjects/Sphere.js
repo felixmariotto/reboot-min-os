@@ -45,11 +45,9 @@ export default function Sphere( radius=1 ) {
 
 				return targetVec
 
-			} else {
-
-				return null
-
 			}
+
+			return null
 
 		}
 

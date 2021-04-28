@@ -9,7 +9,7 @@ const tragetVec = new THREE.Vector3();
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 
-const ground_test_vec = new THREE.Vector3( 0, 1, 0 );
+const groundTestVec = new THREE.Vector3( 0, 1, 0 );
 
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
@@ -33,10 +33,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					if (
 						this.bodyType === constants.DYNAMIC_BODY &&
-						penetrationVec.dot( ground_test_vec ) < 0
+						penetrationVec.dot( groundTestVec ) < 0
 					) {
 						this.isOnGround = true
-					};
+					}
 
 					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
 
@@ -135,7 +135,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			damping: 0.007,
 			// transformation code that define pos and rot from a timestamp
 			transformCode: null,
-			updateTransform: function ( time ) {
+			updateTransform: function () {
 				if ( this.transformCode ) {
 					eval( this.transformCode );
 				}

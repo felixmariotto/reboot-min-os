@@ -7,8 +7,7 @@ import constants from '../../misc/constants.js';
 
 //
 
-const _vec0 = new THREE.Vector3();
-const _vec1 = new THREE.Vector3();
+const _vec = new THREE.Vector3();
 
 //
 
@@ -82,7 +81,7 @@ export default function Chain( length ) {
 
 		if ( !this.start || !this.end ) {
 			console.warn( 'chain.resolve : start or end is missing for resolution' );
-		};
+		}
 
 		for ( let i=0 ; i<params.chainPasses ; i++ ) {
 
@@ -130,7 +129,7 @@ export default function Chain( length ) {
 
 		// get the distance between the points
 
-		const diff = _vec0
+		const diff = _vec
 		.copy( p2 )
 		.sub( p1 );
 

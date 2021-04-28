@@ -26,6 +26,7 @@
 	}
 
 		#editor-console {
+			position: relative;
 			height: 150px;
 			width: 100%;
 		}

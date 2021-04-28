@@ -2,6 +2,7 @@
 import './files.css';
 import Button from '../../components/button/Button.js';
 import { elem, icon } from '../../utils.js';
+import editorConsole from './editorConsole.js';
 
 //
 
@@ -26,13 +27,26 @@ function makeButton( text, callback ) {
 
 function saveAsJSON( sceneGraph ) {
 
-	const content = JSON.stringify( sceneGraph );
-	const file = new Blob( [content], { type: 'text/plain' } );
+	try {
 
-	const a = document.createElement("a");
-	a.href = URL.createObjectURL( file );
-	a.download = 'game-map-' + new Date().toLocaleString() + '.txt'; // name of the file
-	a.click();
+		let fileName = 'game-map-' + new Date().toLocaleString() + '.txt';
+		fileName = fileName.replace( /:/g, "_" );
+
+		const content = JSON.stringify( sceneGraph );
+		const file = new Blob( [content], { type: 'text/plain' } );
+
+		const a = document.createElement("a");
+		a.href = URL.createObjectURL( file );
+		a.download = fileName;
+		a.click();
+
+		editorConsole.log( 'the scene has been successfully saved as ' + fileName );
+
+	} catch ( err ) {
+
+		console.error( err );
+
+	}
 
 }
 

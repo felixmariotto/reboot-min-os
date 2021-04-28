@@ -2,6 +2,7 @@
 import { elem } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import './mapEditor.css';
+import editorConsole from './editorConsole.js';
 import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
@@ -27,7 +28,6 @@ editorPage.append( leftContainer, rightContainer );
 
 //
 
-const editorConsole = elem({ id: 'editor-console', classes: 'ui-panel' });
 const editorViewport = elem({ id: 'editor-viewport', classes: 'ui-panel' });
 
 leftContainer.append( editorConsole, editorViewport );
@@ -167,44 +167,56 @@ window.addEventListener( 'scene-graph-request', (e) => {
 
 window.addEventListener( 'scene-graph-loaded', (e) => {
 
-	const info = e.detail;
+	try {
 
-	// clear old project
+		const info = e.detail;
 
-	engine.core.scene.traverse( (child) => {
+		// clear old project
 
-		if ( child.shapeType || child.isBody ) {
+		engine.core.scene.traverse( (child) => {
 
-			child.material.dispose();
-			child.geometry.dispose();
+			if ( child.shapeType || child.isBody ) {
 
-		}
+				child.material.dispose();
+				child.geometry.dispose();
 
-	} );
+			}
 
-	engine.core.scene.clear();
+		} );
 
-	engine.core.scene.add( transformControl, heroHelper, chainHelper );
+		engine.core.scene.clear();
 
-	makeGrid();
+		engine.core.scene.add( transformControl, heroHelper, chainHelper );
 
-	addLights();
+		makeGrid();
 
-	// copy file params in project
+		addLights();
 
-	info.bodies.forEach( (bodyInfo) => {
+		// copy file params in project
 
-		bodies.fromInfo( bodyInfo );
+		info.bodies.forEach( (bodyInfo) => {
 
-	} );
+			bodies.fromInfo( bodyInfo );
 
-	chain.fromInfo( info.chain );
+		} );
 
-	hero.fromInfo( info.hero );
+		chain.fromInfo( info.chain );
 
-	//
+		hero.fromInfo( info.hero );
 
-	if ( chainHelper ) chainHelper.updateHelper( chain.getParams() );
+		//
+
+		if ( chainHelper ) chainHelper.updateHelper( chain.getParams() );
+
+		//
+
+		editorConsole.log( 'a scene has been successfully imported')
+
+	} catch ( err ) {
+
+		editorConsole.error( err );
+
+	}
 
 } );
 
@@ -253,120 +265,132 @@ window.addEventListener( 'end-transform', (e) => {
 
 editorPage.start = function start() {
 
-	const _vec0 = new engine.THREE.Vector3();
-	const _vec1 = new engine.THREE.Vector3();
+	try {
 
-	//
-
-	engine.core.init( editorViewport );
-
-	addLights();
-
-	//
-
-	transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
-	transformControl.setSpace( 'local' );
-
-	heroHelper = new engine.THREE.Mesh(
-		new engine.THREE.SphereGeometry(),
-		engine.materials.characterMaterial
-	);
-
-	engine.core.scene.add( transformControl, heroHelper );
-
-	// chain helper
-
-	const material = new engine.THREE.LineBasicMaterial({
-		color: 0xff00ff
-	});
-
-	const chainHelperPoints = [
-		new engine.THREE.Vector3( 0, 0, 0 ),
-		new engine.THREE.Vector3( 0, 0, 0 )
-	];
-
-	const chainHelperGeometry = new engine.THREE.BufferGeometry().setFromPoints( chainHelperPoints );
-
-	chainHelper = new engine.THREE.Line( chainHelperGeometry, material );
-	engine.core.scene.add( chainHelper );
-
-	chainHelper.updateHelper = function ( params ) {
-
-		const startBody = bodies.getFromName( params.start.bodyName );
-
-		chainStartBody = startBody;
+		const _vec0 = new engine.THREE.Vector3();
+		const _vec1 = new engine.THREE.Vector3();
 
 		//
 
-		heroHelper.updateMatrixWorld();
+		engine.core.init( editorViewport );
 
-		chainHelperPoints[0].set(
-			Number( params.start.x ),
-			Number( params.start.y ),
-			Number( params.start.z )
+		addLights();
+
+		//
+
+		transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
+		transformControl.setSpace( 'local' );
+
+		heroHelper = new engine.THREE.Mesh(
+			new engine.THREE.SphereGeometry(),
+			engine.materials.characterMaterial
 		);
 
-		chainHelperPoints[1].set(
-			Number( params.end.x ),
-			Number( params.end.y ),
-			Number( params.end.z )
-		);
+		engine.core.scene.add( transformControl, heroHelper );
 
-	}
+		// chain helper
 
-	engine.core.callInLoop( () => {
+		const material = new engine.THREE.LineBasicMaterial({
+			color: 0xff00ff
+		});
 
-		_vec0.copy( chainHelperPoints[0] );
+		const chainHelperPoints = [
+			new engine.THREE.Vector3( 0, 0, 0 ),
+			new engine.THREE.Vector3( 0, 0, 0 )
+		];
 
-		_vec1.copy( chainHelperPoints[1] );
+		const chainHelperGeometry = new engine.THREE.BufferGeometry().setFromPoints( chainHelperPoints );
 
-		//
+		chainHelper = new engine.THREE.Line( chainHelperGeometry, material );
+		engine.core.scene.add( chainHelper );
 
-		if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec0 );
+		chainHelper.updateHelper = function ( params ) {
 
-		heroHelper.localToWorld( _vec1 );
+			const startBody = bodies.getFromName( params.start.bodyName );
 
-		//
+			chainStartBody = startBody;
 
-		chainHelperGeometry.setFromPoints( [ _vec0, _vec1 ] );
+			//
 
-	} );
+			heroHelper.updateMatrixWorld();
 
-	//
+			chainHelperPoints[0].set(
+				Number( params.start.x ),
+				Number( params.start.y ),
+				Number( params.start.z )
+			);
 
-	makeGrid();
+			chainHelperPoints[1].set(
+				Number( params.end.x ),
+				Number( params.end.y ),
+				Number( params.end.z )
+			);
 
-	//
+		}
 
-	const orbitControls = engine.cameraControls.orbitObj( engine.core.scene );
+		engine.core.callInLoop( () => {
 
-	transformControl.addEventListener( 'mouseDown', () => orbitControls.enabled = false );
+			_vec0.copy( chainHelperPoints[0] );
 
-	transformControl.addEventListener( 'mouseUp', () => orbitControls.enabled = true );
+			_vec1.copy( chainHelperPoints[1] );
 
-	//
+			//
 
-	engine.core.listenClick( (intersects) => {
+			if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec0 );
 
-		if ( !isShiftPressed ) return
+			heroHelper.localToWorld( _vec1 );
 
-		const a = intersects.find( intersect => intersect.object.isEditorShape );
+			//
 
-		if ( a ) shapes.selectShape( a.object );
-
-	} );
-
-	//
-
-	engine.core.callInLoop( () => {
-
-		bodies.bodies.forEach( (body) => {
-
-			updateObject.call( body.threeObj, body.transformCode );
+			chainHelperGeometry.setFromPoints( [ _vec0, _vec1 ] );
 
 		} );
 
-	} );
+		//
+
+		makeGrid();
+
+		//
+
+		const orbitControls = engine.cameraControls.orbitObj( engine.core.scene );
+
+		transformControl.addEventListener( 'mouseDown', () => orbitControls.enabled = false );
+
+		transformControl.addEventListener( 'mouseUp', () => orbitControls.enabled = true );
+
+		//
+
+		engine.core.listenClick( (intersects) => {
+
+			if ( !isShiftPressed ) return
+
+			const a = intersects.find( intersect => intersect.object.isEditorShape );
+
+			if ( a ) shapes.selectShape( a.object );
+
+		} );
+
+		//
+
+		engine.core.callInLoop( () => {
+
+			bodies.bodies.forEach( (body) => {
+
+				updateObject.call( body.threeObj, body.transformCode );
+
+			} );
+
+		} );
+
+		//
+
+		editorConsole.log( 'editor initialized' );
+
+	} catch ( err ) {
+
+		editorConsole.error( err );
+
+	}
 
 }
 

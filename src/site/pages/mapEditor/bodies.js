@@ -2,6 +2,7 @@
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import codeInput from '../../components/codeInput/codeInput.js';
+import tagInput from '../../components/tagInput/tagInput.js';
 import './bodies.css';
 import shapes from './shapes.js';
 
@@ -28,7 +29,8 @@ toolBar.append(
 	makeTool( 'fas fa-file-export', removeFromBody ),
 	makeTool( 'fas fa-lightbulb-on', showBody ),
 	makeTool( 'far fa-lightbulb', hideBody ),
-	makeTool( 'fas fa-code', showCodeInput )
+	makeTool( 'fas fa-code', showCodeInput ),
+	makeTool( 'fas fa-tags', showTagInput )
 );
 
 function makeTool( iconClasses, callback ) {
@@ -156,7 +158,7 @@ function fromInfo( info ) {
 	const newBody = Body( info.name );
 
 	newBody.transformCode = info.trans;
-
+	newBody.tags = info.tags;
 	newBody.color = info.color || makeRandomColor();
 
 	bodies.push( newBody );
@@ -198,7 +200,46 @@ function makeRandomColor() {
 
 }
 
-// TRANSFORMATION CODE
+// TRANSFORMATION AND TAG CODE
+
+function showTagInput() {
+
+	if ( !selectedBody ) return
+
+	window.addEventListener( 'keydown', handleEscapeTagInput );
+
+	tagInput.toggle();
+	tagInput.setContent( selectedBody.tags || '' );
+
+}
+
+function handleEscapeTagInput( e ) {
+
+	if ( e.code === 'Escape' ) {
+
+		tagInput.reset();
+		tagInput.toggle();
+
+		window.removeEventListener( 'keydown', handleEscapeTagInput );
+
+	}
+
+}
+
+tagInput.addEventListener( 'validate', (e) => {
+
+	const tags = e.detail;
+
+	tagInput.reset();
+	tagInput.toggle();
+
+	if ( selectedBody ) selectedBody.tags = tags;
+
+	window.removeEventListener( 'keydown', handleEscapeCodeInput );
+
+} );
+
+//
 
 function showCodeInput() {
 

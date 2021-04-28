@@ -132,8 +132,11 @@ window.addEventListener( 'scene-graph-request', (e) => {
 		const parsedBody = {
 			name: body.name,
 			trans: body.transformCode,
-			color: body.color
+			color: body.color,
+			tags: body.tags
 		};
+
+		console.log( 'parsedBody', parsedBody )
 
 		parsedBody.shapes = body.threeObj.children.map( (shape) => {
 

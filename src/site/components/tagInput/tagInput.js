@@ -1,14 +1,14 @@
 
 import Button from '../button/Button.js';
-import './codeInput.css';
+import './tagInput.css';
 
 //
 
 const container = document.createElement('DIV');
-container.id = 'code-input';
+container.id = 'tag-input';
 
 const textArea = document.createElement('TEXTAREA');
-textArea.placeholder = 'this.position.x = Math.sin( Date.now() / 200 );'
+textArea.placeholder = '{ "foo": 42, "bar: "baz" }';
 textArea.rows = "10";
 textArea.cols = "150";
 

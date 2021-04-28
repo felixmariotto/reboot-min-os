@@ -97,11 +97,24 @@ toolsOptions.append(
 
 //  EVENT LISTENERS
 
+let isShiftPressed = false;
+
 window.addEventListener( 'keydown', (e) => {
 
 	switch ( e.keyCode ) {
 
-		case 83 : switchTransformMode();
+		case 83 : switchTransformMode(); break
+		case 16 : isShiftPressed = true; break
+
+	}
+
+} );
+
+window.addEventListener( 'keyup', (e) => {
+
+	switch ( e.keyCode ) {
+
+		case 16 : isShiftPressed = false; break
 
 	}
 
@@ -331,6 +344,8 @@ editorPage.start = function start() {
 	//
 
 	engine.core.listenClick( (intersects) => {
+
+		if ( !isShiftPressed ) return
 
 		const a = intersects.find( intersect => intersect.object.isEditorShape );
 

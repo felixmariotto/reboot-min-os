@@ -109,7 +109,15 @@ function addToBody( shape, body ) {
 
 	body.threeObj.add( shape );
 
-	// console.log( body.threeObj.children );
+	// update material according to body color
+
+	if ( body.color ) {
+
+		const material = new engine.THREE.MeshPhongMaterial({ color: body.color });
+
+		shape.material = material;
+
+	}
 
 }
 
@@ -151,6 +159,8 @@ function fromInfo( info ) {
 
 	newBody.transformCode = info.trans;
 
+	newBody.color = info.color || makeRandomColor();
+
 	bodies.push( newBody );
 
 	bodiesList.append( newBody.domElement );
@@ -170,6 +180,20 @@ function fromInfo( info ) {
 function getFromName( name ) {
 
 	return bodies.find( body => body.name === name );
+
+}
+
+//
+
+function makeRandomColor() {
+
+	const color = new engine.THREE.Color();
+
+	color.r = 0.4 + ( Math.random() * 0.6 );
+	color.g = 0.4 + ( Math.random() * 0.6 );
+	color.b = 0.4 + ( Math.random() * 0.6 );
+
+	return color
 
 }
 

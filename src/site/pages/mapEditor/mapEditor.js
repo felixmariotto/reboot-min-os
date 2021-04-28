@@ -118,7 +118,8 @@ window.addEventListener( 'scene-graph-request', (e) => {
 
 		const parsedBody = {
 			name: body.name,
-			trans: body.transformCode
+			trans: body.transformCode,
+			color: body.color
 		};
 
 		parsedBody.shapes = body.threeObj.children.map( (shape) => {
@@ -171,11 +172,13 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 	makeGrid();
 
+	addLights();
+
 	// copy file params in project
 
 	info.bodies.forEach( (bodyInfo) => {
 
-		const body = bodies.fromInfo( bodyInfo );
+		bodies.fromInfo( bodyInfo );
 
 	} );
 
@@ -240,6 +243,10 @@ editorPage.start = function start() {
 	//
 
 	engine.core.init( editorViewport );
+
+	addLights();
+
+	//
 
 	transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
 	transformControl.setSpace( 'local' );
@@ -362,6 +369,21 @@ function makeGrid() {
 	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
 
 	engine.core.scene.add( gridHelper, axesHelper );
+
+}
+
+//
+
+function addLights() {
+
+	const light = new engine.THREE.AmbientLight( 0x404040 );
+	const dirLight1 = new engine.THREE.DirectionalLight( 0xffffff, 0.5 );
+	const dirLight2 = new engine.THREE.DirectionalLight( 0xffffff, 0.5 );
+
+	dirLight1.position.set( 0.4, 1, -0.2 );
+	dirLight2.position.set( 0.2, 1, 0.2 );
+
+	engine.core.scene.add( dirLight1, dirLight2, light );
 
 }
 

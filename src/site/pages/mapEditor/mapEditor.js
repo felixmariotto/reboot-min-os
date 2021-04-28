@@ -405,13 +405,11 @@ function updateObject( code ) {
 
 function makeGrid() {
 
-	const size = 50;
-	const divisions = 50;
+	const axesHelper = new engine.THREE.AxesHelper( 100 );
 
-	const gridHelper = new engine.THREE.GridHelper( size, divisions );
-	const axesHelper = new engine.THREE.AxesHelper( size / 2 );
+	const grid = new engine.InfiniteGridHelper( 1, 10, new engine.THREE.Color(0xededed) );
 
-	engine.core.scene.add( gridHelper, axesHelper );
+	engine.core.scene.add( grid, axesHelper );
 
 }
 

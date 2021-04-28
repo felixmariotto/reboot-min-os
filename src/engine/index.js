@@ -1,5 +1,7 @@
 
 import * as THREE from 'three';
+import InfiniteGridHelper from './misc/InfiniteGridHelper.js';
+
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
@@ -28,7 +30,8 @@ if ( window ) {
 			cameraControls,
 			characterControls,
 			materials,
-			physics
+			physics,
+			InfiniteGridHelper
 		},
 		constants
 	);

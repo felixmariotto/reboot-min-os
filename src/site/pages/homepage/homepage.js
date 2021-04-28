@@ -6,11 +6,14 @@ import characterTest from '../characterTest/characterTest.js';
 import mapEditor from '../mapEditor/mapEditor.js';
 import mapTest from '../mapTest/mapTest.js';
 
+import backgroundImage from '../../../assets/background.png';
+
 //
 
 const homepage = elem({ id: 'homepage' });
+homepage.style.backgroundImage = `url(${ backgroundImage })`;
 
-const title = elem({ tagName: 'H1', html: 'Game Title' });
+const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
 
 const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden' });
 

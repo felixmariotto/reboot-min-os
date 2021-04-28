@@ -1,6 +1,6 @@
 
 #homepage {
-	background-color: #292929;
+	background-size: cover;
 	height: 100%;
 	width: 100%;
 	display: flex;
@@ -11,17 +11,28 @@
 
 	#homepage > * {
 		margin: 30px 0;
+		padding: 45px;
+		border-radius: 8px;
+		background-color: black;
 	}
 
-		#homepage-picking-box {
-			display: flex;
-			flex-direction: column;
+	#homepage > h1 {
+		color: white;
+		font-size: 3em;
+		font-family: 'Orelega One', cursive;
+	}
+
+	#homepage-picking-box {
+		display: flex;
+		flex-direction: column;
+	}
+
+		#homepage-picking-box > button {
+			padding: 6px 11px;
+			margin: 8px 0;
+			cursor: pointer;
 		}
 
-			#homepage-picking-box > button {
-				padding: 6px 11px;
-			}
-
-			#homepage-picking-box.hidden {
-				display: none;
-			}
+		#homepage-picking-box.hidden {
+			display: none;
+		}

@@ -2,3 +2,73 @@
 #editor-chain-point-options {
 	background-color: red;
 }
+
+/* */
+
+#editor-chain-point-toolbar {
+	height: 40px;
+	width: 100%;
+	padding: 10px;
+	background-color: #777777;
+	display: flex;
+	align-items: center;
+}
+
+	#editor-chain-point-toolbar .button {
+		height: 30px;
+		width: 30px;
+		font-size: 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+		#editor-chain-point-toolbar > * {
+			margin: 0 5px;
+		}
+
+/* */
+
+#editor-chain-point-list-container {
+	position: relative;
+	height: calc( 100% - 40px );
+	width: 100%;
+	background-color: #999999;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+	#editor-chain-point-list {
+		position: relative;
+		width: 100%;
+		padding: 4px;
+		display: flex;
+		flex-direction: column;
+	}
+
+		.editor-chain-point-line {
+			width: 100%;
+			border-radius: 7px;
+		}
+
+			.editor-chain-point-section {
+				padding: 10px;
+				margin-bottom: 10px;
+				width: 100%;
+				border-radius: 7px;
+			}
+
+				.editor-chain-point-section > * {
+					margin-bottom: 5px;
+					display: flex;
+					justify-content: space-between;
+				}
+
+				.editor-chain-point-section input {
+					width: 250px;
+					padding: 0 10px;
+				}
+
+				.editor-chain-point-section p {
+					margin-bottom: 10px;
+				}

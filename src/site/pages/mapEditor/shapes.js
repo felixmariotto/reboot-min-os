@@ -83,6 +83,44 @@ function createBox() {
 
 }
 
+function createChainPoint() {
+
+	const chainPoint = new engine.THREE.Group();
+
+	const outer = new engine.THREE.Mesh(
+		new engine.THREE.IcosahedronGeometry( 1, 1 ),
+		new engine.THREE.MeshPhongMaterial({ wireframe: true })
+	);
+
+	const inner = new engine.THREE.Mesh(
+		new engine.THREE.IcosahedronGeometry( 0.3 ),
+		new engine.THREE.MeshPhongMaterial()
+	);
+
+	chainPoint.add( inner, outer );
+
+	chainPoint.setColor = function ( hex ) {
+
+		outer.material.color.set( hex );
+		inner.material.color.set( hex );
+
+	}
+
+	chainPoint.setRadius = function ( radius ) {
+
+		outer.scale.setScalar( radius );
+
+	}
+
+	chainPoint.position.x = 3;
+
+	chainPoint.setColor( 0xff00ff );
+	chainPoint.setRadius( 5 );
+
+	engine.core.scene.add( chainPoint );
+
+}
+
 function unselectAll() {
 
 	if ( !selectedShape ) return
@@ -226,5 +264,6 @@ export default {
 	selectShape,
 	getSelected,
 	fromInfo,
-	duplicateSelected
+	duplicateSelected,
+	createChainPoint
 }

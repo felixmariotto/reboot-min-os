@@ -7,13 +7,14 @@ import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
 import chain from './chain.js';
+import chainPoint from './chainPoint.js';
 import hero from './hero.js';
 
 //
 
 let transformControl, heroHelper, chainHelper, chainStartBody;
 
-const toolModules = [ bodies, shapes, files, chain, hero ];
+const toolModules = [ bodies, shapes, files, chainPoint, chain, hero ];
 
 //
 
@@ -47,6 +48,7 @@ tools.append(
 	makeToolButton( 'bodies', bodies ),
 	makeToolButton( 'shapes', shapes ),
 	'//',
+	makeToolButton( 'chain points', chainPoint ),
 	makeToolButton( 'chain', chain ),
 	makeToolButton( 'hero', hero )
 );
@@ -91,6 +93,7 @@ toolsOptions.append(
 	bodies.domOptions,
 	shapes.domOptions,
 	files.domOptions,
+	chainPoint.domOptions,
 	chain.domOptions,
 	hero.domOptions
 );

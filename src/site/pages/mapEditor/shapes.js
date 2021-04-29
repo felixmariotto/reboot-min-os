@@ -34,7 +34,8 @@ const addShapeTools = elem({ id: 'editor-add-shape-toolbar' });
 
 addShapeTools.append(
 	makeShapeCreatorButton( 'fas fa-circle', createSphere ),
-	makeShapeCreatorButton( 'far fa-cube', createBox )
+	makeShapeCreatorButton( 'far fa-cube', createBox ),
+	makeShapeCreatorButton( 'fal fa-ring', createCylinder )
 );
 
 function makeShapeCreatorButton( iconClasses, callback ) {
@@ -61,6 +62,12 @@ shapesOptions.append(
 function createSphere() {
 
 	console.log('create a sphere');
+
+}
+
+function createCylinder() {
+
+	console.log('create a cylinder');
 
 }
 

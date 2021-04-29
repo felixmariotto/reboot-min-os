@@ -157,6 +157,22 @@ window.addEventListener( 'scene-graph-request', () => {
 						type: 'box'
 					}
 
+				case 'sphere':
+					return {
+						pos: shape.position,
+						radius: shape.scale.x,
+						type: 'sphere'
+					}
+
+				case 'cylinder':
+					return {
+						pos: shape.position,
+						rot: shape.rotation,
+						radius: shape.scale.x,
+						height: shape.scale.y,
+						type: 'cylinder'
+					}
+
 			}
 
 		} );

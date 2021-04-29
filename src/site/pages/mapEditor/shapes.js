@@ -71,20 +71,22 @@ function createShape( shapeType ) {
 
 	} )();
 
-	const sphere = new engine.THREE.Mesh(
+	const shape = new engine.THREE.Mesh(
 		geometry,
 		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
 	);
 
-	sphere.isEditorShape = true;
+	shape.isEditorShape = true;
 
-	sphere.shapeType = shapeType;
+	shape.shapeType = shapeType;
 
-	shapes.push( sphere );
+	shapes.push( shape );
 
-	engine.core.scene.add( sphere );
+	engine.core.scene.add( shape );
 
-	selectShape( sphere );
+	selectShape( shape );
+
+	return shape
 
 }
 
@@ -161,36 +163,38 @@ function getSelected() {
 
 function fromInfo( info ) {
 
+	const shape = createShape( info.type );
+
 	switch ( info.type ) {
 
-		case 'box' : {
-		
-			const box = new engine.THREE.Mesh(
-				new engine.THREE.BoxGeometry(),
-				new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
-			);
-
-			box.rotation.copy( info.rot );
-			box.position.copy( info.pos );
-			box.scale.set(
+		case 'box' :
+			shape.scale.set(
 				info.width,
 				info.height,
 				info.depth
 			);
+			break
 
-			box.isEditorShape = true;
+		case 'sphere' :
+			shape.scale.setScalar( info.radius );
+			break
 
-			box.shapeType = 'box';
-
-			shapes.push( box );
-
-			engine.core.scene.add( box );
-
-			return box
-			
-		}
+		case 'cylinder' :
+			shape.scale.set(
+				info.radius,
+				info.height,
+				info.radius
+			);
+			break
 
 	}
+
+	if ( info.rot ) shape.rotation.copy( info.rot );
+	if ( info.pos ) shape.position.copy( info.pos );
+
+	unselectAll();
+
+	return shape
 
 }
 

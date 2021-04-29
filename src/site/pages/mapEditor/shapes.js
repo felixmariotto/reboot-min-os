@@ -61,14 +61,40 @@ shapesOptions.append(
 
 function createSphere() {
 
-	console.log('create a sphere');
+	const sphere = new engine.THREE.Mesh(
+		new engine.THREE.IcosahedronGeometry( 1, 3 ),
+		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
+	);
+
+	sphere.isEditorShape = true;
+
+	sphere.shapeType = 'sphere';
+
+	shapes.push( sphere );
+
+	engine.core.scene.add( sphere );
+
+	selectShape( sphere );
 
 }
 
 function createCylinder() {
 
-	console.log('create a cylinder');
+	const cylinder = new engine.THREE.Mesh(
+		new engine.THREE.CylinderGeometry( 1, 1, 1, 16 ),
+		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
+	);
 
+	cylinder.isEditorShape = true;
+
+	cylinder.shapeType = 'cylinder';
+
+	shapes.push( cylinder );
+
+	engine.core.scene.add( cylinder );
+
+	selectShape( cylinder );
+	
 }
 
 function createBox() {

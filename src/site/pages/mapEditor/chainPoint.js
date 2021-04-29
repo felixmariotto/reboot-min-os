@@ -3,6 +3,7 @@ import './chainPoint.css';
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import shapes from './shapes.js';
+import bodies from './bodies.js';
 
 //
 
@@ -88,8 +89,6 @@ function ChainPoint() {
 
 	object3D.add( inner, outer );
 
-	object3D.position.x = 3;
-
 	engine.core.scene.add( object3D );
 
 	//
@@ -108,9 +107,10 @@ function ChainPoint() {
 	const x = makeInput( 'x', 0 );
 	const y = makeInput( 'y', 0 );
 	const z = makeInput( 'z', 0 );
+	const radius = makeInput( 'radius', 1 );
 	const enabledCheck = makeCheckbox( 'enabled' );
 
-	content.append( bodyName, x, y, z, enabledCheck );
+	content.append( bodyName, x, y, z, radius, enabledCheck );
 
 	domElement.append( content )
 
@@ -128,7 +128,9 @@ function ChainPoint() {
 			bodyName: bodyName.getValue(),
 			x: x.getValue(),
 			y: y.getValue(),
-			z: z.getValue()
+			z: z.getValue(),
+			radius: radius.getValue(),
+			enabled: enabledCheck.getValue()
 		}
 
 	}
@@ -188,17 +190,29 @@ function makeCheckbox( title ) {
 
 function handleChange() {
 
-	const event = new CustomEvent( 'update-chain-points', { detail: getParams() } );
+	chainPoints.forEach( (chainPoint) => {
 
-	window.dispatchEvent( event );
+		const params = chainPoint.getParams();
+
+		const body = bodies.getFromName( params.bodyName );
+
+		if ( body ) body.threeObj.add( chainPoint.object3D );
+
+		chainPoint.object3D.position.set(
+			Number( params.x ),
+			Number( params.y ),
+			Number( params.z )
+		);
+
+		chainPoint.setRadius( Number( params.radius ) );
+
+	} );
 
 }
 
 function getParams() {
 
-	const params = chainPoints.map( chainPoint => chainPoint.getParams() );
-
-	console.log( params )
+	return chainPoints.map( chainPoint => chainPoint.getParams() );
 
 }
 

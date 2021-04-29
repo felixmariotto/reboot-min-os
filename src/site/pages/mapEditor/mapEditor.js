@@ -365,6 +365,29 @@ editorPage.start = function start() {
 
 		transformControl.addEventListener( 'mouseUp', () => orbitControls.enabled = true );
 
+		transformControl.addEventListener( 'change', (e) => {
+
+			if ( !e.target || !e.target.object ) return
+
+			if ( e.target.object.shapeType === 'sphere' ) {
+
+				const s = e.target.object.scale;
+
+				s.setScalar( ( s.x + s.y + s.z ) / 3 );
+
+			} else if ( e.target.object.shapeType === 'cylinder' ) {
+
+				const s = e.target.object.scale;
+
+				const v = ( s.x + s.z ) / 2;
+
+				s.x = v;
+				s.z = v;
+
+			}
+
+		} );
+
 		//
 
 		engine.core.listenClick( (intersects) => {

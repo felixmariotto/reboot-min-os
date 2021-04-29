@@ -10,6 +10,8 @@ const shapes = [];
 
 let selectedShape, selectedMaterial;
 
+const DEFAULT_SHAPE_MATERIAL = new engine.THREE.MeshPhongMaterial({ color: 0x555555 });
+
 setTimeout( () => {
 
 	engine.core.callInLoop( () => {
@@ -38,6 +40,11 @@ addShapeTools.append(
 	makeShapeCreatorButton( 'fal fa-ring', createCylinder )
 );
 
+shapesOptions.append(
+	'Add a shape :',
+	addShapeTools
+);
+
 function makeShapeCreatorButton( iconClasses, callback ) {
 
 	const btnIcon = icon( iconClasses );
@@ -52,38 +59,23 @@ function makeShapeCreatorButton( iconClasses, callback ) {
 
 //
 
-shapesOptions.append(
-	'Add a shape :',
-	addShapeTools
-);
-
-//
-
 function createShape( shapeType ) {
 
 	const geometry = ( () => {
 
 		switch ( shapeType ) {
-
 			case 'sphere' : return new engine.THREE.IcosahedronGeometry( 1, 3 )
 			case 'cylinder': return new engine.THREE.CylinderGeometry( 1, 1, 1, 16 )
 			default : return new engine.THREE.BoxGeometry()
-
 		}
 
 	} )();
 
-	const sphere = new engine.THREE.Mesh(
-		geometry,
-		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
-	);
-
+	const sphere = new engine.THREE.Mesh( geometry, DEFAULT_SHAPE_MATERIAL );
 	sphere.isEditorShape = true;
-
 	sphere.shapeType = shapeType;
 
 	shapes.push( sphere );
-
 	engine.core.scene.add( sphere );
 
 	selectShape( sphere );

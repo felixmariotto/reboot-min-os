@@ -7,14 +7,14 @@ import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
 import chain from './chain.js';
-import chainPoint from './chainPoint.js';
+import chainPoints from './chainPoints.js';
 import hero from './hero.js';
 
 //
 
 let transformControl, heroHelper, chainHelper, chainStartBody;
 
-const toolModules = [ bodies, shapes, files, chainPoint, chain, hero ];
+const toolModules = [ bodies, shapes, files, chainPoints, chain, hero ];
 
 //
 
@@ -48,7 +48,7 @@ tools.append(
 	makeToolButton( 'bodies', bodies ),
 	makeToolButton( 'shapes', shapes ),
 	'//',
-	makeToolButton( 'chain points', chainPoint ),
+	makeToolButton( 'chain points', chainPoints ),
 	makeToolButton( 'chain', chain ),
 	makeToolButton( 'hero', hero )
 );
@@ -93,7 +93,7 @@ toolsOptions.append(
 	bodies.domOptions,
 	shapes.domOptions,
 	files.domOptions,
-	chainPoint.domOptions,
+	chainPoints.domOptions,
 	chain.domOptions,
 	hero.domOptions
 );
@@ -128,6 +128,7 @@ window.addEventListener( 'scene-graph-request', () => {
 
 	const sceneInfo = {
 		chain: chain.getParams(),
+		chainPoints: chainPoints.getParams(),
 		hero: hero.getPosition()
 	}
 
@@ -140,9 +141,9 @@ window.addEventListener( 'scene-graph-request', () => {
 			tags: body.tags
 		};
 
-		console.log( 'parsedBody', parsedBody )
-
-		parsedBody.shapes = body.threeObj.children.map( (shape) => {
+		parsedBody.shapes = body.threeObj.children
+		.filter( child => child.shapeType ) // trim out chain point helpers
+		.map( (shape) => {
 
 			switch ( shape.shapeType ) {
 
@@ -203,6 +204,8 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 		} );
 
+		chainPoints.fromInfo( info.chainPoints );
+
 		chain.fromInfo( info.chain );
 
 		hero.fromInfo( info.hero );
@@ -218,6 +221,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 	} catch ( err ) {
 
 		editorConsole.error( err );
+		console.log( err );
 
 	}
 
@@ -392,6 +396,7 @@ editorPage.start = function start() {
 	} catch ( err ) {
 
 		editorConsole.error( err );
+		console.log( err );
 
 	}
 

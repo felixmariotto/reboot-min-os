@@ -1,5 +1,5 @@
 
-import './chainPoint.css';
+import './chainPoints.css';
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import shapes from './shapes.js';
@@ -45,9 +45,9 @@ listContainer.append( chainPointList );
 
 //
 
-function addChainPoint() {
+function addChainPoint( info ) {
 
-	const newChainPoint = ChainPoint();
+	const newChainPoint = ChainPoint( info );
 
 	chainPoints.push( newChainPoint );
 
@@ -71,9 +71,9 @@ function makeRandomColor() {
 
 //
 
-function ChainPoint() {
+function ChainPoint( info ) {
 
-	const color = makeRandomColor();
+	const color = info ? new engine.THREE.Color( '#' + info.color ) : makeRandomColor();
 
 	const object3D = new engine.THREE.Group();
 
@@ -116,6 +116,19 @@ function ChainPoint() {
 
 	//
 
+	if ( info ) {
+
+		bodyName.setValue( info.bodyName );
+		x.setValue( info.x );
+		y.setValue( info.y );
+		z.setValue( info.z );
+		radius.setValue( info.radius );
+		enabledCheck.setValue( info.enabled );
+
+	}
+
+	//
+
 	function setRadius( radius ) {
 
 		this.outer.scale.setScalar( radius );
@@ -130,7 +143,8 @@ function ChainPoint() {
 			y: y.getValue(),
 			z: z.getValue(),
 			radius: radius.getValue(),
-			enabled: enabledCheck.getValue()
+			enabled: enabledCheck.getValue(),
+			color: color.getHexString()
 		}
 
 	}
@@ -216,10 +230,21 @@ function getParams() {
 
 }
 
+function fromInfo( chainPointsInfo ) {
+
+	if ( !chainPointsInfo ) return
+
+	chainPointsInfo.forEach( info => addChainPoint( info ) );
+
+	handleChange();
+
+}
+
 //
 
 export default {
 	domOptions: chainPointOptions,
 	chainPoints,
-	getParams
+	getParams,
+	fromInfo
 }

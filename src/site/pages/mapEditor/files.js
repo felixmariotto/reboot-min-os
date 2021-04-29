@@ -45,6 +45,7 @@ function saveAsJSON( sceneGraph ) {
 	} catch ( err ) {
 
 		console.error( err );
+		console.log( err );
 
 	}
 

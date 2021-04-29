@@ -59,16 +59,28 @@ shapesOptions.append(
 
 //
 
-function createSphere() {
+function createShape( shapeType ) {
+
+	const geometry = ( () => {
+
+		switch ( shapeType ) {
+
+			case 'sphere' : return new engine.THREE.IcosahedronGeometry( 1, 3 )
+			case 'cylinder': return new engine.THREE.CylinderGeometry( 1, 1, 1, 16 )
+			default : return new engine.THREE.BoxGeometry()
+
+		}
+
+	} )();
 
 	const sphere = new engine.THREE.Mesh(
-		new engine.THREE.IcosahedronGeometry( 1, 3 ),
+		geometry,
 		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
 	);
 
 	sphere.isEditorShape = true;
 
-	sphere.shapeType = 'sphere';
+	sphere.shapeType = shapeType;
 
 	shapes.push( sphere );
 
@@ -78,43 +90,11 @@ function createSphere() {
 
 }
 
-function createCylinder() {
+function createSphere() { createShape( 'sphere' ) }
+function createCylinder() { createShape( 'cylinder' ) }
+function createBox() { createShape( 'box' ) }
 
-	const cylinder = new engine.THREE.Mesh(
-		new engine.THREE.CylinderGeometry( 1, 1, 1, 16 ),
-		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
-	);
-
-	cylinder.isEditorShape = true;
-
-	cylinder.shapeType = 'cylinder';
-
-	shapes.push( cylinder );
-
-	engine.core.scene.add( cylinder );
-
-	selectShape( cylinder );
-	
-}
-
-function createBox() {
-
-	const box = new engine.THREE.Mesh(
-		new engine.THREE.BoxGeometry(),
-		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
-	);
-
-	box.isEditorShape = true;
-
-	box.shapeType = 'box';
-
-	shapes.push( box );
-
-	engine.core.scene.add( box );
-
-	selectShape( box );
-
-}
+//
 
 function unselectAll() {
 

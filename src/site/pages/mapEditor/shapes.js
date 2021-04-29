@@ -86,6 +86,40 @@ function createShape( shapeType ) {
 
 	selectShape( shape );
 
+	shape.getInfo = function getInfo() {
+
+		switch ( shapeType ) {
+
+			case 'box':
+				return {
+					pos: shape.position,
+					rot: shape.rotation,
+					width: shape.scale.x,
+					height: shape.scale.y,
+					depth: shape.scale.z,
+					type: 'box'
+				}
+
+			case 'sphere':
+				return {
+					pos: shape.position,
+					radius: shape.scale.x,
+					type: 'sphere'
+				}
+
+			case 'cylinder':
+				return {
+					pos: shape.position,
+					rot: shape.rotation,
+					radius: shape.scale.x,
+					height: shape.scale.y,
+					type: 'cylinder'
+				}
+
+		}
+
+	}
+
 	return shape
 
 }
@@ -163,6 +197,8 @@ function getSelected() {
 
 function fromInfo( info ) {
 
+	if ( !info ) debugger
+
 	const shape = createShape( info.type );
 
 	switch ( info.type ) {
@@ -204,24 +240,7 @@ function duplicateSelected() {
 
 	if ( selectedShape ) {
 
-		let info;
-
-		switch ( selectedShape.shapeType ) {
-
-			case 'box':
-				info = {
-					pos: selectedShape.position,
-					rot: selectedShape.rotation,
-					width: selectedShape.scale.x,
-					height: selectedShape.scale.y,
-					depth: selectedShape.scale.z,
-					type: 'box'
-				}
-			break
-
-		}
-
-		const newShape = fromInfo( info );
+		const newShape = fromInfo( selectedShape.getInfo() );
 
 		selectShape( newShape );
 

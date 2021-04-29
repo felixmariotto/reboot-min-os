@@ -143,39 +143,7 @@ window.addEventListener( 'scene-graph-request', () => {
 
 		parsedBody.shapes = body.threeObj.children
 		.filter( child => child.shapeType ) // trim out chain point helpers
-		.map( (shape) => {
-
-			switch ( shape.shapeType ) {
-
-				case 'box':
-					return {
-						pos: shape.position,
-						rot: shape.rotation,
-						width: shape.scale.x,
-						height: shape.scale.y,
-						depth: shape.scale.z,
-						type: 'box'
-					}
-
-				case 'sphere':
-					return {
-						pos: shape.position,
-						radius: shape.scale.x,
-						type: 'sphere'
-					}
-
-				case 'cylinder':
-					return {
-						pos: shape.position,
-						rot: shape.rotation,
-						radius: shape.scale.x,
-						height: shape.scale.y,
-						type: 'cylinder'
-					}
-
-			}
-
-		} );
+		.map( shape => shape.getInfo() );
 
 		return parsedBody
 

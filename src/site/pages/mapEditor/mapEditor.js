@@ -231,12 +231,16 @@ window.addEventListener( 'update-chain', (e) => {
 
 const transformModes = [ 'translate', 'rotate', 'scale' ];
 let transformMode = 0;
+function getTransformMode() { return transformModes[ transformMode ] }
 
 function switchTransformMode() {
 
 	if ( !transformControl ) return
 
-	transformMode = ( transformMode + 1 ) % 3;
+	// we don't want to scale if there is more than one objec to scale.
+	const max = transformContainer.children.length > 1 ? 2 : 3;
+
+	transformMode = ( transformMode + 1 ) % max;
 
 	transformControl.setMode( transformModes[ transformMode ] );
 
@@ -247,6 +251,15 @@ window.addEventListener( 'transform-shape', (e) => {
 	detachTransformControl();
 
 	positionTransformControl( e.detail );
+
+	// we don't want to scale if there is more than one object
+	// to transform, because we only want axis-aligned scale from center.
+	if (
+		e.detail.length > 1 &&
+		getTransformMode() === 'scale'
+	) {
+		switchTransformMode();
+	}
 
 	transformControl.attach( transformContainer );
 

@@ -258,7 +258,7 @@ function duplicateSelected() {
 
 		newShapes.forEach( shape => selectShape( shape ) );
 
-		editorConsole.log( 'duplicated shapes')
+		editorConsole.log( 'duplicated shapes' );
 
 	} else {
 

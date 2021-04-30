@@ -104,6 +104,8 @@ let isShiftPressed = false;
 
 window.addEventListener( 'keydown', (e) => {
 
+	if ( e.code === "Escape" ) document.activeElement.blur();
+
 	switch ( e.keyCode ) {
 
 		case 83 : switchTransformMode(); break

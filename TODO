@@ -1,6 +1,4 @@
 
 editor: add chain length text field in chain points menu
 
-editor: currently pressing D even when typing text triggers a duplication. Should be fixed
-
-editor: should log when duplicate successfully
+editor: sometimes pressing D when typing text triggers a duplication. Should be fixed

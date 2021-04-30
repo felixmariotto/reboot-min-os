@@ -244,6 +244,8 @@ function duplicateSelected() {
 
 		selectShape( newShape );
 
+		editorConsole.log( 'duplicated a shape')
+
 	} else {
 
 		editorConsole.warn( 'no shape selected, impossible to duplicate.' )

@@ -287,7 +287,15 @@ function detachTransformControl() {
 
 	for ( let i=transformContainer.children.length-1 ; i>-1 ; i-- ) {
 
-		engine.core.scene.attach( transformContainer.children[i] );
+		if ( transformContainer.children[i].owner ) {
+
+			transformContainer.children[i].owner.threeObj.attach( transformContainer.children[i] );
+
+		} else {
+
+			engine.core.scene.attach( transformContainer.children[i] );
+
+		}
 
 	}
 
@@ -318,6 +326,7 @@ editorPage.start = function start() {
 		transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
 		transformControl.setSpace( 'local' );
 		transformContainer = new engine.THREE.Group();
+		transformContainer.isTransformContainer = true;
 
 		heroHelper = new engine.THREE.Mesh(
 			new engine.THREE.SphereGeometry(),

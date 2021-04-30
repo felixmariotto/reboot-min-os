@@ -109,7 +109,17 @@ function addToBody( shape, body ) {
 	body = body || selectedBody;
 	if ( !body || !selShapes.length ) return
 
-	body.threeObj.add( ...selShapes );
+	selShapes.forEach( (shape) => {
+
+		if ( shape.parent && !shape.parent.isTransformContainer ) {
+
+			body.threeObj.attach( shape );
+
+		}
+
+	} );
+	
+	selShapes.forEach( shape => shape.owner = body );
 
 	// update material according to body color
 
@@ -129,9 +139,11 @@ function removeFromBody( shape ) {
 
 	if ( !selectedBody || !selShapes.length ) return
 
-	selectedBody.threeObj.remove( ...selShapes );
+	selShapes.forEach( shape => shape.owner = undefined );
 
-	engine.core.scene.add( ...selShapes );
+	// selectedBody.threeObj.remove( ...selShapes );
+
+	engine.core.scene.attach( ...selShapes );
 
 	selShapes.forEach( shape => shape.material = shapes.DefaultShapeMaterial() );
 

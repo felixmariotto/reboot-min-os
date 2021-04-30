@@ -252,6 +252,8 @@ function duplicateSelected() {
 
 			const newShape = fromInfo( shape.getInfo() );
 
+			newShape.scale.copy( shape.scale );
+
 			newShapes.push( newShape );
 
 		} );

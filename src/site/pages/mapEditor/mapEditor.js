@@ -261,6 +261,8 @@ window.addEventListener( 'transform-shape', (e) => {
 		switchTransformMode();
 	}
 
+	if ( e.detail.length === 1 ) transformContainer.rotation.copy( e.detail[0].rotation );
+
 	transformControl.attach( transformContainer );
 
 	e.detail.forEach( shape => transformContainer.attach( shape ) );
@@ -290,6 +292,9 @@ function detachTransformControl() {
 	}
 
 	transformControl.detach( transformContainer );
+
+	transformContainer.rotation.set( 0, 0, 0 );
+	transformContainer.scale.setScalar( 1 );
 
 }
 
@@ -391,19 +396,28 @@ editorPage.start = function start() {
 
 		transformControl.addEventListener( 'mouseUp', () => orbitControls.enabled = true );
 
+		// clamp scale transforms depending on the shape
 		transformControl.addEventListener( 'change', (e) => {
 
-			if ( !e.target || !e.target.object ) return
+			if (
+				!e.target ||
+				!e.target.object ||
+				e.target.object.children.length !== 1
+			) {
+				return
+			}
 
-			if ( e.target.object.shapeType === 'sphere' ) {
+			//
 
-				const s = e.target.object.scale;
+			const scaledContainer = e.target.object;
+			const s = scaledContainer.scale;
+			const shape = e.target.object.children[0];
+
+			if ( shape.shapeType === 'sphere' ) {
 
 				s.setScalar( ( s.x + s.y + s.z ) / 3 );
 
-			} else if ( e.target.object.shapeType === 'cylinder' ) {
-
-				const s = e.target.object.scale;
+			} else if ( shape.shapeType === 'cylinder' ) {
 
 				const v = ( s.x + s.z ) / 2;
 

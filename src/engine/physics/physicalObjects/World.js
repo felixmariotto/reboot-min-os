@@ -107,7 +107,22 @@ export default function World() {
 
 				} );
 
-				// if the body is the player, constrain the chain link it's attached to.
+				/*
+				// test
+				if ( body.isPlayer ) {
+					
+					if ( body.velocity.length() > 1 ) {
+
+						console.log( body.velocity )
+						debugger
+
+					}
+
+				}
+				*/
+
+				// if the body is the player and they are climbing along the chain,
+				// constrain the chain link it's attached to.
 
 				if (
 					body.isPlayer &&

@@ -5,7 +5,8 @@ import constants from '../misc/constants.js';
 import World from './physicalObjects/World.js';
 import Body from './physicalObjects/Body.js';
 import Box from './physicalObjects/Box.js';
-// import Sphere from './physicalObjects/Sphere.js';
+import Sphere from './physicalObjects/Sphere.js';
+import Cylinder from './physicalObjects/Cylinder.js';
 import Chain from './physicalObjects/Chain.js';
 import Player from './physicalObjects/Player.js';
 
@@ -45,6 +46,16 @@ export default function WorldFromInfo( info ) {
 
 				case 'box' :
 					shape = Box( shapeInfo.width, shapeInfo.height, shapeInfo.depth );
+					shape.makeHelper();
+					break
+
+				case 'sphere' :
+					shape = Sphere( shapeInfo.radius );
+					shape.makeHelper();
+					break
+
+				case 'cylinder' :
+					shape = Cylinder( shapeInfo.radius, shapeInfo.height );
 					shape.makeHelper();
 					break
 

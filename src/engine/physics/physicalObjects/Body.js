@@ -89,6 +89,30 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						this.resolvePenetration( penetrationVec, collider.damping );
 
+						if ( this.isPlayer ) {
+
+							/*
+							if ( penetrationVec.length() > 0.1 ) {
+
+								console.log( 'penetrationVec', penetrationVec )
+								console.log( 'gregre' )
+								debugger
+
+							}
+							*/
+					
+							/*
+							if ( this.velocity.length() > 1 ) {
+
+								console.log( 'penetrationVec', penetrationVec )
+								console.log( 'this.velocity', this.velocity )
+								debugger
+
+							}
+							*/
+
+						}
+
 					}
 
 				}

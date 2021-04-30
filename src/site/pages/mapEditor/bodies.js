@@ -105,33 +105,35 @@ function deleteBody() {
 
 function addToBody( shape, body ) {
 
-	shape = shape || shapes.getSelected();
+	const selShapes = shape ? [ shape ] : shapes.getSelected();
 	body = body || selectedBody;
-	if ( !body || !shape ) return
+	if ( !body || !selShapes.length ) return
 
-	body.threeObj.add( shape );
+	body.threeObj.add( ...selShapes );
 
 	// update material according to body color
 
 	if ( body.color ) {
 
-		shape.material.color.set( body.color );
+		selShapes.forEach( shape => shape.material.color.set( body.color ) );
 
 	}
 
 }
 
-function removeFromBody() {
+function removeFromBody( shape ) {
 
-	const selectedShape = shapes.getSelected();
+	if ( shape && !shape.shapeType ) return
 
-	if ( !selectedBody || !selectedShape ) return
+	const selShapes = shape ? [ shape ] : shapes.getSelected();
 
-	selectedBody.threeObj.remove( selectedShape );
+	if ( !selectedBody || !selShapes.length ) return
 
-	engine.core.scene.add( selectedShape );
+	selectedBody.threeObj.remove( ...selShapes );
 
-	selectedShape.material = new engine.THREE.MeshNormalMaterial();
+	engine.core.scene.add( ...selShapes );
+
+	selShapes.forEach( shape => shape.material = shapes.DefaultShapeMaterial() );
 
 }
 
@@ -301,13 +303,11 @@ function Body( name ) {
 
 		this.domElement.remove();
 
-		this.threeObj.traverse( (child) => {
+		for ( let i = this.threeObj.children.length ; i>-1 ; i-- ) {
 
-			if ( child === this.threeObj ) return
+			removeFromBody( this.threeObj.children[i] );
 
-			engine.core.scene.add( child );
-
-		} );
+		}
 
 		this.threeObj.parent.remove( this.threeObj );
 

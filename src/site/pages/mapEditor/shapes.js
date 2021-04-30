@@ -8,17 +8,22 @@ import editorConsole from './editorConsole.js';
 
 const shapes = [];
 
-let selectedShape, selectedMaterial;
+let selectedMaterials = [];
+let selectedShapes = [];
 
 setTimeout( () => {
 
 	engine.core.callInLoop( () => {
 
-		if ( selectedMaterial ) {
+		if ( selectedMaterials.length ) {
 
 			const scale = Math.sin( Date.now() / 100 ) * 0.2 + 0.2;
 
-			selectedMaterial.emissive.setScalar( scale );
+			selectedMaterials.forEach( (material) => {
+
+				material.emissive.setScalar( scale );
+
+			} );
 
 		}
 
@@ -59,6 +64,8 @@ function makeShapeCreatorButton( iconClasses, callback ) {
 
 function createShape( shapeType ) {
 
+	unselectAll();
+
 	const geometry = ( () => {
 
 		switch ( shapeType ) {
@@ -71,10 +78,7 @@ function createShape( shapeType ) {
 
 	} )();
 
-	const shape = new engine.THREE.Mesh(
-		geometry,
-		new engine.THREE.MeshPhongMaterial({ color: 0x555555 })
-	);
+	const shape = new engine.THREE.Mesh( geometry, DefaultShapeMaterial() );
 
 	shape.isEditorShape = true;
 
@@ -132,11 +136,12 @@ function createBox() { createShape( 'box' ) }
 
 function unselectAll() {
 
-	if ( !selectedShape ) return
+	if ( !selectedShapes.length ) return
 
-	if ( selectedMaterial ) selectedMaterial.emissive.setScalar( 0 );
-	selectedMaterial = null;
-	selectedShape = null;
+	selectedMaterials.forEach( material => material.emissive.setScalar( 0 ) );
+
+	selectedMaterials = [];
+	selectedShapes = [];
 
 	const event = new CustomEvent( 'end-transform' );
 
@@ -155,17 +160,21 @@ window.addEventListener( 'keydown', (e) => {
 
 function deleteSelected() {
 
-	if ( selectedShape ) {
+	if ( selectedShapes.length ) {
 
-		const shape = selectedShape;
+		const shapes = selectedShapes.slice(0);
 
 		unselectAll();
 
-		shape.parent.remove( shape );
-		shape.material.dispose();
-		shape.geometry.dispose();
+		shapes.forEach( (shape) => {
 
-		editorConsole.log( 'Shape deleted' );
+			shape.parent.remove( shape );
+			shape.material.dispose();
+			shape.geometry.dispose();
+
+		} );
+
+		editorConsole.log( 'Shapes deleted' );
 
 	} else {
 
@@ -177,11 +186,8 @@ function deleteSelected() {
 
 function selectShape( shape ) {
 
-	unselectAll();
-
-	selectedMaterial = shape.material;
-
-	selectedShape = shape;
+	selectedMaterials.push( shape.material );
+	selectedShapes.push( shape );
 
 	const event = new CustomEvent( 'transform-shape', { detail: shape } );
 
@@ -191,7 +197,7 @@ function selectShape( shape ) {
 
 function getSelected() {
 
-	return selectedShape;
+	return selectedShapes;
 
 }
 
@@ -238,13 +244,17 @@ function fromInfo( info ) {
 
 function duplicateSelected() {
 
-	if ( selectedShape ) {
+	if ( selectedShapes.length ) {
 
-		const newShape = fromInfo( selectedShape.getInfo() );
+		selectedShapes.forEach( (shape) => {
 
-		selectShape( newShape );
+			const newShape = fromInfo( shape.getInfo() );
 
-		editorConsole.log( 'duplicated a shape')
+			selectShape( newShape );
+
+		} );
+
+		editorConsole.log( 'duplicated shapes')
 
 	} else {
 
@@ -256,11 +266,20 @@ function duplicateSelected() {
 
 //
 
+function DefaultShapeMaterial() {
+
+	return new engine.THREE.MeshPhongMaterial({ color: 0x555555 });
+
+}
+
+//
+
 export default {
 	shapes,
 	domOptions: shapesOptions,
 	selectShape,
 	getSelected,
 	fromInfo,
-	duplicateSelected
+	duplicateSelected,
+	DefaultShapeMaterial
 }

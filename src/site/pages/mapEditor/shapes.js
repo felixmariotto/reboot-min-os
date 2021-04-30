@@ -246,13 +246,17 @@ function duplicateSelected() {
 
 	if ( selectedShapes.length ) {
 
+		const newShapes = [];
+
 		selectedShapes.forEach( (shape) => {
 
 			const newShape = fromInfo( shape.getInfo() );
 
-			selectShape( newShape );
+			newShapes.push( newShape );
 
 		} );
+
+		newShapes.forEach( shape => selectShape( shape ) );
 
 		editorConsole.log( 'duplicated shapes')
 

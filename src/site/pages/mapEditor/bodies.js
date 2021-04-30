@@ -141,8 +141,6 @@ function removeFromBody( shape ) {
 
 	selShapes.forEach( shape => shape.owner = undefined );
 
-	// selectedBody.threeObj.remove( ...selShapes );
-
 	engine.core.scene.attach( ...selShapes );
 
 	selShapes.forEach( shape => shape.material = shapes.DefaultShapeMaterial() );

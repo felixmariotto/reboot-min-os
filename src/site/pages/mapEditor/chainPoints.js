@@ -73,16 +73,28 @@ function makeRandomColor() {
 
 function ChainPoint( info ) {
 
+	const DEFAULT_LENGTH = 20;
+
 	const color = info ? new engine.THREE.Color( '#' + info.color ) : makeRandomColor();
 
 	const object3D = new engine.THREE.Group();
 
 	const outer = new engine.THREE.Mesh(
+		new engine.THREE.IcosahedronGeometry( DEFAULT_LENGTH, 3 ),
+		new engine.THREE.MeshPhongMaterial({
+			wireframe: true,
+			color,
+			transparent: true,
+			opacity: 0.3
+		})
+	);
+
+	const inner = new engine.THREE.Mesh(
 		new engine.THREE.IcosahedronGeometry( 1, 1 ),
 		new engine.THREE.MeshPhongMaterial({ wireframe: true, color })
 	);
 
-	const inner = new engine.THREE.Mesh(
+	const core = new engine.THREE.Mesh(
 		new engine.THREE.IcosahedronGeometry( 0.3 ),
 		new engine.THREE.MeshPhongMaterial({ color })
 	);
@@ -107,10 +119,11 @@ function ChainPoint( info ) {
 	const x = makeInput( 'x', 0 );
 	const y = makeInput( 'y', 0 );
 	const z = makeInput( 'z', 0 );
-	const radius = makeInput( 'radius', 1 );
+	const length = makeInput( 'length', 20 );
+	const radius = makeInput( 'attach radius', 1 );
 	const enabledCheck = makeCheckbox( 'enabled' );
 
-	content.append( bodyName, x, y, z, radius, enabledCheck );
+	content.append( bodyName, x, y, z, length, radius, enabledCheck );
 
 	domElement.append( content )
 
@@ -122,6 +135,7 @@ function ChainPoint( info ) {
 		x.setValue( info.x );
 		y.setValue( info.y );
 		z.setValue( info.z );
+		length.setValue( info.length );
 		radius.setValue( info.radius );
 		enabledCheck.setValue( info.enabled );
 
@@ -131,7 +145,13 @@ function ChainPoint( info ) {
 
 	function setRadius( radius ) {
 
-		this.outer.scale.setScalar( radius );
+		this.inner.scale.setScalar( radius );
+
+	}
+
+	function setLength( length ) {
+
+		this.outer.scale.setScalar( length / DEFAULT_LENGTH );
 
 	}
 
@@ -142,6 +162,7 @@ function ChainPoint( info ) {
 			x: x.getValue(),
 			y: y.getValue(),
 			z: z.getValue(),
+			length: length.getValue(),
 			radius: radius.getValue(),
 			enabled: enabledCheck.getValue(),
 			color: color.getHexString()
@@ -158,6 +179,7 @@ function ChainPoint( info ) {
 		color,
 		domElement,
 		setRadius,
+		setLength,
 		getParams
 	}
 
@@ -219,6 +241,7 @@ function handleChange() {
 		);
 
 		chainPoint.setRadius( Number( params.radius ) );
+		chainPoint.setLength( Number( params.length ) );
 
 	} );
 

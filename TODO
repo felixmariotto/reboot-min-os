@@ -1,4 +1,2 @@
 
-editor: add chain length text field in chain points menu
-
 editor: sometimes pressing D when typing text triggers a duplication. Should be fixed

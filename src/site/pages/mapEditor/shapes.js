@@ -189,7 +189,7 @@ function selectShape( shape ) {
 	selectedMaterials.push( shape.material );
 	selectedShapes.push( shape );
 
-	const event = new CustomEvent( 'transform-shape', { detail: shape } );
+	const event = new CustomEvent( 'transform-shape', { detail: selectedShapes } );
 
 	window.dispatchEvent( event );
 

@@ -12,7 +12,7 @@ import hero from './hero.js';
 
 //
 
-let transformControl, heroHelper, chainHelper, chainStartBody;
+let transformControl, transformContainer, heroHelper, chainHelper, chainStartBody;
 
 const toolModules = [ bodies, shapes, files, chainPoints, chain, hero ];
 
@@ -176,7 +176,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 		engine.core.scene.clear();
 
-		engine.core.scene.add( transformControl, heroHelper, chainHelper );
+		engine.core.scene.add( transformControl, transformContainer, heroHelper, chainHelper );
 
 		makeGrid();
 
@@ -244,15 +244,41 @@ function switchTransformMode() {
 
 window.addEventListener( 'transform-shape', (e) => {
 
-	transformControl.attach( e.detail );
+	detachTransformControl();
+
+	positionTransformControl( e.detail );
+
+	transformControl.attach( transformContainer );
+
+	e.detail.forEach( shape => transformContainer.attach( shape ) );
 
 } );
 
-window.addEventListener( 'end-transform', () => {
+window.addEventListener( 'end-transform', detachTransformControl );
 
-	transformControl.detach();
+function positionTransformControl( objects ) {
 
-} );
+	const _box3 = new engine.THREE.Box3();
+
+	_box3.setFromObject( objects[0] );
+
+	objects.forEach( object => _box3.expandByObject( object ) );
+
+	_box3.getCenter( transformContainer.position );
+
+}
+
+function detachTransformControl() {
+
+	for ( let i=transformContainer.children.length-1 ; i>-1 ; i-- ) {
+
+		engine.core.scene.attach( transformContainer.children[i] );
+
+	}
+
+	transformControl.detach( transformContainer );
+
+}
 
 // INITIALIZATION
 
@@ -273,13 +299,14 @@ editorPage.start = function start() {
 
 		transformControl = new engine.TransformControls( engine.core.camera, editorViewport );
 		transformControl.setSpace( 'local' );
+		transformContainer = new engine.THREE.Group();
 
 		heroHelper = new engine.THREE.Mesh(
 			new engine.THREE.SphereGeometry(),
 			engine.materials.characterMaterial
 		);
 
-		engine.core.scene.add( transformControl, heroHelper );
+		engine.core.scene.add( transformControl, transformContainer, heroHelper );
 
 		// chain helper
 

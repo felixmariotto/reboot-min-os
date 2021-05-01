@@ -5,12 +5,39 @@
 
 //
 
+- add ability to move in the air
+
 - compute physics in web worker
 
 - bug fix: player speed should be the same whatever the number of physics ticks
 
-- create chain points helpers
-
-- attach to chain points
-
 - remove what can be from world.updatePhysics and put it in function called only once a frame
+
+- keep camera in player's line of sight
+
+// LEVEL DESIGN
+
+- Always add a concept unique to the game in every puzzle
+- Only short and concise puzzles make for a more entertaining overall experience
+- Make sure that the player always discover a new concept in a puzzle relatively easy and dedicated to this concept
+
+Concepts unique to the game :
+- Chain length
+- Chain weight
+- Anchor point for 'Tarzan' leap
+- Moving anchor point
+- Alternate door that blocks the chain
+- Climbing the chain
+- Chain pushs a lever
+- Enabled/disabled anchor point
+- adding/removing length to the chain
+
+Basic platforming concept :
+- countdown
+- switch
+- double effect switch
+- bouncing tile
+- propulsion tile
+- slipping surfaces
+- deadly surfaces
+- movable obstacles

@@ -87,29 +87,7 @@ export default function WorldFromInfo( info ) {
 
 	world.add( player );
 
-	// chain
-
-	const chain = Chain( Number( info.chain.length ) );
-	chain.makeHelper();
-
-	const anchorBody = world.getObjectByName( info.chain.start.bodyName );
-
-	chain.attachStartTo(
-		anchorBody,
-		Number( info.chain.start.x ),
-		Number( info.chain.start.y ),
-		Number( info.chain.start.z )
-	);
-
-	chain.attachEndTo(
-		player,
-		Number( info.chain.end.x ),
-		Number( info.chain.end.y ),
-		Number( info.chain.end.z )
-	);
-
-	world.chains.push( chain );
-	world.add( ...chain.spheres );
+	console.log( player.position )
 
 	// chain points
 
@@ -137,6 +115,16 @@ export default function WorldFromInfo( info ) {
 		} else {
 
 			world.add( chainPoint );
+
+		}
+
+		if ( cpInfo.init ) {
+
+			const newChain = chainPoint.makeChain( player );
+
+			world.chains.push( newChain );
+
+			world.add( ...newChain.spheres );
 
 		}
 

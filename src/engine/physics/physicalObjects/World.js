@@ -9,6 +9,8 @@ import constants from '../../misc/constants.js';
 const MAX_DELTA = 1 / 30;
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
+let nowTime;
+
 //
 
 export default function World() {
@@ -30,6 +32,13 @@ export default function World() {
 	function add() {
 
 		for ( const id of Object.keys(arguments) ) {
+
+			if (
+				!arguments[id].isBody &&
+				!arguments[id].isChainPoint
+			) {
+				console.warn( 'an object that is not a body nor a chain point was added to the world' )
+			}
 
 			if ( arguments[id].isPlayer ) this.player = arguments[id];
 
@@ -67,6 +76,33 @@ export default function World() {
 
 			}
 
+			// look for intersections between the player and chain points
+
+			this.chainPoints.forEach( (chainPoint) => {
+
+				if (
+					chainPoint.intersectPlayer( this.player ) &&
+					!world.chains.some( chain => chain.isAttachedTo( chainPoint ) )
+				) {
+
+					// first we detach the chain currently attached to the player
+
+					const oldChain = world.chains.find( chain => chain.isAttachedTo( this.player ) );
+
+					if ( oldChain ) this.removeChain( oldChain );
+
+					// create a new chain attached to the player and the chainPoint
+
+					const newChain = chainPoint.makeChain( this.player );
+
+					world.chains.push( newChain );
+
+					world.add( ...newChain.spheres );
+
+				}
+
+			} );
+
 		}
 
 	}
@@ -75,7 +111,7 @@ export default function World() {
 
 		// call every kinematic body transformation callback
 
-		const time = Date.now();
+		nowTime = Date.now();
 
 		this.children.forEach( (body) => {
 
@@ -84,31 +120,23 @@ export default function World() {
 				body.updateTransform
 			) {
 
-				body.updateTransform( time );
+				body.updateTransform( nowTime );
 
-				body.lastTransformTime = time;
-
-				body.updateMatrixWorld();
-
-			} else {
-
-				body.updateMatrixWorld();
+				body.lastTransformTime = nowTime;
 
 			}
 
+			// necessary to update the matrix for collision detection
+
+			body.updateMatrixWorld();
+
 		} );
-
-		// necessary to update the matrix for collision detection
-
-		this.children.forEach( body => body.updateMatrixWorld() );
 
 		// collisions and physics
 
 		this.children.forEach( (body) => {
 
 			if ( body.isChainPoint ) return
-
-			if ( !body.isBody ) console.warn( 'an object that is not a body was added to the world' )
 
 			if ( body.bodyType === constants.DYNAMIC_BODY ) {
 
@@ -118,16 +146,6 @@ export default function World() {
 				body.isOnGround = false;
 				body.isColliding = false;
 
-				// add gravity to velocity
-
-				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * ( delta / NOMINAL_TICK_TIME ) * body.mass );
-
-				// update position according to velocity
-
-				body.position.addScaledVector( body.velocity, ( delta / NOMINAL_TICK_TIME ) / params.physicsSimTicks );
-
-				body.updateMatrixWorld();
-
 				// collide with non-dynamic bodies
 
 				this.children.forEach( (collider) => {
@@ -135,6 +153,14 @@ export default function World() {
 					if ( collider.bodyType !== constants.DYNAMIC_BODY ) body.collideWith( collider );
 
 				} );
+
+				// add gravity to velocity
+
+				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * ( delta / NOMINAL_TICK_TIME ) * body.mass );
+
+				// update position according to velocity
+
+				body.position.addScaledVector( body.velocity, ( delta / NOMINAL_TICK_TIME ) / params.physicsSimTicks );
 
 			}
 
@@ -158,33 +184,6 @@ export default function World() {
 		// constrain chain links back to max distance
 
 		this.chains.forEach( chain => chain.resolve() );
-
-		// look for intersections between the player and chain points
-
-		this.chainPoints.forEach( (chainPoint) => {
-
-			if (
-				chainPoint.intersectPlayer( this.player ) &&
-				!world.chains.some( chain => chain.isAttachedTo( chainPoint ) )
-			) {
-
-				// first we detach the chain currently attached to the player
-
-				const oldChain = world.chains.find( chain => chain.isAttachedTo( this.player ) );
-
-				if ( oldChain ) this.removeChain( oldChain );
-
-				// create a new chain attached to the player and the chainPoint
-
-				const newChain = chainPoint.makeChain( this.player );
-
-				world.chains.push( newChain );
-
-				world.add( ...newChain.spheres );
-
-			}
-
-		} )
 
 	}
 

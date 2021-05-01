@@ -87,8 +87,6 @@ export default function WorldFromInfo( info ) {
 
 	world.add( player );
 
-	console.log( player.position )
-
 	// chain points
 
 	info.chainPoints.forEach( (cpInfo) => {

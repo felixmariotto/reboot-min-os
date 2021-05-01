@@ -308,6 +308,7 @@ editorPage.start = function start() {
 
 		const _vec0 = new engine.THREE.Vector3();
 		const _vec1 = new engine.THREE.Vector3();
+		const _mat = new engine.THREE.Matrix4();
 
 		//
 
@@ -397,7 +398,7 @@ editorPage.start = function start() {
 
 			_vec1.copy( chainHelperPoints[1] );
 
-			if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec0 );
+			if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec1 );
 
 			chainHelperGeometry.setFromPoints( [ _vec0, _vec1 ] );
 

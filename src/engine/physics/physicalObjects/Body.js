@@ -13,6 +13,8 @@ const groundTestVec = new THREE.Vector3( 0, 1, 0 );
 
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
+let penetrationVec;
+
 //
 
 export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
@@ -23,7 +25,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 			collider.children.forEach( (colliderShape) => {
 
-				const penetrationVec = shape.penetrationIn( colliderShape, tragetVec );
+				penetrationVec = shape.penetrationIn( colliderShape, tragetVec );
 
 				if ( penetrationVec ) {
 
@@ -32,6 +34,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
 
 					if (
+						this.isPlayer &&
 						this.bodyType === constants.DYNAMIC_BODY &&
 						penetrationVec.dot( groundTestVec ) < 0
 					) {
@@ -88,30 +91,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					} else {
 
 						this.resolvePenetration( penetrationVec, collider.damping );
-
-						if ( this.isPlayer ) {
-
-							/*
-							if ( penetrationVec.length() > 0.1 ) {
-
-								console.log( 'penetrationVec', penetrationVec )
-								console.log( 'gregre' )
-								debugger
-
-							}
-							*/
-					
-							/*
-							if ( this.velocity.length() > 1 ) {
-
-								console.log( 'penetrationVec', penetrationVec )
-								console.log( 'this.velocity', this.velocity )
-								debugger
-
-							}
-							*/
-
-						}
 
 					}
 

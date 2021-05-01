@@ -79,10 +79,6 @@ export default function Chain( length ) {
 
 	function resolve() {
 
-		if ( !this.start || !this.end ) {
-			console.warn( 'chain.resolve : start or end is missing for resolution' );
-		}
-
 		for ( let i=0 ; i<params.chainPasses ; i++ ) {
 
 			this.computeEndStart();

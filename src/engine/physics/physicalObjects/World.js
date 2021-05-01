@@ -60,9 +60,20 @@ export default function World() {
 
 	//
 
+	const LOG_PERF = true;
+	let counter = 0;
+	
+
 	core.callInLoop( ( delta ) => {
 
+		if ( LOG_PERF ) {
+			counter ++
+			if ( counter % 60 === 0 ) console.time( 'world update' )
+		}
+
 		update.call( world, delta );
+
+		if ( counter % 60 === 0 && LOG_PERF ) console.timeEnd( 'world update' )
 
 	} );
 

@@ -124,7 +124,9 @@ export default function World() {
 
 		nowTime = Date.now();
 
-		this.children.forEach( (body) => {
+		for ( let i=0 ; i<this.children.length ; i++ ) {
+
+			const body = this.children[i];
 
 			if (
 				body.bodyType === constants.KINEMATIC_BODY &&
@@ -141,13 +143,9 @@ export default function World() {
 
 			body.updateMatrixWorld();
 
-		} );
+			// collisions and physics
 
-		// collisions and physics
-
-		this.children.forEach( (body) => {
-
-			if ( body.isChainPoint ) return
+			if ( body.isChainPoint ) continue // we do want its matrixWorld udpated though
 
 			if ( body.bodyType === constants.DYNAMIC_BODY ) {
 
@@ -175,7 +173,7 @@ export default function World() {
 
 			}
 
-		} );
+		}
 
 		// if the world own a player and they are climbing along the chain,
 		// constrain the chain link it's attached to.

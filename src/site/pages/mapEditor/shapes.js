@@ -107,6 +107,7 @@ function createShape( shapeType ) {
 			case 'sphere':
 				return {
 					pos: shape.position,
+					rot: shape.rotation,
 					radius: shape.scale.x,
 					type: 'sphere'
 				}

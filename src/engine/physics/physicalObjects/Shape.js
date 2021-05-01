@@ -12,10 +12,13 @@ import params from '../../params.js';
 
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
+const _vec2 = new THREE.Vector2();
 
 //
 
 export default function Shape() {
+
+	let sphereToBox;
 
 	function penetrationSphereBox( sphereShape, boxShape, targetVec ) {
 
@@ -33,9 +36,10 @@ export default function Shape() {
 		);
 
 		// distance between closest point and sphere center
-		const distance = closestPoint.distanceTo( sphereCenter );
 
-		if ( distance < sphereShape.radius ) {
+		sphereToBox = closestPoint.distanceTo( sphereCenter );
+
+		if ( sphereToBox < sphereShape.radius ) {
 
 			targetVec
 			.copy( closestPoint )
@@ -45,11 +49,13 @@ export default function Shape() {
 
 			targetVec
 			.sub( sphereShape.position )
-			.setLength( sphereShape.radius - distance );
+			.setLength( sphereShape.radius - sphereToBox );
 
 			return targetVec
 
 		}
+
+		//
 
 		return null
 
@@ -82,6 +88,58 @@ export default function Shape() {
 
 		}
 
+		//
+
+		return null
+
+	}
+
+	//
+
+	let sphereToCylinder;
+
+	function penetrationSphereCylinder( sphereShape, cylinderShape, targetVec ) {
+
+		const sphereCenter = _vec.copy( sphereShape.position );
+
+		sphereCenter.applyMatrix4( sphereShape.matrixWorld );
+
+		cylinderShape.worldToLocal( sphereCenter );
+
+		// get cylinder closest point to sphere center
+
+		_vec2
+		.set( sphereCenter.x, sphereCenter.z )
+		.clampLength( 0, cylinderShape.radius );
+
+		const closestPoint = _vec0.set(
+			_vec2.x,
+			Math.max( -cylinderShape.height / 2, Math.min( sphereCenter.y, cylinderShape.height / 2 ) ),
+			_vec2.y
+		);
+
+		// distance between closest point and sphere center
+
+		sphereToCylinder = closestPoint.distanceTo( sphereCenter );
+
+		if ( sphereToCylinder < sphereShape.radius ) {
+
+			targetVec
+			.copy( closestPoint )
+			.applyMatrix4( cylinderShape.matrixWorld );
+
+			sphereShape.parent.worldToLocal( targetVec );
+
+			targetVec
+			.sub( sphereShape.position )
+			.setLength( sphereShape.radius - sphereToCylinder );
+
+			return targetVec
+
+		}
+
+		//
+
 		return null
 
 	}
@@ -90,7 +148,8 @@ export default function Shape() {
 
 	return {
 		penetrationSphereBox,
-		penetrationSphereSphere
+		penetrationSphereSphere,
+		penetrationSphereCylinder
 	}
 
 }

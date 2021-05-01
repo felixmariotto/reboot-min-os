@@ -22,6 +22,10 @@ export default function Sphere( radius=1 ) {
 
 			return this.penetrationSphereSphere( this, collidingShape, targetVec );
 
+		} else if ( collidingShape.isCylinder ) {
+
+			return this.penetrationSphereCylinder( this, collidingShape, targetVec );
+
 		}
 
 	}

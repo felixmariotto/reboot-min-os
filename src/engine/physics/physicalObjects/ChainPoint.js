@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import params from '../../params.js';
+import Chain from './Chain.js';
 
 //
 
@@ -24,6 +25,20 @@ export default function ChainPoint() {
 
 	//
 
+	function makeChain( player ) {
+
+		const chain = Chain( this.chainLength );
+		chain.makeHelper();
+
+		chain.attachStartTo( this, 0, 0, 0 );
+		chain.attachEndTo( player, 0, 0, 0 );
+
+		return chain
+
+	}
+
+	//
+
 	function makeHelper() {
 
 		const mesh = new THREE.Mesh(
@@ -35,7 +50,6 @@ export default function ChainPoint() {
 
 	}
 
-
 	//
 
 	return Object.assign(
@@ -45,7 +59,8 @@ export default function ChainPoint() {
 			chainLength: 20,
 			radius: 1,
 			intersectPlayer,
-			makeHelper
+			makeHelper,
+			makeChain
 		}
 	)
 

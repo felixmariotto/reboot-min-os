@@ -149,6 +149,21 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	//
 
+	function clear() {
+
+		this.traverse( (child) => {
+
+			if ( child.geometry ) child.geometry.dispose();
+			if ( child.material ) child.material.dispose();
+
+		} );
+
+		this.parent.remove( this );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
@@ -172,7 +187,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			resolvePenetration,
 			// used to know how to control the player
 			isOnGround: false,
-			isColliding: false
+			isColliding: false,
+			clear
 		}
 	)
 

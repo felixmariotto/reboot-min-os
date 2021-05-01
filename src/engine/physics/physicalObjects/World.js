@@ -20,7 +20,8 @@ export default function World() {
 			enabled: true,
 			chains: [],
 			chainPoints: [],
-			add
+			add,
+			removeChain
 		}
 	);
 
@@ -35,6 +36,16 @@ export default function World() {
 		}
 
 		return Object.getPrototypeOf( this ).add.call( this, ...arguments );
+
+	}
+
+	//
+
+	function removeChain( chain ) {
+
+		this.chains.splice( this.chains.indexOf( chain ), 1 );
+
+		chain.clear();
 
 	}
 
@@ -152,9 +163,24 @@ export default function World() {
 
 		this.chainPoints.forEach( (chainPoint) => {
 
-			if ( chainPoint.intersectPlayer( this.player ) ) {
+			if (
+				chainPoint.intersectPlayer( this.player ) &&
+				!world.chains.some( chain => chain.isAttachedTo( chainPoint ) )
+			) {
 
-				console.log( 'make new chain' );
+				// first we detach the chain currently attached to the player
+
+				const oldChain = world.chains.find( chain => chain.isAttachedTo( this.player ) );
+
+				if ( oldChain ) this.removeChain( oldChain );
+
+				// create a new chain attached to the player and the chainPoint
+
+				const newChain = chainPoint.makeChain( this.player );
+
+				world.chains.push( newChain );
+
+				world.add( ...newChain.spheres );
 
 			}
 

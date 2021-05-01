@@ -194,6 +194,32 @@ export default function Chain( length ) {
 
 	//
 
+	function isAttachedTo( chainPoint ) {
+
+		return (
+			this.start &&
+			this.end &&
+			(
+				this.start.body === chainPoint ||
+				this.end.body === chainPoint
+			)
+		)
+
+	}
+
+	//
+
+	function clear() {
+
+		if ( this.start ) this.start.body.chain = undefined;
+		if ( this.end ) this.end.body.chain = undefined;
+
+		this.spheres.forEach( sphere => sphere.clear() );
+
+	}
+
+	//
+
 	const pointsNumber = Math.floor( length / params.chainPointDistance );
 
 	const spheresNumber = Math.max( 0, pointsNumber - 2 );
@@ -237,7 +263,9 @@ export default function Chain( length ) {
 		init,
 		computeEndStart,
 		constrainPoints,
-		constrainLinkTo
+		constrainLinkTo,
+		isAttachedTo,
+		clear
 	}
 
 }

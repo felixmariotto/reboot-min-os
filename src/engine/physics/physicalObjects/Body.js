@@ -153,6 +153,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 		Object.create( new THREE.Object3D() ),
 		{
 			isBody: true,
+			name: Math.random().toString(36).substring(8),
 			bodyType,
 			mass,
 			bounciness: 0,

@@ -8,6 +8,7 @@ import Box from './physicalObjects/Box.js';
 import Sphere from './physicalObjects/Sphere.js';
 import Cylinder from './physicalObjects/Cylinder.js';
 import Chain from './physicalObjects/Chain.js';
+import ChainPoint from './physicalObjects/ChainPoint.js';
 import Player from './physicalObjects/Player.js';
 
 //
@@ -109,6 +110,37 @@ export default function WorldFromInfo( info ) {
 
 	world.chains.push( chain );
 	world.add( ...chain.spheres );
+
+	// chain points
+
+	info.chainPoints.forEach( (cpInfo) => {
+
+		const chainPoint = ChainPoint();
+
+		chainPoint.chainLength = Number( cpInfo.length );
+		chainPoint.radius = Number( cpInfo.radius );
+
+		chainPoint.makeHelper();
+
+		chainPoint.position.set(
+			Number( cpInfo.x ),
+			Number( cpInfo.y ),
+			Number( cpInfo.z )
+		);
+
+		world.chainPoints.push( chainPoint );
+
+		if ( cpInfo.bodyName.length ) {
+
+			world.getObjectByName( cpInfo.bodyName ).add( chainPoint )
+
+		} else {
+
+			world.add( chainPoint );
+
+		}
+
+	} );
 
 	//
 

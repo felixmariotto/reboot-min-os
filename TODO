@@ -1,2 +1,16 @@
 
-editor: sometimes pressing D when typing text triggers a duplication. Should be fixed
+// EDITOR
+
+- bug fix: sometimes pressing D when typing text triggers a duplication. Should be fixed
+
+//
+
+- compute physics in web worker
+
+- bug fix: player speed should be the same whatever the number of physics ticks
+
+- create chain points helpers
+
+- attach to chain points
+
+- remove what can be from world.updatePhysics and put it in function called only once a frame

@@ -18,9 +18,25 @@ export default function World() {
 		{
 			isWorld: true,
 			enabled: true,
-			chains: []
+			chains: [],
+			chainPoints: [],
+			add
 		}
 	);
+
+	//
+
+	function add() {
+
+		for ( const id of Object.keys(arguments) ) {
+
+			if ( arguments[id].isPlayer ) this.player = arguments[id];
+
+		}
+
+		return Object.getPrototypeOf( this ).add.call( this, ...arguments );
+
+	}
 
 	//
 
@@ -71,13 +87,15 @@ export default function World() {
 
 		} );
 
-		//
+		// necessary to update the matrix for collision detection
 
 		this.children.forEach( body => body.updateMatrixWorld() );
 
-		//
+		// collisions and physics
 
 		this.children.forEach( (body) => {
+
+			if ( body.isChainPoint ) return
 
 			if ( !body.isBody ) console.warn( 'an object that is not a body was added to the world' )
 
@@ -107,28 +125,40 @@ export default function World() {
 
 				} );
 
-				// if the body is the player and they are climbing along the chain,
-				// constrain the chain link it's attached to.
-
-				if (
-					body.isPlayer &&
-					body.chain &&
-					body.currentLink
-				) {
-
-					const linkID = ( body.chain.spheres.length ) - body.currentLink;
-
-					body.chain.constrainLinkTo( linkID, body );
-
-				}
-
 			}
 
 		} );
 
-		//
+		// if the world own a player and they are climbing along the chain,
+		// constrain the chain link it's attached to.
+
+		if (
+			this.player &&
+			this.player.chain &&
+			this.player.currentLink
+		) {
+
+			const linkID = ( this.player.chain.spheres.length ) - this.player.currentLink;
+
+			this.player.chain.constrainLinkTo( linkID, this.player );
+
+		}
+
+		// constrain chain links back to max distance
 
 		this.chains.forEach( chain => chain.resolve() );
+
+		// look for intersections between the player and chain points
+
+		this.chainPoints.forEach( (chainPoint) => {
+
+			if ( chainPoint.intersectPlayer( this.player ) ) {
+
+				console.log( 'make new chain' );
+
+			}
+
+		} )
 
 	}
 

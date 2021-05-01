@@ -4,6 +4,7 @@ import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
 import shapes from './shapes.js';
 import bodies from './bodies.js';
+import editorConsole from './editorConsole.js';
 
 //
 
@@ -122,8 +123,10 @@ function ChainPoint( info ) {
 	const length = makeInput( 'length', 20 );
 	const radius = makeInput( 'attach radius', 1 );
 	const enabledCheck = makeCheckbox( 'enabled' );
+	const initCheck = makeCheckbox( 'initial chain' );
+	initCheck.setValue( false );
 
-	content.append( bodyName, x, y, z, length, radius, enabledCheck );
+	content.append( bodyName, x, y, z, length, radius, enabledCheck, initCheck );
 
 	domElement.append( content )
 
@@ -138,6 +141,7 @@ function ChainPoint( info ) {
 		length.setValue( info.length );
 		radius.setValue( info.radius );
 		enabledCheck.setValue( info.enabled );
+		initCheck.setValue( info.init );
 
 	}
 
@@ -165,6 +169,7 @@ function ChainPoint( info ) {
 			length: length.getValue(),
 			radius: radius.getValue(),
 			enabled: enabledCheck.getValue(),
+			init: initCheck.getValue(),
 			color: color.getHexString()
 		}
 
@@ -226,24 +231,38 @@ function makeCheckbox( title ) {
 
 function handleChange() {
 
-	chainPoints.forEach( (chainPoint) => {
+	const allParams = chainPoints.map( (cp) => {
 
-		const params = chainPoint.getParams();
+		const params = cp.getParams();
 
 		const body = bodies.getFromName( params.bodyName );
 
-		if ( body ) body.threeObj.add( chainPoint.object3D );
+		if ( body ) body.threeObj.add( cp.object3D );
 
-		chainPoint.object3D.position.set(
+		cp.object3D.position.set(
 			Number( params.x ),
 			Number( params.y ),
 			Number( params.z )
 		);
 
-		chainPoint.setRadius( Number( params.radius ) );
-		chainPoint.setLength( Number( params.length ) );
+		cp.setRadius( Number( params.radius ) );
+		cp.setLength( Number( params.length ) );
+
+		return params
 
 	} );
+
+	const initCPs = allParams.filter( params => params.init );
+
+	if ( initCPs.length > 1 ) {
+
+		editorConsole.warn( 'There is more than one initial chain point.' );
+
+	}
+
+	const event = new CustomEvent( 'update-chain' );
+
+	window.dispatchEvent( event );
 
 }
 

@@ -6,7 +6,6 @@ import editorConsole from './editorConsole.js';
 import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
-import chain from './chain.js';
 import chainPoints from './chainPoints.js';
 import hero from './hero.js';
 
@@ -14,7 +13,7 @@ import hero from './hero.js';
 
 let transformControl, transformContainer, heroHelper, chainHelper, chainStartBody;
 
-const toolModules = [ bodies, shapes, files, chainPoints, chain, hero ];
+const toolModules = [ bodies, shapes, files, chainPoints, hero ];
 
 //
 
@@ -49,7 +48,6 @@ tools.append(
 	makeToolButton( 'shapes', shapes ),
 	'//',
 	makeToolButton( 'chain points', chainPoints ),
-	makeToolButton( 'chain', chain ),
 	makeToolButton( 'hero', hero )
 );
 
@@ -94,7 +92,6 @@ toolsOptions.append(
 	shapes.domOptions,
 	files.domOptions,
 	chainPoints.domOptions,
-	chain.domOptions,
 	hero.domOptions
 );
 
@@ -129,7 +126,6 @@ window.addEventListener( 'keyup', (e) => {
 window.addEventListener( 'scene-graph-request', () => {
 
 	const sceneInfo = {
-		chain: chain.getParams(),
 		chainPoints: chainPoints.getParams(),
 		hero: hero.getPosition()
 	}
@@ -192,13 +188,11 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 		chainPoints.fromInfo( info.chainPoints );
 
-		chain.fromInfo( info.chain );
-
 		hero.fromInfo( info.hero );
 
 		//
 
-		if ( chainHelper ) chainHelper.updateHelper( chain.getParams() );
+		if ( chainHelper ) chainHelper.updateHelper();
 
 		//
 
@@ -217,13 +211,13 @@ window.addEventListener( 'update-hero', (e) => {
 
 	heroHelper.position.copy( e.detail );
 
-	chainHelper.updateHelper( chain.getParams() );
+	chainHelper.updateHelper();
 
 } );
 
-window.addEventListener( 'update-chain', (e) => {
+window.addEventListener( 'update-chain', () => {
 
-	chainHelper.updateHelper( e.detail );
+	chainHelper.updateHelper();
 
 } );
 
@@ -351,29 +345,51 @@ editorPage.start = function start() {
 		chainHelper = new engine.THREE.Line( chainHelperGeometry, material );
 		engine.core.scene.add( chainHelper );
 
-		chainHelper.updateHelper = function ( params ) {
+		chainHelper.updateHelper = function updateHelper() {
 
-			const startBody = bodies.getFromName( params.start.bodyName );
+			const cpParams = chainPoints.getParams();
 
-			chainStartBody = startBody;
+			const initCPs = cpParams.filter( params => params.init );
 
-			//
+			if ( !initCPs.length ) {
 
-			heroHelper.updateMatrixWorld();
+				chainHelper.visible = false;
 
-			chainHelperPoints[0].set(
-				Number( params.start.x ),
-				Number( params.start.y ),
-				Number( params.start.z )
-			);
+			} else {
 
-			chainHelperPoints[1].set(
-				Number( params.end.x ),
-				Number( params.end.y ),
-				Number( params.end.z )
-			);
+				chainHelper.visible = true;
+
+				const chainParams = initCPs[0];
+
+				chainStartBody = bodies.getFromName( chainParams.bodyName );
+
+				const playerPos = hero.getPosition();
+
+				//
+
+				heroHelper.updateMatrixWorld();
+
+				chainHelperPoints[0].set(
+					Number( playerPos.x ),
+					Number( playerPos.y ),
+					Number( playerPos.z )
+				);
+
+				if ( chainParams ) {
+
+					chainHelperPoints[1].set(
+						Number( chainParams.x ),
+						Number( chainParams.y ),
+						Number( chainParams.z )
+					);
+
+				}
+
+			}
 
 		}
+
+		//
 
 		engine.core.callInLoop( () => {
 
@@ -381,13 +397,7 @@ editorPage.start = function start() {
 
 			_vec1.copy( chainHelperPoints[1] );
 
-			//
-
 			if ( chainStartBody ) chainStartBody.threeObj.localToWorld( _vec0 );
-
-			heroHelper.localToWorld( _vec1 );
-
-			//
 
 			chainHelperGeometry.setFromPoints( [ _vec0, _vec1 ] );
 

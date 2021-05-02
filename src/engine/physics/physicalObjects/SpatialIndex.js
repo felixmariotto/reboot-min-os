@@ -93,8 +93,11 @@ export default function SpatialIndex() {
 
 			// create sub nodes
 
-			node.minNode = this.Node( minAABB, node.level + 1 );
-			node.maxNode = this.Node( maxAABB, node.level + 1 );
+			const shapesInMin = this.getShapesInAABB( minAABB );
+			const shapesInMax = this.getShapesInAABB( maxAABB );
+
+			if ( shapesInMin.length ) node.minNode = this.Node( minAABB, node.level + 1 );
+			if ( shapesInMax.length ) node.maxNode = this.Node( maxAABB, node.level + 1 );
 
 		} else {
 
@@ -103,33 +106,11 @@ export default function SpatialIndex() {
 
 			node.isLeaf = true;
 
-			node.shapes = [];
+			node.shapes = this.getShapesInAABB( node );
 
-			this.shapes.forEach( (shape) => {
+			const helper = new THREE.Box3Helper( node, 0xffff00 );
 
-				if ( node.intersectsBox( shape.aabb ) ) {
-
-					node.shapes.push( shape );
-
-				}
-
-			} );
-
-			if ( !node.shapes.length ) {
-
-				// console.log( 'bug: ', node )
-
-				const helper = new THREE.Box3Helper( node, 0xff0000 );
-
-				this.world.add( helper );
-
-			} else {
-
-				const helper = new THREE.Box3Helper( node, 0x00ff00 );
-
-				this.world.add( helper );
-
-			}
+			this.world.add( helper );
 
 		}
 
@@ -141,10 +122,31 @@ export default function SpatialIndex() {
 
 	//
 
+	function getShapesInAABB( aabb ) {
+
+		const containedShapes = [];
+
+		this.shapes.forEach( (shape) => {
+
+			if ( aabb.intersectsBox( shape.aabb ) ) {
+
+				containedShapes.push( shape );
+
+			}
+
+		} );
+
+		return containedShapes
+
+	}
+
+	//
+
 	return {
 		shapes: [],
 		addShape,
 		computeTree,
+		getShapesInAABB,
 		Node
 	}
 

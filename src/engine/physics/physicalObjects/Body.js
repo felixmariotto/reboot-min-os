@@ -19,6 +19,26 @@ let penetrationVec;
 
 export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
+	function collideIn( world ) {
+
+		this.children.forEach( (shape) => {
+
+			const neighbors = shape.findNeighborsIn( world );
+
+			neighbors.forEach( (neighborShape) => {
+
+				console.log( 'neighborShape', neighborShape );
+
+			} );
+
+			debugger
+
+		} );
+
+	}
+
+	//
+
 	function collideWith( collider ) {
 
 		this.children.forEach( (shape) => {
@@ -167,7 +187,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			// used to know how to control the player
 			isOnGround: false,
 			isColliding: false,
-			clear
+			clear,
+			collideIn
 		}
 	)
 

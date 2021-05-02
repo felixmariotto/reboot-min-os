@@ -53,7 +53,8 @@ export default function SpatialIndex() {
 			Object.create( new THREE.Box3() ),
 			{
 				subNodes: [],
-				level
+				level,
+				findSphereNeighbors
 			}
 		);
 
@@ -81,15 +82,15 @@ export default function SpatialIndex() {
 
 			node.separatingPlane.normal[ longAxis ] = 1;
 
-			node.separatingPlane.constant = ( node.max[ longAxis ] + node.min[ longAxis ] ) / 2;
+			node.separatingPlane.constant = ( node.max[ longAxis ] + node.min[ longAxis ] ) / -2;
 
 			// compute subNodes bounding boxes
 
 			const minAABB = new THREE.Box3().copy( node );
 			const maxAABB = new THREE.Box3().copy( node );
 
-			minAABB.max[ longAxis ] = node.separatingPlane.constant;
-			maxAABB.min[ longAxis ] = node.separatingPlane.constant;
+			minAABB.max[ longAxis ] = node.separatingPlane.constant * -1;
+			maxAABB.min[ longAxis ] = node.separatingPlane.constant * -1;
 
 			// create sub nodes
 
@@ -119,6 +120,57 @@ export default function SpatialIndex() {
 
 	}
 
+	// Node class function
+
+	function findSphereNeighbors( worldPos, radius, targetSet ) {
+
+		if ( !this.isLeaf ) {
+
+			// get distance between the center of the sphere and
+			// the plane separating the two sub-nodes
+
+			const dist = this.separatingPlane.distanceToPoint( worldPos );
+
+			// depending on the distance sign, we call this recursive function
+			// on one side or the other in the binary tree.
+
+			if ( Math.sign( dist ) > 0 ) {
+
+				if ( this.maxNode ) this.maxNode.findSphereNeighbors( worldPos, radius, targetSet );
+
+			} else {
+
+				if ( this.minNode ) this.minNode.findSphereNeighbors( worldPos, radius, targetSet );
+
+			}
+
+			// test if the sphere is ON the plane and the other side of
+			// the binary tree should be checked as well.
+
+			if ( Math.abs( dist ) < radius ) {
+
+				if ( Math.sign( dist ) > 0 ) {
+
+					if ( this.minNode ) this.minNode.findSphereNeighbors( worldPos, radius, targetSet );
+
+				} else {
+
+					if ( this.maxNode ) this.maxNode.findSphereNeighbors( worldPos, radius, targetSet );
+
+				}
+
+			}
+
+		} else {
+
+			// add the content of this leaf node to the shape's neighbors list
+
+			targetSet.add( ...this.shapes );
+
+		}
+
+	}
+
 	//
 
 	function getShapesInAABB( aabb ) {
@@ -139,6 +191,24 @@ export default function SpatialIndex() {
 
 	}
 
+	// since in this project we only check dynamic sphere against other shape,
+	// we assume here that the passed shape is a sphere, and has a center and
+	// a radius.
+
+	function findNeighborsOf( shape ) {
+
+		shape.neighbors.clear();
+
+		_vec
+		.copy( shape.position )
+		.applyMatrix4( shape.matrixWorld );
+
+		// recursive function, find neighbors in the whole binary tree.
+
+		this.root.findSphereNeighbors( _vec, shape.radius, shape.neighbors );
+
+	}
+
 	//
 
 	return {
@@ -146,7 +216,8 @@ export default function SpatialIndex() {
 		addShape,
 		computeTree,
 		getShapesInAABB,
-		Node
+		Node,
+		findNeighborsOf
 	}
 
 }

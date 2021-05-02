@@ -186,12 +186,29 @@ export default function Shape() {
 
 	//
 
+	function findNeighborsIn( world ) {
+
+		// since we only do that for sphere against other shapes,
+		// we use shape.radius instead of the AABB in spatialIndex.findNeighborsOf
+		// this.computeAABB();
+
+		world.spatialIndex.findNeighborsOf( this );
+
+		return this.neighbors
+
+	}
+
+	//
+
 	return {
 		penetrationSphereBox,
 		penetrationSphereSphere,
 		penetrationSphereCylinder,
 		deleteHelper,
-		computeAABB
+		computeAABB,
+		aabb: undefined,
+		findNeighborsIn,
+		neighbors: new Set()
 	}
 
 }

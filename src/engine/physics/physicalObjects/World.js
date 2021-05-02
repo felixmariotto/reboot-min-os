@@ -161,11 +161,15 @@ export default function World() {
 
 				// collide with non-dynamic bodies
 
+				body.collideIn( this );
+
+				/*
 				this.children.forEach( (collider) => {
 
 					if ( collider.bodyType !== constants.DYNAMIC_BODY ) body.collideWith( collider );
 
 				} );
+				*/
 
 				// add gravity to velocity
 

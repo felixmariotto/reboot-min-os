@@ -19,6 +19,11 @@ let penetrationVec;
 
 export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
+	// Called by world.updatePhysics.
+	// shape.findNeighborsIn asks world.spatialIndex for the neighbors
+	// of each particular shape of this body.
+	// Then we perform a more fine-grain collision detection on the neighbors.
+
 	function collideIn( world ) {
 
 		this.children.forEach( (shape) => {
@@ -26,8 +31,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			const neighbors = shape.findNeighborsIn( world );
 
 			neighbors.forEach( (neighborShape) => {
-
-				// console.log( 'neighborShape', neighborShape );
 
 				penetrationVec = shape.penetrationIn( neighborShape, targetVec );
 
@@ -47,58 +50,9 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 						this.isOnGround = true
 					}
 
-					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
+					//
 
-						// compute transforms of the kinematic body in the next tick
-
-						this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
-
-						collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
-						collider.updateMatrixWorld();
-
-						// compute the penetration vector with the kinematic body more forward in time
-
-						const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
-
-						// add velocity resulting from collision to the dynamic body velocity
-
-						if ( penetrationVec2 ) {
-
-							penetrationVec2
-							.sub( penetrationVec )
-							.multiplyScalar( params.physicsSimTicks );
-
-							if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
-
-								penetrationVec2.multiplyScalar( 0.2 );
-								penetrationVec2.negate();
-
-							}
-
-							this.velocity.add( penetrationVec2 );
-
-							this.resolvePenetration( penetrationVec, collider.damping );
-
-							
-
-						} else {
-
-							this.resolvePenetration( penetrationVec, collider.damping );
-
-						}
-
-						// reset body transforms
-
-						collider.updateTransform( collider.lastTransformTime );
-						collider.updateMatrixWorld();
-
-						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
-
-					} else {
-
-						this.resolvePenetration( penetrationVec, collider.damping );
-
-					}
+					this.resolvePenetration( penetrationVec, collider.damping );
 
 				}
 
@@ -108,7 +62,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	}
 
-	//
+	// Used specifically to collide this body with a kinematic body.
+	// As kinematic bodies are not static, they can't be sorted out
+	// in world.spatialIndex, so dynamic bodies must perform collision
+	// detection with every kinematic body at each frame.
 
 	function collideWith( collider ) {
 
@@ -132,58 +89,50 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 						this.isOnGround = true
 					}
 
-					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
+					// compute transforms of the kinematic body in the next tick
 
-						// compute transforms of the kinematic body in the next tick
+					this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
 
-						this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
+					collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
+					collider.updateMatrixWorld();
 
-						collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
-						collider.updateMatrixWorld();
+					// compute the penetration vector with the kinematic body more forward in time
 
-						// compute the penetration vector with the kinematic body more forward in time
+					const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
 
-						const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
+					// add velocity resulting from collision to the dynamic body velocity
 
-						// add velocity resulting from collision to the dynamic body velocity
+					if ( penetrationVec2 ) {
 
-						if ( penetrationVec2 ) {
+						penetrationVec2
+						.sub( penetrationVec )
+						.multiplyScalar( params.physicsSimTicks );
 
-							penetrationVec2
-							.sub( penetrationVec )
-							.multiplyScalar( params.physicsSimTicks );
+						if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
 
-							if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
-
-								penetrationVec2.multiplyScalar( 0.2 );
-								penetrationVec2.negate();
-
-							}
-
-							this.velocity.add( penetrationVec2 );
-
-							this.resolvePenetration( penetrationVec, collider.damping );
-
-							
-
-						} else {
-
-							this.resolvePenetration( penetrationVec, collider.damping );
+							penetrationVec2.multiplyScalar( 0.2 );
+							penetrationVec2.negate();
 
 						}
 
-						// reset body transforms
+						this.velocity.add( penetrationVec2 );
 
-						collider.updateTransform( collider.lastTransformTime );
-						collider.updateMatrixWorld();
+						this.resolvePenetration( penetrationVec, collider.damping );
 
-						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
+						
 
 					} else {
 
 						this.resolvePenetration( penetrationVec, collider.damping );
 
 					}
+
+					// reset body transforms
+
+					collider.updateTransform( collider.lastTransformTime );
+					collider.updateMatrixWorld();
+
+					this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
 
 				}
 

@@ -165,7 +165,11 @@ export default function SpatialIndex() {
 
 			// add the content of this leaf node to the shape's neighbors list
 
-			targetSet.add( ...this.shapes );
+			for ( let i=0 ; i<this.shapes.length ; i++ ) {
+
+				targetSet.add( this.shapes[i] )
+
+			}
 
 		}
 

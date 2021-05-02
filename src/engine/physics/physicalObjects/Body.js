@@ -5,7 +5,7 @@ import params from '../../params.js';
 
 //
 
-const tragetVec = new THREE.Vector3();
+const targetVec = new THREE.Vector3();
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 
@@ -27,11 +27,82 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 			neighbors.forEach( (neighborShape) => {
 
-				console.log( 'neighborShape', neighborShape );
+				// console.log( 'neighborShape', neighborShape );
+
+				penetrationVec = shape.penetrationIn( neighborShape, targetVec );
+
+				if ( penetrationVec ) {
+
+					const collider = neighborShape.parent;
+
+					this.isColliding = true;
+
+					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+
+					if (
+						this.isPlayer &&
+						this.bodyType === constants.DYNAMIC_BODY &&
+						penetrationVec.dot( groundTestVec ) < 0
+					) {
+						this.isOnGround = true
+					}
+
+					if ( collider.bodyType === constants.KINEMATIC_BODY ) {
+
+						// compute transforms of the kinematic body in the next tick
+
+						this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
+
+						collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
+						collider.updateMatrixWorld();
+
+						// compute the penetration vector with the kinematic body more forward in time
+
+						const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
+
+						// add velocity resulting from collision to the dynamic body velocity
+
+						if ( penetrationVec2 ) {
+
+							penetrationVec2
+							.sub( penetrationVec )
+							.multiplyScalar( params.physicsSimTicks );
+
+							if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
+
+								penetrationVec2.multiplyScalar( 0.2 );
+								penetrationVec2.negate();
+
+							}
+
+							this.velocity.add( penetrationVec2 );
+
+							this.resolvePenetration( penetrationVec, collider.damping );
+
+							
+
+						} else {
+
+							this.resolvePenetration( penetrationVec, collider.damping );
+
+						}
+
+						// reset body transforms
+
+						collider.updateTransform( collider.lastTransformTime );
+						collider.updateMatrixWorld();
+
+						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
+
+					} else {
+
+						this.resolvePenetration( penetrationVec, collider.damping );
+
+					}
+
+				}
 
 			} );
-
-			debugger
 
 		} );
 
@@ -45,7 +116,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 			collider.children.forEach( (colliderShape) => {
 
-				penetrationVec = shape.penetrationIn( colliderShape, tragetVec );
+				penetrationVec = shape.penetrationIn( colliderShape, targetVec );
 
 				if ( penetrationVec ) {
 

@@ -5,11 +5,9 @@ import * as THREE from 'three';
 
 //
 
-const MAX_CONTENT = 2; // max number of elements in the leaf nodes
+const DEPTH = 8; // level of depth of the binary tree
 
 const _vec = new THREE.Vector3();
-const _box = new THREE.Box3();
-const _box0 = new THREE.Box3();
 
 //
 
@@ -42,14 +40,14 @@ export default function SpatialIndex() {
 
 		this.shapes.forEach( shape => rootAABB.expandByObject( shape ) );
 
-		this.root = this.Node( this.shapes, rootAABB );
+		this.root = this.Node( rootAABB );
 
 	}
 
 	// Node is a recursive factory function, it create sub-nodes until
 	// the leaf nodes have a sufficiently small amount of content.
 
-	function Node( shapes, baseAABB, level=0 ) {
+	function Node( baseAABB, level=0 ) {
 
 		const node = Object.assign(
 			Object.create( new THREE.Box3() ),
@@ -61,9 +59,9 @@ export default function SpatialIndex() {
 
 		if ( baseAABB ) node.copy( baseAABB );
 
-		// if more than MAX_CONTENT shapes are passed, we create sub-nodes
+		// continue subdividing the node until we reach DEPTH
 
-		if ( shapes.length > MAX_CONTENT ) {
+		if ( level < DEPTH ) {
 
 			// determine the node longest axis
 
@@ -77,61 +75,26 @@ export default function SpatialIndex() {
 
 			} )[0];
 
-			// sort the contained shapes along this axis
-
-			const sorted = shapes.sort( ( a, b ) => {
-
-				return a.center[ longAxis ] - b.center[ longAxis ]
-
-			} );
-
-			// separate in two groups and compute each group AABB
-
-			const medianID = Math.ceil( ( shapes.length - 1 ) / 2 );
-
-			const minShapes = sorted.slice( 0, medianID );
-			const maxShapes = sorted.slice( medianID, shapes.length );
-
-			const minAABB = _box;
-			minAABB.min.setScalar( Infinity );
-			minAABB.max.setScalar( -Infinity );
-
-			const maxAABB = _box0;
-			maxAABB.min.setScalar( Infinity );
-			maxAABB.max.setScalar( -Infinity );
-
-			minShapes.forEach( shape => minAABB.expandByObject( shape ) );
-			maxShapes.forEach( shape => maxAABB.expandByObject( shape ) );
-
 			// compute separating plane
 
 			node.separatingPlane = new THREE.Plane( new THREE.Vector3( 0, 0, 0 ) );
 
 			node.separatingPlane.normal[ longAxis ] = 1;
 
-			// node.separatingPlane.constant = ( minAABB.max[ longAxis ] + maxAABB.min[ longAxis ] ) / 2;
-
 			node.separatingPlane.constant = ( node.max[ longAxis ] + node.min[ longAxis ] ) / 2;
-
-			/*
-			console.log( 'minAABB', minAABB )
-			console.log( 'maxAABB', maxAABB )
-			console.log( 'node.separatingPlane', node.separatingPlane )
-			debugger
-			*/
 
 			// compute subNodes bounding boxes
 
-			minAABB.copy( node );
-			maxAABB.copy( node );
+			const minAABB = new THREE.Box3().copy( node );
+			const maxAABB = new THREE.Box3().copy( node );
 
 			minAABB.max[ longAxis ] = node.separatingPlane.constant;
 			maxAABB.min[ longAxis ] = node.separatingPlane.constant;
 
 			// create sub nodes
 
-			node.minNode = this.Node( minShapes, minAABB, node.level + 1 );
-			node.maxNode = this.Node( maxShapes, maxAABB, node.level + 1 );
+			node.minNode = this.Node( minAABB, node.level + 1 );
+			node.maxNode = this.Node( maxAABB, node.level + 1 );
 
 		} else {
 

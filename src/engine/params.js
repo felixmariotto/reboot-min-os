@@ -11,7 +11,7 @@ export default {
 	// thirdPersCameraTarget: new THREE.Vector3( 0, 5, 6 )
 	thirdPersCameraTarget: new THREE.Vector3( 0, 15, 15 ),
 
-	helpersMaterial: new THREE.MeshNormalMaterial(),
+	helpersMaterial: new THREE.MeshNormalMaterial({ transparent: true, opacity: 0.2 }),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),
 	physicsSimTicks: 7,
 	chainPasses: 8, // number of times the chain links are simulated per physics tick

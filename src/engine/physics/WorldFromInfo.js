@@ -1,4 +1,6 @@
 
+import * as THREE from 'three';
+
 import core from '../core/core.js';
 import constants from '../misc/constants.js';
 
@@ -67,6 +69,15 @@ export default function WorldFromInfo( info ) {
 
 			body.add( shape );
 
+			// add only the static bodies in a spatial index to
+			// speed up the collision detection with dynamic bodies.
+
+			if ( bodyType === constants.STATIC_BODY ) {
+
+				world.spatialIndex.addShape( shape );
+
+			}
+
 		} );
 
 		//
@@ -75,7 +86,18 @@ export default function WorldFromInfo( info ) {
 
 	} );
 
-	// hero
+	// when all the static bodies are added to the world,
+	// we compute the spatial index nodes.
+
+	world.spatialIndex.computeTree();
+
+	console.log( world.spatialIndex );
+
+	// const helper = new THREE.Box3Helper( world.spatialIndex.root, 0xffff00 );
+	// world.add( helper );
+
+
+	// player
 
 	const player = Player();
 

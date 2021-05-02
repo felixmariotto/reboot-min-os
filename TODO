@@ -5,6 +5,8 @@
 
 //
 
+- rename all "hero" to player in the editor and the map files
+
 - add ability to move in the air
 
 - compute physics in web worker

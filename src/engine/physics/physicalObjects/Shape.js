@@ -1,7 +1,10 @@
 
 /*
 
-Collision detection functions returning a penetration vector.
+Functions common to any type of shapes :
+- Collision detection functions returning a penetration vector.
+- Remove helper
+- Compute AABB ( axis aligned bounding box )
 
 */
 
@@ -146,10 +149,49 @@ export default function Shape() {
 
 	//
 
+	function deleteHelper() {
+
+		for ( let i=this.children.length - 1 ; i>-1 ; i-- ) {
+
+			this.children[i].material.dispose();
+			this.children[i].geometry.dispose();
+
+		}
+
+		this.clear();
+		
+	}
+
+	//
+
+	function computeAABB() {
+
+		let mustDeleteHelper;
+
+		if ( !this.children.length ) {
+
+			this.makeHelper();
+
+			mustDeleteHelper = true;
+
+		}
+
+		this.aabb = new THREE.Box3();
+
+		this.aabb.setFromObject( this );
+
+		if ( mustDeleteHelper ) this.deleteHelper();
+
+	}
+
+	//
+
 	return {
 		penetrationSphereBox,
 		penetrationSphereSphere,
-		penetrationSphereCylinder
+		penetrationSphereCylinder,
+		deleteHelper,
+		computeAABB
 	}
 
 }

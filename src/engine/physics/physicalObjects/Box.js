@@ -18,6 +18,8 @@ export default function Box( width=1, height=1, depth=1 ) {
 
 	}
 
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		Shape(),

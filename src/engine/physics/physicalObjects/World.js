@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import core from '../../core/core.js';
 import params from '../../params.js';
 import constants from '../../misc/constants.js';
+import SpatialIndex from './SpatialIndex.js';
 
 //
 
@@ -22,12 +23,16 @@ export default function World() {
 			enabled: true,
 			chains: [],
 			chainPoints: [],
+			spatialIndex: SpatialIndex(),
 			add,
 			removeChain
 		}
 	);
 
-	//
+	// to remove
+	world.spatialIndex.world = world;
+
+	// wrapper around THREE.Object3D.add
 
 	function add() {
 
@@ -60,7 +65,7 @@ export default function World() {
 
 	//
 
-	const LOG_PERF = true;
+	const LOG_PERF = false;
 	let counter = 0;
 	
 

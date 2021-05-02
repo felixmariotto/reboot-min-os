@@ -108,9 +108,8 @@ export default function SpatialIndex() {
 
 			node.shapes = this.getShapesInAABB( node );
 
-			const helper = new THREE.Box3Helper( node, 0xffff00 );
-
-			this.world.add( helper );
+			// const helper = new THREE.Box3Helper( node, 0xffff00 );
+			// this.world.add( helper );
 
 		}
 

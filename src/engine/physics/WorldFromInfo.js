@@ -93,10 +93,6 @@ export default function WorldFromInfo( info ) {
 
 	console.log( world.spatialIndex );
 
-	const helper = new THREE.Box3Helper( world.spatialIndex.root, 0xffff00 );
-	world.add( helper );
-
-
 	// player
 
 	const player = Player();

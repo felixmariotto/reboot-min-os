@@ -65,9 +65,8 @@ export default function World() {
 
 	//
 
-	const LOG_PERF = false;
+	const LOG_PERF = true;
 	let counter = 0;
-	
 
 	core.callInLoop( ( delta ) => {
 

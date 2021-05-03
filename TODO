@@ -3,9 +3,9 @@
 
 - bug fix: sometimes pressing D when typing text triggers a duplication. Should be fixed
 
-//
 
-- rename all "hero" to player in the editor and the map files
+
+// ENGINE
 
 - add ability to move in the air
 
@@ -13,9 +13,9 @@
 
 - bug fix: player speed should be the same whatever the number of physics ticks
 
-- remove what can be from world.updatePhysics and put it in function called only once a frame
-
 - keep camera in player's line of sight
+
+
 
 // LEVEL DESIGN
 

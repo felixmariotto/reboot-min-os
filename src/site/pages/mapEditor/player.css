@@ -1,10 +1,10 @@
 
-#editor-hero-options {
+#editor-player-options {
 	background-color: #111111;
 	padding: 20px;
 }
 
-	.editor-hero-input-container {
+	.editor-player-input-container {
 		margin-bottom: 5px;
 		display: flex;
 		justify-content: space-between;
@@ -12,11 +12,11 @@
 		padding: 8px;
 	}
 
-		.editor-hero-input-container input {
+		.editor-player-input-container input {
 			width: 250px;
 			padding: 0 10px;
 		}
 
-		.editor-hero-input-container p {
+		.editor-player-input-container p {
 			margin-bottom: 10px;
 		}

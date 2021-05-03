@@ -98,9 +98,9 @@ export default function WorldFromInfo( info ) {
 	const player = Player();
 
 	player.position.set(
-		Number( info.hero.x ),
-		Number( info.hero.y ),
-		Number( info.hero.z )
+		Number( info.player.x ),
+		Number( info.player.y ),
+		Number( info.player.z )
 	);
 
 	world.add( player );

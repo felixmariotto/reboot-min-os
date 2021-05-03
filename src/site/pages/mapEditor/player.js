@@ -1,10 +1,10 @@
 
-import './hero.css';
+import './player.css';
 import { elem } from '../../utils.js';
 
 //
 
-const heroOptions = elem({ id: 'editor-hero-options', classes: 'tool-options' });
+const playerOptions = elem({ id: 'editor-player-options', classes: 'tool-options' });
 
 //
 
@@ -12,13 +12,13 @@ const x = makeInput( 'x' )
 const y = makeInput( 'y' )
 const z = makeInput( 'z' )
 
-heroOptions.append( x, y, z );
+playerOptions.append( x, y, z );
 
 //
 
 function makeInput( title ) {
 
-	const container = elem({ classes: 'editor-hero-input-container' });
+	const container = elem({ classes: 'editor-player-input-container' });
 
 	const input = elem({ tagName: 'INPUT' });
 
@@ -37,7 +37,7 @@ function makeInput( title ) {
 
 function handleChange() {
 
-	const event = new CustomEvent( 'update-hero', { detail: getPosition() } );
+	const event = new CustomEvent( 'update-player', { detail: getPosition() } );
 
 	window.dispatchEvent( event );
 
@@ -68,7 +68,7 @@ function fromInfo( info ) {
 //
 
 export default {
-	domOptions: heroOptions,
+	domOptions: playerOptions,
 	getPosition,
 	fromInfo
 }

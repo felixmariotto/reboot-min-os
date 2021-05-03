@@ -7,13 +7,13 @@ import bodies from './bodies.js';
 import shapes from './shapes.js';
 import files from './files.js';
 import chainPoints from './chainPoints.js';
-import hero from './hero.js';
+import player from './player.js';
 
 //
 
-let transformControl, transformContainer, heroHelper, chainHelper, chainStartBody;
+let transformControl, transformContainer, playerHelper, chainHelper, chainStartBody;
 
-const toolModules = [ bodies, shapes, files, chainPoints, hero ];
+const toolModules = [ bodies, shapes, files, chainPoints, player ];
 
 //
 
@@ -48,7 +48,7 @@ tools.append(
 	makeToolButton( 'shapes', shapes ),
 	'//',
 	makeToolButton( 'chain points', chainPoints ),
-	makeToolButton( 'hero', hero )
+	makeToolButton( 'player', player )
 );
 
 function makeToolButton( name, toolModule ) {
@@ -92,7 +92,7 @@ toolsOptions.append(
 	shapes.domOptions,
 	files.domOptions,
 	chainPoints.domOptions,
-	hero.domOptions
+	player.domOptions
 );
 
 //  EVENT LISTENERS
@@ -127,7 +127,7 @@ window.addEventListener( 'scene-graph-request', () => {
 
 	const sceneInfo = {
 		chainPoints: chainPoints.getParams(),
-		hero: hero.getPosition()
+		player: player.getPosition()
 	}
 
 	sceneInfo.bodies = bodies.bodies.map( (body) => {
@@ -172,7 +172,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 		engine.core.scene.clear();
 
-		engine.core.scene.add( transformControl, transformContainer, heroHelper, chainHelper );
+		engine.core.scene.add( transformControl, transformContainer, playerHelper, chainHelper );
 
 		makeGrid();
 
@@ -188,7 +188,7 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 		chainPoints.fromInfo( info.chainPoints );
 
-		hero.fromInfo( info.hero );
+		player.fromInfo( info.player );
 
 		//
 
@@ -207,9 +207,9 @@ window.addEventListener( 'scene-graph-loaded', (e) => {
 
 } );
 
-window.addEventListener( 'update-hero', (e) => {
+window.addEventListener( 'update-player', (e) => {
 
-	heroHelper.position.copy( e.detail );
+	playerHelper.position.copy( e.detail );
 
 	chainHelper.updateHelper();
 
@@ -323,12 +323,12 @@ editorPage.start = function start() {
 		transformContainer = new engine.THREE.Group();
 		transformContainer.isTransformContainer = true;
 
-		heroHelper = new engine.THREE.Mesh(
+		playerHelper = new engine.THREE.Mesh(
 			new engine.THREE.SphereGeometry(),
 			engine.materials.characterMaterial
 		);
 
-		engine.core.scene.add( transformControl, transformContainer, heroHelper );
+		engine.core.scene.add( transformControl, transformContainer, playerHelper );
 
 		// chain helper
 
@@ -364,11 +364,11 @@ editorPage.start = function start() {
 
 				chainStartBody = bodies.getFromName( chainParams.bodyName );
 
-				const playerPos = hero.getPosition();
+				const playerPos = player.getPosition();
 
 				//
 
-				heroHelper.updateMatrixWorld();
+				playerHelper.updateMatrixWorld();
 
 				chainHelperPoints[0].set(
 					Number( playerPos.x ),

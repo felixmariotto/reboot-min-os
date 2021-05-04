@@ -226,7 +226,7 @@ export default function Chain( length ) {
 
 		const sphereShape = Sphere( params.chainSphereRadius );
 
-		const sphereBody = Body( constants.DYNAMIC_BODY, 0.4 );
+		const sphereBody = Body( constants.DYNAMIC_BODY, params.chainWeight );
 
 		sphereBody.add( sphereShape );
 

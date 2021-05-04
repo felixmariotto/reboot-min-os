@@ -13,12 +13,12 @@ export default {
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),
-	physicsSimTicks: 7,
-	chainPasses: 8, // number of times the chain links are simulated per physics tick
+	physicsSimTicks: 10,
+	chainPasses: 5, // number of times the chain links are simulated per physics tick
 	gravity: new THREE.Vector3( 0, -0.035, 0 ),
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
-	chainWeight: 0.10, // [ 0 - 1 ] value
+	chainWeight: 0.30, // [ 0 - 1 ] value
 
 	playerAcceleration: 0.03,
 	notOnGroundHandicap: 0.5, // how much the player speed is reduced if not touching the ground ( but still colliding )

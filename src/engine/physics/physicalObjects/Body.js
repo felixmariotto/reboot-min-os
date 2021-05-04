@@ -94,6 +94,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
 
 					collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
+
 					collider.updateMatrixWorld();
 
 					// compute the penetration vector with the kinematic body more forward in time
@@ -104,30 +105,37 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					if ( penetrationVec2 ) {
 
+						// velocity of the kinematic body
+
 						penetrationVec2
 						.sub( penetrationVec )
 						.multiplyScalar( params.physicsSimTicks );
 
-						if ( penetrationVec2.dot( penetrationVec ) > 0 ) {
+						// constrain this body velocity to collider velocity
 
-							penetrationVec2.multiplyScalar( 0.2 );
-							penetrationVec2.negate();
+						penetrationVec2.sub( this.velocity );
+
+						penetrationVec2.x = Math.sign( penetrationVec2.x ) !== Math.sign( this.velocity.x ) ? 0 : penetrationVec2.x;
+						penetrationVec2.y = Math.sign( penetrationVec2.y ) !== Math.sign( this.velocity.y ) ? 0 : penetrationVec2.y;
+						penetrationVec2.z = Math.sign( penetrationVec2.z ) !== Math.sign( this.velocity.z ) ? 0 : penetrationVec2.z;
+
+						this.velocity.sub( penetrationVec2 );
+
+						/*
+						if ( penetrationVec2.length() > 0 ) {
+
+							console.log( penetrationVec2 )
 
 						}
-
-						this.velocity.add( penetrationVec2 );
-
-						this.resolvePenetration( penetrationVec, collider.damping );
-
-						
-
-					} else {
-
-						this.resolvePenetration( penetrationVec, collider.damping );
+						*/
 
 					}
 
-					// reset body transforms
+					//
+
+					this.resolvePenetration( penetrationVec, collider.damping );
+
+					// reset both bodies transforms
 
 					collider.updateTransform( collider.lastTransformTime );
 					collider.updateMatrixWorld();

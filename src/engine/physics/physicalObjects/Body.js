@@ -44,7 +44,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					if (
 						this.isPlayer &&
-						this.bodyType === constants.DYNAMIC_BODY &&
 						penetrationVec.dot( groundTestVec ) < 0
 					) {
 						this.isOnGround = true
@@ -83,7 +82,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					if (
 						this.isPlayer &&
-						this.bodyType === constants.DYNAMIC_BODY &&
 						penetrationVec.dot( groundTestVec ) < 0
 					) {
 						this.isOnGround = true
@@ -94,7 +92,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
 
 					collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
-
 					collider.updateMatrixWorld();
 
 					// compute the penetration vector with the kinematic body more forward in time
@@ -121,19 +118,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						this.velocity.sub( penetrationVec2 );
 
-						/*
-						if ( penetrationVec2.length() > 0 ) {
-
-							console.log( penetrationVec2 )
-
-						}
-						*/
-
 					}
-
-					//
-
-					this.resolvePenetration( penetrationVec, collider.damping );
 
 					// reset both bodies transforms
 
@@ -141,6 +126,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					collider.updateMatrixWorld();
 
 					this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
+
+					//
+
+					this.resolvePenetration( penetrationVec, collider.damping );
 
 				}
 

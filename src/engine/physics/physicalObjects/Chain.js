@@ -107,9 +107,9 @@ export default function Chain( length ) {
 					!this.end.body.currentLink
 				) {
 
-					this.end.body.position.addScaledVector( diff, params.chainWeight );
+					this.end.body.position.addScaledVector( diff, params.chainWeightOnPlayer );
 					
-					this.end.body.velocity.addScaledVector( diff, params.chainWeight );
+					this.end.body.velocity.addScaledVector( diff, params.chainWeightOnPlayer );
 
 				}
 

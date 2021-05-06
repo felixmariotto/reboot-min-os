@@ -175,10 +175,7 @@ function fromInfo( info ) {
 
 	if ( info.trans ) {
 
-		// test
-		const string = info.trans.replace( 'Date.now()', 'time' );
-
-		newBody.transformFunction = Function( 'time', string );
+		newBody.transformFunction = Function( 'time', info.trans );
 
 	}
 

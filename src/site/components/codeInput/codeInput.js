@@ -8,7 +8,7 @@ const container = document.createElement('DIV');
 container.id = 'code-input';
 
 const textArea = document.createElement('TEXTAREA');
-textArea.placeholder = 'this.position.x = Math.sin( Date.now() / 200 );'
+textArea.placeholder = 'this.position.x = Math.sin( time / 200 );'
 textArea.rows = "10";
 textArea.cols = "150";
 

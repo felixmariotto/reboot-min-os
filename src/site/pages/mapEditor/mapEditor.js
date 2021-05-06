@@ -454,7 +454,7 @@ editorPage.start = function start() {
 
 			if ( !isShiftPressed ) return
 
-			const a = intersects.find( intersect => intersect.object.isEditorShape );
+			const a = intersects.find( intersect => intersect.object.isEditorShape && intersect.object.parent.visible );
 
 			if ( a ) shapes.selectShape( a.object );
 

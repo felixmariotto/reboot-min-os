@@ -10,9 +10,9 @@ core.callInLoop( loop );
 
 let loopCallback;
 
-function loop() {
+function loop( delta ) {
 
-	if ( loopCallback ) loopCallback();
+	if ( loopCallback ) loopCallback( delta );
 
 }
 
@@ -106,7 +106,7 @@ function controlVelocity( target ) {
 		console.warn('characterControl.controlVelocity : target is not a body');
 	}
 
-	loopCallback = () => {
+	loopCallback = ( delta ) => {
 
 		// move the player in X Z direction
 
@@ -123,9 +123,7 @@ function controlVelocity( target ) {
 
 			_vec3.crossVectors( _vec1, FORWARD );
 
-			if ( _vec3.dot( target.up ) < 0 ) {
-				angle = -angle;
-			}
+			if ( _vec3.dot( target.up ) < 0 ) angle = -angle;
 
 			// get world direction
 
@@ -135,9 +133,11 @@ function controlVelocity( target ) {
 
 			// move forward
 
+			const speedRatio = delta / ( 1 /  60 );
+
 			const factor = getSpeedFactor( target );
 
-			target.velocity.addScaledVector( targetDirection, factor * -1 * params.playerAcceleration );
+			target.velocity.addScaledVector( targetDirection, factor * speedRatio * -1 * params.playerAcceleration );
 
 		}
 

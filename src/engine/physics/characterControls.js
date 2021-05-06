@@ -110,7 +110,7 @@ function controlVelocity( target ) {
 
 		// move the player in X Z direction
 
-		if ( target.isColliding && input.targetDirection.length() > 0 ) {
+		if ( input.targetDirection.length() > 0 ) {
 
 			_vec1
 			.copy( core.camera.position )
@@ -135,13 +135,21 @@ function controlVelocity( target ) {
 
 			// move forward
 
-			const factor = -1 * params.playerAcceleration * ( target.isOnGround ? 1 : params.notOnGroundHandicap );
+			const factor = getSpeedFactor( target );
 
-			target.velocity.addScaledVector( targetDirection, factor );
+			target.velocity.addScaledVector( targetDirection, factor * -1 * params.playerAcceleration );
 
 		}
 
 	}
+
+}
+
+function getSpeedFactor( player ) {
+
+	if ( player.isOnGround ) return 1
+	else if ( player.isColliding ) return params.notOnGroundHandicap
+	else return params.notCollidingHandicap
 
 }
 

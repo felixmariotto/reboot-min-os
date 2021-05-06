@@ -23,6 +23,7 @@ export default {
 
 	playerAcceleration: 0.03,
 	notOnGroundHandicap: 0.5, // how much the player speed is reduced if not touching the ground ( but still colliding )
+	notCollidingHandicap: 0.2,
 	playerWeight: 0.3
 }
 

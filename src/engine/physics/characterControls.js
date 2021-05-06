@@ -160,15 +160,6 @@ function controlVelocity( target ) {
 
 				target.velocity.sub( targetDirection );
 
-				/*
-				console.log( 'subRatio', subRatio )
-				console.log( 'addedSpeed', addedSpeed )
-				console.log( 'beforeSpeed', beforeSpeed )
-				console.log( 'afterSpeed', afterSpeed )
-
-				debugger
-				*/
-
 			}
 
 		}

@@ -36,7 +36,12 @@ export default function WorldFromInfo( info ) {
 
 		const body = Body( bodyType );
 
-		body.transformCode = bodyInfo.trans;
+		if ( bodyInfo.trans ) {
+
+			body.transformFunction = Function( bodyInfo.trans );
+
+		}
+
 		body.name = bodyInfo.name;
 
 		//

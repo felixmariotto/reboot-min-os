@@ -76,6 +76,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 				if ( penetrationVec ) {
 
+					// console.time('check kinematic relative speed');
+
 					this.isColliding = true;
 
 					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
@@ -108,9 +110,11 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 						.sub( penetrationVec )
 						.multiplyScalar( params.physicsSimTicks );
 
-						// constrain this body velocity to collider velocity
+						// difference with this body velocity
 
 						penetrationVec2.sub( this.velocity );
+
+						// constrain this body velocity to collider velocity
 
 						penetrationVec2.x = Math.sign( penetrationVec2.x ) !== Math.sign( this.velocity.x ) ? 0 : penetrationVec2.x;
 						penetrationVec2.y = Math.sign( penetrationVec2.y ) !== Math.sign( this.velocity.y ) ? 0 : penetrationVec2.y;
@@ -130,6 +134,10 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 					//
 
 					this.resolvePenetration( penetrationVec, collider.damping );
+
+					// console.timeEnd('check kinematic relative speed');
+
+					// debugger
 
 				}
 
@@ -190,11 +198,14 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			bounciness: 0,
 			damping: 0.007,
 			// transformation code that define pos and rot from a timestamp
-			transformCode: null,
-			updateTransform: function () {
-				if ( this.transformCode ) {
-					eval( this.transformCode );
+			updateTransform: function ( time ) {
+
+				if ( this.transformFunction ) {
+
+					this.transformFunction();
+
 				}
+				
 			}, 
 			// velocity is in length-unit/graphic-frame
 			// used only if bodyType is DYNAMIC_BODY

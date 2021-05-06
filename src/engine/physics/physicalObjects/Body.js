@@ -202,7 +202,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 				if ( this.transformFunction ) {
 
-					this.transformFunction();
+					this.transformFunction( time );
 
 				}
 				

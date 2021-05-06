@@ -38,7 +38,10 @@ export default function WorldFromInfo( info ) {
 
 		if ( bodyInfo.trans ) {
 
-			body.transformFunction = Function( bodyInfo.trans );
+			// test
+			const string = bodyInfo.trans.replace( 'Date.now()', 'time' );
+
+			body.transformFunction = Function( 'time', string );
 
 		}
 

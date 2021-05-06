@@ -139,7 +139,7 @@ function controlVelocity( target ) {
 
 			targetDirection.multiplyScalar( factor * speedRatio * -1 * params.playerAcceleration );
 
-			// apply acceleration threshold ( if player moves fast, then can't get faster )
+			// apply acceleration with a threshold ( if player moves fast, then can't get faster )
 
 			const beforeSpeed = target.velocity.length();
 
@@ -147,6 +147,7 @@ function controlVelocity( target ) {
 
 			const afterSpeed = target.velocity.length();
 
+			// acceleration reducer if the resulting speed is beyond threshold
 			if (
 				afterSpeed > params.playerMaxAcceleration &&
 				afterSpeed > beforeSpeed

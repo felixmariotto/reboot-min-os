@@ -173,6 +173,8 @@ function fromInfo( info ) {
 	newBody.tags = info.tags;
 	newBody.color = info.color || makeRandomColor();
 
+	console.log( info.tags )
+
 	if ( info.trans ) {
 
 		newBody.transformFunction = Function( 'time', info.trans );

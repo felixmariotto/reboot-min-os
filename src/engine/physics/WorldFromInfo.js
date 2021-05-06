@@ -44,6 +44,8 @@ export default function WorldFromInfo( info ) {
 
 		body.name = bodyInfo.name;
 
+		if ( bodyInfo.tags ) body.tags = JSON.parse( bodyInfo.tags );
+
 		//
 
 		bodyInfo.shapes.forEach( (shapeInfo) => {
@@ -95,8 +97,6 @@ export default function WorldFromInfo( info ) {
 	// we compute the spatial index nodes.
 
 	world.spatialIndex.computeTree();
-
-	console.log( world.spatialIndex );
 
 	// player
 

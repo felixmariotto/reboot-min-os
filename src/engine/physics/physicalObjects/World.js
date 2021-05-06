@@ -10,7 +10,7 @@ import SpatialIndex from './SpatialIndex.js';
 const MAX_DELTA = 1 / 30;
 const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
-let nowTime;
+let nowTime, speedRatio;
 
 //
 
@@ -128,6 +128,8 @@ export default function World() {
 
 		nowTime = Date.now();
 
+		speedRatio = delta / NOMINAL_TICK_TIME;
+
 		for ( let i=0 ; i<this.children.length ; i++ ) {
 
 			const body = this.children[i];
@@ -161,23 +163,23 @@ export default function World() {
 
 				// collide with static bodies via world.spatialIndex
 
-				body.collideIn( this );
+				body.collideIn( this, speedRatio );
 
 				// collide with all kinematic bodies
 
 				this.children.forEach( (collider) => {
 
-					if ( collider.bodyType === constants.KINEMATIC_BODY ) body.collideWith( collider );
+					if ( collider.bodyType === constants.KINEMATIC_BODY ) body.collideWith( collider, speedRatio );
 
 				} );
 
 				// add gravity to velocity
 
-				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * ( delta / NOMINAL_TICK_TIME ) * body.mass );
+				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * speedRatio * body.mass );
 
 				// update position according to velocity
 
-				body.position.addScaledVector( body.velocity, ( delta / NOMINAL_TICK_TIME ) / params.physicsSimTicks );
+				body.position.addScaledVector( body.velocity, speedRatio / params.physicsSimTicks );
 
 			}
 

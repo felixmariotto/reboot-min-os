@@ -24,7 +24,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 	// of each particular shape of this body.
 	// Then we perform a more fine-grain collision detection on the neighbors.
 
-	function collideIn( world ) {
+	function collideIn( world, speedRatio ) {
 
 		this.children.forEach( (shape) => {
 
@@ -51,7 +51,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					//
 
-					this.resolvePenetration( penetrationVec, collider.damping );
+					this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
 
 				}
 
@@ -66,7 +66,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 	// in world.spatialIndex, so dynamic bodies must perform collision
 	// detection with every kinematic body at each frame.
 
-	function collideWith( collider ) {
+	function collideWith( collider, speedRatio ) {
 
 		this.children.forEach( (shape) => {
 
@@ -75,8 +75,6 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 				penetrationVec = shape.penetrationIn( colliderShape, targetVec );
 
 				if ( penetrationVec ) {
-
-					// console.time('check kinematic relative speed');
 
 					this.isColliding = true;
 
@@ -133,11 +131,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					//
 
-					this.resolvePenetration( penetrationVec, collider.damping );
-
-					// console.timeEnd('check kinematic relative speed');
-
-					// debugger
+					this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
 
 				}
 
@@ -149,7 +143,9 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	//
 
-	function resolvePenetration( penetrationVec, colliderDamping ) {
+	function resolvePenetration( penetrationVec, colliderDamping, speedRatio ) {
+
+		speedRatio /= params.physicsSimTicks;
 
 		this.position.sub( penetrationVec );
 
@@ -161,13 +157,12 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 		const bounceDampVec = _vec
 		.copy( this.velocity )
 		.projectOnVector( penetrationVec )
-		.negate();
-
-		this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
 
 		this.velocity.reflect( penetrationVec );
 
-		this.velocity.multiplyScalar( 1 - colliderDamping );
+		this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
+
+		this.velocity.multiplyScalar( 1 - ( colliderDamping * speedRatio  ) );
 
 	}
 
@@ -195,8 +190,8 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			name: Math.random().toString(36).substring(8),
 			bodyType,
 			mass,
-			bounciness: 0,
-			damping: 0.007,
+			bounciness: params.bodyDefaultBounciness,
+			damping: params.bodyDefaultDamping,
 			// transformation code that define pos and rot from a timestamp
 			updateTransform: function ( time ) {
 

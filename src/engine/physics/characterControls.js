@@ -131,13 +131,45 @@ function controlVelocity( target ) {
 			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
 			.applyAxisAngle( target.up, -angle );
 
-			// move forward
+			// compute acceleration vector length
 
 			const speedRatio = delta / ( 1 /  60 );
 
 			const factor = getSpeedFactor( target );
 
-			target.velocity.addScaledVector( targetDirection, factor * speedRatio * -1 * params.playerAcceleration );
+			targetDirection.multiplyScalar( factor * speedRatio * -1 * params.playerAcceleration );
+
+			// apply acceleration threshold ( if player moves fast, then can't get faster )
+
+			const beforeSpeed = target.velocity.length();
+
+			target.velocity.add( targetDirection );
+
+			const afterSpeed = target.velocity.length();
+
+			if (
+				afterSpeed > params.playerMaxAcceleration &&
+				afterSpeed > beforeSpeed
+			) {
+
+				const addedSpeed = targetDirection.length()
+
+				const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed
+
+				targetDirection.multiplyScalar( subRatio );
+
+				target.velocity.sub( targetDirection );
+
+				/*
+				console.log( 'subRatio', subRatio )
+				console.log( 'addedSpeed', addedSpeed )
+				console.log( 'beforeSpeed', beforeSpeed )
+				console.log( 'afterSpeed', afterSpeed )
+
+				debugger
+				*/
+
+			}
 
 		}
 

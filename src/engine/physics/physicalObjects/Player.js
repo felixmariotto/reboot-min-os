@@ -28,7 +28,7 @@ export default function Player() {
 
 	events.on( 'jump-key-down', () => {
 
-		if ( playerBody.isOnGround ) playerBody.velocity.y += 0.4;
+		if ( playerBody.isOnGround ) playerBody.velocity.y += params.playerJumpSpeed;
 
 	} );
 

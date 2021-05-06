@@ -87,16 +87,27 @@ export default function Chain( length ) {
 
 				const p1 = this.points[ j ];
 				const p2 = this.points[ j + 1 ];
-
-				const diff = this.constrainPoints( p1, p2 );
-
-				// add the diff to the velocity of each chain sphere
-
 				const sphere1 = !j ? null : this.spheres[ j - 1 ];
 				const sphere2 = j === this.pointsNumber - 2 ? null : this.spheres[ j ];
 
-				if ( sphere1 ) sphere1.velocity.sub( diff );
-				if ( sphere2 ) sphere2.velocity.add( diff );
+				const diff = this.constrainPoints( p1, p2 );
+
+				// add/subtract the diff to the velocity of each chain sphere
+
+				if ( !( sphere1 && sphere1.isBlocked ) ) p1.sub( diff );
+				if ( !( sphere2 && sphere2.isBlocked ) ) p2.add( diff );
+
+				if ( sphere1 && !sphere1.isBlocked ) sphere1.velocity.sub( diff );
+				if ( sphere2 && !sphere2.isBlocked ) sphere2.velocity.add( diff );
+
+				/*
+				if ( sphere1 && sphere1.velocity.length() > 1 ) {
+					console.log( 'sphere1', sphere1 )
+					console.log( 'sphere2', sphere2 )
+					console.log( 'this.spheres', this.spheres )
+					debugger
+				}
+				*/
 
 				// transform body at the end of the chain
 
@@ -106,11 +117,8 @@ export default function Chain( length ) {
 					// before the last uneffectual on the player
 					!this.end.body.currentLink
 				) {
-
 					this.end.body.position.addScaledVector( diff, params.chainWeightOnPlayer );
-					
 					this.end.body.velocity.addScaledVector( diff, params.chainWeightOnPlayer );
-
 				}
 
 			}
@@ -135,12 +143,7 @@ export default function Chain( length ) {
 		// line to make line length correct
 
 		const fraction = ( ( this.linkLength - distance ) / distance ) / 2; // divide by 2 as each point moves half the distance
-
-		//
-
 		diff.multiplyScalar( fraction );
-		p1.sub( diff );
-		p2.add( diff );
 
 		//
 
@@ -173,6 +176,11 @@ export default function Chain( length ) {
 		const p2 = constrainedBody.position;
 
 		const diff = this.constrainPoints( p1, p2 );
+
+		p1.sub( diff );
+		p2.add( diff );
+
+		console.log('hello')
 
 		// add the diff to the velocity of the particular link
 

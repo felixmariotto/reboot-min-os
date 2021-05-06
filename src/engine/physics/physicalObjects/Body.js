@@ -19,6 +19,7 @@ let penetrationVec;
 
 export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
+	// COLLISION DETECTION WITH FIXED BODIES
 	// Called by world.updatePhysics.
 	// shape.findNeighborsIn asks world.spatialIndex for the neighbors
 	// of each particular shape of this body.
@@ -38,20 +39,38 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 					const collider = neighborShape.parent;
 
-					this.isColliding = true;
+					// Collision resolution on this body position and velocity.
+					// If the collider has the "empty" tag, we skip this.
 
-					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+					if ( !( collider.tags && collider.tags.empty ) ) {
 
-					if (
-						this.isPlayer &&
-						penetrationVec.dot( groundTestVec ) < 0
-					) {
-						this.isOnGround = true
+						this.isColliding = true;
+
+						// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+
+						if (
+							this.isPlayer &&
+							penetrationVec.dot( groundTestVec ) < 0
+						) {
+							this.isOnGround = true
+						}
+
+						//
+
+						this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+
 					}
 
-					//
+					// if the collider has the "blocking" tag,
+					// we stop this body motion altogether
 
-					this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+					if ( collider.tags && collider.tags.blocking ) {
+
+						this.velocity.setScalar( 0 );
+
+						this.isBlocked = true;
+
+					}
 
 				}
 
@@ -61,7 +80,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	}
 
-	// Used specifically to collide this body with a kinematic body.
+	// COLLISION DETECTION WITH KINEMATIC BODIES.
 	// As kinematic bodies are not static, they can't be sorted out
 	// in world.spatialIndex, so dynamic bodies must perform collision
 	// detection with every kinematic body at each frame.
@@ -76,62 +95,80 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 				if ( penetrationVec ) {
 
-					this.isColliding = true;
+					// Collision resolution on this body position and velocity.
+					// If the collider has the "empty" tag, we skip this.
 
-					// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+					if ( !( collider.tags && collider.tags.empty ) ) {
 
-					if (
-						this.isPlayer &&
-						penetrationVec.dot( groundTestVec ) < 0
-					) {
-						this.isOnGround = true
+						this.isColliding = true;
+
+						// set isOnGround to true is the dynamic body is standing upon the kinematic collider
+
+						if (
+							this.isPlayer &&
+							penetrationVec.dot( groundTestVec ) < 0
+						) {
+							this.isOnGround = true
+						}
+
+						// compute transforms of the kinematic body in the next tick
+
+						this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
+
+						collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
+						collider.updateMatrixWorld();
+
+						// compute the penetration vector with the kinematic body more forward in time
+
+						const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
+
+						// add velocity resulting from collision to the dynamic body velocity
+
+						if ( penetrationVec2 ) {
+
+							// velocity of the kinematic body
+
+							penetrationVec2
+							.sub( penetrationVec )
+							.multiplyScalar( params.physicsSimTicks );
+
+							// difference with this body velocity
+
+							penetrationVec2.sub( this.velocity );
+
+							// constrain this body velocity to collider velocity
+
+							penetrationVec2.x = Math.sign( penetrationVec2.x ) !== Math.sign( this.velocity.x ) ? 0 : penetrationVec2.x;
+							penetrationVec2.y = Math.sign( penetrationVec2.y ) !== Math.sign( this.velocity.y ) ? 0 : penetrationVec2.y;
+							penetrationVec2.z = Math.sign( penetrationVec2.z ) !== Math.sign( this.velocity.z ) ? 0 : penetrationVec2.z;
+
+							this.velocity.sub( penetrationVec2 );
+
+						}
+
+						// reset both bodies transforms
+
+						collider.updateTransform( collider.lastTransformTime );
+						collider.updateMatrixWorld();
+
+						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
+
+						//
+
+						this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+
 					}
 
-					// compute transforms of the kinematic body in the next tick
+					// if the collider has the "blocking" tag,
+					// we stop this body motion altogether
 
-					this.position.addScaledVector( this.velocity, 1 / params.physicsSimTicks );
+					if ( collider.tags && collider.tags.blocking ) {
 
-					collider.updateTransform( collider.lastTransformTime + ( NOMINAL_TICK_TIME * 1000 ) );
-					collider.updateMatrixWorld();
+						this.velocity.setScalar( 0 );
 
-					// compute the penetration vector with the kinematic body more forward in time
-
-					const penetrationVec2 = shape.penetrationIn( colliderShape, _vec0 );
-
-					// add velocity resulting from collision to the dynamic body velocity
-
-					if ( penetrationVec2 ) {
-
-						// velocity of the kinematic body
-
-						penetrationVec2
-						.sub( penetrationVec )
-						.multiplyScalar( params.physicsSimTicks );
-
-						// difference with this body velocity
-
-						penetrationVec2.sub( this.velocity );
-
-						// constrain this body velocity to collider velocity
-
-						penetrationVec2.x = Math.sign( penetrationVec2.x ) !== Math.sign( this.velocity.x ) ? 0 : penetrationVec2.x;
-						penetrationVec2.y = Math.sign( penetrationVec2.y ) !== Math.sign( this.velocity.y ) ? 0 : penetrationVec2.y;
-						penetrationVec2.z = Math.sign( penetrationVec2.z ) !== Math.sign( this.velocity.z ) ? 0 : penetrationVec2.z;
-
-						this.velocity.sub( penetrationVec2 );
+						this.isBlocked = true;
 
 					}
-
-					// reset both bodies transforms
-
-					collider.updateTransform( collider.lastTransformTime );
-					collider.updateMatrixWorld();
-
-					this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
-
-					//
-
-					this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
 
 				}
 

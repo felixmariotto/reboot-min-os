@@ -13,7 +13,7 @@ export default {
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),
-	physicsSimTicks: 2,
+	physicsSimTicks: 4,
 	chainPasses: 5, // number of times the chain links are simulated per physics tick
 	gravity: new THREE.Vector3( 0, -0.035, 0 ),
 	chainPointDistance: 0.9,

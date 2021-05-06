@@ -160,6 +160,7 @@ export default function World() {
 
 				body.isOnGround = false;
 				body.isColliding = false;
+				body.isBlocked = false;
 
 				// collide with static bodies via world.spatialIndex
 

@@ -158,11 +158,14 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 		.copy( this.velocity )
 		.projectOnVector( penetrationVec )
 
+		// bounce velocity against collider normal
 		this.velocity.reflect( penetrationVec );
 
+		// slow down velocity in the direction of the obstacle normal
 		this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
 
-		this.velocity.multiplyScalar( 1 - ( colliderDamping * speedRatio  ) );
+		// slow down velocity, to mimic friction
+		this.velocity.multiplyScalar( 1 - ( colliderDamping * speedRatio ) );
 
 	}
 

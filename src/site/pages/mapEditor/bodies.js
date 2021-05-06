@@ -173,6 +173,15 @@ function fromInfo( info ) {
 	newBody.tags = info.tags;
 	newBody.color = info.color || makeRandomColor();
 
+	if ( info.trans ) {
+
+		// test
+		const string = info.trans.replace( 'Date.now()', 'time' );
+
+		newBody.transformFunction = Function( 'time', string );
+
+	}
+
 	bodies.push( newBody );
 
 	bodiesList.append( newBody.domElement );
@@ -284,7 +293,13 @@ codeInput.addEventListener( 'validate', (e) => {
 	codeInput.reset();
 	codeInput.toggle();
 
-	if ( selectedBody ) selectedBody.transformCode = transformCode;
+	if ( selectedBody ) {
+
+		selectedBody.transformCode = transformCode;
+
+		selectedBody.transformFunction = Function( 'time', transformCode );
+
+	}
 
 	window.removeEventListener( 'keydown', handleEscapeCodeInput );
 

@@ -464,9 +464,15 @@ editorPage.start = function start() {
 
 		engine.core.callInLoop( () => {
 
+			const time = Date.now();
+
 			bodies.bodies.forEach( (body) => {
 
-				updateObject.call( body.threeObj, body.transformCode );
+				if ( body.transformFunction ) {
+
+					body.transformFunction.call( body.threeObj, time );
+
+				}
 
 			} );
 
@@ -482,12 +488,6 @@ editorPage.start = function start() {
 		console.log( err );
 
 	}
-
-}
-
-function updateObject( code ) {
-
-	eval( code );
 
 }
 

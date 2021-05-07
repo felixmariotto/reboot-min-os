@@ -10,6 +10,8 @@ import editorConsole from './editorConsole.js';
 
 const chainPoints = [];
 
+let selectedLine;
+
 const chainPointOptions = elem({ id: 'editor-chain-point-options', classes: 'tool-options' });
 
 //
@@ -21,7 +23,8 @@ chainPointOptions.append( toolBar );
 //
 
 toolBar.append(
-	makeTool( 'far fa-plus-square', addChainPoint )
+	makeTool( 'far fa-plus-square', addChainPoint ),
+	makeTool( 'far fa-trash-alt', removeChainPoint )
 );
 
 function makeTool( iconClasses, callback ) {
@@ -46,6 +49,18 @@ listContainer.append( chainPointList );
 
 //
 
+function selectLine( line ) {
+
+	if ( selectedLine ) selectedLine.classList.remove( 'selected' );
+
+	line.domElement.classList.add( 'selected' );
+
+	selectedLine = line;
+
+}
+
+//
+
 function addChainPoint( info ) {
 
 	const newChainPoint = ChainPoint( info );
@@ -53,6 +68,24 @@ function addChainPoint( info ) {
 	chainPoints.push( newChainPoint );
 
 	chainPointList.append( newChainPoint.domElement );
+
+}
+
+//
+
+function removeChainPoint() {
+
+	if ( selectedLine ) {
+
+		const toDelete = selectedLine;
+
+		toDelete.clear();
+
+	} else {
+
+		editorConsole.warn( 'no chain point selected for removal' )
+
+	}
 
 }
 
@@ -74,43 +107,54 @@ function makeRandomColor() {
 
 function ChainPoint( info ) {
 
+	const chainPoint = {
+		setRadius,
+		setLength,
+		getParams,
+		clear
+	}
+
+	//
+
 	const DEFAULT_LENGTH = 20;
 
-	const color = info ? new engine.THREE.Color( '#' + info.color ) : makeRandomColor();
+	chainPoint.color = info ? new engine.THREE.Color( '#' + info.color ) : makeRandomColor();
 
-	const object3D = new engine.THREE.Group();
+	chainPoint.object3D = new engine.THREE.Group();
 
-	const outer = new engine.THREE.Mesh(
+	chainPoint.outer = new engine.THREE.Mesh(
 		new engine.THREE.IcosahedronGeometry( DEFAULT_LENGTH, 3 ),
 		new engine.THREE.MeshPhongMaterial({
 			wireframe: true,
-			color,
+			color: chainPoint.color,
 			transparent: true,
 			opacity: 0.3
 		})
 	);
 
-	const inner = new engine.THREE.Mesh(
+	chainPoint.inner = new engine.THREE.Mesh(
 		new engine.THREE.IcosahedronGeometry( 1, 1 ),
-		new engine.THREE.MeshPhongMaterial({ wireframe: true, color })
+		new engine.THREE.MeshPhongMaterial({ wireframe: true, color: chainPoint.color })
 	);
 
-	const core = new engine.THREE.Mesh(
+	chainPoint.core = new engine.THREE.Mesh(
 		new engine.THREE.IcosahedronGeometry( 0.3 ),
-		new engine.THREE.MeshPhongMaterial({ color })
+		new engine.THREE.MeshPhongMaterial({ color: chainPoint.color })
 	);
 
-	object3D.add( inner, outer );
+	chainPoint.object3D.add( chainPoint.inner, chainPoint.outer, chainPoint.core );
 
-	engine.core.scene.add( object3D );
+	engine.core.scene.add( chainPoint.object3D );
 
 	//
 
-	const domElement = elem({ classes: 'editor-chain-point-line' });
+	chainPoint.domElement = elem({ classes: 'editor-chain-point-line' });
 
-	domElement.style.backgroundColor = '#' + new engine.THREE.Color( color ).getHexString();
+	chainPoint.domElement.style.backgroundColor = '#' + new engine.THREE.Color( chainPoint.color ).getHexString();
 	
-	domElement.style.color = 'black';
+	chainPoint.domElement.style.color = 'black';
+
+	chainPoint.domElement.onclick = () => selectLine( chainPoint );
 
 	//
 
@@ -128,7 +172,7 @@ function ChainPoint( info ) {
 
 	content.append( bodyName, x, y, z, length, radius, enabledCheck, initCheck );
 
-	domElement.append( content )
+	chainPoint.domElement.append( content )
 
 	//
 
@@ -170,23 +214,31 @@ function ChainPoint( info ) {
 			radius: radius.getValue(),
 			enabled: enabledCheck.getValue(),
 			init: initCheck.getValue(),
-			color: color.getHexString()
+			color: chainPoint.color.getHexString()
 		}
+
+	}
+
+	function clear() {
+
+		this.domElement.remove();
+
+		this.object3D.parent.remove( this.object3D );
+
+		this.inner.material.dispose();
+		this.inner.geometry.dispose();
+		this.outer.material.dispose();
+		this.outer.geometry.dispose();
+		this.core.material.dispose();
+		this.core.geometry.dispose();
+
+		chainPoints.splice( chainPoints.indexOf( this ), 1 );
 
 	}
 
 	//
 
-	return {
-		object3D,
-		inner,
-		outer,
-		color,
-		domElement,
-		setRadius,
-		setLength,
-		getParams
-	}
+	return chainPoint
 
 }
 

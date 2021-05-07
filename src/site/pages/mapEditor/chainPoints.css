@@ -52,6 +52,12 @@
 			border-radius: 7px;
 		}
 
+			.editor-chain-point-line.selected {
+				border-width: 2px;
+				border-style: solid;
+				border-color: black;
+			}
+
 			.editor-chain-point-section {
 				padding: 10px;
 				margin-bottom: 10px;

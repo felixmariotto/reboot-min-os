@@ -23,6 +23,20 @@ gamePage.start = function start() {
 		// engine.cameraControls.orbitObj( engine.core.scene );
 		engine.characterControls.controlVelocity( params.player );
 
+		/*
+		params.bodies.forEach( (body) => {
+
+			if ( body.name === "pcz3v" ) {
+
+				console.log( body )
+
+				body.isOpen = true;
+
+			}
+
+		} );
+		*/
+
 	} );
 
 }

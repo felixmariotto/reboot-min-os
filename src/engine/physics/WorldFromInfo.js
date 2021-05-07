@@ -23,7 +23,7 @@ export default function WorldFromInfo( info ) {
 
 	// bodies
 
-	info.bodies.forEach( (bodyInfo) => {
+	const bodies = info.bodies.map( (bodyInfo) => {
 
 		let bodyType = constants.STATIC_BODY;
 
@@ -91,6 +91,8 @@ export default function WorldFromInfo( info ) {
 
 		world.add( body );
 
+		return body
+
 	} );
 
 	// when all the static bodies are added to the world,
@@ -154,7 +156,9 @@ export default function WorldFromInfo( info ) {
 	//
 
 	return {
-		player
+		player,
+		bodies,
+		world
 	}
 
 }

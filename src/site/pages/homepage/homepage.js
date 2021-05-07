@@ -1,6 +1,6 @@
 
 import './homepage.css';
-import { elem } from '../../utils.js';
+import { elem, icon } from '../../utils.js';
 
 import characterTest from '../characterTest/characterTest.js';
 import mapEditor from '../mapEditor/mapEditor.js';
@@ -19,8 +19,8 @@ const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden' });
 
 gamePicking.append(
 	makeGameButton( 'character test', characterTest ),
-	makeGameButton( 'map editor', mapEditor ),
-	makeGameButton( 'map file test', mapTest )
+	makeGameButton( 'EDIT map', mapEditor, 'fas fa-edit' ),
+	makeGameButton( 'TEST map', mapTest, 'fas fa-gamepad' )
 );
 
 homepage.append(
@@ -30,9 +30,16 @@ homepage.append(
 
 //
 
-function makeGameButton( name, gamePage ) {
+function makeGameButton( name, gamePage, iconClass ) {
 
-	const button = elem({ tagName: 'BUTTON', html:name });
+	const button = elem({ tagName: 'BUTTON', html: name });
+
+	if ( iconClass ) {
+		const x = icon( iconClass );
+		x.style.fontSize = "1.5em";
+		button.prepend( ' ' );
+		button.prepend( x );
+	}
 
 	button.onclick = () => {
 

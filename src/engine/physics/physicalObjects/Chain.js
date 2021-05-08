@@ -236,6 +236,8 @@ export default function Chain( length ) {
 
 		const sphereBody = Body( constants.DYNAMIC_BODY, params.chainWeight );
 
+		sphereBody.isChainLink = true;
+
 		sphereBody.add( sphereShape );
 
 		spheres.push( sphereBody );

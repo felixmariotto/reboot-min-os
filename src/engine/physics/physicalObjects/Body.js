@@ -80,10 +80,13 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 	}
 
-	// COLLISION DETECTION WITH KINEMATIC BODIES.
-	// As kinematic bodies are not static, they can't be sorted out
-	// in world.spatialIndex, so dynamic bodies must perform collision
+	// COLLISION DETECTION WITH KINEMATIC AND DYNAMIC BODIES.
+	// As kinematic and dynamic bodies don't have a fixed position,
+	// they can't be sorted out in world.spatialIndex,
+	// so dynamic bodies must perform collision
 	// detection with every kinematic body at each frame.
+
+	const mirrorCollision = new THREE.Vector3();
 
 	function collideWith( collider, speedRatio ) {
 
@@ -155,7 +158,23 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						// get dynamic body out of collision
 
-						this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+						if ( collider.bodyType === constants.DYNAMIC_BODY ) {
+
+							mirrorCollision
+							.copy( penetrationVec )
+							.multiplyScalar( 0.5 )
+							.negate();
+
+							penetrationVec.multiplyScalar( 0.5 );
+
+							collider.resolvePenetration( mirrorCollision, this.damping, speedRatio );
+							this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+
+						} else {
+
+							this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+
+						}
 
 					}
 

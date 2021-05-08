@@ -170,7 +170,19 @@ export default function World() {
 
 				this.children.forEach( (collider) => {
 
-					if ( collider.bodyType === constants.KINEMATIC_BODY ) body.collideWith( collider, speedRatio );
+					if ( collider === body ) return
+
+					if (
+						collider.bodyType === constants.KINEMATIC_BODY ||
+						(
+							collider.bodyType === constants.DYNAMIC_BODY &&
+							!( body.isPlayer && collider.isChainLink ) &&
+							!( body.isChainLink && collider.isPlayer ) &&
+							!( body.isChainLink && collider.isChainLink )
+						)
+					) {
+						body.collideWith( collider, speedRatio );
+					}
 
 				} );
 

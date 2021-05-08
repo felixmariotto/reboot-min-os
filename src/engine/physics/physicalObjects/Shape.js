@@ -16,6 +16,7 @@ import params from '../../params.js';
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 const _vec2 = new THREE.Vector2();
+const _euler = new THREE.Euler();
 
 //
 
@@ -147,14 +148,38 @@ export default function Shape() {
 
 	}
 
-	// 
+	//
+
+	const separatingVec1 = new THREE.Vector3();
+	const separatingVec2 = new THREE.Vector3();
+
+	function penetrationBoxBox( boxShape1, boxShape2, targetVec ) {
+
+		const sep1 = boxBoxSAT( boxShape1, boxShape2, separatingVec1 );
+		const sep2 = boxBoxSAT( boxShape2, boxShape1, separatingVec2 );
+
+		if ( sep1 && sep2 ) {
+
+			return sep1.lengthSq() > sep2.lengthSq() ? sep2 : sep1;
+
+		} else {
+
+			return null
+
+		}
+
+	}
+
+	// Returns null if it finds a separating axis between the two box,
+	// otherwise returns the smallest separating vector in world space.
+	// Resource : https://gamedev.stackexchange.com/questions/25397/obb-vs-obb-collision-detection
 
 	const box1AABB = new THREE.Box3();
 	const box2AABB = new THREE.Box3();
 
 	const separatingDist = new THREE.Vector3();
 
-	function penetrationBoxBox( boxShape1, boxShape2, targetVec ) {
+	function boxBoxSAT( boxShape1, boxShape2, targetVec ) {
 
 		// We compute boxShape1 AABB in local space
 
@@ -236,6 +261,10 @@ export default function Shape() {
 			) {
 				targetVec.z = separatingDist.z
 			}
+
+			_euler.setFromRotationMatrix( boxShape1.matrixWorld );
+
+			targetVec.applyEuler( _euler );
 
 		}
 

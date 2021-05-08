@@ -147,6 +147,114 @@ export default function Shape() {
 
 	}
 
+	// 
+
+	const box1AABB = new THREE.Box3();
+	const box2AABB = new THREE.Box3();
+
+	const separatingDist = new THREE.Vector3();
+
+	function penetrationBoxBox( boxShape1, boxShape2, targetVec ) {
+
+		// We compute boxShape1 AABB in local space
+
+		box1AABB.min.set(
+			boxShape1.width / -2,
+			boxShape1.height / -2,
+			boxShape1.depth / -2
+		);
+
+		box1AABB.max.set(
+			boxShape1.width / 2,
+			boxShape1.height / 2,
+			boxShape1.depth / 2
+		);
+
+		// we tranform the second box vertices to the first box space
+
+		boxShape2.vertices.forEach( (vert) => {
+
+			vert.applyMatrix4( boxShape2.matrixWorld );
+
+			boxShape1.worldToLocal( vert );
+
+		} );
+
+		// we compute the AABB of the second box in first box space
+
+		box2AABB.setFromPoints( boxShape2.vertices );
+
+		// find the distance between the two AABB in each axis
+
+		let returnVal = null;
+
+		separatingDist.x = Math.max(
+			box2AABB.min.x - box1AABB.max.x,
+			box1AABB.min.x - box2AABB.max.x
+		)
+
+		separatingDist.y = Math.max(
+			box2AABB.min.y - box1AABB.max.y,
+			box1AABB.min.y - box2AABB.max.y
+		)
+
+		separatingDist.z = Math.max(
+			box2AABB.min.z - box1AABB.max.z,
+			box1AABB.min.z - box2AABB.max.z
+		)
+
+		// If the AABBs are overlapping on all axis, then there is collision.
+		// We find the smallest distance and set targetVec with it.
+
+		if (
+			separatingDist.x < 0 &&
+			separatingDist.y < 0 &&
+			separatingDist.z < 0
+		) {
+
+			returnVal = targetVec;
+
+			targetVec.setScalar( 0 );
+
+			if (
+				separatingDist.x > separatingDist.y &&
+				separatingDist.x > separatingDist.z
+			) {
+				targetVec.x = separatingDist.x
+			}
+
+			if (
+				separatingDist.y > separatingDist.x &&
+				separatingDist.y > separatingDist.z
+			) {
+				targetVec.y = separatingDist.y
+			}
+
+			if (
+				separatingDist.z > separatingDist.x &&
+				separatingDist.z > separatingDist.y
+			) {
+				targetVec.z = separatingDist.z
+			}
+
+		}
+
+		// we tranform back the second box vertices to their own space
+
+		boxShape2.vertices.forEach( (vert) => {
+
+			vert.applyMatrix4( boxShape1.matrixWorld );
+
+			boxShape2.worldToLocal( vert );
+
+		} );
+
+		//
+
+		return returnVal
+
+	}
+
 	//
 
 	function deleteHelper() {
@@ -176,7 +284,11 @@ export default function Shape() {
 
 		}
 
-		this.aabb = new THREE.Box3();
+		if ( !this.aabb ) {
+
+			this.aabb = new THREE.Box3();
+
+		}
 
 		this.aabb.setFromObject( this );
 
@@ -204,11 +316,12 @@ export default function Shape() {
 		penetrationSphereBox,
 		penetrationSphereSphere,
 		penetrationSphereCylinder,
+		penetrationBoxBox,
 		deleteHelper,
-		computeAABB,
 		aabb: undefined,
 		findNeighborsIn,
-		neighbors: new Set()
+		neighbors: new Set(),
+		computeAABB
 	}
 
 }

@@ -26,12 +26,16 @@ export default function WorldFromInfo( info ) {
 	const bodies = info.bodies.map( (bodyInfo) => {
 
 		let bodyType = constants.STATIC_BODY;
+		const tags = bodyInfo.tags ? JSON.parse( bodyInfo.tags ) : undefined;
 
-		if (
-			bodyInfo.trans &&
-			bodyInfo.trans.length > 0
-		) {
+		if ( bodyInfo.trans && bodyInfo.trans.length > 0 ) {
+
 			bodyType = constants.KINEMATIC_BODY;
+
+		} else if ( tags && tags.isDynamic ) {
+
+			bodyType = constants.DYNAMIC_BODY;
+
 		}
 
 		const body = Body( bodyType );
@@ -44,7 +48,7 @@ export default function WorldFromInfo( info ) {
 
 		body.name = bodyInfo.name;
 
-		if ( bodyInfo.tags ) body.tags = JSON.parse( bodyInfo.tags );
+		if ( bodyInfo.tags ) body.tags = tags;
 
 		//
 

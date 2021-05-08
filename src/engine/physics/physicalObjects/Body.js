@@ -153,7 +153,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
 
-						//
+						// get dynamic body out of collision
 
 						this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
 

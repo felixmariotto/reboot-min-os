@@ -7,6 +7,48 @@ import Shape from './Shape.js';
 
 export default function Box( width=1, height=1, depth=1 ) {
 
+	const vertices = [
+		new THREE.Vector3( width / 2, height / 2, depth / 2 ),
+		new THREE.Vector3( width / 2, height / 2, depth / -2 ),
+		new THREE.Vector3( width / -2, height / 2, depth / 2 ),
+		new THREE.Vector3( width / -2, height / 2, depth / -2 ),
+
+		new THREE.Vector3( width / 2, height / -2, depth / 2 ),
+		new THREE.Vector3( width / 2, height / -2, depth / -2 ),
+		new THREE.Vector3( width / -2, height / -2, depth / 2 ),
+		new THREE.Vector3( width / -2, height / -2, depth / -2 )
+	]
+
+	//
+
+	function penetrationIn( collidingShape, targetVec ) {
+
+		if ( collidingShape.isBox ) {
+
+			return this.penetrationBoxBox( this, collidingShape, targetVec );
+
+		}
+
+		/*
+		if ( collidingShape.isBox ) {
+
+			return this.penetrationSphereBox( this, collidingShape, targetVec );
+
+		} else if ( collidingShape.isSphere ) {
+
+			return this.penetrationSphereSphere( this, collidingShape, targetVec );
+
+		} else if ( collidingShape.isCylinder ) {
+
+			return this.penetrationSphereCylinder( this, collidingShape, targetVec );
+
+		}
+		*/
+
+	}
+
+	//
+
 	function makeHelper() {
 
 		const mesh = new THREE.Mesh(
@@ -27,8 +69,10 @@ export default function Box( width=1, height=1, depth=1 ) {
 			width,
 			height,
 			depth,
+			vertices,
 			isBox: true,
-			makeHelper
+			makeHelper,
+			penetrationIn
 		}
 	)
 

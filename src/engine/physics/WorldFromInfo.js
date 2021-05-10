@@ -38,7 +38,11 @@ export default function WorldFromInfo( info ) {
 
 		}
 
-		const body = Body( bodyType );
+		const body = Body(
+			bodyType,
+			( tags && tags.weight ) ? tags.weight : undefined,
+			( tags && tags.mass ) ? tags.mass : undefined
+		);
 
 		if ( bodyInfo.trans ) {
 

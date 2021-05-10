@@ -18,7 +18,8 @@ export default {
 	gravity: new THREE.Vector3( 0, -0.035, 0 ),
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
-	chainWeight: 0.30,
+	chainWeight: 0.3,
+	chainMass: 0.03,
 	chainWeightOnPlayer: 0.04, // [ 0 - 1 ] value
 
 	playerJumpSpeed: 0.4,
@@ -27,6 +28,7 @@ export default {
 	notOnGroundHandicap: 0.5, // how much the player speed is reduced if not touching the ground ( but still colliding )
 	notCollidingHandicap: 0.2,
 	playerWeight: 0.3,
+	playerMass: 1,
 
 	bodyDefaultBounciness: 0,
 	bodyDefaultDamping: 0.05

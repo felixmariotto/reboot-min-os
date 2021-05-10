@@ -16,7 +16,11 @@ export default function Player() {
 
 	//
 
-	const playerBody = Body( constants.DYNAMIC_BODY, params.playerWeight );
+	const playerBody = Body(
+		constants.DYNAMIC_BODY,
+		params.playerWeight,
+		params.playerMass
+	);
 
 	playerBody.add( sphere );
 

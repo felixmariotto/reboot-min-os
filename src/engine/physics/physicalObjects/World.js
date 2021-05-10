@@ -188,7 +188,7 @@ export default function World() {
 
 				// add gravity to velocity
 
-				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * speedRatio * body.mass );
+				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * speedRatio * body.weight );
 
 				// update position according to velocity
 

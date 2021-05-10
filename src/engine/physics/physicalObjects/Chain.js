@@ -180,8 +180,6 @@ export default function Chain( length ) {
 		p1.sub( diff );
 		p2.add( diff );
 
-		console.log('hello')
-
 		// add the diff to the velocity of the particular link
 
 		const sphere1 = !pointID ? null : this.spheres[ pointID - 1 ];
@@ -234,7 +232,11 @@ export default function Chain( length ) {
 
 		const sphereShape = Sphere( params.chainSphereRadius );
 
-		const sphereBody = Body( constants.DYNAMIC_BODY, params.chainWeight );
+		const sphereBody = Body(
+			constants.DYNAMIC_BODY,
+			params.chainWeight,
+			params.chainMass
+		);
 
 		sphereBody.isChainLink = true;
 

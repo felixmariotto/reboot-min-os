@@ -17,7 +17,7 @@ let penetrationVec;
 
 //
 
-export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
+export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 ) {
 
 	// COLLISION DETECTION WITH FIXED BODIES
 	// Called by world.updatePhysics.
@@ -156,19 +156,33 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 
 						this.position.addScaledVector( this.velocity, ( 1 / params.physicsSimTicks ) * -1 );
 
-						// get dynamic body out of collision
+						// get dynamic body and collider out of collision
 
 						if ( collider.bodyType === constants.DYNAMIC_BODY ) {
 
 							mirrorCollision
 							.copy( penetrationVec )
-							.multiplyScalar( 0.5 )
+							.multiplyScalar( this.mass / ( this.mass + collider.mass ) )
 							.negate();
 
-							penetrationVec.multiplyScalar( 0.5 );
+							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
 
-							collider.resolvePenetration( mirrorCollision, this.damping, speedRatio );
-							this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+							// get bodies out of collision
+
+							collider.position.sub( mirrorCollision );
+							collider.velocity.sub( mirrorCollision );
+
+							this.position.sub( penetrationVec );
+							this.velocity.sub( penetrationVec );
+
+							// collider.resolvePenetration( mirrorCollision, this.damping, speedRatio );
+							// this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
+
+							// resolve velocities
+
+
+
+						// the collider is not to be moved
 
 						} else {
 
@@ -248,6 +262,7 @@ export default function Body( bodyType=constants.STATIC_BODY, mass=1 ) {
 			isBody: true,
 			name: Math.random().toString(36).substring(8),
 			bodyType,
+			weight,
 			mass,
 			bounciness: params.bodyDefaultBounciness,
 			damping: params.bodyDefaultDamping,

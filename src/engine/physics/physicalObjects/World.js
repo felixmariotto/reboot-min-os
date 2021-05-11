@@ -12,6 +12,8 @@ const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 
 let nowTime, speedRatio;
 
+const _zeroVec = new THREE.Vector3();
+
 //
 
 export default function World() {
@@ -199,6 +201,15 @@ export default function World() {
 				// update position according to velocity
 
 				body.position.addScaledVector( body.velocity, speedRatio / params.physicsSimTicks );
+
+				// constrain to movement range
+
+				if ( body.tags && body.tags.range ) {
+
+					body.position.max( body.tags.range[0] );
+					body.position.min( body.tags.range[1] );
+
+				}
 
 			}
 

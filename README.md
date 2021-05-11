@@ -12,3 +12,8 @@ dynamic body power when interacting with another dynamic body
 ###constraint: { x, y, z }
 axis on which the body is constrained to move
 
+###empty: true
+tells the physics engine not to resolve collision with this body.
+
+###blocking: true
+the body set colliding dynamic body velocity to 0. Used with empty bodies for blocking fences and such.

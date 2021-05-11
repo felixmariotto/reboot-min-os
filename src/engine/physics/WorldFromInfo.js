@@ -56,6 +56,23 @@ export default function WorldFromInfo( info ) {
 
 		}
 
+		// precompute the min and max vector according to the constraint
+		if ( tags && tags.range ) {
+
+			if ( !tags.constraint ) console.error('body must have a constraint to have a range')
+
+			tags.range[0] = new THREE.Vector3()
+			.copy( tags.constraint )
+			.normalize()
+			.multiplyScalar( tags.range[0] )
+
+			tags.range[1] = new THREE.Vector3()
+			.copy( tags.constraint )
+			.normalize()
+			.multiplyScalar( tags.range[1] )
+
+		}
+
 		body.name = bodyInfo.name;
 
 		if ( bodyInfo.tags ) body.tags = tags;

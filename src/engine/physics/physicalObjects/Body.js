@@ -8,6 +8,7 @@ import params from '../../params.js';
 const targetVec = new THREE.Vector3();
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
+const _vec1 = new THREE.Vector3();
 
 const groundTestVec = new THREE.Vector3( 0, 1, 0 );
 
@@ -118,6 +119,8 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 						if ( collider.bodyType === constants.DYNAMIC_BODY ) {
 
+
+							/*
 							mirrorCollision
 							.copy( penetrationVec )
 							.multiplyScalar( this.mass / ( this.mass + collider.mass ) )
@@ -125,19 +128,40 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
 
-							// apply constraint if relevant
+							collider.position.sub( mirrorCollision );
 
-							if ( collider.tags && collider.tags.constraint ) {
+							if ( collider.tags && collider.tags.range ) {
 
-								mirrorCollision.projectOnVector( collider.tags.constraint );
+								const diff = _vec0.copy( collider.position );
+
+								collider.position.max( collider.tags.range[0] );
+								collider.position.min( collider.tags.range[1] );
+
+								diff.sub( collider.position );
+
+								penetrationVec.add( diff );
+
+								console.log( 'mirrorCollision', mirrorCollision )
+								console.log( 'diff', diff )
+								console.log( 'penetrationVec', penetrationVec )
+								debugger
 
 							}
 
-							if ( this.tags && this.tags.constraint ) {
+							//
 
-								penetrationVec.projectOnVector( this.tags.constraint );
+							this.position.sub( penetrationVec );
+							*/
 
-							}
+
+
+
+							mirrorCollision
+							.copy( penetrationVec )
+							.multiplyScalar( this.mass / ( this.mass + collider.mass ) )
+							.negate();
+
+							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
 
 							// resolve position and velocity according to each body mass
 
@@ -146,6 +170,7 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 							this.position.sub( penetrationVec );
 							this.velocity.sub( penetrationVec );
+
 
 						// the collider is a kinematic body, so we need to compute the collider velocity
 
@@ -224,7 +249,11 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 		speedRatio /= params.physicsSimTicks;
 
+		// move out of collision
+
 		this.position.sub( penetrationVec );
+
+		// bounce
 
 		// no bounce if the dynamic object is already going away from the collision
 		if ( penetrationVec.dot( this.velocity ) < 0 ) return
@@ -243,6 +272,25 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 		// slow down velocity, to mimic friction
 		this.velocity.multiplyScalar( 1 - ( colliderDamping * speedRatio ) );
+
+	}
+
+	//
+
+	function constrain() {
+
+		if ( this.tags && this.tags.range ) {
+
+			_vec1.copy( this.position );
+
+			this.position.max( this.tags.range[0] );
+			this.position.min( this.tags.range[1] );
+
+			if ( this.position.x !== _vec1.x ) this.velocity.x = 0;
+			if ( this.position.y !== _vec1.y ) this.velocity.y = 0;
+			if ( this.position.z !== _vec1.z ) this.velocity.z = 0;
+
+		}
 
 	}
 
@@ -292,7 +340,8 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 			isOnGround: false,
 			isColliding: false,
 			clear,
-			collideIn
+			collideIn,
+			constrain
 		}
 	)
 

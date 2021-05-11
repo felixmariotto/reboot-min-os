@@ -119,58 +119,38 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 						if ( collider.bodyType === constants.DYNAMIC_BODY ) {
 
+							// power of each body on the opposite body, depends on each body mass.
+							const thisPower = this.mass / ( this.mass + collider.mass );
+							const colliderPower = collider.mass / ( collider.mass + this.mass );
 
-							/*
+							// compute first the collider displacement
+
 							mirrorCollision
 							.copy( penetrationVec )
-							.multiplyScalar( this.mass / ( this.mass + collider.mass ) )
+							.multiplyScalar( thisPower )
 							.negate();
 
-							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
+							penetrationVec.multiplyScalar( colliderPower );
 
 							collider.position.sub( mirrorCollision );
+							collider.velocity.sub( mirrorCollision );
+
+							// correct the displacement vector to apply on this body,
+							// acording to the collider constraints.
 
 							if ( collider.tags && collider.tags.range ) {
 
 								const diff = _vec0.copy( collider.position );
 
-								collider.position.max( collider.tags.range[0] );
-								collider.position.min( collider.tags.range[1] );
+								collider.constrain();
 
 								diff.sub( collider.position );
 
 								penetrationVec.add( diff );
 
-								console.log( 'mirrorCollision', mirrorCollision )
-								console.log( 'diff', diff )
-								console.log( 'penetrationVec', penetrationVec )
-								debugger
-
 							}
 
-							//
-
-							this.position.sub( penetrationVec );
-							*/
-
-
-
-
-							mirrorCollision
-							.copy( penetrationVec )
-							.multiplyScalar( this.mass / ( this.mass + collider.mass ) )
-							.negate();
-
-							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
-
-							// resolve position and velocity according to each body mass
-
-							collider.position.sub( mirrorCollision );
-							collider.velocity.sub( mirrorCollision );
-
-							this.position.sub( penetrationVec );
-							this.velocity.sub( penetrationVec );
-
+							this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
 
 						// the collider is a kinematic body, so we need to compute the collider velocity
 

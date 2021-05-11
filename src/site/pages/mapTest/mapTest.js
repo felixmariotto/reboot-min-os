@@ -23,19 +23,21 @@ gamePage.start = function start() {
 		// engine.cameraControls.orbitObj( engine.core.scene );
 		engine.characterControls.controlVelocity( params.player );
 
-		/*
-		params.bodies.forEach( (body) => {
+		// react upon item collection
 
-			if ( body.name === "pcz3v" ) {
+		engine.on( 'item-collected', (e) => {
 
-				console.log( body )
+			const body = e.detail;
 
-				body.isOpen = true;
+			const itemType = body.tags.collectible;
 
-			}
+			if ( body.tags.collected ) return
+
+			body.tags.collected = true;
+
+			console.log( 'lengthen the chain' );
 
 		} );
-		*/
 
 	} );
 

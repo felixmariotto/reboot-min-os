@@ -57,6 +57,7 @@ export default function WorldFromInfo( info ) {
 		}
 
 		// precompute the min and max vector according to the constraint
+		
 		if ( tags && tags.range ) {
 
 			if ( !tags.constraint ) console.error('body must have a constraint to have a range')
@@ -72,6 +73,8 @@ export default function WorldFromInfo( info ) {
 			.multiplyScalar( tags.range[1] )
 
 		}
+
+		//
 
 		body.name = bodyInfo.name;
 

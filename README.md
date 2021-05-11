@@ -17,3 +17,6 @@ tells the physics engine not to resolve collision with this body.
 
 ###blocking: true
 the body set colliding dynamic body velocity to 0. Used with empty bodies for blocking fences and such.
+
+###dynamicOnly: true
+only collisions with dynamic bodies will be checked on this body.

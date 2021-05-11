@@ -8,6 +8,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import core from './core/core.js';
 import files from './files/files.js';
 import constants from './misc/constants.js';
+import events from './misc/events.js';
 
 import cameraControls from './physics/cameraControls.js';
 import characterControls from './physics/characterControls.js';
@@ -33,7 +34,8 @@ if ( window ) {
 			physics,
 			InfiniteGridHelper
 		},
-		constants
+		constants,
+		events
 	);
 
 } else {

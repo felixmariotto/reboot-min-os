@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import constants from '../../misc/constants.js';
+import events from '../../misc/events.js';
 import params from '../../params.js';
 
 //
@@ -43,7 +44,10 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 					// Collision resolution on this body position and velocity.
 					// If the collider has the "empty" tag, we skip this.
 
-					if ( !( collider.tags && collider.tags.empty ) ) {
+					if (
+						!( collider.tags && collider.tags.empty ) &&
+						!( collider.tags && collider.tags.collectible )
+					) {
 
 						this.isColliding = true;
 
@@ -70,6 +74,14 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 						this.velocity.setScalar( 0 );
 
 						this.isBlocked = true;
+
+					}
+
+					// trigger event on item collection
+
+					if ( collider.tags && collider.tags.collectible ) {
+
+						events.emit( 'item-collected', collider );
 
 					}
 
@@ -102,7 +114,10 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 					// Collision resolution on this body position and velocity.
 					// If the collider has the "empty" tag, we skip this.
 
-					if ( !( collider.tags && collider.tags.empty ) ) {
+					if (
+						!( collider.tags && collider.tags.empty ) &&
+						!( collider.tags && collider.tags.collectible )
+					) {
 
 						this.isColliding = true;
 
@@ -212,6 +227,14 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 						this.velocity.setScalar( 0 );
 
 						this.isBlocked = true;
+
+					}
+
+					// trigger event on item collection
+
+					if ( collider.tags && collider.tags.collectible ) {
+
+						events.emit( 'item-collected', collider );
 
 					}
 

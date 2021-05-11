@@ -22,7 +22,7 @@ export default {
 	chainMass: 0.03,
 	chainWeightOnPlayer: 0.04, // [ 0 - 1 ] value
 
-	playerJumpSpeed: 0.4,
+	playerJumpSpeed: 0.3,
 	playerAcceleration: 0.03,
 	playerMaxAcceleration: 0.3, // speed at which the player can't accelerate manually
 	notOnGroundHandicap: 0.5, // how much the player speed is reduced if not touching the ground ( but still colliding )

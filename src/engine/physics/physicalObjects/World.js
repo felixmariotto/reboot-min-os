@@ -167,7 +167,11 @@ export default function World() {
 
 				// collide with static bodies via world.spatialIndex
 
-				body.collideIn( this, speedRatio );
+				if ( !( body.tags && body.tags.dynamicOnly ) ) {
+
+					body.collideIn( this, speedRatio );
+
+				}
 
 				// collide with all kinematic bodies
 

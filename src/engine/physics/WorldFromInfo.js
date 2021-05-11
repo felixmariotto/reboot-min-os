@@ -50,6 +50,12 @@ export default function WorldFromInfo( info ) {
 
 		}
 
+		if ( tags && tags.constraint ) {
+
+			tags.constraint = new THREE.Vector3().copy( tags.constraint )
+
+		}
+
 		body.name = bodyInfo.name;
 
 		if ( bodyInfo.tags ) body.tags = tags;

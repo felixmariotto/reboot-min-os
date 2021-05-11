@@ -167,20 +167,27 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 							penetrationVec.multiplyScalar( collider.mass / ( collider.mass + this.mass ) );
 
-							// get bodies out of collision
+							// apply constraint if relevant
+
+							if ( collider.tags && collider.tags.constraint ) {
+
+								mirrorCollision.projectOnVector( collider.tags.constraint );
+
+							}
+
+							if ( this.tags && this.tags.constraint ) {
+
+								penetrationVec.projectOnVector( this.tags.constraint );
+
+							}
+
+							// resolve position and velocity according to each body mass
 
 							collider.position.sub( mirrorCollision );
 							collider.velocity.sub( mirrorCollision );
 
 							this.position.sub( penetrationVec );
 							this.velocity.sub( penetrationVec );
-
-							// collider.resolvePenetration( mirrorCollision, this.damping, speedRatio );
-							// this.resolvePenetration( penetrationVec, collider.damping, speedRatio );
-
-							// resolve velocities
-
-
 
 						// the collider is not to be moved
 

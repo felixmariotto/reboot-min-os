@@ -190,6 +190,12 @@ export default function World() {
 
 				body.velocity.addScaledVector( params.gravity, ( 1 / params.physicsSimTicks ) * speedRatio * body.weight );
 
+				if ( body.tags && body.tags.constraint ) {
+
+					body.velocity.projectOnVector( body.tags.constraint );
+
+				}
+
 				// update position according to velocity
 
 				body.position.addScaledVector( body.velocity, speedRatio / params.physicsSimTicks );

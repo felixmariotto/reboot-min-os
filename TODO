@@ -43,3 +43,6 @@ Basic platforming concept :
 - slipping surfaces
 - deadly surfaces
 - movable obstacles
+
+Brainstorming:
+- movable obstacle not on the ground, so that the player can't use their chain to pull it from the ground

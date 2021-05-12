@@ -203,6 +203,28 @@ export default function World() {
 
 				}
 
+				// add force to velocity.
+				// do not add if the force is already "contained" in the velocity.
+
+				if ( body.force ) {
+
+					_vec
+					.copy( body.velocity )
+					.projectOnVector( body.force )
+					.sub( body.force )
+
+					if ( _vec.dot( body.force ) < 1 ) {
+
+						_vec
+						.negate()
+						.min( body.force );
+
+						body.velocity.addScaledVector( _vec, ( 1 / params.physicsSimTicks ) * speedRatio * body.weight );
+
+					}
+
+				}
+
 				// update position according to velocity
 
 				body.position.addScaledVector( body.velocity, speedRatio / params.physicsSimTicks );

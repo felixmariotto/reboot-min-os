@@ -74,6 +74,18 @@ export default function WorldFromInfo( info ) {
 
 		}
 
+		// make a vector if the body must have a force
+
+		if ( tags && tags.force ) {
+
+			body.force = new THREE.Vector3(
+				tags.force[0],
+				tags.force[1],
+				tags.force[2]
+			);
+
+		}
+
 		//
 
 		body.name = bodyInfo.name;

@@ -9,6 +9,9 @@ tells the engine that this body is a dynamic body
 ###mass: float
 dynamic body power when interacting with another dynamic body
 
+###weight: float
+dynamic body sensitivity to gravity and forces
+
 ###constraint: { x, y, z }
 axis on which the body is constrained to move
 

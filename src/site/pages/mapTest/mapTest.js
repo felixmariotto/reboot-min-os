@@ -53,6 +53,16 @@ gamePage.start = function start() {
 
 		} );
 
+		// react on switch state change
+
+		engine.on( 'switch-change', (e) => {
+
+			const body = e.detail;
+
+			console.log( 'switch state changed : ', body.tags.switchState )
+
+		} );
+
 	} );
 
 }

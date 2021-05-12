@@ -86,6 +86,28 @@ export default function WorldFromInfo( info ) {
 
 		}
 
+		// prepare the switch recorded position as "on" and "off"
+
+		if (
+			tags &&
+			tags.range &&
+			tags.force &&
+			tags.isSwitch
+		) {
+
+			const arr = tags.range
+			.slice(0)
+			.sort( (a,b) => {
+				return a.distanceTo( body.force ) - b.distanceTo( body.force )
+			} );
+
+			tags.switchPositions = {
+				on: new THREE.Vector3().copy( arr[0] ),
+				off: new THREE.Vector3().copy( arr[1] )
+			};
+
+		}
+
 		//
 
 		body.name = bodyInfo.name;

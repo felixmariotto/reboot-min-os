@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import core from '../../core/core.js';
 import params from '../../params.js';
 import constants from '../../misc/constants.js';
+import events from '../../misc/events.js';
 import SpatialIndex from './SpatialIndex.js';
 
 //
@@ -232,6 +233,33 @@ export default function World() {
 				// constrain to movement direction and range
 
 				body.constrain();
+
+				// if the body is a switch, we check its state to trigger
+				// an event if necessary
+
+				if ( body.tags && body.tags.isSwitch ) {
+
+					let newState = false;
+
+					const pos = body.position;
+					const onPos = body.tags.switchPositions.on;
+					const offPos = body.tags.switchPositions.off;
+
+					if ( pos.distanceTo( onPos ) > pos.distanceTo( offPos ) ) {
+
+						newState = true;
+
+					}
+
+					if ( newState !== body.tags.switchState ) {
+
+						body.tags.switchState = newState;
+
+						events.emit( 'switch-change', body );
+
+					}
+
+				}
 
 			}
 

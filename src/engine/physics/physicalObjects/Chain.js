@@ -22,7 +22,7 @@ export default function Chain( length ) {
 			point: new THREE.Vector3( x, y, z )
 		};
 
-		this.init();
+		this.initChainPos();
 
 	}
 
@@ -37,7 +37,7 @@ export default function Chain( length ) {
 			point: new THREE.Vector3( x, y, z )
 		};
 
-		this.init();
+		this.initChainPos();
 
 	}
 
@@ -51,7 +51,7 @@ export default function Chain( length ) {
 	
 	//
 
-	function init() {
+	function initChainPos() {
 
 		if (
 			!this.start ||
@@ -99,15 +99,6 @@ export default function Chain( length ) {
 
 				if ( sphere1 && !sphere1.isBlocked ) sphere1.velocity.sub( diff );
 				if ( sphere2 && !sphere2.isBlocked ) sphere2.velocity.add( diff );
-
-				/*
-				if ( sphere1 && sphere1.velocity.length() > 1 ) {
-					console.log( 'sphere1', sphere1 )
-					console.log( 'sphere2', sphere2 )
-					console.log( 'this.spheres', this.spheres )
-					debugger
-				}
-				*/
 
 				// transform body at the end of the chain
 
@@ -222,58 +213,72 @@ export default function Chain( length ) {
 
 	//
 
-	const pointsNumber = Math.floor( length / params.chainPointDistance );
+	function addLength( length ) {
 
-	const spheresNumber = Math.max( 0, pointsNumber - 2 );
-
-	const spheres = [];
-
-	for ( let i=0 ; i<spheresNumber ; i++ ) {
-
-		const sphereShape = Sphere( params.chainSphereRadius );
-
-		const sphereBody = Body(
-			constants.DYNAMIC_BODY,
-			params.chainWeight,
-			params.chainMass
-		);
-
-		sphereBody.isChainLink = true;
-
-		sphereBody.add( sphereShape );
-
-		spheres.push( sphereBody );
+		console.log( 'add length to chain ', length )
 
 	}
 
-	const startPoint = new THREE.Vector3();
-	const endPoint = new THREE.Vector3();
+	//
 
-	const points = [ startPoint ];
-	points.push( ...spheres.map( sphereBody => sphereBody.position ) );
-	points.push( endPoint );
+	function init( length ) {
+
+		this.length = length;
+
+		this.pointsNumber = Math.floor( this.length / params.chainPointDistance );
+
+		this.linkLength = this.length / ( this.pointsNumber - 1 );
+
+		this.spheresNumber = Math.max( 0, this.pointsNumber - 2 );
+
+		this.spheres = [];
+
+		for ( let i=0 ; i<this.spheresNumber ; i++ ) {
+
+			const sphereShape = Sphere( params.chainSphereRadius );
+
+			const sphereBody = Body(
+				constants.DYNAMIC_BODY,
+				params.chainWeight,
+				params.chainMass
+			);
+
+			sphereBody.isChainLink = true;
+
+			sphereBody.add( sphereShape );
+
+			this.spheres.push( sphereBody );
+
+		}
+
+		this.startPoint = new THREE.Vector3();
+		this.endPoint = new THREE.Vector3();
+
+		this.points = [ this.startPoint ];
+		this.points.push( ...this.spheres.map( sphereBody => sphereBody.position ) );
+		this.points.push( this.endPoint );
+
+	}
 
 	//
 
-	return {
-		length,
-		linkLength: length / ( pointsNumber - 1 ),
-		pointsNumber,
-		spheresNumber,
-		spheres,
-		points,
-		startPoint, // in world space
-		endPoint, // in world space
+	const chain = {
 		attachStartTo,
 		attachEndTo,
 		makeHelper,
 		resolve,
-		init,
+		initChainPos,
 		computeEndStart,
 		constrainPoints,
 		constrainLinkTo,
 		isAttachedTo,
-		clear
+		clear,
+		addLength,
+		init
 	}
+
+	chain.init( length );
+
+	return chain
 
 }

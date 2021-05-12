@@ -35,7 +35,13 @@ gamePage.start = function start() {
 
 			body.tags.collected = true;
 
-			console.log( 'lengthen the chain' );
+			switch ( itemType ) {
+
+				case 'chain-extension-5' :
+					params.player.chain.addLength( 5 );
+				break
+
+			}
 
 		} );
 

@@ -35,3 +35,6 @@ initial state of the switch
 
 ###force: [ x, y, z ]
 velocity towards which the body will always try to steer.
+
+###airDrag: float
+factor for the reduction of the body velocity at each physics update.

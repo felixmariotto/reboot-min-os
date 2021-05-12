@@ -259,6 +259,14 @@ export default function World() {
 
 				}
 
+				// apply air drag if provided
+
+				if ( body.tags && body.tags.airDrag ) {
+
+					body.velocity.multiplyScalar( 1 - ( body.tags.airDrag / params.physicsSimTicks ) );
+
+				}
+
 				// update position according to velocity
 
 				body.position.addScaledVector( body.velocity, speedRatio / params.physicsSimTicks );

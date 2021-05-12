@@ -24,25 +24,25 @@
 - Make sure that the player always discover a new concept in a puzzle relatively easy and dedicated to this concept
 
 Concepts unique to the game :
-- Chain length
-- Chain weight
-- Anchor point for 'Tarzan' leap
-- Moving anchor point
-- Alternate door that blocks the chain
-- Climbing the chain
+v Chain length
+v Chain weight
+v Anchor point for 'Tarzan' leap
+v Moving anchor point
+v Alternate door that blocks the chain
+v Climbing the chain
 - Chain pushs a lever
 - Enabled/disabled anchor point
-- adding/removing length to the chain
+v adding length to the chain
 
 Basic platforming concept :
-- countdown
-- switch
+v countdown
+v switch
 - double effect switch
 - bouncing tile
 - propulsion tile
 - slipping surfaces
 - deadly surfaces
-- movable obstacles
+v movable obstacles
 
 Brainstorming:
 - movable obstacle not on the ground, so that the player can't use their chain to pull it from the ground

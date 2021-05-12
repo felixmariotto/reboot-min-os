@@ -52,7 +52,11 @@ export default function WorldFromInfo( info ) {
 
 		if ( tags && tags.constraint ) {
 
-			tags.constraint = new THREE.Vector3().copy( tags.constraint )
+			tags.constraint = new THREE.Vector3().set(
+				tags.constraint[0],
+				tags.constraint[1],
+				tags.constraint[2]
+			);
 
 		}
 

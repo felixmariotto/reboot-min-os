@@ -12,10 +12,10 @@ dynamic body power when interacting with another dynamic body
 ###weight: float
 dynamic body sensitivity to gravity and forces
 
-###constraint: { x, y, z }
+###constraint: [ x, y, z ]
 axis on which the body is constrained to move
 
-###range: array[2]
+###range: [ float, float ]
 array of two elements, containing the min and max bounds of a dynamic body in the direction of its constraint.
 
 ###empty: true

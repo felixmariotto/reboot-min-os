@@ -15,6 +15,9 @@ dynamic body sensitivity to gravity and forces
 ###constraint: { x, y, z }
 axis on which the body is constrained to move
 
+###range: array[2]
+array of two elements, containing the min and max bounds of a dynamic body in the direction of its constraint.
+
 ###empty: true
 tells the physics engine not to resolve collision with this body.
 
@@ -23,3 +26,12 @@ the body set colliding dynamic body velocity to 0. Used with empty bodies for bl
 
 ###dynamicOnly: true
 only collisions with dynamic bodies will be checked on this body.
+
+###isSwitch: true
+indicate that the body is a switch. It must have range and force properties in order to work and emit events.
+
+###switchState: true/false
+initial state of the switch
+
+###force: [ x, y, z ]
+velocity towards which the body will always try to steer.

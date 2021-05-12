@@ -16,11 +16,6 @@ if ( window.Worker ) {
 
 	worker = new Worker('./physicsWorker.js');
 
-	worker.postMessage({
-		foo: 'bar',
-		baz: 42
-	});
-
 }
 
 //

@@ -17,7 +17,7 @@ import Player from './physicalObjects/Player.js';
 
 export default function WorldFromInfo( info ) {
 
-	console.log( this )
+	this.worker.postMessage( { worldInfo: info } );
 
 	const world = World();
 

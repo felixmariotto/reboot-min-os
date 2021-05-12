@@ -15,6 +15,6 @@ export default function WorkerWorld() {
 
 function update( delta ) {
 
-	console.log( delta );
+	// console.log( delta );
 
 }

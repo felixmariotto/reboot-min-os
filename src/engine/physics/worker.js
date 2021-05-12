@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import params from '../params.js';
 
-import WorkerWorldFromInfo from  './physicalObjects/WorkerWorldFromInfo.js';
+import WorkerWorldFromInfo from  './workerObjects/WorkerWorldFromInfo.js';
 
 //
 

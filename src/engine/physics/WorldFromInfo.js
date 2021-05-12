@@ -4,24 +4,57 @@ import * as THREE from 'three';
 import core from '../core/core.js';
 import constants from '../misc/constants.js';
 
-import World from './physicalObjects/World.js';
-import Body from './physicalObjects/Body.js';
-import Box from './physicalObjects/Box.js';
-import Sphere from './physicalObjects/Sphere.js';
-import Cylinder from './physicalObjects/Cylinder.js';
-import Chain from './physicalObjects/Chain.js';
-import ChainPoint from './physicalObjects/ChainPoint.js';
-import Player from './physicalObjects/Player.js';
+import World from './workerObjects/World.js';
+import Body from './workerObjects/Body.js';
+import Box from './workerObjects/Box.js';
+import Sphere from './workerObjects/Sphere.js';
+import Cylinder from './workerObjects/Cylinder.js';
+import Chain from './workerObjects/Chain.js';
+import ChainPoint from './workerObjects/ChainPoint.js';
+import Player from './workerObjects/Player.js';
+
+import Entity from './Entity.js';
 
 //
 
 export default function WorldFromInfo( info ) {
 
+	// tells the worker to instantiate a physical world with this information
+
 	this.worker.postMessage( { worldInfo: info } );
+
+	// create a shallow world. In this main thread world we compute no physics,
+	// but we update entities position and state every time the worker send a
+	// message.
 
 	const world = World();
 
 	core.scene.add( world );
+
+	// we create one entity for each body in the physical world
+
+	const entities = info.bodies.map( (bodyInfo) => {
+
+		const entity = Entity( bodyInfo );
+
+		world.add( entity );
+
+		entity.makeHelper();
+
+	} );
+
+	// we listen for worker messages containing new position and
+	// state of all the bodies, and update the entities accordingly.
+
+
+
+
+
+
+
+
+
+	/*
 
 	// bodies
 
@@ -227,11 +260,11 @@ export default function WorldFromInfo( info ) {
 
 	} );
 
+	*/
+
 	//
 
 	return {
-		player,
-		bodies,
 		world
 	}
 

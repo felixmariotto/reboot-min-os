@@ -253,6 +253,8 @@ export default function Chain( length ) {
 
 			}
 
+			sphereBody.position.lerpVectors( this.points[1], this.points[3], 0.5 );
+
 		}
 
 	}

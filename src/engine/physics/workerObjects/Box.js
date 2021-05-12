@@ -29,22 +29,6 @@ export default function Box( width=1, height=1, depth=1 ) {
 
 		}
 
-		/*
-		if ( collidingShape.isBox ) {
-
-			return this.penetrationSphereBox( this, collidingShape, targetVec );
-
-		} else if ( collidingShape.isSphere ) {
-
-			return this.penetrationSphereSphere( this, collidingShape, targetVec );
-
-		} else if ( collidingShape.isCylinder ) {
-
-			return this.penetrationSphereCylinder( this, collidingShape, targetVec );
-
-		}
-		*/
-
 	}
 
 	//

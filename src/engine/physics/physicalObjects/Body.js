@@ -268,9 +268,8 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 		this.velocity.addScaledVector( bounceDampVec, 1 - this.bounciness );
 
 		// compute how much the resulting velocity will be askew from the ground plane
-		_vec0.copy( this.velocity ).normalize();
-		const skewFromGround = Math.max( 0, _vec0.dot( groundTestVec ) );
-		const factor = params.dampingAnglePower * ( 1 - Math.abs( Math.pow( skewFromGround, 50 ) ) );
+		const skewFromGround = Math.max( 0, penetrationVec.dot( groundTestVec ) );
+		const factor = params.dampingAnglePower * ( 1 - Math.abs( Math.pow( skewFromGround, 50 ) ) ) * speedRatio;
 
 		// slow down velocity, to mimic friction
 		this.velocity.multiplyScalar( 1 - factor - ( colliderDamping * speedRatio ) );

@@ -41,6 +41,14 @@ gamePage.start = function start() {
 					params.player.chain.addLength( 5 );
 				break
 
+				case 'chain-extension-30' :
+					params.player.chain.addLength( 30 );
+				break
+
+				case 'chain-extension-35' :
+					params.player.chain.addLength( 35 );
+				break
+
 			}
 
 		} );

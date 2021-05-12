@@ -10,11 +10,27 @@ import WorldFromInfo from './WorldFromInfo.js';
 
 //
 
+let worker
+
+if ( window.Worker ) {
+
+	worker = new Worker('./physicsWorker.js');
+
+	worker.postMessage({
+		foo: 'bar',
+		baz: 42
+	});
+
+}
+
+//
+
 export default {
 	World,
 	Body,
 	Chain,
 	Box,
 	Sphere,
-	WorldFromInfo
+	WorldFromInfo,
+	worker
 }

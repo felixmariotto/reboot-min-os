@@ -17,6 +17,8 @@ import Player from './physicalObjects/Player.js';
 
 export default function WorldFromInfo( info ) {
 
+	console.log( this )
+
 	const world = World();
 
 	core.scene.add( world );

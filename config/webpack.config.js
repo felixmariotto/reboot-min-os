@@ -26,6 +26,7 @@ module.exports = env => {
 		entry: {
 			'bundle': './src/site/index.js',
 			'engine': './src/engine/index.js',
+			'physicsWorker': './src/engine/physics/worker.js'
 		},
 
 		output: {

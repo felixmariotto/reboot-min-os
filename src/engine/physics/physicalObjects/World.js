@@ -122,6 +122,39 @@ export default function World() {
 
 			} );
 
+			// loop through children for non physical updates
+
+			this.children.forEach( (body) => {
+
+				// if the body is a switch, we check its state to trigger
+				// an event if necessary
+
+				if ( body.tags && body.tags.isSwitch ) {
+
+					let newState = false;
+
+					const pos = body.position;
+					const onPos = body.tags.switchPositions.on;
+					const offPos = body.tags.switchPositions.off;
+
+					if ( pos.distanceTo( onPos ) > pos.distanceTo( offPos ) ) {
+
+						newState = true;
+
+					}
+
+					if ( newState !== body.tags.switchState ) {
+
+						body.tags.switchState = newState;
+
+						events.emit( 'switch-change', body );
+
+					}
+
+				}
+
+			} );
+
 		}
 
 	}
@@ -233,33 +266,6 @@ export default function World() {
 				// constrain to movement direction and range
 
 				body.constrain();
-
-				// if the body is a switch, we check its state to trigger
-				// an event if necessary
-
-				if ( body.tags && body.tags.isSwitch ) {
-
-					let newState = false;
-
-					const pos = body.position;
-					const onPos = body.tags.switchPositions.on;
-					const offPos = body.tags.switchPositions.off;
-
-					if ( pos.distanceTo( onPos ) > pos.distanceTo( offPos ) ) {
-
-						newState = true;
-
-					}
-
-					if ( newState !== body.tags.switchState ) {
-
-						body.tags.switchState = newState;
-
-						events.emit( 'switch-change', body );
-
-					}
-
-				}
 
 			}
 

@@ -45,6 +45,8 @@ export default function Chain( length ) {
 
 	function makeHelper() {
 
+		this.hasHelpers = true;
+
 		this.spheres.forEach( sphereBody => sphereBody.children[0].makeHelper() );
 
 	}
@@ -213,9 +215,45 @@ export default function Chain( length ) {
 
 	//
 
-	function addLength( length ) {
+	function addLength( lengthToAdd ) {
 
-		console.log( 'add length to chain ', length )
+		this.length += lengthToAdd;
+
+		this.pointsNumber = Math.floor( this.length / params.chainPointDistance );
+
+		this.linkLength = this.length / ( this.pointsNumber - 1 );
+
+		const newSpheresNumber = Math.max( 0, this.pointsNumber - 2 );
+
+		const spheresToAdd = newSpheresNumber - this.spheresNumber;
+
+		this.spheresNumber = newSpheresNumber;
+
+		for ( let i=0 ; i<spheresToAdd ; i++ ) {
+
+			const sphereShape = Sphere( params.chainSphereRadius );
+
+			const sphereBody = Body(
+				constants.DYNAMIC_BODY,
+				params.chainWeight,
+				params.chainMass
+			);
+
+			sphereBody.isChainLink = true;
+
+			sphereBody.add( sphereShape );
+			this.spheres[0].parent.add( sphereBody );
+
+			this.spheres.splice( 1, 0, sphereBody );
+			this.points.splice( 2, 0, sphereBody.position );
+
+			if ( this.hasHelpers ) {
+
+				sphereBody.children[0].makeHelper()
+
+			}
+
+		}
 
 	}
 

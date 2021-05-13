@@ -3,7 +3,7 @@ import Body from './Body.js';
 import Sphere from './Sphere.js';
 
 import constants from '../../misc/constants.js';
-import events from '../../misc/events.js';
+// import events from '../../misc/events.js';
 import params from '../../params.js';
 
 //
@@ -30,6 +30,7 @@ export default function Player() {
 
 	//
 
+	/*
 	events.on( 'jump-key-down', () => {
 
 		if ( playerBody.isOnGround ) playerBody.velocity.y += params.playerJumpSpeed;
@@ -52,6 +53,7 @@ export default function Player() {
 		playerBody.currentLink = 0;
 
 	} );
+	*/
 
 	return playerBody
 

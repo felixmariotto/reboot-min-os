@@ -1,17 +1,182 @@
 
 import * as THREE from 'three';
 
+import constants from '../../misc/constants.js';
+
+import Body from './Body.js';
+import Box from './Box.js';
+import Sphere from './Sphere.js';
+import Cylinder from './Cylinder.js';
+import Chain from './Chain.js';
+import ChainPoint from './ChainPoint.js';
+import Player from './Player.js';
+import SpatialIndex from './SpatialIndex.js';
+
 //
 
 export default function WorkerWorld( info ) {
 
-	console.log( info )
+	const world = Object.assign(
+		Object.create( new THREE.Group() ),
+		{
+			spatialIndex: SpatialIndex(),
+			info,
+			update,
+			clear
+		}
+	)
 
-	return {
-		info,
-		update,
-		clear
-	}
+	// bodies
+
+	const bodies = info.bodies.map( (bodyInfo) => {
+
+		let bodyType = constants.STATIC_BODY;
+		const tags = bodyInfo.tags ? JSON.parse( bodyInfo.tags ) : undefined;
+
+		if ( bodyInfo.trans && bodyInfo.trans.length > 0 ) {
+
+			bodyType = constants.KINEMATIC_BODY;
+
+		} else if ( tags && tags.isDynamic ) {
+
+			bodyType = constants.DYNAMIC_BODY;
+
+		}
+
+		const body = Body(
+			bodyType,
+			( tags && tags.weight ) ? tags.weight : undefined,
+			( tags && tags.mass ) ? tags.mass : undefined
+		);
+
+		body.serialCounter = bodyInfo.serialCounter;
+
+		if ( bodyInfo.trans ) {
+
+			body.transformFunction = Function( 'time', bodyInfo.trans );
+
+		}
+
+		if ( tags && tags.constraint ) {
+
+			tags.constraint = new THREE.Vector3().set(
+				tags.constraint[0],
+				tags.constraint[1],
+				tags.constraint[2]
+			);
+
+		}
+
+		// precompute the min and max vector according to the constraint
+		
+		if ( tags && tags.range ) {
+
+			if ( !tags.constraint ) console.error('body must have a constraint to have a range')
+
+			tags.range[0] = new THREE.Vector3()
+			.copy( tags.constraint )
+			.normalize()
+			.multiplyScalar( tags.range[0] )
+
+			tags.range[1] = new THREE.Vector3()
+			.copy( tags.constraint )
+			.normalize()
+			.multiplyScalar( tags.range[1] )
+
+		}
+
+		// make a vector if the body must have a force
+
+		if ( tags && tags.force ) {
+
+			body.force = new THREE.Vector3(
+				tags.force[0],
+				tags.force[1],
+				tags.force[2]
+			);
+
+		}
+
+		// prepare the switch recorded position as "on" and "off"
+
+		if (
+			tags &&
+			tags.range &&
+			tags.force &&
+			tags.isSwitch
+		) {
+
+			const arr = tags.range
+			.slice(0)
+			.sort( (a,b) => {
+				return a.distanceTo( body.force ) - b.distanceTo( body.force )
+			} );
+
+			tags.switchPositions = {
+				on: new THREE.Vector3().copy( arr[0] ),
+				off: new THREE.Vector3().copy( arr[1] )
+			};
+
+		}
+
+		//
+
+		body.name = bodyInfo.name;
+
+		if ( bodyInfo.tags ) body.tags = tags;
+
+		//
+
+		bodyInfo.shapes.forEach( (shapeInfo) => {
+
+			let shape;
+
+			switch ( shapeInfo.type ) {
+
+				case 'box' :
+					shape = Box( shapeInfo.width, shapeInfo.height, shapeInfo.depth );
+					shape.makeHelper();
+					break
+
+				case 'sphere' :
+					shape = Sphere( shapeInfo.radius );
+					shape.makeHelper();
+					break
+
+				case 'cylinder' :
+					shape = Cylinder( shapeInfo.radius, shapeInfo.height );
+					shape.makeHelper();
+					break
+
+			}
+
+			shape.position.copy( shapeInfo.pos );
+			shape.rotation.copy( shapeInfo.rot );
+
+			body.add( shape );
+
+			// add only the static bodies in a spatial index to
+			// speed up the collision detection with dynamic bodies.
+
+			if ( bodyType === constants.STATIC_BODY ) {
+
+				world.spatialIndex.addShape( shape );
+
+			}
+
+		} );
+
+		//
+
+		world.add( body );
+
+		return body
+
+	} );
+
+	//
+
+	return world
 
 }
 

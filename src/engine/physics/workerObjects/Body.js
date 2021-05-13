@@ -1,7 +1,7 @@
 
 import * as THREE from 'three';
 import constants from '../../misc/constants.js';
-import events from '../../misc/events.js';
+// import events from '../../misc/events.js';
 import params from '../../params.js';
 
 //
@@ -78,7 +78,7 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 					if ( collider.tags && collider.tags.collectible ) {
 
-						events.emit( 'item-collected', collider );
+						// events.emit( 'item-collected', collider );
 
 					}
 
@@ -228,7 +228,7 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 					if ( collider.tags && collider.tags.collectible ) {
 
-						events.emit( 'item-collected', collider );
+						// events.emit( 'item-collected', collider );
 
 					}
 

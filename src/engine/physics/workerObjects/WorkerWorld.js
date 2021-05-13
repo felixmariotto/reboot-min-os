@@ -5,27 +5,31 @@ import * as THREE from 'three';
 
 export default function WorkerWorld( info ) {
 
-	// console.log( info )
-
-	
-
 	return {
-		typedArr,
 		info,
-		update
+		update,
+		clear
 	}
 
 }
 
 //
 
-function update( delta ) {
+let counter = 0;
 
-	this.typedArr.fill( Math.sin( Date.now() / 300 ) * 10 )
+function update( delta, positions ) {
 
-	// this.typedArr = Math.sin( Date.now() / 300 ) * 10
+	counter += delta;
 
-	// console.log( delta );
+	positions.fill( counter )
+
+}
+
+//
+
+function clear() {
+
+	console.warn('DELETE THIS WORLD FOR MEMORY')
 
 }
 

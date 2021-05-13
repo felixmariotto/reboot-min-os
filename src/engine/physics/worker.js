@@ -19,12 +19,21 @@ if ( typeof importScripts !== 'undefined' ) {
 
 	onmessage = function (e) {
 
-		const positions = e.data.positions
+		if ( e.data.info ) {
 
-		positions.fill( Math.sin( Date.now() / 200 ) * 10 );
+			if ( world ) world.clear();
 
-		postMessage( { positions }, [ positions.buffer ] );
+			world = WorkerWorld( e.data.info );
 
+		} else {
+
+			const positions = e.data.positions;
+
+			world.update( e.data.dt, positions );
+
+			postMessage( { positions }, [ positions.buffer ] );
+
+		}
 
 	}
 

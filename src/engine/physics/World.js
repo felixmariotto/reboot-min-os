@@ -60,16 +60,22 @@ export default function WorldFromInfo( info ) {
 	// array that get transferred to and from the worker.
 	let positions = new Float32Array( info.serialCounter * 3 );
 
+	// tells the worker to create a new world.
+	this.worker.postMessage( { info } );
+
 	// initial kick of the messages loop.
-	this.worker.postMessage( { positions }, [ positions.buffer ] );
+	this.worker.postMessage( { positions, dt: targetDt }, [ positions.buffer ] );
 
 	this.worker.onmessage = function (e) {
 
 		// we must access the data first thing, or it's not actually transferred.
 		positions = e.data.positions;
 
+		// delta time since last this function last call.
+		const dt = clock.getDelta();
+
 		// compute the delay to post message to the worker at 60 frame per second.
-		const delay = Math.max( 0, ( targetDt - clock.getDelta() ) * 1000 );
+		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
 
 		// update each entity with the new positions.
 		entities.forEach( entity => entity.updateFromArr( positions ) );
@@ -77,7 +83,7 @@ export default function WorldFromInfo( info ) {
 		// re-transfer the position array buffer to the worker.
 		setTimeout( () => {
 
-			this.postMessage( { positions }, [ positions.buffer ] );
+			this.postMessage( { positions, dt }, [ positions.buffer ] );
 
 		}, delay );
 

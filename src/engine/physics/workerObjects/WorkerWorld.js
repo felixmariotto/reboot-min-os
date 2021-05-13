@@ -27,6 +27,8 @@ const _zeroVec = new THREE.Vector3();
 
 export default function WorkerWorld( info ) {
 
+	console.log( info )
+
 	const world = Object.assign(
 		Object.create( new THREE.Group() ),
 		{
@@ -206,7 +208,7 @@ export default function WorkerWorld( info ) {
 
 	world.add( player );
 
-
+	world.player = player;
 
 
 
@@ -217,21 +219,7 @@ export default function WorkerWorld( info ) {
 
 	info.chainPoints.forEach( (cpInfo) => {
 
-		console.log( cpInfo )
-
-		/*
-		const chainPoint = ChainPoint();
-
-		chainPoint.chainLength = Number( cpInfo.length );
-		chainPoint.radius = Number( cpInfo.radius );
-
-		chainPoint.makeHelper();
-
-		chainPoint.position.set(
-			Number( cpInfo.x ),
-			Number( cpInfo.y ),
-			Number( cpInfo.z )
-		);
+		const chainPoint = ChainPoint( cpInfo );
 
 		world.chainPoints.push( chainPoint );
 
@@ -244,6 +232,10 @@ export default function WorkerWorld( info ) {
 			world.add( chainPoint );
 
 		}
+
+		/*
+
+		
 
 		if ( cpInfo.init ) {
 
@@ -281,6 +273,13 @@ function update( delta, positions, velocities, chains ) {
 
 		this.children.forEach( (child) => {
 
+			if (
+				child.isChainLink ||
+				child.isChainPoint
+			) {
+				return
+			}
+
 			child.updatePosFromArr( positions );
 			child.updateVelFromArr( velocities );
 
@@ -300,12 +299,12 @@ function update( delta, positions, velocities, chains ) {
 
 			if (
 				chainPoint.intersectPlayer( this.player ) &&
-				!world.chains.some( chain => chain.isAttachedTo( chainPoint ) )
+				!this.chains.some( chain => chain.isAttachedTo( chainPoint ) )
 			) {
 
 				// first we detach the chain currently attached to the player.
 
-				const oldChain = world.chains.find( chain => chain.isAttachedTo( this.player ) );
+				const oldChain = this.chains.find( chain => chain.isAttachedTo( this.player ) );
 
 				if ( oldChain ) this.removeChain( oldChain );
 
@@ -313,9 +312,9 @@ function update( delta, positions, velocities, chains ) {
 
 				const newChain = chainPoint.makeChain( this.player );
 
-				world.chains.push( newChain );
+				this.chains.push( newChain );
 
-				world.add( ...newChain.spheres );
+				this.add( ...newChain.spheres );
 
 			}
 
@@ -325,6 +324,13 @@ function update( delta, positions, velocities, chains ) {
 		// transferable arrays updates.
 
 		this.children.forEach( (body) => {
+
+			if (
+				body.isChainLink ||
+				body.isChainPoint
+			) {
+				return
+			}
 
 			// if the body is a switch, we check its state to trigger
 			// an event if necessary

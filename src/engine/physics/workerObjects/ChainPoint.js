@@ -9,7 +9,30 @@ const _vec = new THREE.Vector3();
 
 //
 
-export default function ChainPoint() {
+export default function ChainPoint( info ) {
+
+	const chainPoint = Object.assign(
+		Object.create( new THREE.Object3D() ),
+		{
+			isChainPoint: true,
+			chainLength: Number( info.length ),
+			radius: Number( info.radius ),
+			linkLength: info.linkLength,
+			pointsNumber: info.pointsNumber,
+			spheresNumber: info.spheresNumber,
+			intersectPlayer,
+			makeHelper,
+			makeChain
+		}
+	);
+
+	chainPoint.position.set(
+		Number( info.x ),
+		Number( info.y ),
+		Number( info.z )
+	);
+
+	//
 
 	function intersectPlayer( player ) {
 
@@ -52,16 +75,6 @@ export default function ChainPoint() {
 
 	//
 
-	return Object.assign(
-		Object.create( new THREE.Object3D() ),
-		{
-			isChainPoint: true,
-			chainLength: 20,
-			radius: 1,
-			intersectPlayer,
-			makeHelper,
-			makeChain
-		}
-	)
+	return chainPoint
 
 }

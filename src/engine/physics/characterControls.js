@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import core from '../core/core.js';
 import input from '../misc/input.js';
+import events from '../misc/events.js';
 import params from '../params.js';
 
 //
@@ -100,71 +101,114 @@ function control( target ) {
 
 //
 
-function controlVelocity() {
+function controlVelocity( world ) {
 
-	if ( !this.player ) {
-		console.warn('characterControl.controlVelocity : no player object to control');
-	} else if ( !this.player.isEntity ) {
-		console.warn('characterControl.controlVelocity : world.player is not an entity');
-	}
+	events.on( 'jump-key-down', () => {
 
-	// move the player in X Z direction
+		console.log( 'jump' )
 
-	if ( input.targetDirection.length() > 0 ) {
+		/*
+		if ( world.world.isOnGround ) {
 
-		_vec1
-		.copy( core.camera.position )
-		.sub( this.player.position )
-		.setY( 0 );
-		
-		// get signed angle
-
-		let angle = _vec1.angleTo( FORWARD );
-
-		_vec3.crossVectors( _vec1, FORWARD );
-
-		if ( _vec3.dot( this.player.up ) < 0 ) angle = -angle;
-
-		// get world direction
-
-		targetDirection
-		.set( -input.targetDirection.x, 0, -input.targetDirection.y )
-		.applyAxisAngle( this.player.up, -angle );
-
-		// compute acceleration vector length
-
-		const factor = getSpeedFactor( this.player );
-
-		targetDirection.multiplyScalar( factor * -1 * params.playerAcceleration );
-
-		// apply acceleration with a threshold ( if player moves fast, then can't get faster )
-
-		const beforeSpeed = this.player.velocity.length();
-
-		this.player.velocity.add( targetDirection );
-
-		const afterSpeed = this.player.velocity.length();
-
-		// acceleration reducer if the resulting speed is beyond threshold
-		if (
-			afterSpeed > params.playerMaxAcceleration &&
-			afterSpeed > beforeSpeed
-		) {
-
-			const addedSpeed = targetDirection.length();
-
-			const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed;
-
-			targetDirection.multiplyScalar( subRatio );
-
-			this.player.velocity.sub( targetDirection );
+			playerBody.velocity.y += params.playerJumpSpeed;
 
 		}
+		*/
 
-		// update transferable array so the web worker
-		// knows the change to the player velovity
+	} );
 
-		this.player.updateVelocities( this.velocities );
+	events.on( 'pull-key-down', () => {
+
+		console.log('pull')
+
+		/*
+		if ( !playerBody.chain ) return
+
+		playerBody.currentLink = Math.min(
+			playerBody.currentLink + 1,
+			playerBody.chain.spheres.length
+		);
+		*/
+
+	} );
+
+	events.on( 'release-key-down', () => {
+
+		console.log('release')
+
+		// playerBody.currentLink = 0;
+
+	} );
+
+	//
+
+	world.controller = function () {
+
+		if ( !this.player ) {
+		console.warn('characterControl.controlVelocity : no player object to control');
+		} else if ( !this.player.isEntity ) {
+			console.warn('characterControl.controlVelocity : world.player is not an entity');
+		}
+
+		// move the player in X Z direction
+
+		if ( input.targetDirection.length() > 0 ) {
+
+			_vec1
+			.copy( core.camera.position )
+			.sub( this.player.position )
+			.setY( 0 );
+			
+			// get signed angle
+
+			let angle = _vec1.angleTo( FORWARD );
+
+			_vec3.crossVectors( _vec1, FORWARD );
+
+			if ( _vec3.dot( this.player.up ) < 0 ) angle = -angle;
+
+			// get world direction
+
+			targetDirection
+			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
+			.applyAxisAngle( this.player.up, -angle );
+
+			// compute acceleration vector length
+
+			const factor = getSpeedFactor( this.player );
+
+			targetDirection.multiplyScalar( factor * -1 * params.playerAcceleration );
+
+			// apply acceleration with a threshold ( if player moves fast, then can't get faster )
+
+			const beforeSpeed = this.player.velocity.length();
+
+			this.player.velocity.add( targetDirection );
+
+			const afterSpeed = this.player.velocity.length();
+
+			// acceleration reducer if the resulting speed is beyond threshold
+			if (
+				afterSpeed > params.playerMaxAcceleration &&
+				afterSpeed > beforeSpeed
+			) {
+
+				const addedSpeed = targetDirection.length();
+
+				const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed;
+
+				targetDirection.multiplyScalar( subRatio );
+
+				this.player.velocity.sub( targetDirection );
+
+			}
+
+			// update transferable array so the web worker
+			// knows the change to the player velovity
+
+			this.player.updateVelocities( this.velocities );
+
+		}
 
 	}
 

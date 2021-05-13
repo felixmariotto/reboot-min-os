@@ -21,7 +21,7 @@ gamePage.start = function start() {
 		engine.cameraControls.orbitObj( world.player );
 		// engine.characterControls.controlVelocity( world.player );
 
-		world.controller = engine.characterControls.controlVelocity;
+		engine.characterControls.controlVelocity( world );
 
 		// react upon item collection
 

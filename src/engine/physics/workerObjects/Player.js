@@ -30,31 +30,6 @@ export default function Player() {
 
 	//
 
-	/*
-	events.on( 'jump-key-down', () => {
-
-		if ( playerBody.isOnGround ) playerBody.velocity.y += params.playerJumpSpeed;
-
-	} );
-
-	events.on( 'pull-key-down', () => {
-
-		if ( !playerBody.chain ) return
-
-		playerBody.currentLink = Math.min(
-			playerBody.currentLink + 1,
-			playerBody.chain.spheres.length
-		);
-
-	} );
-
-	events.on( 'release-key-down', () => {
-
-		playerBody.currentLink = 0;
-
-	} );
-	*/
-
 	return playerBody
 
 }

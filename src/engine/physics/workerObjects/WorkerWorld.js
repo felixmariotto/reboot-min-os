@@ -376,8 +376,6 @@ function update( delta, positions, velocities, chains, state ) {
 			const chainInfo = chains[ this.chain.chainID ];
 
 			this.chain.updatePositionsArr( chainInfo.positions );
-			// console.log( chainInfo )
-			// debugger
 
 		}
 

@@ -12,6 +12,7 @@ let world, delta;
 
 const LOG_PERF = true;
 let counter = 0;
+let events = [];
 
 //
 
@@ -30,7 +31,7 @@ if ( typeof importScripts !== 'undefined' ) {
 			const eventName = e.data.eventName;
 			const data = e.data.data;
 
-			world.handleEvent( eventName, data );
+			events.push( { eventName, data } )
 
 		} else {
 
@@ -51,7 +52,8 @@ if ( typeof importScripts !== 'undefined' ) {
 				positions,
 				velocities,
 				chains,
-				state
+				state,
+				events
 			);
 
 			postMessage(

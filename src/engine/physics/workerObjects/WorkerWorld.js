@@ -247,7 +247,7 @@ export default function WorkerWorld( info ) {
 
 //
 
-function update( delta, positions, velocities, chains, state ) {
+function update( delta, positions, velocities, chains, state, events ) {
 
 	if ( this.enabled ) {
 
@@ -271,6 +271,19 @@ function update( delta, positions, velocities, chains, state ) {
 			child.updateVelFromArr( velocities );
 
 		} );
+
+		// handle events stored after the last update.
+		// we don't handle the events immediately on reception
+		// because the snippet above erase everything with
+		// the main thread data.
+
+		for ( let i = events.length-1; i>-1 ; i-- ) {
+			
+			this.handleEvent( events[i] );
+
+			events.splice( i, 1 );
+
+		}
 
 		// physics simulation, run several times for accuracy.
 
@@ -534,9 +547,19 @@ function updatePhysics( delta ) {
 
 //
 
-function handleEvent( eventName, data ) {
+function handleEvent( e ) {
 
-	switch ( eventName ) {
+	switch ( e.eventName ) {
+
+		case 'jump' :
+
+			if ( this.player.isOnGround ) {
+
+				this.player.velocity.y += params.playerJumpSpeed;
+
+			}
+
+			break
 
 		case 'pull' :
 			console.log( 'handle pull' )

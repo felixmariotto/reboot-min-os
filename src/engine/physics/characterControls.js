@@ -105,17 +105,7 @@ function controlVelocity( world ) {
 
 	events.on( 'jump-key-down', () => {
 
-		world.player.velocity.y += params.playerJumpSpeed;
-
-		world.player.updateVelocities( world.velocities );
-
-		/*
-		if ( world.world.isOnGround ) {
-
-			playerBody.velocity.y += params.playerJumpSpeed;
-
-		}
-		*/
+		world.emitEvent( 'jump' );
 
 	} );
 

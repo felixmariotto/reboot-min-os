@@ -33,6 +33,17 @@ export default function Box( width=1, height=1, depth=1 ) {
 
 	//
 
+	function makeHelper() {
+
+		this.add( new THREE.Mesh(
+			new THREE.BoxGeometry( this.width, this.height, this.depth ),
+			params.helpersMaterial
+		) );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		Shape(),
@@ -42,7 +53,8 @@ export default function Box( width=1, height=1, depth=1 ) {
 			depth,
 			vertices,
 			isBox: true,
-			penetrationIn
+			penetrationIn,
+			makeHelper
 		}
 	)
 

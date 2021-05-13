@@ -32,13 +32,25 @@ export default function Sphere( radius=1 ) {
 
 	//
 
+	function makeHelper() {
+
+		this.add( new THREE.Mesh(
+			new THREE.IcosahedronGeometry( this.radius, 4 ),
+			params.helpersMaterial
+		) );
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		Shape(),
 		{
 			radius,
 			isSphere: true,
-			penetrationIn
+			penetrationIn,
+			makeHelper
 		}
 	)
 

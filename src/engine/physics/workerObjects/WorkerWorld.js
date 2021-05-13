@@ -187,6 +187,11 @@ export default function WorkerWorld( info ) {
 
 	} );
 
+	// when all the static bodies are added to the world,
+	// we compute the spatial index nodes.
+
+	world.spatialIndex.computeTree();
+
 	//
 
 	return world

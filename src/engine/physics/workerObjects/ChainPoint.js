@@ -14,6 +14,7 @@ export default function ChainPoint( info ) {
 	const chainPoint = Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
+			chainID: info.chainID,
 			isChainPoint: true,
 			chainLength: Number( info.length ),
 			radius: Number( info.radius ),
@@ -51,7 +52,8 @@ export default function ChainPoint( info ) {
 	function makeChain( player ) {
 
 		const chain = Chain( this.chainLength );
-		chain.makeHelper();
+		// chain.makeHelper();
+		chain.chainID = this.chainID;
 
 		chain.attachStartTo( this, 0, 0, 0 );
 		chain.attachEndTo( player, 0, 0, 0 );

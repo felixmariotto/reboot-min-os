@@ -86,6 +86,8 @@ export default function World( info ) {
 
 	world.chains = info.chainPoints.map( (cpInfo, i) => {
 
+		cpInfo.chainID = i;
+
 		const chainEntity = ChainEntity( cpInfo );
 
 		world.add( chainEntity );
@@ -132,7 +134,7 @@ export default function World( info ) {
 	world.chainTransferables = world.chains.map( (chainEntity, i) => {
 
 		return {
-			id: i,
+			chainID: chainEntity.chainID,
 			active: chainEntity.active,
 			spheresNumber: chainEntity.spheresNumber,
 			positions: new Float32Array( chainEntity.spheresNumber * 3 ),

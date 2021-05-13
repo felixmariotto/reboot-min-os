@@ -10,6 +10,7 @@ export default function ChainEntity( info ) {
 	const chainEntity = Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
+			chainID: info.chainID,
 			length: Number( info.length ),
 			enabled: info.enabled,
 			init: info.init,

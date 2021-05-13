@@ -27,8 +27,6 @@ const _zeroVec = new THREE.Vector3();
 
 export default function WorkerWorld( info ) {
 
-	console.log( info )
-
 	const world = Object.assign(
 		Object.create( new THREE.Group() ),
 		{
@@ -210,11 +208,6 @@ export default function WorkerWorld( info ) {
 
 	world.player = player;
 
-
-
-
-
-
 	// chain points
 
 	info.chainPoints.forEach( (cpInfo) => {
@@ -233,7 +226,7 @@ export default function WorkerWorld( info ) {
 
 		}
 
-		if ( cpInfo.init ) {
+		if ( cpInfo.active ) {
 
 			const newChain = chainPoint.makeChain( player );
 
@@ -244,10 +237,6 @@ export default function WorkerWorld( info ) {
 		}
 
 	} );
-
-
-
-
 
 	//
 
@@ -299,13 +288,31 @@ function update( delta, positions, velocities, chains ) {
 
 				// first we detach the chain currently attached to the player.
 
-				if ( this.chain ) this.chain.clear();
+				if ( this.chain ) {
+
+					// update information sent to the main thread
+
+					const chainInfo = chains.find( c => c.chainID === this.chain.chainID );
+
+					chainInfo.active = false;
+
+					//
+
+					this.chain.clear();
+
+				}
 
 				// create a new chain attached to the player and the chainPoint
 
 				this.chain = chainPoint.makeChain( this.player );
 
 				this.add( ...this.chain.spheres );
+
+				// update information sent to the main thread
+
+				const chainInfo = chains.find( c => c.chainID === this.chain.chainID );
+
+				chainInfo.active = true;
 
 			}
 

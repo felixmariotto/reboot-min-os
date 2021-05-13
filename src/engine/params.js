@@ -34,7 +34,7 @@ export default {
 	playerAcceleration: 0.07,
 	playerMaxAcceleration: 0.3, // speed at which the player can't accelerate manually
 	notOnGroundHandicap: 0.15, // how much the player speed is reduced if not touching the ground ( but still colliding )
-	notCollidingHandicap: 0.2, // 0.05,
+	notCollidingHandicap: 0.05,
 	playerWeight: 0.3,
 	playerMass: 1
 

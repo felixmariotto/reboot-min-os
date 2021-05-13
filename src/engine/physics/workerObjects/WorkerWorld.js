@@ -246,7 +246,7 @@ export default function WorkerWorld( info ) {
 
 //
 
-function update( delta, positions, velocities, chains ) {
+function update( delta, positions, velocities, chains, state ) {
 
 	if ( this.enabled ) {
 
@@ -380,6 +380,11 @@ function update( delta, positions, velocities, chains ) {
 			// debugger
 
 		}
+
+		// update state to send to the main thread
+
+		state.playerIsOnGround = this.player.isOnGround;
+		state.playerIsColliding = this.player.isColliding;
 
 	}
 

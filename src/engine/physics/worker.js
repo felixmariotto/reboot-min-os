@@ -35,16 +35,24 @@ if ( typeof importScripts !== 'undefined' ) {
 			const positions = e.data.positions;
 			const velocities = e.data.velocities;
 			const chains = e.data.chains;
+			const state = e.data.state;
 
 			const chainPositions = chains.map( chainT => chainT.positions.buffer );
 
-			world.update( 1 / 60, positions, velocities, chains );
+			world.update(
+				1 / 60,
+				positions,
+				velocities,
+				chains,
+				state
+			);
 
 			postMessage(
 				{
 					positions,
 					velocities,
-					chains
+					chains,
+					state
 				},
 				[
 					positions.buffer,

@@ -164,6 +164,12 @@ export default function World( info ) {
 	world.positions = new Float32Array( info.serialCounter * 3 );
 	world.velocities = new Float32Array( info.serialCounter * 3 );
 
+	// state parameters updated by the worker
+	world.state = {
+		playerIsColliding: false,
+		playerIsOnGround: false
+	}
+
 	// set player position now that the typed arrays are created
 	world.player.setVectorArray(
 		Number( info.player.x ),
@@ -184,7 +190,8 @@ export default function World( info ) {
 			{
 				positions: world.positions,
 				velocities: world.velocities,
-				chains: world.chainTransferables
+				chains: world.chainTransferables,
+				state: world.state
 			},
 			[
 				world.positions.buffer,
@@ -205,6 +212,7 @@ export default function World( info ) {
 		world.positions = e.data.positions;
 		world.velocities = e.data.velocities;
 		world.chainTransferables = e.data.chains;
+		world.state = e.data.state;
 
 		// delta time since this function last call.
 		const dt = clock.getDelta();
@@ -234,6 +242,10 @@ export default function World( info ) {
 			debugger
 		}
 		*/
+
+		// update player state
+		world.player.isOnGround = world.state.playerIsOnGround;
+		world.player.isColliding = world.state.playerIsColliding;
 
 		// compute the delay to post message to the worker at 60 frame per second.
 		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );

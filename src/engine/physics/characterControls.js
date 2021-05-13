@@ -100,70 +100,73 @@ function control( target ) {
 
 //
 
-function controlVelocity( target ) {
+function controlVelocity( delta ) {
 
-	if ( !target.isBody ) {
-		console.warn('characterControl.controlVelocity : target is not a body');
+	if ( !this.player ) {
+		console.warn('characterControl.controlVelocity : no player object to control');
+	} else if ( !this.player.isEntity ) {
+		console.warn('characterControl.controlVelocity : world.player is not an entity');
 	}
 
-	loopCallback = ( delta ) => {
+	// move the player in X Z direction
 
-		// move the player in X Z direction
+	if ( input.targetDirection.length() > 0 ) {
 
-		if ( input.targetDirection.length() > 0 ) {
+		_vec1
+		.copy( core.camera.position )
+		.sub( this.player.position )
+		.setY( 0 );
+		
+		// get signed angle
 
-			_vec1
-			.copy( core.camera.position )
-			.sub( target.position )
-			.setY( 0 );
-			
-			// get signed angle
+		let angle = _vec1.angleTo( FORWARD );
 
-			let angle = _vec1.angleTo( FORWARD );
+		_vec3.crossVectors( _vec1, FORWARD );
 
-			_vec3.crossVectors( _vec1, FORWARD );
+		if ( _vec3.dot( this.player.up ) < 0 ) angle = -angle;
 
-			if ( _vec3.dot( target.up ) < 0 ) angle = -angle;
+		// get world direction
 
-			// get world direction
+		targetDirection
+		.set( -input.targetDirection.x, 0, -input.targetDirection.y )
+		.applyAxisAngle( this.player.up, -angle );
 
-			targetDirection
-			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
-			.applyAxisAngle( target.up, -angle );
+		// compute acceleration vector length
 
-			// compute acceleration vector length
+		const speedRatio = delta / ( 1 /  60 );
 
-			const speedRatio = delta / ( 1 /  60 );
+		const factor = getSpeedFactor( this.player );
 
-			const factor = getSpeedFactor( target );
+		targetDirection.multiplyScalar( factor * speedRatio * -1 * params.playerAcceleration );
 
-			targetDirection.multiplyScalar( factor * speedRatio * -1 * params.playerAcceleration );
+		// apply acceleration with a threshold ( if player moves fast, then can't get faster )
 
-			// apply acceleration with a threshold ( if player moves fast, then can't get faster )
+		const beforeSpeed = this.player.velocity.length();
 
-			const beforeSpeed = target.velocity.length();
+		this.player.velocity.add( targetDirection );
 
-			target.velocity.add( targetDirection );
+		const afterSpeed = this.player.velocity.length();
 
-			const afterSpeed = target.velocity.length();
+		// acceleration reducer if the resulting speed is beyond threshold
+		if (
+			afterSpeed > params.playerMaxAcceleration &&
+			afterSpeed > beforeSpeed
+		) {
 
-			// acceleration reducer if the resulting speed is beyond threshold
-			if (
-				afterSpeed > params.playerMaxAcceleration &&
-				afterSpeed > beforeSpeed
-			) {
+			const addedSpeed = targetDirection.length()
 
-				const addedSpeed = targetDirection.length()
+			const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed
 
-				const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed
+			targetDirection.multiplyScalar( subRatio );
 
-				targetDirection.multiplyScalar( subRatio );
-
-				target.velocity.sub( targetDirection );
-
-			}
+			this.player.velocity.sub( targetDirection );
 
 		}
+
+		// update transferable array so the web worker
+		// knows the change to the player velovity
+
+		this.player.updateVelocities( this.velocities );
 
 	}
 

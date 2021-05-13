@@ -1,7 +1,7 @@
 
 /*
 An entity is the shallow conterpart of a body whose physics is computed
-in the web worker. It get udpated every frame through entity.updateFromArr
+in the web worker. It get udpated every frame through entity.updatePosition
 with a new position.
 */
 
@@ -15,12 +15,16 @@ export default function Entity( info ) {
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
+			isEntity: true,
 			name: info.name,
 			serial: info.serial,
 			info,
 			makeHelper,
-			updateFromArr,
-			setVectorArray
+			updatePosition,
+			updateVelocity,
+			setVectorArray,
+			updateVelocities,
+			velocity: new THREE.Vector3()
 		}
 	)
 
@@ -72,9 +76,19 @@ function makeHelper() {
 // typedArr is the whole transferable typed array.
 // this.serial was computed by World on initialization.
 
-function updateFromArr( typedArr ) {
+function updatePosition( typedArr ) {
 
 	this.position.set(
+		typedArr[ ( this.serial * 3 ) + 0 ],
+		typedArr[ ( this.serial * 3 ) + 1 ],
+		typedArr[ ( this.serial * 3 ) + 2 ]
+	);
+
+}
+
+function updateVelocity( typedArr ) {
+
+	this.velocity.set(
 		typedArr[ ( this.serial * 3 ) + 0 ],
 		typedArr[ ( this.serial * 3 ) + 1 ],
 		typedArr[ ( this.serial * 3 ) + 2 ]
@@ -89,5 +103,18 @@ function setVectorArray( x, y, z, typedArr ) {
 	typedArr[ ( this.serial * 3 ) + 0 ] = x;
 	typedArr[ ( this.serial * 3 ) + 1 ] = y;
 	typedArr[ ( this.serial * 3 ) + 2 ] = z;
+
+}
+
+//
+
+function updateVelocities( typedArr ) {
+
+	this.setVectorArray(
+		this.velocity.x,
+		this.velocity.y,
+		this.velocity.z,
+		typedArr
+	);
 
 }

@@ -11,17 +11,17 @@ gamePage.start = function start() {
 
 	engine.core.init( gamePage );
 
-	engine.cameraControls.orbitObj( engine.core.scene );
-
 	//
 
 	engine.files.loadLocalMapFile( ( sceneGraph ) => {
 
-		const params = engine.physics.World( sceneGraph );
+		const world = engine.physics.World( sceneGraph );
 
-		// engine.cameraControls.orbitDynamicObj( params.player );
-		engine.cameraControls.orbitObj( engine.core.scene );
-		// engine.characterControls.controlVelocity( params.player );
+		// engine.cameraControls.orbitDynamicObj( world.player );
+		engine.cameraControls.orbitObj( world.player );
+		// engine.characterControls.controlVelocity( world.player );
+
+		world.controller = engine.characterControls.controlVelocity;
 
 		// react upon item collection
 
@@ -38,15 +38,15 @@ gamePage.start = function start() {
 			switch ( itemType ) {
 
 				case 'chain-extension-5' :
-					params.player.chain.addLength( 5 );
+					world.player.chain.addLength( 5 );
 				break
 
 				case 'chain-extension-30' :
-					params.player.chain.addLength( 30 );
+					world.player.chain.addLength( 30 );
 				break
 
 				case 'chain-extension-35' :
-					params.player.chain.addLength( 35 );
+					world.player.chain.addLength( 35 );
 				break
 
 			}

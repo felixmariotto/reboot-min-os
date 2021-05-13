@@ -19,7 +19,7 @@ import Entity from './Entity.js';
 
 //
 
-export default function WorldFromInfo( info ) {
+export default function World( info ) {
 
 	// keeps track of the nomber of entities the worker has to compute
 	// physics for.
@@ -68,13 +68,13 @@ export default function WorldFromInfo( info ) {
 	info.player.serial = info.serialCounter;
 	info.serialCounter ++;
 
-	const player = Entity( info.player );
+	world.player = Entity( info.player );
 
-	world.add( player );
+	world.add( world.player );
 
-	player.makeHelper();
+	world.player.makeHelper();
 
-	entities.push( player );
+	entities.push( world.player );
 
 	///////////
 	// WORKER
@@ -84,15 +84,15 @@ export default function WorldFromInfo( info ) {
 	const targetDt = 1 / 60;
 
 	// arrays that get transferred to and from the worker.
-	let positions = new Float32Array( info.serialCounter * 3 );
-	let velocities = new Float32Array( info.serialCounter * 3 );
+	world.positions = new Float32Array( info.serialCounter * 3 );
+	world.velocities = new Float32Array( info.serialCounter * 3 );
 
 	// set player position now that the typed arrays are created
-	player.setVectorArray(
+	world.player.setVectorArray(
 		Number( info.player.x ),
 		Number( info.player.y ),
 		Number( info.player.z ),
-		positions
+		world.positions
 	);
 
 	// tells the worker to create a new world.
@@ -100,15 +100,15 @@ export default function WorldFromInfo( info ) {
 
 	// initial kick of the messages loop.
 	this.worker.postMessage(
-		{ positions, velocities, dt: targetDt },
-		[ positions.buffer, velocities.buffer ]
+		{ positions: world.positions, velocities: world.velocities, dt: targetDt },
+		[ world.positions.buffer, world.velocities.buffer ]
 	);
 
 	this.worker.onmessage = function (e) {
 
 		// we must access the data first thing, or it's not actually transferred.
-		positions = e.data.positions;
-		velocities = e.data.velocities;
+		world.positions = e.data.positions;
+		world.velocities = e.data.velocities;
 
 		// delta time since last this function last call.
 		const dt = clock.getDelta();
@@ -117,14 +117,22 @@ export default function WorldFromInfo( info ) {
 		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
 
 		// update each entity with the new positions.
-		entities.forEach( entity => entity.updateFromArr( positions ) );
+		entities.forEach( (entity) => {
+
+			entity.updatePosition( world.positions );
+			entity.updateVelocity( world.velocities )
+
+		} );
+
+		// update player with controls
+		if ( world.controller ) world.controller( dt );
 
 		// re-transfer the position array buffer to the worker.
 		setTimeout( () => {
 
 			this.postMessage(
-				{ positions, velocities, dt },
-				[ positions.buffer, velocities.buffer ]
+				{ positions: world.positions, velocities: world.velocities, dt },
+				[ world.positions.buffer, world.velocities.buffer ]
 			);
 
 		}, delay );
@@ -352,8 +360,6 @@ export default function WorldFromInfo( info ) {
 
 	//
 
-	return {
-		world
-	}
+	return world
 
 }

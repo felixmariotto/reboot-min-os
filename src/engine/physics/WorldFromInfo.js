@@ -19,6 +19,8 @@ import Entity from './Entity.js';
 
 export default function WorldFromInfo( info ) {
 
+	// keeps track of the nomber of entities the worker has to compute
+	// physics for.
 	info.serialCounter = 0;
 
 	// create a shallow world. In this main thread world we compute no physics,
@@ -46,35 +48,40 @@ export default function WorldFromInfo( info ) {
 
 	} );
 
-
-
+	///////////
+	// WORKER
+	///////////
 
 	const clock = new THREE.Clock();
 	const targetDt = 1 / 60;
+
+	// array that get transferred to and from the worker.
 	let positions = new Float32Array( info.serialCounter * 3 );
-	const worker = this.worker;
 
-	postMessage();
+	// initial kick of the messages loop.
+	this.worker.postMessage( { positions }, [ positions.buffer ] );
 
-	function postMessage() {
+	this.worker.onmessage = function (e) {
 
-		worker.postMessage( { positions }, [ positions.buffer ] );
-
-	}
-
-	worker.onmessage = function (e) {
-
+		// we must access the data first thing, or it's not actually transferred.
 		positions = e.data.positions;
 
-		const dt = clock.getDelta();
+		// compute the delay to post message to the worker at 60 frame per second.
+		const delay = Math.max( 0, ( targetDt - clock.getDelta() ) * 1000 );
 
-		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
-
+		// update each entity with the new positions.
 		entities.forEach( entity => entity.updateFromArr( positions ) );
 
-		setTimeout( postMessage, delay );
+		// re-transfer the position array buffer to the worker.
+		setTimeout( () => {
+
+			this.postMessage( { positions }, [ positions.buffer ] );
+
+		}, delay );
 
 	}
+
+	//
 
 
 

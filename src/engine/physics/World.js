@@ -160,16 +160,35 @@ export default function World( info ) {
 	this.worker.postMessage( { info } );
 
 	// initial kick of the messages loop.
-	this.worker.postMessage(
-		{ positions: world.positions, velocities: world.velocities, dt: targetDt },
-		[ world.positions.buffer, world.velocities.buffer ]
-	);
+	const postUpdates = () => {
+
+		const chainPositions = world.chainTransferables.map( chainT => chainT.positions.buffer );
+		const chainVelocities = world.chainTransferables.map( chainT => chainT.velocities.buffer );
+
+		this.worker.postMessage(
+			{
+				positions: world.positions,
+				velocities: world.velocities,
+				chains: world.chainTransferables
+			},
+			[
+				world.positions.buffer,
+				world.velocities.buffer,
+				...chainPositions,
+				...chainVelocities
+			]
+		);
+
+	}
+
+	postUpdates();
 
 	this.worker.onmessage = function (e) {
 
 		// we must access the data first thing, or it's not actually transferred.
 		world.positions = e.data.positions;
 		world.velocities = e.data.velocities;
+		world.chainTransferables = e.data.chains;
 
 		// delta time since last this function last call.
 		const dt = clock.getDelta();
@@ -189,14 +208,7 @@ export default function World( info ) {
 		if ( world.controller ) world.controller();
 
 		// re-transfer the position array buffer to the worker.
-		setTimeout( () => {
-
-			this.postMessage(
-				{ positions: world.positions, velocities: world.velocities },
-				[ world.positions.buffer, world.velocities.buffer ]
-			);
-
-		}, delay );
+		setTimeout( postUpdates, delay );
 
 	}
 

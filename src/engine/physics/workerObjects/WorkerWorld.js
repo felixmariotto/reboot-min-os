@@ -214,7 +214,7 @@ export default function WorkerWorld( info ) {
 
 //
 
-function update( delta, positions, velocities ) {
+function update( delta, positions, velocities, chains ) {
 
 	if ( this.enabled ) {
 

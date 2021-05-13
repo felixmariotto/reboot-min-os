@@ -29,12 +29,25 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			const positions = e.data.positions;
 			const velocities = e.data.velocities;
+			const chains = e.data.chains;
 
-			world.update( 1 / 60, positions, velocities );
+			const chainPositions = chains.map( chainT => chainT.positions.buffer );
+			const chainVelocities = chains.map( chainT => chainT.velocities.buffer );
+
+			world.update( 1 / 60, positions, velocities, chains );
 
 			postMessage(
-				{ positions, velocities },
-				[ positions.buffer, velocities.buffer ]
+				{
+					positions,
+					velocities,
+					chains
+				},
+				[
+					positions.buffer,
+					velocities.buffer,
+					...chainPositions,
+					...chainVelocities
+				]
 			);
 
 		}

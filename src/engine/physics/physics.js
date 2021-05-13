@@ -1,5 +1,5 @@
 
-import WorldFromInfo from './WorldFromInfo.js';
+import World from './World.js';
 
 //
 
@@ -14,6 +14,6 @@ if ( window.Worker ) {
 //
 
 export default {
-	WorldFromInfo,
+	World,
 	worker
 }

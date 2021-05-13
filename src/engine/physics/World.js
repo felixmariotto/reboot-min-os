@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import core from '../core/core.js';
 import constants from '../misc/constants.js';
 
+/*
 import World from './workerObjects/World.js';
 import Body from './workerObjects/Body.js';
 import Box from './workerObjects/Box.js';
@@ -12,6 +13,7 @@ import Cylinder from './workerObjects/Cylinder.js';
 import Chain from './workerObjects/Chain.js';
 import ChainPoint from './workerObjects/ChainPoint.js';
 import Player from './workerObjects/Player.js';
+*/
 
 import Entity from './Entity.js';
 
@@ -27,7 +29,7 @@ export default function WorldFromInfo( info ) {
 	// but we update entities position and state every time the worker send a
 	// message.
 
-	const world = World();
+	const world = new THREE.Group();
 
 	core.scene.add( world );
 

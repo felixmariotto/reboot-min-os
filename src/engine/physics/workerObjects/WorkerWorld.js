@@ -38,7 +38,8 @@ export default function WorkerWorld( info ) {
 			info,
 			update,
 			updatePhysics,
-			clear
+			clear,
+			handleEvent
 		}
 	)
 
@@ -528,6 +529,24 @@ function updatePhysics( delta ) {
 	// constrain chain links back to max distance
 
 	if ( this.chain ) this.chain.resolve()
+
+}
+
+//
+
+function handleEvent( eventName, data ) {
+
+	switch ( eventName ) {
+
+		case 'pull' :
+			console.log( 'handle pull' )
+			break
+
+		case 'release' :
+			console.log( 'handle release' )
+			break
+
+	}
 
 }
 

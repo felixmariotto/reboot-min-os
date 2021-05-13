@@ -268,7 +268,11 @@ export default function World( info ) {
 
 	//
 
+	world.emitEvent = ( eventName, data ) => {
 
+		this.worker.postMessage( { isEvent: true, eventName, data } );
+
+	}
 
 
 

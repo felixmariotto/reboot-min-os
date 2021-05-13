@@ -25,6 +25,13 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			world = WorkerWorld( e.data.info );
 
+		} else if ( e.data.isEvent ) {
+
+			const eventName = e.data.eventName;
+			const data = e.data.data;
+
+			world.handleEvent( eventName, data );
+
 		} else {
 
 			if ( LOG_PERF ) {

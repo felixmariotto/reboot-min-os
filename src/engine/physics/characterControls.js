@@ -105,7 +105,9 @@ function controlVelocity( world ) {
 
 	events.on( 'jump-key-down', () => {
 
-		console.log( 'jump' )
+		world.player.velocity.y += params.playerJumpSpeed;
+
+		world.player.updateVelocities( world.velocities );
 
 		/*
 		if ( world.world.isOnGround ) {
@@ -119,7 +121,7 @@ function controlVelocity( world ) {
 
 	events.on( 'pull-key-down', () => {
 
-		console.log('pull')
+		world.emitEvent( 'pull' );
 
 		/*
 		if ( !playerBody.chain ) return
@@ -134,7 +136,7 @@ function controlVelocity( world ) {
 
 	events.on( 'release-key-down', () => {
 
-		console.log('release')
+		world.emitEvent( 'release' )
 
 		// playerBody.currentLink = 0;
 

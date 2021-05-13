@@ -30,7 +30,7 @@ if ( typeof importScripts !== 'undefined' ) {
 			const positions = e.data.positions;
 			const velocities = e.data.velocities;
 
-			world.update( e.data.dt, positions, velocities );
+			world.update( 1 / 60, positions, velocities );
 
 			postMessage(
 				{ positions, velocities },

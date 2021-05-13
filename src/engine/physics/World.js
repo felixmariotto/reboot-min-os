@@ -125,13 +125,13 @@ export default function World( info ) {
 		} );
 
 		// update player with controls
-		if ( world.controller ) world.controller( dt );
+		if ( world.controller ) world.controller();
 
 		// re-transfer the position array buffer to the worker.
 		setTimeout( () => {
 
 			this.postMessage(
-				{ positions: world.positions, velocities: world.velocities, dt },
+				{ positions: world.positions, velocities: world.velocities },
 				[ world.positions.buffer, world.velocities.buffer ]
 			);
 

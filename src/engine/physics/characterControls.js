@@ -100,7 +100,7 @@ function control( target ) {
 
 //
 
-function controlVelocity( delta ) {
+function controlVelocity() {
 
 	if ( !this.player ) {
 		console.warn('characterControl.controlVelocity : no player object to control');
@@ -133,11 +133,9 @@ function controlVelocity( delta ) {
 
 		// compute acceleration vector length
 
-		const speedRatio = delta / ( 1 /  60 );
-
 		const factor = getSpeedFactor( this.player );
 
-		targetDirection.multiplyScalar( factor * speedRatio * -1 * params.playerAcceleration );
+		targetDirection.multiplyScalar( factor * -1 * params.playerAcceleration );
 
 		// apply acceleration with a threshold ( if player moves fast, then can't get faster )
 
@@ -153,9 +151,9 @@ function controlVelocity( delta ) {
 			afterSpeed > beforeSpeed
 		) {
 
-			const addedSpeed = targetDirection.length()
+			const addedSpeed = targetDirection.length();
 
-			const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed
+			const subRatio = ( afterSpeed - beforeSpeed ) / addedSpeed;
 
 			targetDirection.multiplyScalar( subRatio );
 

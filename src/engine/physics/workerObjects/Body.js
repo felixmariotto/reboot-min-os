@@ -320,6 +320,28 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 	//
 
+	function updatePosFromArr( typedArr ) {
+
+		this.position.set(
+			typedArr[ ( this.serial * 3 ) + 0 ],
+			typedArr[ ( this.serial * 3 ) + 1 ],
+			typedArr[ ( this.serial * 3 ) + 2 ]
+		);
+
+	}
+
+	function updateVelFromArr( typedArr ) {
+
+		this.velocity.set(
+			typedArr[ ( this.serial * 3 ) + 0 ],
+			typedArr[ ( this.serial * 3 ) + 1 ],
+			typedArr[ ( this.serial * 3 ) + 2 ]
+		);
+
+	}
+
+	//
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
@@ -350,7 +372,9 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 			isColliding: false,
 			clear,
 			collideIn,
-			constrain
+			constrain,
+			updatePosFromArr,
+			updateVelFromArr
 		}
 	)
 

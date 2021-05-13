@@ -218,13 +218,27 @@ function update( delta, positions, velocities ) {
 
 	if ( this.enabled ) {
 
+		// update the position and velocity of all bodies
+		// in case the main thread updated them.
+		// Character control for instance update the player's
+		// velocity in the main thread.
+
+		this.children.forEach( (child) => {
+
+			child.updatePosFromArr( positions );
+			child.updateVelFromArr( velocities );
+
+		} );
+
+		// physics simulation, run several times for accuracy.
+
 		for ( let i=0 ; i<params.physicsSimTicks ; i++ ) {
 
 			this.updatePhysics( Math.min( delta, MAX_DELTA ) / params.physicsSimTicks );
 
 		}
 
-		// look for intersections between the player and chain points
+		// look for intersections between the player and chain points.
 
 		this.chainPoints.forEach( (chainPoint) => {
 
@@ -233,7 +247,7 @@ function update( delta, positions, velocities ) {
 				!world.chains.some( chain => chain.isAttachedTo( chainPoint ) )
 			) {
 
-				// first we detach the chain currently attached to the player
+				// first we detach the chain currently attached to the player.
 
 				const oldChain = world.chains.find( chain => chain.isAttachedTo( this.player ) );
 

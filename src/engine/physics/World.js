@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 import core from '../core/core.js';
 import constants from '../misc/constants.js';
+import params from '../params.js';
 
 /*
 import World from './workerObjects/World.js';
@@ -16,6 +17,7 @@ import Player from './workerObjects/Player.js';
 */
 
 import Entity from './Entity.js';
+import ChainEntity from './ChainEntity.js';
 
 //
 
@@ -56,8 +58,6 @@ export default function World( info ) {
 
 	// PLAYER
 
-	// player
-
 	info.player.name = 'player';
 	info.player.shapes = [ {
 		type: "sphere",
@@ -75,6 +75,67 @@ export default function World( info ) {
 	world.player.makeHelper();
 
 	entities.push( world.player );
+
+
+
+
+
+
+
+	// CHAIN POINTS
+
+	world.chains = info.chainPoints.map( (cpInfo, i) => {
+
+		const chainEntity = ChainEntity( cpInfo );
+
+		world.add( chainEntity );
+
+		for ( let j=0 ; j<chainEntity.spheresNumber ; j++ ) {
+
+			const sphereEntity = Entity({
+				name: 'chain-link-' + i + '-' + j,
+				info: info.serialCounter,
+				shapes: [ {
+					type: "sphere",
+					radius: params.chainSphereRadius,
+					pos: { x: 0, y: 0, z: 0 },
+					rot: { _x: 0, _y: 0, _z: 0, _order: "XYZ" }
+				} ]
+			});
+
+			info.serialCounter ++;
+
+			chainEntity.sphereEntities.push( sphereEntity );
+
+			chainEntity.add( sphereEntity );
+
+			sphereEntity.makeHelper();
+
+			entities.push( sphereEntity );
+
+		}
+
+		return chainEntity
+
+	} );
+
+	world.chainTransferables = world.chains.map( (chainEntity, i) => {
+
+		return {
+			id: i,
+			active: chainEntity.active,
+			spheresNumber: chainEntity.spheresNumber,
+			positions: new Float32Array( chainEntity.spheresNumber * 3 ),
+			velocities: new Float32Array( chainEntity.spheresNumber * 3 )
+		}
+
+	} );
+
+
+
+
+
+
 
 	///////////
 	// WORKER

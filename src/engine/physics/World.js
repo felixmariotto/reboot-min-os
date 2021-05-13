@@ -137,8 +137,7 @@ export default function World( info ) {
 			chainID: chainEntity.chainID,
 			active: chainEntity.active,
 			spheresNumber: chainEntity.spheresNumber,
-			positions: new Float32Array( chainEntity.spheresNumber * 3 ),
-			velocities: new Float32Array( chainEntity.spheresNumber * 3 )
+			positions: new Float32Array( chainEntity.pointsNumber * 3 )
 		}
 
 	} );
@@ -175,7 +174,6 @@ export default function World( info ) {
 	const postUpdates = () => {
 
 		const chainPositions = world.chainTransferables.map( chainT => chainT.positions.buffer );
-		const chainVelocities = world.chainTransferables.map( chainT => chainT.velocities.buffer );
 
 		this.worker.postMessage(
 			{
@@ -187,13 +185,14 @@ export default function World( info ) {
 				world.positions.buffer,
 				world.velocities.buffer,
 				...chainPositions,
-				...chainVelocities
 			]
 		);
 
 	}
 
 	postUpdates();
+
+	let counter = 0;
 
 	this.worker.onmessage = function (e) {
 
@@ -202,8 +201,13 @@ export default function World( info ) {
 		world.velocities = e.data.velocities;
 		world.chainTransferables = e.data.chains;
 
-		// delta time since last this function last call.
+		// delta time since this function last call.
 		const dt = clock.getDelta();
+		counter += dt;
+		if ( counter > 1 ) {
+			console.log( 'world.chainTransferables', world.chainTransferables )
+			debugger
+		}
 
 		// compute the delay to post message to the worker at 60 frame per second.
 		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );

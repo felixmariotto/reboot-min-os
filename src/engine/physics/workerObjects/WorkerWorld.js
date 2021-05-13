@@ -292,7 +292,7 @@ function update( delta, positions, velocities, chains ) {
 
 					// update information sent to the main thread
 
-					const chainInfo = chains.find( c => c.chainID === this.chain.chainID );
+					const chainInfo = chains[ this.chain.chainID ];
 
 					chainInfo.active = false;
 
@@ -310,7 +310,7 @@ function update( delta, positions, velocities, chains ) {
 
 				// update information sent to the main thread
 
-				const chainInfo = chains.find( c => c.chainID === this.chain.chainID );
+				const chainInfo = chains[ this.chain.chainID ];
 
 				chainInfo.active = true;
 
@@ -368,6 +368,18 @@ function update( delta, positions, velocities, chains ) {
 			velocities[ ( 3 * body.serial ) + 2 ] = body.velocity.z;
 
 		} );
+
+		// update chain information to send to the main thread
+
+		if ( this.chain ) {
+
+			const chainInfo = chains[ this.chain.chainID ];
+
+			this.chain.updatePositionsArr( chainInfo.positions );
+			// console.log( chainInfo )
+			// debugger
+
+		}
 
 	}
 

@@ -302,6 +302,20 @@ export default function Chain( length ) {
 
 	//
 
+	function updatePositionsArr( typedArr ) {
+
+		for ( let i=0 ; i<this.points.length ; i++ ) {
+
+			typedArr[ ( i * 3 ) + 0 ] = this.points[ i ].x;
+			typedArr[ ( i * 3 ) + 1 ] = this.points[ i ].y;
+			typedArr[ ( i * 3 ) + 2 ] = this.points[ i ].z;
+
+		}
+
+	}
+
+	//
+
 	const chain = {
 		attachStartTo,
 		attachEndTo,
@@ -314,7 +328,8 @@ export default function Chain( length ) {
 		isAttachedTo,
 		clear,
 		addLength,
-		init
+		init,
+		updatePositionsArr
 	}
 
 	chain.init( length );

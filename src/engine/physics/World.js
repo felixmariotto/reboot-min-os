@@ -204,65 +204,77 @@ export default function World( info ) {
 
 	postUpdates();
 
-	let counter = 0;
+	const receivedEvents = [];
 
 	this.worker.onmessage = function (e) {
 
-		// we must access the data first thing, or it's not actually transferred.
-		world.positions = e.data.positions;
-		world.velocities = e.data.velocities;
-		world.chainTransferables = e.data.chains;
-		world.state = e.data.state;
+		if ( e.data.isEvent ) {
 
-		// delta time since this function last call.
-		const dt = clock.getDelta();
+			const eventName = e.data.eventName;
+			const data = e.data.data;
 
-		// update chain entities
-		for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
+			receivedEvents.push( { eventName, data } )
 
-			if ( world.chainTransferables[i].active ) {
+		} else {
 
-				chainEntities[i].active = true;
-				chainEntities[i].visible = true;
-				chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+			// we must access the data first thing, or it's not actually transferred.
+			world.positions = e.data.positions;
+			world.velocities = e.data.velocities;
+			world.chainTransferables = e.data.chains;
+			world.state = e.data.state;
 
-			} else {
+			// delta time since this function last call.
+			const dt = clock.getDelta();
 
-				chainEntities[i].active = false;
-				chainEntities[i].visible = false;
+			// update chain entities
+			for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
+
+				if ( world.chainTransferables[i].active ) {
+
+					chainEntities[i].active = true;
+					chainEntities[i].visible = true;
+					chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+
+				} else {
+
+					chainEntities[i].active = false;
+					chainEntities[i].visible = false;
+
+				}
 
 			}
 
+			// update player state
+			world.player.isOnGround = world.state.playerIsOnGround;
+			world.player.isColliding = world.state.playerIsColliding;
+
+			// compute the delay to post message to the worker at 60 frame per second.
+			const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
+
+			// update each entity with the new positions.
+			entities.forEach( (entity) => {
+
+				entity.updatePosition( world.positions );
+				entity.updateVelocity( world.velocities )
+
+			} );
+
+			// handle events received from the worker
+			for ( let i = receivedEvents.length-1; i>-1 ; i-- ) {
+			
+				handleEvent( receivedEvents[i] );
+
+				receivedEvents.splice( i, 1 );
+
+			}
+
+			// update player with controls
+			if ( world.controller ) world.controller();
+
+			// re-transfer the data to the worker.
+			setTimeout( postUpdates, delay );
+
 		}
-
-		/*
-		counter += dt;
-		if ( counter > 1 ) {
-			console.log( 'chainEntities[0]', chainEntities[0] )
-			debugger
-		}
-		*/
-
-		// update player state
-		world.player.isOnGround = world.state.playerIsOnGround;
-		world.player.isColliding = world.state.playerIsColliding;
-
-		// compute the delay to post message to the worker at 60 frame per second.
-		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
-
-		// update each entity with the new positions.
-		entities.forEach( (entity) => {
-
-			entity.updatePosition( world.positions );
-			entity.updateVelocity( world.velocities )
-
-		} );
-
-		// update player with controls
-		if ( world.controller ) world.controller();
-
-		// re-transfer the data to the worker.
-		setTimeout( postUpdates, delay );
 
 	}
 
@@ -271,6 +283,12 @@ export default function World( info ) {
 	world.emitEvent = ( eventName, data ) => {
 
 		this.worker.postMessage( { isEvent: true, eventName, data } );
+
+	}
+
+	function handleEvent( e ) {
+
+		console.log( e )
 
 	}
 

@@ -367,7 +367,11 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 					body.tags.switchState = newState;
 
-					events.emit( 'switch-change', body );
+					this.emitEvent( 'switch-change', {
+						serial: body.serial,
+						name: body.name,
+						state: newState
+					} )
 
 				}
 
@@ -575,7 +579,7 @@ function handleEvent( e ) {
 		case 'release' :
 
 			this.player.currentLink = 0;
-			
+
 			break
 
 	}

@@ -26,6 +26,12 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			world = WorkerWorld( e.data.info );
 
+			world.emitEvent = ( eventName, data ) => {
+
+				postMessage( { isEvent: true, eventName, data } );
+
+			}
+
 		} else if ( e.data.isEvent ) {
 
 			const eventName = e.data.eventName;

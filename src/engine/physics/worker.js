@@ -10,7 +10,7 @@ const clock = new THREE.Clock();
 
 let world, delta;
 
-const LOG_PERF = false;
+const LOG_PERF = true;
 let counter = 0;
 
 //
@@ -40,7 +40,7 @@ if ( typeof importScripts !== 'undefined' ) {
 			const chainPositions = chains.map( chainT => chainT.positions.buffer );
 
 			world.update(
-				1 / 60,
+				clock.getDelta(),
 				positions,
 				velocities,
 				chains,

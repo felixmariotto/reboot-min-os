@@ -1,4 +1,10 @@
 
+/*
+An entity is the shallow conterpart of a body whose physics is computed
+in the web worker. It get udpated every frame through entity.updateFromArr
+with a new position.
+*/
+
 import * as THREE from 'three';
 import params from '../params.js';
 
@@ -61,11 +67,11 @@ function makeHelper() {
 
 }
 
-//
+// update with the position data sent by the web worker.
+// typedArr is the whole transferable typed array.
+// this.serial was computed by World on initialization.
 
 function updateFromArr( typedArr ) {
-
-	// this.position.setScalar( Math.sin( Date.now() / 300 ) * 10 )
 
 	this.position.set(
 		typedArr[ ( this.serial * 3 ) + 0 ],

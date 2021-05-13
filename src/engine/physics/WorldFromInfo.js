@@ -19,9 +19,7 @@ import Entity from './Entity.js';
 
 export default function WorldFromInfo( info ) {
 
-	// tells the worker to instantiate a physical world with this information
-
-	this.worker.postMessage( { worldInfo: info } );
+	info.serialCounter = 0;
 
 	// create a shallow world. In this main thread world we compute no physics,
 	// but we update entities position and state every time the worker send a
@@ -35,16 +33,51 @@ export default function WorldFromInfo( info ) {
 
 	const entities = info.bodies.map( (bodyInfo) => {
 
+		bodyInfo.serial = info.serialCounter;
+		info.serialCounter ++;
+
 		const entity = Entity( bodyInfo );
 
 		world.add( entity );
 
 		entity.makeHelper();
 
+		return entity
+
 	} );
 
-	// we listen for worker messages containing new position and
-	// state of all the bodies, and update the entities accordingly.
+
+
+
+	const clock = new THREE.Clock();
+	const targetDt = 1 / 60;
+	let positions = new Float32Array( info.serialCounter * 3 );
+	const worker = this.worker;
+
+	postMessage();
+
+	function postMessage() {
+
+		// console.log('post')
+
+		worker.postMessage( { positions }, [ positions.buffer ] );
+
+	}
+
+	worker.onmessage = function (e) {
+
+		// console.log( e );
+
+		positions = e.data.positions;
+
+		const dt = clock.getDelta();
+
+		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
+
+		setTimeout( postMessage, delay );
+
+	}
+
 
 
 

@@ -72,6 +72,7 @@ export default function World() {
 	const LOG_PERF = true;
 	let counter = 0;
 
+	/*
 	core.callInLoop( ( delta ) => {
 
 		if ( LOG_PERF ) {
@@ -84,6 +85,7 @@ export default function World() {
 		if ( counter % 60 === 0 && LOG_PERF ) console.timeEnd( 'world update' )
 
 	} );
+	*/
 
 	function update( delta ) {
 

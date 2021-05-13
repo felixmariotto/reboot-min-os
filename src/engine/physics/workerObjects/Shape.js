@@ -294,8 +294,6 @@ export default function Shape() {
 			this.children[i].geometry.dispose();
 
 		}
-
-		this.clear();
 		
 	}
 
@@ -303,13 +301,9 @@ export default function Shape() {
 
 	function computeAABB() {
 
-		let mustDeleteHelper;
-
 		if ( !this.children.length ) {
 
 			this.makeHelper();
-
-			mustDeleteHelper = true;
 
 		}
 
@@ -320,8 +314,6 @@ export default function Shape() {
 		}
 
 		this.aabb.setFromObject( this );
-
-		if ( mustDeleteHelper ) this.deleteHelper();
 
 	}
 

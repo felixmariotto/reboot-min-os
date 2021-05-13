@@ -147,7 +147,7 @@ function controlVelocity( world ) {
 	world.controller = function () {
 
 		if ( !this.player ) {
-		console.warn('characterControl.controlVelocity : no player object to control');
+			console.warn('characterControl.controlVelocity : no player object to control');
 		} else if ( !this.player.isEntity ) {
 			console.warn('characterControl.controlVelocity : world.player is not an entity');
 		}

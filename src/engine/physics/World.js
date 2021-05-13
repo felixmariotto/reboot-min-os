@@ -261,7 +261,7 @@ export default function World( info ) {
 		// update player with controls
 		if ( world.controller ) world.controller();
 
-		// re-transfer the position array buffer to the worker.
+		// re-transfer the data to the worker.
 		setTimeout( postUpdates, delay );
 
 	}

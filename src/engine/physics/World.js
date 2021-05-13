@@ -33,7 +33,11 @@ export default function WorldFromInfo( info ) {
 
 	core.scene.add( world );
 
-	// we create one entity for each body in the physical world
+	/////////////
+	// ENTITIES
+	/////////////
+
+	// BODIES
 
 	const entities = info.bodies.map( (bodyInfo) => {
 
@@ -50,6 +54,28 @@ export default function WorldFromInfo( info ) {
 
 	} );
 
+	// PLAYER
+
+	// player
+
+	info.player.name = 'player';
+	info.player.shapes = [ {
+		type: "sphere",
+		radius: 1,
+		pos: { x: 0, y: 0, z: 0 },
+		rot: { _x: 0, _y: 0, _z: 0, _order: "XYZ" }
+	} ];
+	info.player.serial = info.serialCounter;
+	info.serialCounter ++;
+
+	const player = Entity( info.player );
+
+	world.add( player );
+
+	player.makeHelper();
+
+	entities.push( player );
+
 	///////////
 	// WORKER
 	///////////
@@ -60,6 +86,14 @@ export default function WorldFromInfo( info ) {
 	// arrays that get transferred to and from the worker.
 	let positions = new Float32Array( info.serialCounter * 3 );
 	let velocities = new Float32Array( info.serialCounter * 3 );
+
+	// set player position now that the typed arrays are created
+	player.setVectorArray(
+		Number( info.player.x ),
+		Number( info.player.y ),
+		Number( info.player.z ),
+		positions
+	);
 
 	// tells the worker to create a new world.
 	this.worker.postMessage( { info } );

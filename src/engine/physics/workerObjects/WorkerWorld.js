@@ -192,6 +192,20 @@ export default function WorkerWorld( info ) {
 
 	world.spatialIndex.computeTree();
 
+	// player
+
+	const player = Player();
+
+	player.serial = info.player.serial;
+
+	player.position.set(
+		Number( info.player.x ),
+		Number( info.player.y ),
+		Number( info.player.z )
+	);
+
+	world.add( player );
+
 	//
 
 	return world

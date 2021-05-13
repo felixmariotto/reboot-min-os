@@ -19,7 +19,8 @@ export default function Entity( info ) {
 			serial: info.serial,
 			info,
 			makeHelper,
-			updateFromArr
+			updateFromArr,
+			setVectorArray
 		}
 	)
 
@@ -78,5 +79,15 @@ function updateFromArr( typedArr ) {
 		typedArr[ ( this.serial * 3 ) + 1 ],
 		typedArr[ ( this.serial * 3 ) + 2 ]
 	);
+
+}
+
+//
+
+function setVectorArray( x, y, z, typedArr ) {
+
+	typedArr[ ( this.serial * 3 ) + 0 ] = x;
+	typedArr[ ( this.serial * 3 ) + 1 ] = y;
+	typedArr[ ( this.serial * 3 ) + 2 ] = z;
 
 }

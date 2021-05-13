@@ -11,7 +11,55 @@ const _vec = new THREE.Vector3();
 
 //
 
-export default function Chain( length ) {
+export default function Chain( chainPoint ) {
+
+	const chain = {
+		length: chainPoint.chainLength,
+		linkLength: chainPoint.linkLength,
+		pointsNumber: chainPoint.pointsNumber,
+		spheresNumber: chainPoint.spheresNumber,
+		attachStartTo,
+		attachEndTo,
+		makeHelper,
+		resolve,
+		initChainPos,
+		computeEndStart,
+		constrainPoints,
+		constrainLinkTo,
+		isAttachedTo,
+		clear,
+		addLength,
+		updatePositionsArr
+	}
+
+	chain.spheres = [];
+
+	for ( let i=0 ; i<chain.spheresNumber ; i++ ) {
+
+		const sphereShape = Sphere( params.chainSphereRadius );
+
+		const sphereBody = Body(
+			constants.DYNAMIC_BODY,
+			params.chainWeight,
+			params.chainMass
+		);
+
+		sphereBody.isChainLink = true;
+
+		sphereBody.add( sphereShape );
+
+		chain.spheres.push( sphereBody );
+
+	}
+
+	chain.startPoint = new THREE.Vector3();
+	chain.endPoint = new THREE.Vector3();
+
+	chain.points = [ chain.startPoint ];
+	chain.points.push( ...chain.spheres.map( sphereBody => sphereBody.position ) );
+	chain.points.push( chain.endPoint );
+
+	//
 
 	function attachStartTo( body, x, y, z ) {
 
@@ -261,47 +309,6 @@ export default function Chain( length ) {
 
 	//
 
-	function init( length ) {
-
-		this.length = length;
-
-		this.pointsNumber = Math.floor( this.length / params.chainPointDistance );
-
-		this.linkLength = this.length / ( this.pointsNumber - 1 );
-
-		this.spheresNumber = Math.max( 0, this.pointsNumber - 2 );
-
-		this.spheres = [];
-
-		for ( let i=0 ; i<this.spheresNumber ; i++ ) {
-
-			const sphereShape = Sphere( params.chainSphereRadius );
-
-			const sphereBody = Body(
-				constants.DYNAMIC_BODY,
-				params.chainWeight,
-				params.chainMass
-			);
-
-			sphereBody.isChainLink = true;
-
-			sphereBody.add( sphereShape );
-
-			this.spheres.push( sphereBody );
-
-		}
-
-		this.startPoint = new THREE.Vector3();
-		this.endPoint = new THREE.Vector3();
-
-		this.points = [ this.startPoint ];
-		this.points.push( ...this.spheres.map( sphereBody => sphereBody.position ) );
-		this.points.push( this.endPoint );
-
-	}
-
-	//
-
 	function updatePositionsArr( typedArr ) {
 
 		for ( let i=0 ; i<this.points.length ; i++ ) {
@@ -315,24 +322,6 @@ export default function Chain( length ) {
 	}
 
 	//
-
-	const chain = {
-		attachStartTo,
-		attachEndTo,
-		makeHelper,
-		resolve,
-		initChainPos,
-		computeEndStart,
-		constrainPoints,
-		constrainLinkTo,
-		isAttachedTo,
-		clear,
-		addLength,
-		init,
-		updatePositionsArr
-	}
-
-	chain.init( length );
 
 	return chain
 

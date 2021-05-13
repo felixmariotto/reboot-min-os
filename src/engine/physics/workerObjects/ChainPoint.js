@@ -51,7 +51,7 @@ export default function ChainPoint( info ) {
 
 	function makeChain( player ) {
 
-		const chain = Chain( this.chainLength );
+		const chain = Chain( this );
 		// chain.makeHelper();
 		chain.chainID = this.chainID;
 

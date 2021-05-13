@@ -203,7 +203,7 @@ export default function World( info ) {
 
 		// delta time since this function last call.
 		const dt = clock.getDelta();
-		counter += dt;
+		// counter += dt;
 		if ( counter > 1 ) {
 			console.log( 'world.chainTransferables', world.chainTransferables )
 			debugger

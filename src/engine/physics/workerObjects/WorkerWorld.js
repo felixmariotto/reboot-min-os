@@ -250,6 +250,8 @@ function update( delta, positions, velocities, chains, state ) {
 
 	if ( this.enabled ) {
 
+		delta = Math.min( delta, MAX_DELTA );
+
 		// update the position and velocity of all bodies
 		// in case the main thread updated them.
 		// Character control for instance update the player's
@@ -273,7 +275,7 @@ function update( delta, positions, velocities, chains, state ) {
 
 		for ( let i=0 ; i<params.physicsSimTicks ; i++ ) {
 
-			this.updatePhysics( Math.min( delta, MAX_DELTA ) / params.physicsSimTicks );
+			this.updatePhysics( delta / params.physicsSimTicks );
 
 		}
 

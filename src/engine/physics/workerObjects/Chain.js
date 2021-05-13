@@ -178,7 +178,7 @@ export default function Chain( chainPoint ) {
 		.copy( p2 )
 		.sub( p1 );
 
-		const distance = diff.length();
+		const distance = diff.length() || 0.001; // ensure that fraction will not be infinity..
 
 		// get the fractional distance the points need to move toward or away from center of 
 		// line to make line length correct

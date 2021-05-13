@@ -58,21 +58,19 @@ export default function WorldFromInfo( info ) {
 
 	function postMessage() {
 
-		// console.log('post')
-
 		worker.postMessage( { positions }, [ positions.buffer ] );
 
 	}
 
 	worker.onmessage = function (e) {
 
-		// console.log( e );
-
 		positions = e.data.positions;
 
 		const dt = clock.getDelta();
 
 		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
+
+		entities.forEach( entity => entity.updateFromArr( positions ) );
 
 		setTimeout( postMessage, delay );
 

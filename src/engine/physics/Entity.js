@@ -65,14 +65,12 @@ function makeHelper() {
 
 function updateFromArr( typedArr ) {
 
-	this.position.setScalar( Math.sin( Date.now() / 300 ) * 10 )
+	// this.position.setScalar( Math.sin( Date.now() / 300 ) * 10 )
 
-	/*
 	this.position.set(
 		typedArr[ this.serial ],
 		typedArr[ this.serial + 1 ],
 		typedArr[ this.serial + 2 ]
 	);
-	*/
 
 }

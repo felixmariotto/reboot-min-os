@@ -19,9 +19,9 @@ if ( typeof importScripts !== 'undefined' ) {
 
 	onmessage = function (e) {
 
-		// console.log( e );
-
 		const positions = e.data.positions
+
+		positions.fill( Math.sin( Date.now() / 200 ) * 10 );
 
 		postMessage( { positions }, [ positions.buffer ] );
 

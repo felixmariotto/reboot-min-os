@@ -233,20 +233,15 @@ export default function WorkerWorld( info ) {
 
 		}
 
-		/*
-
-		
-
 		if ( cpInfo.init ) {
 
 			const newChain = chainPoint.makeChain( player );
 
-			world.chains.push( newChain );
+			world.chain = newChain;
 
 			world.add( ...newChain.spheres );
 
 		}
-		*/
 
 	} );
 
@@ -512,7 +507,7 @@ function updatePhysics( delta ) {
 
 	// constrain chain links back to max distance
 
-	this.chains.forEach( chain => chain.resolve() );
+	if ( this.chain ) this.chain.resolve()
 
 }
 

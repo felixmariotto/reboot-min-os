@@ -28,10 +28,14 @@ if ( typeof importScripts !== 'undefined' ) {
 		} else {
 
 			const positions = e.data.positions;
+			const velocities = e.data.velocities;
 
-			world.update( e.data.dt, positions );
+			world.update( e.data.dt, positions, velocities );
 
-			postMessage( { positions }, [ positions.buffer ] );
+			postMessage(
+				{ positions, velocities },
+				[ positions.buffer, velocities.buffer ]
+			);
 
 		}
 

@@ -5,6 +5,8 @@ import * as THREE from 'three';
 
 export default function WorkerWorld( info ) {
 
+	console.log( info )
+
 	return {
 		info,
 		update,
@@ -17,7 +19,7 @@ export default function WorkerWorld( info ) {
 
 let counter = 0;
 
-function update( delta, positions ) {
+function update( delta, positions, velocities ) {
 
 	counter += delta;
 

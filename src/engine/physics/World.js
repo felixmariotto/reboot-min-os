@@ -57,19 +57,24 @@ export default function WorldFromInfo( info ) {
 	const clock = new THREE.Clock();
 	const targetDt = 1 / 60;
 
-	// array that get transferred to and from the worker.
+	// arrays that get transferred to and from the worker.
 	let positions = new Float32Array( info.serialCounter * 3 );
+	let velocities = new Float32Array( info.serialCounter * 3 );
 
 	// tells the worker to create a new world.
 	this.worker.postMessage( { info } );
 
 	// initial kick of the messages loop.
-	this.worker.postMessage( { positions, dt: targetDt }, [ positions.buffer ] );
+	this.worker.postMessage(
+		{ positions, velocities, dt: targetDt },
+		[ positions.buffer, velocities.buffer ]
+	);
 
 	this.worker.onmessage = function (e) {
 
 		// we must access the data first thing, or it's not actually transferred.
 		positions = e.data.positions;
+		velocities = e.data.velocities;
 
 		// delta time since last this function last call.
 		const dt = clock.getDelta();
@@ -83,7 +88,10 @@ export default function WorldFromInfo( info ) {
 		// re-transfer the position array buffer to the worker.
 		setTimeout( () => {
 
-			this.postMessage( { positions, dt }, [ positions.buffer ] );
+			this.postMessage(
+				{ positions, velocities, dt },
+				[ positions.buffer, velocities.buffer ]
+			);
 
 		}, delay );
 

@@ -294,22 +294,18 @@ function update( delta, positions, velocities, chains ) {
 
 			if (
 				chainPoint.intersectPlayer( this.player ) &&
-				!this.chains.some( chain => chain.isAttachedTo( chainPoint ) )
+				( !this.chain || !this.chain.isAttachedTo( chainPoint ) )
 			) {
 
 				// first we detach the chain currently attached to the player.
 
-				const oldChain = this.chains.find( chain => chain.isAttachedTo( this.player ) );
-
-				if ( oldChain ) this.removeChain( oldChain );
+				if ( this.chain ) this.chain.clear();
 
 				// create a new chain attached to the player and the chainPoint
 
-				const newChain = chainPoint.makeChain( this.player );
+				this.chain = chainPoint.makeChain( this.player );
 
-				this.chains.push( newChain );
-
-				this.add( ...newChain.spheres );
+				this.add( ...this.chain.spheres );
 
 			}
 

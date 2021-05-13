@@ -15,7 +15,9 @@ export default function ChainEntity( info ) {
 			enabled: info.enabled,
 			init: info.init,
 			active: info.init,
-			info
+			sphereEntities: [],
+			info,
+			updateFromArray
 		}
 	);
 
@@ -23,7 +25,29 @@ export default function ChainEntity( info ) {
 	chainEntity.linkLength = chainEntity.length / ( chainEntity.pointsNumber - 1 );
 	chainEntity.spheresNumber = Math.max( 0, chainEntity.pointsNumber - 2 );
 
-	chainEntity.sphereEntities = [];
+	//
+
+	function updateFromArray( typedArray ) {
+
+		for ( let i=0 ; i<this.sphereEntities.length ; i++ ) {
+
+			this.sphereEntities[i].position.set(
+				typedArray[ ( i * 3 ) + 0 ],
+				typedArray[ ( i * 3 ) + 1 ],
+				typedArray[ ( i * 3 ) + 2 ]
+			);
+
+			/*
+			console.log( 'typedArray', typedArray )
+			console.log( 'this.sphereEntities', this.sphereEntities )
+			debugger
+			*/
+
+		}
+
+	}
+
+	//
 
 	return chainEntity;
 

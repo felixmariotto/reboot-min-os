@@ -50,7 +50,7 @@ export default function World( info ) {
 
 		world.add( entity );
 
-		entity.makeHelper();
+		// entity.makeHelper();
 
 		return entity
 
@@ -72,7 +72,7 @@ export default function World( info ) {
 
 	world.add( world.player );
 
-	world.player.makeHelper();
+	// world.player.makeHelper();
 
 	entities.push( world.player );
 
@@ -84,12 +84,15 @@ export default function World( info ) {
 
 	// CHAIN POINTS
 
+	const chainEntities = [];
+
 	world.chains = info.chainPoints.map( (cpInfo, i) => {
 
 		cpInfo.chainID = i;
 
 		const chainEntity = ChainEntity( cpInfo );
 
+		chainEntities.push( chainEntity );
 		world.add( chainEntity );
 
 		// update info object so we are sure the web worker
@@ -123,7 +126,8 @@ export default function World( info ) {
 
 			sphereEntity.makeHelper();
 
-			entities.push( sphereEntity );
+			// chain spheres are not added to entities, they are updated
+			// by looping through a chainEntity.sphereEntities.
 
 		}
 
@@ -141,6 +145,7 @@ export default function World( info ) {
 		}
 
 	} );
+
 
 
 
@@ -203,11 +208,21 @@ export default function World( info ) {
 
 		// delta time since this function last call.
 		const dt = clock.getDelta();
-		// counter += dt;
+
+		// update chain entities
+		for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
+
+			chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+
+		}
+
+		/*
+		counter += dt;
 		if ( counter > 1 ) {
-			console.log( 'world.chainTransferables', world.chainTransferables )
+			console.log( 'chainEntities[0]', chainEntities[0] )
 			debugger
 		}
+		*/
 
 		// compute the delay to post message to the worker at 60 frame per second.
 		const delay = Math.max( 0, ( targetDt - dt ) * 1000 );

@@ -26,42 +26,4 @@ export default function ChainEntity( info ) {
 
 	return chainEntity;
 
-
-	/*
-	this.length = length;
-
-	this.pointsNumber = Math.floor( this.length / params.chainPointDistance );
-
-	this.linkLength = this.length / ( this.pointsNumber - 1 );
-
-	this.spheresNumber = Math.max( 0, this.pointsNumber - 2 );
-
-	this.spheres = [];
-
-	for ( let i=0 ; i<this.spheresNumber ; i++ ) {
-
-		const sphereShape = Sphere( params.chainSphereRadius );
-
-		const sphereBody = Body(
-			constants.DYNAMIC_BODY,
-			params.chainWeight,
-			params.chainMass
-		);
-
-		sphereBody.isChainLink = true;
-
-		sphereBody.add( sphereShape );
-
-		this.spheres.push( sphereBody );
-
-	}
-
-	this.startPoint = new THREE.Vector3();
-	this.endPoint = new THREE.Vector3();
-
-	this.points = [ this.startPoint ];
-	this.points.push( ...this.spheres.map( sphereBody => sphereBody.position ) );
-	this.points.push( this.endPoint );
-	*/
-
 }

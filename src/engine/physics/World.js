@@ -90,6 +90,16 @@ export default function World( info ) {
 
 		world.add( chainEntity );
 
+		// update info object so we are sure the web worker
+		// will have the same chain
+
+		cpInfo.pointsNumber = chainEntity.pointsNumber;
+		cpInfo.linkLength = chainEntity.linkLength;
+		cpInfo.spheresNumber = chainEntity.spheresNumber;
+		cpInfo.active = chainEntity.active;
+
+		// create chain spheres
+
 		for ( let j=0 ; j<chainEntity.spheresNumber ; j++ ) {
 
 			const sphereEntity = Entity({

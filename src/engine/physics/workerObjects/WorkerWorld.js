@@ -206,6 +206,62 @@ export default function WorkerWorld( info ) {
 
 	world.add( player );
 
+
+
+
+
+
+
+
+	// chain points
+
+	info.chainPoints.forEach( (cpInfo) => {
+
+		console.log( cpInfo )
+
+		/*
+		const chainPoint = ChainPoint();
+
+		chainPoint.chainLength = Number( cpInfo.length );
+		chainPoint.radius = Number( cpInfo.radius );
+
+		chainPoint.makeHelper();
+
+		chainPoint.position.set(
+			Number( cpInfo.x ),
+			Number( cpInfo.y ),
+			Number( cpInfo.z )
+		);
+
+		world.chainPoints.push( chainPoint );
+
+		if ( cpInfo.bodyName.length ) {
+
+			world.getObjectByName( cpInfo.bodyName ).add( chainPoint )
+
+		} else {
+
+			world.add( chainPoint );
+
+		}
+
+		if ( cpInfo.init ) {
+
+			const newChain = chainPoint.makeChain( player );
+
+			world.chains.push( newChain );
+
+			world.add( ...newChain.spheres );
+
+		}
+		*/
+
+	} );
+
+
+
+
+
 	//
 
 	return world

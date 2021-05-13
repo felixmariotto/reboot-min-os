@@ -50,7 +50,7 @@ export default function World( info ) {
 
 		world.add( entity );
 
-		// entity.makeHelper();
+		entity.makeHelper();
 
 		return entity
 
@@ -72,7 +72,7 @@ export default function World( info ) {
 
 	world.add( world.player );
 
-	// world.player.makeHelper();
+	world.player.makeHelper();
 
 	entities.push( world.player );
 
@@ -212,7 +212,18 @@ export default function World( info ) {
 		// update chain entities
 		for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
 
-			chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+			if ( world.chainTransferables[i].active ) {
+
+				chainEntities[i].active = true;
+				chainEntities[i].visible = true;
+				chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+
+			} else {
+
+				chainEntities[i].active = false;
+				chainEntities[i].visible = false;
+
+			}
 
 		}
 

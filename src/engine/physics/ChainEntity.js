@@ -32,16 +32,10 @@ export default function ChainEntity( info ) {
 		for ( let i=0 ; i<this.sphereEntities.length ; i++ ) {
 
 			this.sphereEntities[i].position.set(
-				typedArray[ ( i * 3 ) + 0 ],
-				typedArray[ ( i * 3 ) + 1 ],
-				typedArray[ ( i * 3 ) + 2 ]
+				typedArray[ ( i * 3 ) + 0 + 3 ],
+				typedArray[ ( i * 3 ) + 1 + 3 ],
+				typedArray[ ( i * 3 ) + 2 + 3 ]
 			);
-
-			/*
-			console.log( 'typedArray', typedArray )
-			console.log( 'this.sphereEntities', this.sphereEntities )
-			debugger
-			*/
 
 		}
 

@@ -113,22 +113,11 @@ function controlVelocity( world ) {
 
 		world.emitEvent( 'pull' );
 
-		/*
-		if ( !playerBody.chain ) return
-
-		playerBody.currentLink = Math.min(
-			playerBody.currentLink + 1,
-			playerBody.chain.spheres.length
-		);
-		*/
-
 	} );
 
 	events.on( 'release-key-down', () => {
 
-		world.emitEvent( 'release' )
-
-		// playerBody.currentLink = 0;
+		world.emitEvent( 'release' );
 
 	} );
 

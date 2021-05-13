@@ -562,11 +562,20 @@ function handleEvent( e ) {
 			break
 
 		case 'pull' :
-			console.log( 'handle pull' )
+			
+			if ( !this.player.chain ) return
+
+			this.player.currentLink = Math.min(
+				this.player.currentLink + 1,
+				this.player.chain.spheres.length
+			);
+
 			break
 
 		case 'release' :
-			console.log( 'handle release' )
+
+			this.player.currentLink = 0;
+			
 			break
 
 	}

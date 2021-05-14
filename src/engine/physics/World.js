@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 import core from '../core/core.js';
 import constants from '../misc/constants.js';
+import events from '../misc/events.js';
 import params from '../params.js';
 
 /*
@@ -146,7 +147,11 @@ export default function World( info ) {
 
 	} );
 
+	world.addChainLength = function addChainLength( lengthToAdd ) {
 
+		console.log( 'lengthToAdd', lengthToAdd )
+
+	}
 
 
 
@@ -288,7 +293,7 @@ export default function World( info ) {
 
 	function handleEvent( e ) {
 
-		console.log( e )
+		events.emit( e.eventName, e.data );
 
 	}
 

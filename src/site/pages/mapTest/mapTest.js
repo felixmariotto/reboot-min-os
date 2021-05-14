@@ -27,26 +27,20 @@ gamePage.start = function start() {
 
 		engine.on( 'item-collected', (e) => {
 
-			const body = e.detail;
+			const data = e.detail;
 
-			const itemType = body.tags.collectible;
-
-			if ( body.tags.collected ) return
-
-			body.tags.collected = true;
-
-			switch ( itemType ) {
+			switch ( data.collectible ) {
 
 				case 'chain-extension-5' :
-					world.player.chain.addLength( 5 );
+					world.addChainLength( 5 );
 				break
 
 				case 'chain-extension-30' :
-					world.player.chain.addLength( 30 );
+					world.addChainLength( 30 );
 				break
 
 				case 'chain-extension-35' :
-					world.player.chain.addLength( 35 );
+					world.addChainLength( 35 );
 				break
 
 			}
@@ -57,9 +51,9 @@ gamePage.start = function start() {
 
 		engine.on( 'switch-change', (e) => {
 
-			const body = e.detail;
+			const data = e.detail;
 
-			console.log( 'switch state changed : ', body.tags.switchState )
+			console.log( 'switch state changed : ', data );
 
 		} );
 

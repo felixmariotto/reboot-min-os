@@ -93,7 +93,11 @@ export default function World( info ) {
 
 		const chainEntity = ChainEntity( cpInfo );
 
+		// chain spheres are not added to entities, they are updated
+		// by looping through a chainEntity.sphereEntities.
+
 		chainEntities.push( chainEntity );
+
 		world.add( chainEntity );
 
 		// update info object so we are sure the web worker
@@ -103,34 +107,6 @@ export default function World( info ) {
 		cpInfo.linkLength = chainEntity.linkLength;
 		cpInfo.spheresNumber = chainEntity.spheresNumber;
 		cpInfo.active = chainEntity.active;
-
-		// create chain spheres
-
-		for ( let j=0 ; j<chainEntity.spheresNumber ; j++ ) {
-
-			const sphereEntity = Entity({
-				name: 'chain-link-' + i + '-' + j,
-				info: info.serialCounter,
-				shapes: [ {
-					type: "sphere",
-					radius: params.chainSphereRadius,
-					pos: { x: 0, y: 0, z: 0 },
-					rot: { _x: 0, _y: 0, _z: 0, _order: "XYZ" }
-				} ]
-			});
-
-			info.serialCounter ++;
-
-			chainEntity.sphereEntities.push( sphereEntity );
-
-			chainEntity.add( sphereEntity );
-
-			sphereEntity.makeHelper();
-
-			// chain spheres are not added to entities, they are updated
-			// by looping through a chainEntity.sphereEntities.
-
-		}
 
 		return chainEntity
 
@@ -149,7 +125,14 @@ export default function World( info ) {
 
 	world.addChainLength = function addChainLength( lengthToAdd ) {
 
+		const chainEntity = world.chains.find( chain => chain.active );
+		const chainTransferable = world.chainTransferables.find( chain => chain.active );
+
+		chainEntity.addLength( lengthToAdd );
+
 		console.log( 'lengthToAdd', lengthToAdd )
+		console.log( 'chainEntity', chainEntity )
+		console.log( 'chainTransferable', chainTransferable )
 
 	}
 

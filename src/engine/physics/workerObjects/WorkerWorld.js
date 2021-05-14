@@ -367,7 +367,7 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 					body.tags.switchState = newState;
 
-					this.emitEvent( 'switch-change', {
+					emitEvent( 'switch-change', {
 						serial: body.serial,
 						name: body.name,
 						state: newState

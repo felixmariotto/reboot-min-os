@@ -76,11 +76,7 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 					// trigger event on item collection
 
-					if ( collider.tags && collider.tags.collectible ) {
-
-						// events.emit( 'item-collected', collider );
-
-					}
+					this.handleCollection( collider );
 
 				}
 
@@ -226,17 +222,35 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 					// trigger event on item collection
 
-					if ( collider.tags && collider.tags.collectible ) {
-
-						// events.emit( 'item-collected', collider );
-
-					}
+					this.handleCollection( collider );
 
 				}
 
 			} );
 
 		} );
+
+	}
+
+	//
+
+	function handleCollection( collider ) {
+
+		if ( collider.tags && collider.tags.collectible ) {
+
+			if ( !collider.tags.isCollected ) {
+
+				collider.tags.isCollected = true;
+
+				emitEvent( 'item-collected', {
+					serial: collider.serial,
+					name: collider.name,
+					collectible: collider.tags.collectible
+				} );
+
+			}
+
+		}
 
 	}
 
@@ -374,7 +388,8 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 			collideIn,
 			constrain,
 			updatePosFromArr,
-			updateVelFromArr
+			updateVelFromArr,
+			handleCollection
 		}
 	)
 

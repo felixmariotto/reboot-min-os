@@ -18,6 +18,14 @@ let events = [];
 
 if ( typeof importScripts !== 'undefined' ) {
 
+	self.emitEvent = ( eventName, data ) => {
+
+		postMessage( { isEvent: true, eventName, data } );
+
+	}
+
+	//
+
 	onmessage = function (e) {
 
 		if ( e.data.info ) {
@@ -25,12 +33,6 @@ if ( typeof importScripts !== 'undefined' ) {
 			if ( world ) world.clear();
 
 			world = WorkerWorld( e.data.info );
-
-			world.emitEvent = ( eventName, data ) => {
-
-				postMessage( { isEvent: true, eventName, data } );
-
-			}
 
 		} else if ( e.data.isEvent ) {
 

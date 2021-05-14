@@ -7,11 +7,9 @@
 
 // ENGINE
 
-- add ability to move in the air
-
-- compute physics in web worker
-
-- bug fix: player speed should be the same whatever the number of physics ticks
+- handle collectible picking event from worker
+- lengthen the chain
+- player seem to be to fast.. issue with damping ?
 
 - keep camera in player's line of sight
 

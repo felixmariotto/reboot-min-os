@@ -222,7 +222,7 @@ export default function World( info ) {
 					if ( world.chainTransferables[i].positions.length === world.chains[i].pointsNumber * 3 ) {
 
 						chainEntities[i].active = true;
-						chainEntities[i].visible = true;
+						chainEntities[i].spheresContainer.visible = true;
 						chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
 
 					// if the main thread updated the chain entity length, we update the transferable
@@ -251,7 +251,7 @@ export default function World( info ) {
 				} else {
 
 					chainEntities[i].active = false;
-					chainEntities[i].visible = false;
+					chainEntities[i].spheresContainer.visible = false;
 
 				}
 

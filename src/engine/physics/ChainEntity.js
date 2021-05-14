@@ -22,6 +22,7 @@ export default function ChainEntity( info ) {
 			enabled: info.enabled,
 			init: info.init,
 			active: info.init,
+			spheresContainer: new THREE.Group(),
 			sphereEntities: [],
 			info,
 			updateFromArray,
@@ -30,6 +31,8 @@ export default function ChainEntity( info ) {
 			makeHelper
 		}
 	);
+
+	chainEntity.add( chainEntity.spheresContainer );
 
 	chainEntity.pointsNumber = Math.floor( chainEntity.length / params.chainPointDistance );
 	chainEntity.linkLength = chainEntity.length / ( chainEntity.pointsNumber - 1 );
@@ -51,7 +54,7 @@ export default function ChainEntity( info ) {
 
 		chainEntity.sphereEntities.push( sphereEntity );
 
-		chainEntity.add( sphereEntity );
+		chainEntity.spheresContainer.add( sphereEntity );
 
 		sphereEntity.makeHelper();
 
@@ -115,7 +118,7 @@ export default function ChainEntity( info ) {
 
 			chainEntity.sphereEntities.splice( 1, 0, sphereEntity );
 
-			chainEntity.add( sphereEntity );
+			chainEntity.spheresContainer.add( sphereEntity );
 
 			sphereEntity.makeHelper();
 

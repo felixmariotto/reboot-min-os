@@ -130,10 +130,6 @@ export default function World( info ) {
 
 		chainEntity.addLength( lengthToAdd );
 
-		console.log( 'lengthToAdd', lengthToAdd )
-		console.log( 'chainEntity', chainEntity )
-		console.log( 'chainTransferable', chainTransferable )
-
 	}
 
 
@@ -244,6 +240,10 @@ export default function World( info ) {
 
 						world.chainTransferables[i].spheresNumber = world.chains[i].spheresNumber
 						world.chainTransferables[i].positions = newArray;
+
+						// we add more info to the transferable object, because the
+						// worker will need it.
+						world.chainTransferables[i].length =  world.chains[i].length;
 
 						world.chains[i].setPosArray( world.chainTransferables[i].positions );
 

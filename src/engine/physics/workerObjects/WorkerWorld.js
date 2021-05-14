@@ -272,6 +272,26 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 		} );
 
+		// if the size of the active chain changed in the main thread,
+		// we update it here.
+
+		if ( this.chain ) {
+
+			chains.forEach( (chainInfo) => {
+
+				if (
+					chainInfo.chainID === this.chain.chainID &&
+					chainInfo.spheresNumber !== this.chain.spheresNumber
+				) {
+
+					this.chain.addLength( chainInfo );
+
+				}
+
+			} );
+
+		}
+
 		// handle events stored after the last update.
 		// we don't handle the events immediately on reception
 		// because the snippet above erase everything with

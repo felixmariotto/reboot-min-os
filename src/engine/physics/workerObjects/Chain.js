@@ -263,9 +263,9 @@ export default function Chain( chainPoint ) {
 
 	//
 
-	function addLength( lengthToAdd ) {
+	function addLength( info ) {
 
-		this.length += lengthToAdd;
+		this.length = info.length;
 
 		this.pointsNumber = Math.floor( this.length / params.chainPointDistance );
 

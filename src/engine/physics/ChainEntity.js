@@ -78,9 +78,6 @@ export default function ChainEntity( info ) {
 
 		}
 
-		// console.log( typedArray )
-
-
 	}
 
 	//
@@ -120,32 +117,6 @@ export default function ChainEntity( info ) {
 				this.sphereEntities[2].position,
 				0.5
 			);
-
-			/*
-			const sphereShape = Sphere( params.chainSphereRadius );
-
-			const sphereBody = Body(
-				constants.DYNAMIC_BODY,
-				params.chainWeight,
-				params.chainMass
-			);
-
-			sphereBody.isChainLink = true;
-
-			sphereBody.add( sphereShape );
-			this.spheres[0].parent.add( sphereBody );
-
-			this.spheres.splice( 1, 0, sphereBody );
-			this.points.splice( 2, 0, sphereBody.position );
-
-			if ( this.hasHelpers ) {
-
-				sphereBody.children[0].makeHelper()
-
-			}
-
-			sphereBody.position.lerpVectors( this.points[1], this.points[3], 0.5 );
-			*/
 
 		}
 

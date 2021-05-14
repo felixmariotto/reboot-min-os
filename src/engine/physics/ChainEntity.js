@@ -19,6 +19,7 @@ export default function ChainEntity( info ) {
 			sphereEntities: [],
 			info,
 			updateFromArray,
+			setPosArray,
 			addLength
 		}
 	);
@@ -67,6 +68,23 @@ export default function ChainEntity( info ) {
 
 	//
 
+	function setPosArray( typedArray ) {
+
+		for ( let i=0 ; i<this.sphereEntities.length ; i++ ) {
+
+			typedArray[ ( i * 3 ) + 0 + 3 ] = this.sphereEntities[i].position.x;
+			typedArray[ ( i * 3 ) + 1 + 3 ] = this.sphereEntities[i].position.y;
+			typedArray[ ( i * 3 ) + 2 + 3 ] = this.sphereEntities[i].position.z;
+
+		}
+
+		// console.log( typedArray )
+
+
+	}
+
+	//
+
 	function addLength( lengthToAdd ) {
 
 		this.length += lengthToAdd;
@@ -79,11 +97,29 @@ export default function ChainEntity( info ) {
 
 		const spheresToAdd = newSpheresNumber - this.spheresNumber;
 
-		this.spheresNumber = newSpheresNumber;
-
 		for ( let i=0 ; i<spheresToAdd ; i++ ) {
 
-			console.log( 'add sphere' );
+			const sphereEntity = Entity({
+				name: 'chain-link-' + info.chainID + '-' + ( this.spheresNumber + 1 + i ),
+				shapes: [ {
+					type: "sphere",
+					radius: params.chainSphereRadius,
+					pos: { x: 0, y: 0, z: 0 },
+					rot: { _x: 0, _y: 0, _z: 0, _order: "XYZ" }
+				} ]
+			});
+
+			chainEntity.sphereEntities.splice( 1, 0, sphereEntity );
+
+			chainEntity.add( sphereEntity );
+
+			sphereEntity.makeHelper();
+
+			sphereEntity.position.lerpVectors(
+				this.sphereEntities[0].position,
+				this.sphereEntities[2].position,
+				0.5
+			);
 
 			/*
 			const sphereShape = Sphere( params.chainSphereRadius );
@@ -112,6 +148,8 @@ export default function ChainEntity( info ) {
 			*/
 
 		}
+
+		this.spheresNumber = newSpheresNumber;
 
 	}
 

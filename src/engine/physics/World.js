@@ -206,22 +206,48 @@ export default function World( info ) {
 		} else {
 
 			// we must access the data first thing, or it's not actually transferred.
+
 			world.positions = e.data.positions;
 			world.velocities = e.data.velocities;
 			world.chainTransferables = e.data.chains;
 			world.state = e.data.state;
 
 			// delta time since this function last call.
+
 			const dt = clock.getDelta();
 
 			// update chain entities
+
 			for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
 
 				if ( world.chainTransferables[i].active ) {
 
-					chainEntities[i].active = true;
-					chainEntities[i].visible = true;
-					chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+					// we check if the main thread updated the chain entity since the last frame.
+
+					if ( world.chainTransferables[i].positions.length === world.chains[i].pointsNumber * 3 ) {
+
+						chainEntities[i].active = true;
+						chainEntities[i].visible = true;
+						chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
+
+					// if the main thread updated the chain entity length, we update the transferable
+					// object accordingly.
+
+					} else {
+
+						const oldArray = world.chainTransferables[i].positions;
+						const newArray = new Float32Array( world.chains[i].pointsNumber * 3 );
+
+						for ( let i=0 ; i<oldArray.length ; i++ ) {
+							newArray[i] = oldArray[i];
+						}
+
+						world.chainTransferables[i].spheresNumber = world.chains[i].spheresNumber
+						world.chainTransferables[i].positions = newArray;
+
+						world.chains[i].setPosArray( world.chainTransferables[i].positions );
+
+					}
 
 				} else {
 
@@ -233,13 +259,16 @@ export default function World( info ) {
 			}
 
 			// update player state
+
 			world.player.isOnGround = world.state.playerIsOnGround;
 			world.player.isColliding = world.state.playerIsColliding;
 
 			// compute the delay to post message to the worker at 60 frame per second.
+
 			const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
 
 			// update each entity with the new positions.
+
 			entities.forEach( (entity) => {
 
 				entity.updatePosition( world.positions );
@@ -248,6 +277,7 @@ export default function World( info ) {
 			} );
 
 			// handle events received from the worker
+
 			for ( let i = receivedEvents.length-1; i>-1 ; i-- ) {
 			
 				handleEvent( receivedEvents[i] );
@@ -257,9 +287,11 @@ export default function World( info ) {
 			}
 
 			// update player with controls
+
 			if ( world.controller ) world.controller();
 
 			// re-transfer the data to the worker.
+
 			setTimeout( postUpdates, delay );
 
 		}

@@ -17,9 +17,8 @@ gamePage.start = function start() {
 
 		const world = engine.physics.World( sceneGraph );
 
-		// engine.cameraControls.orbitDynamicObj( world.player );
-		engine.cameraControls.orbitObj( world.player );
-		// engine.characterControls.controlVelocity( world.player );
+		engine.cameraControls.orbitDynamicObj( world.player );
+		// engine.cameraControls.orbitObj( world.player );
 
 		engine.characterControls.controlVelocity( world );
 

@@ -7,8 +7,6 @@
 
 // ENGINE
 
-- handle collectible picking event from worker
-- lengthen the chain
 - player seem to be to fast.. issue with damping ?
 
 - keep camera in player's line of sight

@@ -77,12 +77,6 @@ export default function World( info ) {
 
 	entities.push( world.player );
 
-
-
-
-
-
-
 	// CHAIN POINTS
 
 	const chainEntities = [];
@@ -93,12 +87,22 @@ export default function World( info ) {
 
 		const chainEntity = ChainEntity( cpInfo );
 
+		chainEntity.makeHelper();
+
 		// chain spheres are not added to entities, they are updated
 		// by looping through a chainEntity.sphereEntities.
 
 		chainEntities.push( chainEntity );
 
-		world.add( chainEntity );
+		if ( cpInfo.bodyName.length ) {
+
+			world.getObjectByName( cpInfo.bodyName ).add( chainEntity )
+
+		} else {
+
+			world.add( chainEntity );
+
+		}
 
 		// update info object so we are sure the web worker
 		// will have the same chain
@@ -131,11 +135,6 @@ export default function World( info ) {
 		chainEntity.addLength( lengthToAdd );
 
 	}
-
-
-
-
-
 
 	///////////
 	// WORKER

@@ -11,8 +11,14 @@ export default function ChainEntity( info ) {
 	const chainEntity = Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
+			chainPointPos: new THREE.Vector3(
+				Number( info.x ),
+				Number( info.y ),
+				Number( info.z )
+			),
 			chainID: info.chainID,
 			length: Number( info.length ),
+			radius: Number( info.radius ),
 			enabled: info.enabled,
 			init: info.init,
 			active: info.init,
@@ -20,7 +26,8 @@ export default function ChainEntity( info ) {
 			info,
 			updateFromArray,
 			setPosArray,
-			addLength
+			addLength,
+			makeHelper
 		}
 	);
 
@@ -121,6 +128,21 @@ export default function ChainEntity( info ) {
 		}
 
 		this.spheresNumber = newSpheresNumber;
+
+	}
+
+	//
+
+	function makeHelper() {
+
+		const mesh = new THREE.Mesh(
+			new THREE.IcosahedronGeometry( this.radius, 2 ),
+			params.cpHelpersMaterial
+		)
+
+		mesh.position.copy( this.chainPointPos );
+
+		this.add( mesh );
 
 	}
 

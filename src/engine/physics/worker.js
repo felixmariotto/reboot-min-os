@@ -1,4 +1,15 @@
 
+/*
+
+This worker is instantiated once and scoped in the physics module.
+
+When the incoming message "data" object contains an "info" parameter, it will create
+a local representation of the game physics world, and be responsible for the physics
+computation. When it finishes updating the physics, it sends back the new bodies
+positions and velocities to the main thread.
+
+*/
+
 import * as THREE from 'three';
 import params from '../params.js';
 
@@ -78,7 +89,7 @@ if ( typeof importScripts !== 'undefined' ) {
 				]
 			);
 
-			if ( counter % 60 === 0 && LOG_PERF ) console.timeEnd( 'worker simulation' )
+			if ( LOG_PERF && counter % 60 === 0 ) console.timeEnd( 'worker simulation' )
 
 		}
 

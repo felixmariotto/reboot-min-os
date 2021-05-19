@@ -32,7 +32,7 @@ export default function Sphere( radius=1 ) {
 
 	//
 
-	function makeHelper() {
+	function makeMesh() {
 
 		this.add( new THREE.Mesh(
 			new THREE.IcosahedronGeometry( this.radius, 4 ),
@@ -50,7 +50,7 @@ export default function Sphere( radius=1 ) {
 			radius,
 			isSphere: true,
 			penetrationIn,
-			makeHelper
+			makeMesh
 		}
 	)
 

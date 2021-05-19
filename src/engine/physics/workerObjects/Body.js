@@ -1,7 +1,6 @@
 
 import * as THREE from 'three';
 import constants from '../../misc/constants.js';
-// import events from '../../misc/events.js';
 import params from '../../params.js';
 
 //

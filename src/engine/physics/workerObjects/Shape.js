@@ -303,7 +303,7 @@ export default function Shape() {
 
 		if ( !this.children.length ) {
 
-			this.makeHelper();
+			this.makeMesh();
 
 		}
 

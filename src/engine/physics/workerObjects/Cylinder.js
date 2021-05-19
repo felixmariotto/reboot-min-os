@@ -12,7 +12,7 @@ const _vec0 = new THREE.Vector3();
 
 export default function Cylinder( radius=1, height=1 ) {
 
-	function makeHelper() {
+	function makeMesh() {
 
 		this.add( new THREE.Mesh(
 			new THREE.CylinderGeometry( this.radius, this.radius, this.height, 12 ),
@@ -30,7 +30,7 @@ export default function Cylinder( radius=1, height=1 ) {
 			radius,
 			height,
 			isCylinder: true,
-			makeHelper
+			makeMesh
 		}
 	)
 

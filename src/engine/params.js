@@ -28,6 +28,9 @@ export default {
 	chainSphereRadius: 0.4,
 	chainWeight: 0.3,
 	chainMass: 0.03,
+	// How the chain pulls the player back.
+	// A higher value keeps the chain from traversing obstacles if the player pulls on it.
+	// A lower value make the player incontrollable in the air ( the chain pull is too strong ).
 	chainWeightOnPlayer: 0.07, // [ 0 - 1 ] value
 
 	playerJumpSpeed: 0.3,

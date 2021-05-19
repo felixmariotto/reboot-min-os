@@ -27,14 +27,14 @@ export default {
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
 	chainWeight: 0.3,
-	chainMass: 0.015,
+	chainMass: 0.03,
 	chainWeightOnPlayer: 0.07, // [ 0 - 1 ] value
 
 	playerJumpSpeed: 0.3,
-	playerAcceleration: 0.07,
-	playerMaxAcceleration: 0.3, // speed at which the player can't accelerate manually
-	notOnGroundHandicap: 0.15, // how much the player speed is reduced if not touching the ground ( but still colliding )
-	notCollidingHandicap: 0.05,
+	playerAcceleration: 0.08,
+	playerMaxAcceleration: 0.28, // speed at which the player can't accelerate manually
+	notOnGroundHandicap: 0.08, // how much the player speed is reduced if not touching the ground ( but still colliding )
+	notCollidingHandicap: 0.02,
 	playerWeight: 0.3,
 	playerMass: 1
 

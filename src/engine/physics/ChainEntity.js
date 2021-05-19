@@ -113,7 +113,7 @@ function addLength( lengthToAdd ) {
 	for ( let i=0 ; i<spheresToAdd ; i++ ) {
 
 		const sphereEntity = Entity({
-			name: 'chain-link-' + info.chainID + '-' + ( this.spheresNumber + 1 + i ),
+			name: 'chain-link-' + this.info.chainID + '-' + ( this.spheresNumber + 1 + i ),
 			shapes: [ {
 				type: "sphere",
 				radius: params.chainSphereRadius,
@@ -122,9 +122,9 @@ function addLength( lengthToAdd ) {
 			} ]
 		});
 
-		chainEntity.sphereEntities.splice( 1, 0, sphereEntity );
+		this.sphereEntities.splice( 1, 0, sphereEntity );
 
-		chainEntity.spheresContainer.add( sphereEntity );
+		this.spheresContainer.add( sphereEntity );
 
 		sphereEntity.makeHelper();
 

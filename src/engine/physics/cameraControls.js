@@ -11,87 +11,7 @@ core.callInLoop( loop );
 
 let loopCallback;
 
-//
-
-const _vec1 = new THREE.Vector3();
-const _vec2 = new THREE.Vector3();
-const _vec3 = new THREE.Vector3();
-
-//
-
-function followObj( target ) {
-
-	const CAMERA_TARGETING_EASING = 0.001;
-	const CAMERA_ROTATION_EASING = 0.03;
-	const CAM_TARGET_DISTANCE = 2.5;
-
-	const lastCamPos = new THREE.Vector3().copy( params.thirdPersCameraTarget );
-
-	core.camera.position.copy( lastCamPos );
-	core.camera.position.add( target.position );
-	core.camera.lookAt( target.position );
-
-	function getCameraTargetAngle() {
-
-		target.getWorldDirection( _vec2 );
-
-		// current direction of camera behind the player
-		_vec1.copy( core.camera.position );
-		_vec1.sub( target.position );
-		_vec1.y = 0;
-
-		// get signed angle between forward-player and camera
-		let angle = _vec1.angleTo( _vec2 );
-		_vec3.crossVectors( _vec1, _vec2 );
-		if ( _vec3.dot( target.up ) < 0 ) {
-			angle = -angle;
-		}
-
-		return angle
-
-	}
-
-	loopCallback = () => {
-
-		/* position the camera behind the player with tweening */
-
-		core.camera.position.copy( lastCamPos );
-		core.camera.position.add( target.position );
-
-		//
-
-		const angle = getCameraTargetAngle();
-
-		// the more the camera is far from the target angle, so less fast it turns
-		let additionalEasing = ( Math.PI - Math.abs( angle ) ) / Math.PI;
-		additionalEasing = Math.pow( additionalEasing, 3 );
-
-		core.camera.position.sub( target.position );
-		core.camera.position.applyAxisAngle( target.up, angle * CAMERA_ROTATION_EASING * additionalEasing );
-		core.camera.position.add( target.position );
-
-		lastCamPos.copy( core.camera.position );
-		lastCamPos.sub( target.position );
-
-		/* look in front of the player */
-
-		// target
-		_vec1.copy( target.position );
-		target.getWorldDirection( _vec2 );
-		_vec2.negate();
-		_vec2.multiplyScalar( CAM_TARGET_DISTANCE );
-		_vec1.add( _vec2 );
-
-		core.camera.getWorldDirection( _vec2 );
-		_vec2.add( core.camera.position );
-
-		_vec3.lerpVectors( _vec1, _vec2, 1 - CAMERA_TARGETING_EASING );
-
-		core.camera.lookAt( _vec3 );
-
-	}
-
-}
+const _vec = new THREE.Vector3();
 
 //
 
@@ -141,7 +61,7 @@ function orbitDynamicObj( target ) {
 		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
 		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
 
-		_vec1.copy( target.position );
+		_vec.copy( target.position );
 
 		//
 
@@ -153,7 +73,7 @@ function orbitDynamicObj( target ) {
 
 		targetPosition.applyAxisAngle( target.up, lastRot );
 
-		targetPosition.add( _vec1 );
+		targetPosition.add( _vec );
 
 		lastPosition.set(
 			targetPosition.x,
@@ -165,7 +85,7 @@ function orbitDynamicObj( target ) {
 
 		core.camera.position.copy( lastPosition );
 
-		core.camera.lookAt( _vec1 );
+		core.camera.lookAt( _vec );
 
 	}
 
@@ -203,7 +123,6 @@ function loop() {
 //
 
 export default {
-	followObj,
 	orbitObj,
 	orbitDynamicObj
 }

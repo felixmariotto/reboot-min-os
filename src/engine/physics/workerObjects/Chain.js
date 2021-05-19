@@ -20,7 +20,6 @@ export default function Chain( chainPoint ) {
 		spheresNumber: chainPoint.spheresNumber,
 		attachStartTo,
 		attachEndTo,
-		makeHelper,
 		resolve,
 		initChainPos,
 		computeEndStart,
@@ -86,16 +85,6 @@ export default function Chain( chainPoint ) {
 		};
 
 		this.initChainPos();
-
-	}
-
-	//
-
-	function makeHelper() {
-
-		this.hasHelpers = true;
-
-		this.spheres.forEach( sphereBody => sphereBody.children[0].makeHelper() );
 
 	}
 	

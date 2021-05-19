@@ -72,6 +72,8 @@ export default function World( info ) {
 
 	world.player = Entity( info.player );
 
+	world.player.isPlayer = true;
+
 	world.add( world.player );
 
 	world.player.makeHelper();
@@ -214,6 +216,10 @@ export default function World( info ) {
 
 			const dt = clock.getDelta();
 
+			// compute the delay to post message to the worker at 60 frames per second.
+
+			const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
+
 			// update chain entities
 
 			for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
@@ -264,10 +270,6 @@ export default function World( info ) {
 
 			world.player.isOnGround = world.state.playerIsOnGround;
 			world.player.isColliding = world.state.playerIsColliding;
-
-			// compute the delay to post message to the worker at 60 frame per second.
-
-			const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
 
 			// update each entity with the new positions.
 

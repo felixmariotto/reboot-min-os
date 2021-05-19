@@ -63,7 +63,7 @@ function orbitDynamicObj( target ) {
 		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
 		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
 
-		targetTarget.lerp( target.position, 0.5 );
+		targetTarget.lerp( target.position, 0.1 );
 
 		// _vec.copy( target.position );
 

@@ -10,6 +10,12 @@ import params from '../params.js';
 
 //
 
+const _vec = new THREE.Vector3();
+
+const clock = new THREE.Clock();
+
+//
+
 export default function Entity( info ) {
 
 	return Object.assign(
@@ -78,11 +84,16 @@ function makeHelper() {
 
 function updatePosition( typedArr ) {
 
-	this.position.set(
+	_vec.set(
 		typedArr[ ( this.serial * 3 ) + 0 ],
 		typedArr[ ( this.serial * 3 ) + 1 ],
 		typedArr[ ( this.serial * 3 ) + 2 ]
 	);
+
+	// if ( this.isPlayer ) console.log( _vec.distanceTo( this.position ) )
+	// if ( this.isPlayer ) console.log( clock.getDelta() / (1/60) )
+
+	this.position.copy( _vec );
 
 }
 

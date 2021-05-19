@@ -19,7 +19,7 @@ import WorkerWorld from  './workerObjects/WorkerWorld.js';
 
 const clock = new THREE.Clock();
 
-let world, delta;
+let world;
 
 const LOG_PERF = true;
 let counter = 0;

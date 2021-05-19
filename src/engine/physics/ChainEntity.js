@@ -22,6 +22,8 @@ export default function ChainEntity( info ) {
 			enabled: info.enabled,
 			init: info.init,
 			active: info.init,
+			// this is added manually to the world, not the entity,
+			// since the chain links positions are computed in world space.
 			spheresContainer: new THREE.Group(),
 			sphereEntities: [],
 			info,
@@ -31,8 +33,6 @@ export default function ChainEntity( info ) {
 			makeHelper
 		}
 	);
-
-	chainEntity.add( chainEntity.spheresContainer );
 
 	chainEntity.pointsNumber = Math.floor( chainEntity.length / params.chainPointDistance );
 	chainEntity.linkLength = chainEntity.length / ( chainEntity.pointsNumber - 1 );

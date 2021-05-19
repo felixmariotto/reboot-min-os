@@ -14,7 +14,7 @@ export default {
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),
 
-	physicsSimTicks: 7,
+	physicsSimTicks: 5,
 	gravity: new THREE.Vector3( 0, -0.035, 0 ),
 	// [ 0 - 1 ] : power of the tendency to increase friction when colliding a horizontal plane.
 	dampingAnglePower: 0.04,
@@ -27,7 +27,7 @@ export default {
 	chainPointDistance: 0.9,
 	chainSphereRadius: 0.4,
 	chainWeight: 0.3,
-	chainMass: 0.03,
+	chainMass: 0.015,
 	chainWeightOnPlayer: 0.07, // [ 0 - 1 ] value
 
 	playerJumpSpeed: 0.3,

@@ -353,6 +353,16 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 
 	}
 
+	function updateTransform( time ) {
+
+		if ( this.transformFunction ) {
+
+			this.transformFunction( time );
+
+		}
+		
+	}
+
 	//
 
 	return Object.assign(
@@ -365,16 +375,7 @@ export default function Body( bodyType=constants.STATIC_BODY, weight=1, mass=1 )
 			mass,
 			bounciness: params.bodyDefaultBounciness,
 			damping: params.bodyDefaultDamping,
-			// transformation code that define pos and rot from a timestamp
-			updateTransform: function ( time ) {
-
-				if ( this.transformFunction ) {
-
-					this.transformFunction( time );
-
-				}
-				
-			}, 
+			updateTransform, 
 			// velocity is in length-unit/graphic-frame
 			// used only if bodyType is DYNAMIC_BODY
 			velocity: new THREE.Vector3(),

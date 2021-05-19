@@ -38,6 +38,8 @@ function orbitDynamicObj( target ) {
 	const lastPosition = new THREE.Vector3();
 	const targetPosition = new THREE.Vector3();
 
+	const targetTarget = new THREE.Vector3().copy( target.position );
+
 	//
 
 	core.renderer.domElement.requestPointerLock();
@@ -61,7 +63,9 @@ function orbitDynamicObj( target ) {
 		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
 		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
 
-		_vec.copy( target.position );
+		targetTarget.lerp( target.position, 0.5 );
+
+		// _vec.copy( target.position );
 
 		//
 
@@ -73,7 +77,7 @@ function orbitDynamicObj( target ) {
 
 		targetPosition.applyAxisAngle( target.up, lastRot );
 
-		targetPosition.add( _vec );
+		targetPosition.add( targetTarget );
 
 		lastPosition.set(
 			targetPosition.x,
@@ -85,7 +89,7 @@ function orbitDynamicObj( target ) {
 
 		core.camera.position.copy( lastPosition );
 
-		core.camera.lookAt( _vec );
+		core.camera.lookAt( targetTarget );
 
 	}
 

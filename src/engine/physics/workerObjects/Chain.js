@@ -215,6 +215,9 @@ export default function Chain( chainPoint ) {
 
 		const p1 = this.points[ pointID ];
 		const p2 = constrainedBody.position;
+		const sphere = !pointID ? null : this.spheres[ pointID - 1 ];
+
+		//
 
 		const diff = this.constrainPoints( p1, p2 );
 
@@ -223,15 +226,12 @@ export default function Chain( chainPoint ) {
 
 		// add the diff to the velocity of the particular link
 
-		const sphere1 = !pointID ? null : this.spheres[ pointID - 1 ];
-
-		if ( sphere1 ) sphere1.velocity.sub( diff );
+		if ( sphere ) sphere.velocity.sub( diff );
 
 		// transform constrained body
 
-		this.end.body.position.addScaledVector( diff, params.chainWeight );
-			
-		this.end.body.velocity.addScaledVector( diff, params.chainWeight );
+		constrainedBody.position.addScaledVector( diff, params.chainWeight );
+		constrainedBody.velocity.addScaledVector( diff, params.chainWeight );
 
 	}
 

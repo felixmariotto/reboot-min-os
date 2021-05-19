@@ -192,7 +192,19 @@ export default function World( info ) {
 
 	postUpdates();
 
+	//
+
 	const receivedEvents = [];
+
+	world.emitEvent = ( eventName, data ) => {
+
+		this.worker.postMessage( { isEvent: true, eventName, data } );
+
+	}
+
+	function handleEvent( e ) { events.emit( e.eventName, e.data ) }
+
+	//
 
 	this.worker.onmessage = function (e) {
 
@@ -302,19 +314,24 @@ export default function World( info ) {
 
 	}
 
-	//
+	// Linear interpolation between the entity position and the received position.
+	// This smooth out most of the jittering.
 
-	world.emitEvent = ( eventName, data ) => {
+	core.callInLoop( () => {
 
-		this.worker.postMessage( { isEvent: true, eventName, data } );
+		entities.forEach( (entity) => {
 
-	}
+			entity.position.lerp( entity.targetPos, 0.3 );
 
-	function handleEvent( e ) {
+			world.chains.forEach( (chain) => {
 
-		events.emit( e.eventName, e.data );
+				chain.sphereEntities.forEach( sEntity => sEntity.position.lerp( sEntity.targetPos, 0.3 ) )
 
-	}
+			} );
+
+		});
+
+	} );
 
 	//
 

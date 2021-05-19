@@ -30,7 +30,8 @@ export default function Entity( info ) {
 			updateVelocity,
 			setVectorArray,
 			updateVelocities,
-			velocity: new THREE.Vector3()
+			velocity: new THREE.Vector3(),
+			targetPos: new THREE.Vector3()
 		}
 	)
 
@@ -82,18 +83,34 @@ function makeHelper() {
 // typedArr is the whole transferable typed array.
 // this.serial was computed by World on initialization.
 
+let counter = 0;
+
 function updatePosition( typedArr ) {
 
+	this.targetPos.set(
+		typedArr[ ( this.serial * 3 ) + 0 ],
+		typedArr[ ( this.serial * 3 ) + 1 ],
+		typedArr[ ( this.serial * 3 ) + 2 ]
+	);
+
+	/*
 	_vec.set(
 		typedArr[ ( this.serial * 3 ) + 0 ],
 		typedArr[ ( this.serial * 3 ) + 1 ],
 		typedArr[ ( this.serial * 3 ) + 2 ]
 	);
 
+	const ecart = ( this.position.z - _vec.z );
+
 	// if ( this.isPlayer ) console.log( _vec.distanceTo( this.position ) )
 	// if ( this.isPlayer ) console.log( clock.getDelta() / (1/60) )
+	if ( this.isPlayer ) console.log( 'écart : ' + ecart + ' / temps : ' + clock.getDelta() );
+
+	counter++
+	if ( counter > 1000 ) debugger
 
 	this.position.copy( _vec );
+*/
 
 }
 

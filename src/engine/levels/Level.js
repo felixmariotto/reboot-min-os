@@ -20,13 +20,13 @@ export default function Level() {
 
 //
 
-function start() {
+function start( makeKinematicHelpers, makeStaticHelpers ) {
 
 	core.scene.add( this.scene );
 
 	this.mapFile.then( (sceneGraph) => {
 
-		this.world = physics.World( sceneGraph );
+		this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
 
 		cameraControls.orbitDynamicObj( this.world.player );
 

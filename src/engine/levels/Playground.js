@@ -16,7 +16,7 @@ export default function Playground() {
 		}
 	);
 
-	level.start();
+	level.start( true, false );
 
 	// lights
 

@@ -23,7 +23,7 @@ import ChainEntity from './ChainEntity.js';
 
 //
 
-export default function World( info ) {
+export default function World( info, makeKinematicHelpers , makeStaticHelpers ) {
 
 	// keeps track of the nomber of entities the worker has to compute
 	// physics for.
@@ -34,6 +34,8 @@ export default function World( info ) {
 	// message.
 
 	const world = new THREE.Group();
+
+	core.scene.add( world );
 
 	/////////////
 	// ENTITIES
@@ -50,7 +52,8 @@ export default function World( info ) {
 
 		world.add( entity );
 
-		entity.makeHelper();
+		if ( entity.isStatic && makeStaticHelpers ) entity.makeHelper();
+		else if ( !entity.isStatic && makeKinematicHelpers ) entity.makeHelper();
 
 		return entity
 

@@ -30,6 +30,7 @@ export default function Entity( info ) {
 			updateVelocity,
 			setVectorArray,
 			updateVelocities,
+			isStatic: info.trans ? false : true,
 			velocity: new THREE.Vector3(),
 			targetPos: new THREE.Vector3()
 		}

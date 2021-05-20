@@ -1,31 +1,30 @@
 
-import { elem } from '../../utils.js';
+import files from '../files/files.js';
+import Level from './Level.js';
 
 //
 
-const gamePage = elem({ id:'game-page', classes: 'game-container' });
+export default function Playground() {
 
-//
-
-gamePage.start = function start() {
-
-	engine.core.init( gamePage );
+	const level = Object.assign(
+		Level(),
+		{
+			mapFile: files.maps.playground
+		}
+	);
 
 	//
 
-	engine.levelManager.loadLevel( 'playground' );
+	level.start();
 
-	engine.on( 'gate', (e) => {
+	//
 
-		const destinationLevel = e.detail;
+	return level
 
-		engine.levelManager.loadLevel( destinationLevel );
+};
 
-	} );
-
-	/*
-
-	engine.files.loadLocalMapFile( ( sceneGraph ) => {
+/*
+engine.files.loadLocalMapFile( ( sceneGraph ) => {
 
 		const world = engine.physics.World( sceneGraph );
 
@@ -69,11 +68,4 @@ gamePage.start = function start() {
 		} );
 
 	} );
-
 	*/
-
-}
-
-//
-
-export default gamePage

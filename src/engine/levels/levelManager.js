@@ -1,4 +1,10 @@
 
+import Playground from './Playground.js';
+
+//
+
+let currentLevel;
+
 export default {
 	loadLevel
 }
@@ -7,6 +13,20 @@ export default {
 
 function loadLevel( levelName ) {
 
-	console.log( levelName );
+	if ( currentLevel ) console.log('remove current level');
+
+	//
+
+	switch ( levelName ) {
+
+		case 'playground':
+			currentLevel = Playground();
+			break
+
+		default :
+			console.warn('level name unknown')
+			break
+
+	}
 
 }

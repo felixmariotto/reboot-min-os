@@ -3,45 +3,42 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import loadLocalMapFile from './loadLocalMapFile.js';
 
+// MODELS
+
 import mainCharURL from '../../assets/main_char.glb';
+
+// MAP FILES
+
+import playgroundMapURL from '../../assets/mapFiles/playground.txt';
 
 //
 
 const gltfLoader = new GLTFLoader();
+const fileLoader = new THREE.FileLoader();
 
-const mainChar = loadModel( mainCharURL );
+// models loading
 
 const models = {
-	mainChar
+	mainChar: loadModel( mainCharURL )
+};
+
+// map files loading
+
+const maps = {
+	playground: loadMap( playgroundMapURL )
 };
 
 //
 
-function loadModel( url, priority ) {
+function loadModel( url ) {
 
 	const promise = new Promise( (resolve) => {
 
-		if ( priority ) {
+		gltfLoader.load( url, (glb) => {
 
-			gltfLoader.load( url, (glb) => {
+			resolve( glb.scene );
 
-				resolve( glb.scene );
-
-			});
-
-		} else {
-
-			setTimeout( () => {
-
-				gltfLoader.load( url, (glb) => {
-
-					resolve( glb.scene );
-
-				});
-
-			}, 1000 );
-			
-		}
+		});
 
 	})
 
@@ -51,8 +48,27 @@ function loadModel( url, priority ) {
 
 //
 
+function loadMap( url ) {
+
+	const promise = new Promise( (resolve) => {
+
+		fileLoader.load( url, (data) => {
+
+			resolve( JSON.parse( data ) );
+
+		});
+
+	})
+
+	return promise
+
+}
+
+//
+
 export default {
 	models,
+	maps,
 	loadModel,
 	loadLocalMapFile
 }

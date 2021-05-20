@@ -3,30 +3,56 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import loadLocalMapFile from './loadLocalMapFile.js';
 
-//
-
-const textureLoader = new THREE.TextureLoader();
-
-const loaders = {
-	'glb': new GLTFLoader(),
-	'jpg': textureLoader,
-	'png': textureLoader
-}
+import mainCharURL from '../../assets/main_char.glb';
 
 //
 
-function load( url, callback ) {
+const gltfLoader = new GLTFLoader();
 
-	let extension = url.split('.');
-	extension = extension[ extension.length - 1 ];
+const mainChar = loadModel( mainCharURL );
 
-	loaders[ extension ].load( url, callback );
+const models = {
+	mainChar
+};
 
-}
+//
+
+function loadModel( url, priority ) {
+
+	const promise = new Promise( (resolve) => {
+
+		if ( priority ) {
+
+			gltfLoader.load( url, (glb) => {
+
+				resolve( glb.scene );
+
+			});
+
+		} else {
+
+			setTimeout( () => {
+
+				gltfLoader.load( url, (glb) => {
+
+					resolve( glb.scene );
+
+				});
+
+			}, 1000 );
+			
+		}
+
+	})
+
+	return promise
+
+};
 
 //
 
 export default {
-	load,
+	models,
+	loadModel,
 	loadLocalMapFile
 }

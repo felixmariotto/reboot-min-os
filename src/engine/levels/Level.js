@@ -1,6 +1,9 @@
 
 import physics from '../physics/physics.js';
 
+import cameraControls from '../misc/cameraControls.js';
+import characterControls from '../misc/characterControls.js';
+
 //
 
 export default function Level() {
@@ -19,11 +22,9 @@ function start() {
 
 		const world = physics.World( sceneGraph );
 
-		console.log( 'world', world )
+		cameraControls.orbitDynamicObj( world.player );
 
-		// engine.cameraControls.orbitDynamicObj( world.player );
-
-		// engine.characterControls.controlVelocity( world );
+		characterControls.controlVelocity( world );
 
 	} );
 

@@ -35,8 +35,6 @@ export default function World( info ) {
 
 	const world = new THREE.Group();
 
-	core.scene.add( world );
-
 	/////////////
 	// ENTITIES
 	/////////////

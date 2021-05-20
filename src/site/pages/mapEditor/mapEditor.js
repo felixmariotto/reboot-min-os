@@ -123,6 +123,17 @@ window.addEventListener( 'keyup', (e) => {
 
 } );
 
+window.addEventListener( 'gltf-request', () => {
+
+	// Parse the input and generate the glTF output
+	new engine.GLTFExporter().parse( engine.core.scene, function ( gltf ) {
+
+		files.saveAsGLTF( gltf );
+
+	} );
+
+} );
+
 window.addEventListener( 'scene-graph-request', () => {
 
 	const sceneInfo = {

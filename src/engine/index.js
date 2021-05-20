@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import { TransformControls } from 'three/examples/jsm/controls/TransformControls.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter.js';
 
 import InfiniteGridHelper from './misc/InfiniteGridHelper.js';
 
@@ -26,6 +27,7 @@ if ( window ) {
 			THREE,
 			TransformControls,
 			OrbitControls,
+			GLTFExporter,
 			core,
 			files,
 			cameraControls,

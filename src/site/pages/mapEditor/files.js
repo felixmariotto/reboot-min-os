@@ -56,6 +56,32 @@ function saveAsJSON( sceneGraph ) {
 
 }
 
+function saveAsGLTF( gltf ) {
+
+	try {
+
+		let fileName = 'game-map-' + new Date().toLocaleString() + '.gltf';
+		fileName = fileName.replace( /:/g, "_" );
+
+		const content = JSON.stringify( gltf, null, 2 );
+		const file = new Blob( [content], { type: "text/plain;charset=utf-8" } );
+
+		const a = document.createElement("a");
+		a.href = URL.createObjectURL( file );
+		a.download = fileName;
+		a.click();
+
+		editorConsole.log( 'the scene has been successfully saved as ' + fileName );
+
+	} catch ( err ) {
+
+		console.error( err );
+		console.log( err );
+
+	}
+
+}
+
 function importJSON() {
 
 	if ( window.confirm( 'Are you sure to import a scene and erase the current scene ?' ) ) {
@@ -81,7 +107,9 @@ function importJSON() {
 
 function exportGLTF() {
 
-	console.log('export GLTF')
+	const event = new CustomEvent( 'gltf-request' );
+
+	window.dispatchEvent( event );
 
 }
 
@@ -105,5 +133,6 @@ function emitSceneData( sceneData ) {
 
 export default {
 	domOptions: filesOptions,
-	saveAsJSON
+	saveAsJSON,
+	saveAsGLTF
 }

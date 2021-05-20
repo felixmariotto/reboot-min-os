@@ -7,3 +7,7 @@
 #editor-files-options > * {
 	margin-bottom: 10px;
 }
+
+#editor-files-options > * > * {
+	margin-right: 10px;
+}

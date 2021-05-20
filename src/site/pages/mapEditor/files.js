@@ -1,7 +1,7 @@
 
 import './files.css';
 import Button from '../../components/button/Button.js';
-import { elem } from '../../utils.js';
+import { elem, icon } from '../../utils.js';
 import editorConsole from './editorConsole.js';
 
 //
@@ -9,13 +9,18 @@ import editorConsole from './editorConsole.js';
 const filesOptions = elem({ id: 'editor-files-options', classes: 'tool-options' });
 
 filesOptions.append(
-	makeButton( 'save as JSON', emitSceneGraphRequest ),
-	makeButton( 'import JSON', importJSON )
+	makeButton( 'fas fa-upload', 'import JSON', importJSON ),
+	makeButton( 'fas fa-download', 'save map graph', emitSceneGraphRequest ),
+	makeButton( 'fas fa-download', 'save map as GLTF', exportGLTF )
 );
 
-function makeButton( text, callback ) {
+function makeButton( iconClass, text, callback ) {
 
-	const button = Button( text );
+	const iconElem = icon( iconClass );
+
+	const button = Button( iconElem );
+
+	button.append( text );
 
 	button.onclick = callback;
 
@@ -73,6 +78,12 @@ function importJSON() {
 }
 
 //
+
+function exportGLTF() {
+
+	console.log('export GLTF')
+
+}
 
 function emitSceneGraphRequest() {
 

@@ -13,6 +13,18 @@ gamePage.start = function start() {
 
 	//
 
+	engine.levelManager.loadLevel( 'level-name' );
+
+	engine.on( 'gate', (e) => {
+
+		const destinationLevel = e.detail;
+
+		engine.levelManager.loadLevel( destinationLevel );
+
+	} );
+
+	/*
+
 	engine.files.loadLocalMapFile( ( sceneGraph ) => {
 
 		const world = engine.physics.World( sceneGraph );
@@ -57,6 +69,8 @@ gamePage.start = function start() {
 		} );
 
 	} );
+
+	*/
 
 }
 

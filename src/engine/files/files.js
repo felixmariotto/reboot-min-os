@@ -5,7 +5,7 @@ import loadLocalMapFile from './loadLocalMapFile.js';
 
 // MODELS
 
-import mainCharURL from '../../assets/main_char.glb';
+import playgroundStaticURL from '../../assets/models/playgroundStatic.glb';
 
 // MAP FILES
 
@@ -19,7 +19,7 @@ const fileLoader = new THREE.FileLoader();
 // models loading
 
 const models = {
-	mainChar: loadModel( mainCharURL )
+	playgroundStaticModel: loadModel( playgroundStaticURL )
 };
 
 // map files loading

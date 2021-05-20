@@ -20,12 +20,22 @@ function start() {
 
 	this.mapFile.then( (sceneGraph) => {
 
-		const world = physics.World( sceneGraph );
+		this.world = physics.World( sceneGraph );
 
-		cameraControls.orbitDynamicObj( world.player );
+		cameraControls.orbitDynamicObj( this.world.player );
 
-		characterControls.controlVelocity( world );
+		characterControls.controlVelocity( this.world );
 
 	} );
+
+	if ( this.staticModel ) {
+
+		this.staticModel.then( (model) => {
+
+			this.world.add( model )
+
+		} );
+
+	}
 
 }

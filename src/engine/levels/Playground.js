@@ -9,7 +9,8 @@ export default function Playground() {
 	const level = Object.assign(
 		Level(),
 		{
-			mapFile: files.maps.playground
+			mapFile: files.maps.playground,
+			staticModel: files.models.playgroundStaticModel
 		}
 	);
 

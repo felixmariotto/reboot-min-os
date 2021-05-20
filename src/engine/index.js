@@ -12,8 +12,8 @@ import events from './misc/events.js';
 import materials from './graphics/materials.js';
 import levelManager from './levels/levelManager.js'
 
-import cameraControls from './physics/cameraControls.js';
-import characterControls from './physics/characterControls.js';
+import cameraControls from './misc/cameraControls.js';
+import characterControls from './misc/characterControls.js';
 import physics from './physics/physics.js';
 
 //

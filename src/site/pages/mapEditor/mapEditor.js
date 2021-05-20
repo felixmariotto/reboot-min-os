@@ -125,12 +125,31 @@ window.addEventListener( 'keyup', (e) => {
 
 window.addEventListener( 'gltf-request', () => {
 
+	// make sure there is no string in meshes data
+
+	engine.core.scene.traverse( (child) => {
+
+		if ( child.position ) {
+
+			child.position.set(
+				Number( child.position.x ),
+				Number( child.position.y ),
+				Number( child.position.z )
+			);
+
+			child.updateMatrix();
+			child.updateMatrixWorld( true );
+
+		}
+
+	} );
+
 	// Parse the input and generate the glTF output
 	new engine.GLTFExporter().parse( engine.core.scene, function ( gltf ) {
 
 		files.saveAsGLTF( gltf );
 
-	} );
+	}, { binary: true } );
 
 } );
 

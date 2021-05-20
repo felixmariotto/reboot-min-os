@@ -56,18 +56,17 @@ function saveAsJSON( sceneGraph ) {
 
 }
 
-function saveAsGLTF( gltf ) {
+function saveAsGLTF( buf ) {
 
 	try {
 
-		let fileName = 'game-map-' + new Date().toLocaleString() + '.gltf';
+		let fileName = 'game-map-' + new Date().toLocaleString() + '.glb';
 		fileName = fileName.replace( /:/g, "_" );
 
-		const content = JSON.stringify( gltf, null, 2 );
-		const file = new Blob( [content], { type: "text/plain;charset=utf-8" } );
+		const blob = new Blob( [ buf ], { type: 'application/octet-stream' } );
 
 		const a = document.createElement("a");
-		a.href = URL.createObjectURL( file );
+		a.href = URL.createObjectURL( blob );
 		a.download = fileName;
 		a.click();
 

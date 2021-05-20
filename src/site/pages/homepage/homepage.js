@@ -2,7 +2,7 @@
 import './homepage.css';
 import { elem, icon } from '../../utils.js';
 
-import characterTest from '../characterTest/characterTest.js';
+import gamePage from '../gamePage/gamePage.js';
 import mapEditor from '../mapEditor/mapEditor.js';
 import mapTest from '../mapTest/mapTest.js';
 
@@ -18,7 +18,7 @@ const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
 const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden' });
 
 gamePicking.append(
-	makeGameButton( 'character test', characterTest ),
+	makeGameButton( 'PLAY GAME', gamePage, 'fas fa-play-circle' ),
 	makeGameButton( 'EDIT map', mapEditor, 'fas fa-edit' ),
 	makeGameButton( 'TEST map', mapTest, 'fas fa-gamepad' )
 );

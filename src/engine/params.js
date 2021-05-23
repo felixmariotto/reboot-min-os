@@ -6,7 +6,7 @@ import * as THREE from 'three';
 export default {
 
 	cameraFOV: 70,
-	cameraNear: 0.05,
+	cameraNear: 0.1,
 	cameraFar: 200,
 	// thirdPersCameraTarget: new THREE.Vector3( 0, 5, 6 )
 	thirdPersCameraTarget: new THREE.Vector3( 0, 15, 15 ),

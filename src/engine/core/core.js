@@ -10,6 +10,9 @@ let container;
 const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true ;
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.gammaFactor = 2.2;
 renderer.domElement.style.height = '100vh';
 renderer.domElement.style.width = '100vw';
 

@@ -11,10 +11,15 @@ import playgroundStaticURL from '../../assets/models/playgroundStatic.glb';
 
 import playgroundMapURL from '../../assets/mapFiles/playground.txt';
 
+// TEXTURES
+
+import roomEnvmapURL from '../../assets/images/room_envmap.jpg';
+
 //
 
 const gltfLoader = new GLTFLoader();
 const fileLoader = new THREE.FileLoader();
+const textureLoader = new THREE.TextureLoader();
 
 // models loading
 
@@ -27,6 +32,12 @@ const models = {
 const maps = {
 	playground: loadMap( playgroundMapURL )
 };
+
+// textures loading
+
+const textures = {
+	roomEnvmap: loadTexture( roomEnvmapURL )
+}
 
 //
 
@@ -66,9 +77,22 @@ function loadMap( url ) {
 
 //
 
+function loadTexture( url ) {
+
+	const texture = textureLoader.load( url );
+	texture.mapping = THREE.EquirectangularReflectionMapping;
+	texture.encoding = THREE.sRGBEncoding;
+
+	return texture
+
+}
+
+//
+
 export default {
 	models,
 	maps,
+	textures,
 	loadModel,
 	loadLocalMapFile
 }

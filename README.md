@@ -1,5 +1,6 @@
-# dungeon-game
-dungeon game
+# three.js chain game
+
+![chain game showcase](https://i.ibb.co/c3pM8BW/opti.gif)
 
 #bodies tags   
 

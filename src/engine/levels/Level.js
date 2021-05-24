@@ -22,28 +22,27 @@ export default function Level() {
 
 function start( makeKinematicHelpers, makeStaticHelpers ) {
 
-	core.scene.add( this.scene );
+	return new Promise( (resolve) => {
 
-	this.mapFile.then( (sceneGraph) => {
+		core.scene.add( this.scene );
 
-		this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
+		Promise.all( [ this.mapFile, this.staticModel ] ).then( (results) => {
 
-		cameraControls.orbitDynamicObj( this.world.player );
+			const sceneGraph = results[0];
+			const staticModel = results[1];
 
-		characterControls.controlVelocity( this.world );
+			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
 
-		this.scene.add( this.world );
+			cameraControls.orbitDynamicObj( this.world.player );
 
-	} );
+			characterControls.controlVelocity( this.world );
 
-	if ( this.staticModel ) {
+			this.scene.add( this.world, staticModel );
 
-		this.staticModel.then( (model) => {
-
-			this.scene.add( model )
+			resolve();
 
 		} );
 
-	}
+	} );
 
 }

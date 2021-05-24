@@ -19,35 +19,33 @@ export default function Playground() {
 		}
 	);
 
-	level.start( true, false );
+	level.start( true, false ).then( () => {
 
-	// lights
+		// lights
 
-	const light = new THREE.AmbientLight( 0x404040 ); // soft white light
-	const dirLight = ShadowedLight({
-		color: 0xffcfdf,
-		x: -15,
-		y: 50,
-		z: 15,
-		intensity: 2,
-		resolution: 1024,
-		width: 100,
-		far: 100,
-		useHelpers: true,
-		bias: -0.002,
-		normalBias: 0.002
-	})
-	
-	level.scene.add( light, dirLight, dirLight.helpers );
+		const light = new THREE.AmbientLight( 0x404040 ); // soft white light
+		const dirLight = ShadowedLight({
+			color: 0xffcfdf,
+			x: -15,
+			y: 50,
+			z: 15,
+			intensity: 2,
+			resolution: 1024,
+			width: 100,
+			far: 100,
+			useHelpers: false,
+			bias: -0.002,
+			normalBias: 0.002
+		})
+		
+		level.scene.add( light, dirLight, dirLight.helpers );
 
-	// envmap
+		// envmap
 
-	core.scene.environment = files.textures.roomEnvmap;
-	core.scene.background = files.textures.roomEnvmap;
+		core.scene.environment = files.textures.roomEnvmap;
+		core.scene.background = files.textures.roomEnvmap;
 
-	// shadows
-
-	setTimeout( () => {
+		// shadows
 
 		core.scene.traverse( (child) => {
 
@@ -58,9 +56,9 @@ export default function Playground() {
 
 			}
 
-		})
+		} );
 
-	}, 2000 );
+	} );
 
 	//
 

@@ -5,6 +5,10 @@ import * as THREE from 'three';
 
 export default {
 
+	// [ 0 - 1 ] tweening of the entities position to smooth the jittering
+	// caused by worker <=> main thread message latency.
+	positionSmoothing: 0.5,
+
 	cameraFOV: 70,
 	cameraNear: 0.1,
 	cameraFar: 200,

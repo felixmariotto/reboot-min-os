@@ -1,11 +1,15 @@
 
 import * as THREE from 'three';
+import Stats from 'three/examples/jsm/libs/stats.module.js';
 import params from '../params.js';
 
 // THREE.js
 
 let delta;
 let container;
+
+const stats = new Stats();
+document.body.appendChild( stats.dom );
 
 const scene = new THREE.Scene();
 
@@ -47,8 +51,6 @@ function init( domElement ) {
 	resize();
 
 	clock.start();
-
-	loop();
 
 }
 
@@ -148,15 +150,22 @@ function listenMove( callback ) {
 
 //
 
-function loop() {
+let counter = 0;
+
+function render() {
+
+	// counter++;
 
 	delta = deltaClock.getDelta();
 
-	requestAnimationFrame( loop );
+	// console.log( 'render delta', delta )
+	// if ( counter > 200 ) debugger
 
 	loopCallbacks.forEach( callback => callback( delta ) );
 
 	renderer.render( scene, camera );
+
+	stats.update();
 
 }
 
@@ -178,5 +187,6 @@ export default {
 	clock,
 	callInLoop,
 	listenClick,
-	listenMove
+	listenMove,
+	render
 }

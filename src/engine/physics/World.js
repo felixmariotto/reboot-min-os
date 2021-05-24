@@ -13,6 +13,7 @@ events coming from the worker.
 
 import * as THREE from 'three';
 
+import params from '../params.js';
 import core from '../core/core.js';
 import events from '../misc/events.js';
 
@@ -222,14 +223,6 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 			world.chainTransferables = e.data.chains;
 			world.state = e.data.state;
 
-			// delta time since this function last call.
-
-			const dt = clock.getDelta();
-
-			// compute the delay to post message to the worker at 60 frames per second.
-
-			const delay = Math.max( 0, ( targetDt - dt ) * 1000 );
-
 			// update chain entities
 
 			for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
@@ -304,11 +297,19 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 			if ( world.controller ) world.controller();
 
-			// re-transfer the data to the worker.
+			// render the updated scene and send a request for new data at 60 FPS.
 
-			setTimeout( postUpdates, delay );
+			requestAnimationFrame( frame )
 
 		}
+
+	}
+
+	function frame() {
+
+		core.render();
+
+		postUpdates();
 
 	}
 
@@ -319,7 +320,7 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 		entities.forEach( (entity) => {
 
-			entity.position.lerp( entity.targetPos, 0.3 );
+			entity.position.lerp( entity.targetPos, params.positionSmoothing );
 
 			world.chains.forEach( (chain) => {
 

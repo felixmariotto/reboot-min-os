@@ -11,6 +11,7 @@ const scene = new THREE.Scene();
 
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.shadowMap.enabled = true ;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 renderer.gammaFactor = 2.2;
 renderer.domElement.style.height = '100vh';

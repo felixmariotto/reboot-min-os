@@ -35,48 +35,48 @@ export default function ChainPoint( info ) {
 
 	//
 
-	function intersectPlayer( player ) {
-
-		const playerSphere = player.children[0];
-
-		const penetrationVec = playerSphere.penetrationSphereSphere( playerSphere, this, _vec );
-
-		if ( penetrationVec ) return true
-
-		return false
-
-	}
-
-	//
-
-	function makeChain( player ) {
-
-		const chain = Chain( this );
-		// chain.makeHelper();
-		chain.chainID = this.chainID;
-
-		chain.attachStartTo( this, 0, 0, 0 );
-		chain.attachEndTo( player, 0, 0, 0 );
-
-		return chain
-
-	}
-
-	//
-
-	function makeHelper() {
-
-		const mesh = new THREE.Mesh(
-			new THREE.IcosahedronGeometry( this.radius, 2 ),
-			params.cpHelpersMaterial
-		)
-
-		this.add( mesh );
-
-	}
-
-	//
-
 	return chainPoint
+
+}
+
+//
+
+function intersectPlayer( player ) {
+
+	const playerSphere = player.children[0];
+
+	const penetrationVec = playerSphere.penetrationSphereSphere( playerSphere, this, _vec );
+
+	if ( penetrationVec ) return true
+
+	return false
+
+}
+
+//
+
+function makeChain( player ) {
+
+	const chain = Chain( this );
+	// chain.makeHelper();
+	chain.chainID = this.chainID;
+
+	chain.attachStartTo( this, 0, 0, 0 );
+	chain.attachEndTo( player, 0, 0, 0 );
+
+	return chain
+
+}
+
+//
+
+function makeHelper() {
+
+	const mesh = new THREE.Mesh(
+		new THREE.IcosahedronGeometry( this.radius, 2 ),
+		params.cpHelpersMaterial
+	)
+
+	this.add( mesh );
 
 }

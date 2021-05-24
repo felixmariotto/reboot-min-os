@@ -338,7 +338,6 @@ editorPage.start = function start() {
 
 		const _vec0 = new engine.THREE.Vector3();
 		const _vec1 = new engine.THREE.Vector3();
-		const _mat = new engine.THREE.Matrix4();
 
 		//
 

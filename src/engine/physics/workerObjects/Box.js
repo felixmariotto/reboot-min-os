@@ -21,29 +21,6 @@ export default function Box( width=1, height=1, depth=1 ) {
 
 	//
 
-	function penetrationIn( collidingShape, targetVec ) {
-
-		if ( collidingShape.isBox ) {
-
-			return this.penetrationBoxBox( this, collidingShape, targetVec );
-
-		}
-
-	}
-
-	//
-
-	function makeMesh() {
-
-		this.add( new THREE.Mesh(
-			new THREE.BoxGeometry( this.width, this.height, this.depth ),
-			params.helpersMaterial
-		) );
-
-	}
-
-	//
-
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		Shape(),
@@ -57,5 +34,28 @@ export default function Box( width=1, height=1, depth=1 ) {
 			makeMesh
 		}
 	)
+
+}
+
+//
+
+function penetrationIn( collidingShape, targetVec ) {
+
+	if ( collidingShape.isBox ) {
+
+		return this.penetrationBoxBox( this, collidingShape, targetVec );
+
+	}
+
+}
+
+//
+
+function makeMesh() {
+
+	this.add( new THREE.Mesh(
+		new THREE.BoxGeometry( this.width, this.height, this.depth ),
+		params.helpersMaterial
+	) );
 
 }

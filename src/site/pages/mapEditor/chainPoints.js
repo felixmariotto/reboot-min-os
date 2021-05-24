@@ -2,7 +2,6 @@
 import './chainPoints.css';
 import { elem, icon } from '../../utils.js';
 import Button from '../../components/button/Button.js';
-import shapes from './shapes.js';
 import bodies from './bodies.js';
 import editorConsole from './editorConsole.js';
 

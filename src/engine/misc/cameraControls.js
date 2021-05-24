@@ -11,8 +11,6 @@ core.callInLoop( loop );
 
 let loopCallback;
 
-const _vec = new THREE.Vector3();
-
 //
 
 function orbitDynamicObj( target ) {

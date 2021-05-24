@@ -19,7 +19,6 @@ import Body from './Body.js';
 import Box from './Box.js';
 import Sphere from './Sphere.js';
 import Cylinder from './Cylinder.js';
-import Chain from './Chain.js';
 import ChainPoint from './ChainPoint.js';
 import Player from './Player.js';
 import SpatialIndex from './SpatialIndex.js';
@@ -32,7 +31,6 @@ const NOMINAL_TICK_TIME = ( 1 / 60 ) / params.physicsSimTicks;
 let nowTime, speedRatio;
 
 const _vec = new THREE.Vector3();
-const _zeroVec = new THREE.Vector3();
 
 //
 
@@ -56,7 +54,7 @@ export default function WorkerWorld( info ) {
 
 	// bodies
 
-	const bodies = info.bodies.map( (bodyInfo) => {
+	info.bodies.forEach( (bodyInfo) => {
 
 		let bodyType = constants.STATIC_BODY;
 		const tags = bodyInfo.tags ? JSON.parse( bodyInfo.tags ) : undefined;
@@ -468,9 +466,10 @@ function updatePhysics( delta ) {
 
 		// collisions and physics
 
-		if ( body.isChainPoint ) continue // we do want its matrixWorld udpated though
-
-		if ( body.bodyType === constants.DYNAMIC_BODY ) {
+		if (
+			!body.isChainPoint && // we do want its matrixWorld udpated though
+			body.bodyType === constants.DYNAMIC_BODY
+		) {
 
 			// reset these values, which will be set to true again if still on ground/colliding.
 			// Used by characterControl.

@@ -14,9 +14,7 @@ events coming from the worker.
 import * as THREE from 'three';
 
 import core from '../core/core.js';
-import constants from '../misc/constants.js';
 import events from '../misc/events.js';
-import params from '../params.js';
 
 import Entity from './Entity.js';
 import ChainEntity from './ChainEntity.js';
@@ -122,7 +120,7 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	} );
 
-	world.chainTransferables = world.chains.map( (chainEntity, i) => {
+	world.chainTransferables = world.chains.map( (chainEntity) => {
 
 		return {
 			chainID: chainEntity.chainID,
@@ -136,7 +134,6 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	world.addChainLength = function addChainLength( lengthToAdd ) {
 
 		const chainEntity = world.chains.find( chain => chain.active );
-		const chainTransferable = world.chainTransferables.find( chain => chain.active );
 
 		chainEntity.addLength( lengthToAdd );
 

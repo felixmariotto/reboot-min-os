@@ -1,7 +1,7 @@
 
 /*
 
-This worker is instantiated once and scoped in the physics module.
+This web worker is instantiated once and scoped in the physics module.
 
 When the incoming message "data" object contains an "info" parameter, it will create
 a local representation of the game physics world, and be responsible for the physics
@@ -11,19 +11,17 @@ positions and velocities to the main thread.
 */
 
 import * as THREE from 'three';
-import params from '../params.js';
-
 import WorkerWorld from  './workerObjects/WorkerWorld.js';
 
 //
 
 const clock = new THREE.Clock();
 
-let world;
-
 const LOG_PERF = true;
+const events = [];
+
 let counter = 0;
-let events = [];
+let world;
 
 //
 

@@ -204,8 +204,6 @@ function getSelected() {
 
 function fromInfo( info ) {
 
-	if ( !info ) debugger
-
 	const shape = createShape( info.type );
 
 	switch ( info.type ) {

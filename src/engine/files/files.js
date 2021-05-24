@@ -55,7 +55,7 @@ function loadModel( url ) {
 
 	return promise
 
-};
+}
 
 //
 

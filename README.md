@@ -7,7 +7,7 @@ https://felixmariotto.github.io/chain/
 
 ## controls :
 
-Only playable on a laptop ( in my opinion it's impossible to map the game controls to mobile inputs ).   
+Only playable with mouse and keyboard.   
 
 **MOUSE MOVE :** move the camera around   
 **WASD :** move around   

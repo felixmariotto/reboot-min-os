@@ -5,6 +5,8 @@ import core from '../core/core.js';
 import files from '../files/files.js';
 import Level from './Level.js';
 
+import materials from '../graphics/materials.js';
+
 import ShadowedLight from '../misc/ShadowedLight.js';
 
 //
@@ -44,11 +46,19 @@ export default function Playground() {
 
 		// envmap
 
+		// cannot be level.scene
 		core.scene.environment = files.textures.roomEnvmap;
 		core.scene.background = files.textures.roomEnvmap;
 
+		// materials
+
+		const grassPatch = level.scene.getObjectByName('grass_patch');
+
+		grassPatch.material = materials.grassMaterial;
+
 		// shadows
 
+		/*
 		core.scene.traverse( (child) => {
 
 			if ( child.isMesh ) {
@@ -59,6 +69,7 @@ export default function Playground() {
 			}
 
 		} );
+		*/
 
 	} );
 

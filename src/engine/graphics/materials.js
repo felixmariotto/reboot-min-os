@@ -8,7 +8,10 @@ import grassMaterial from './grassMaterial.js';
 
 core.callInLoop( function updateMaterials() {
 
-	characterMaterial.userData.update( core.clock.getElapsedTime() );
+	const elapsedTime = core.clock.getElapsedTime();
+
+	characterMaterial.userData.update( elapsedTime );
+	grassMaterial.userData.update( elapsedTime );
 
 } );
 

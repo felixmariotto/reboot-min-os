@@ -1,35 +1,43 @@
 
 import * as THREE from 'three';
 
+import shaderUtils from './shaderUtils.js';
+
 //
 
 const vertexShader = `
 	varying vec2 vUv;
 	uniform float time;
 
+	${ shaderUtils.simpleNoise }
+
 	void main() {
 
-	vUv = uv;
+		vUv = uv;
+		float t = time * 2.;
 
-	// VERTEX POSITION
+		// VERTEX POSITION
 
-	vec4 mvPosition = vec4( position, 1.0 );
-	#ifdef USE_INSTANCING
-		mvPosition = instanceMatrix * mvPosition;
-	#endif
+		vec4 mvPosition = vec4( position, 1.0 );
+		#ifdef USE_INSTANCING
+			mvPosition = instanceMatrix * mvPosition;
+		#endif
 
-	// DISPLACEMENT
+		// DISPLACEMENT
 
-	// here the displacement is made stronger on the blades tips.
-	float dispPower = 1.0 - cos( uv.y * 3.1416 / 2.0 );
+		float noise = smoothNoise( mvPosition.xz * 0.5 + vec2(0., t) );
+		noise = pow( noise * 0.5 + 0.5, 2. ) * 2.;
 
-	float displacement = sin( mvPosition.z + time * 10.0 ) * ( 0.1 * dispPower );
-	mvPosition.z += displacement;
+		// here the displacement is made stronger on the blades tips.
+		float dispPower = 1. - cos( ( 1.0 - uv.y ) * 3.1416 * 0.5 );
 
-	//
+		float displacement = noise * ( 0.3 * dispPower );
+		mvPosition.z -= displacement;
 
-	vec4 modelViewPosition = modelViewMatrix * mvPosition;
-	gl_Position = projectionMatrix * modelViewPosition;
+		//
+
+		vec4 modelViewPosition = modelViewMatrix * mvPosition;
+		gl_Position = projectionMatrix * modelViewPosition;
 
 	}
 `;
@@ -38,9 +46,9 @@ const fragmentShader = `
 	varying vec2 vUv;
 
 	void main() {
-	vec3 baseColor = vec3( 0.41, 1.0, 0.5 );
-	float clarity = ( vUv.y * 0.5 ) + 0.5;
-	gl_FragColor = vec4( baseColor * clarity, 1 );
+		vec3 baseColor = vec3( 0.41, 1.0, 0.5 );
+		float clarity = 1.0 - ( vUv.y * 0.5 );
+		gl_FragColor = vec4( baseColor * clarity, 1 );
 	}
 `;
 

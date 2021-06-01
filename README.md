@@ -7,12 +7,12 @@ https://felixmariotto.github.io/chain/
 
 ## controls :
 
-Only playable on a laptop ( in my opinion its impossible to map the game controls to a mobile ).   
+Only playable with mouse and keyboard.   
 
-**MOUSE MOVE :** move the camera arond   
+**MOUSE MOVE :** move the camera around   
 **WASD :** move around   
-**E :** climp along the chain    
-**Q :** let the chain go when climbing    
+**E :** climb along the chain    
+**Q :** let the chain go while climbing    
 **SPACE :** jump
 
 

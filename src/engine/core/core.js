@@ -5,11 +5,13 @@ import params from '../params.js';
 
 // THREE.js
 
+const USE_STATS = true;
+
 let delta;
 let container;
 
 const stats = new Stats();
-document.body.appendChild( stats.dom );
+if ( USE_STATS ) document.body.appendChild( stats.dom );
 
 const scene = new THREE.Scene();
 
@@ -150,22 +152,15 @@ function listenMove( callback ) {
 
 //
 
-let counter = 0;
-
 function render() {
 
-	// counter++;
-
 	delta = deltaClock.getDelta();
-
-	// console.log( 'render delta', delta )
-	// if ( counter > 200 ) debugger
 
 	loopCallbacks.forEach( callback => callback( delta ) );
 
 	renderer.render( scene, camera );
 
-	stats.update();
+	if ( USE_STATS ) stats.update();
 
 }
 

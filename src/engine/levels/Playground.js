@@ -21,6 +21,8 @@ export default function Playground() {
 
 	level.start( true, false ).then( () => {
 
+		level.staticModel.then( v => console.log('static model children', v.children ))
+
 		// lights
 
 		const light = new THREE.AmbientLight( 0x404040 ); // soft white light

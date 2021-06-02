@@ -343,6 +343,13 @@ editorPage.start = function start() {
 
 		engine.core.init( editorViewport );
 
+		loop();
+
+		function loop() {
+			requestAnimationFrame(loop);
+			engine.core.render();
+		}
+
 		addLights();
 
 		//
@@ -526,7 +533,9 @@ function makeGrid() {
 
 	const axesHelper = new engine.THREE.AxesHelper( 100 );
 
-	const grid = new engine.InfiniteGridHelper( 1, 10, new engine.THREE.Color(0xededed) );
+	// const grid = new engine.InfiniteGridHelper( 1, 10, new engine.THREE.Color(0xededed) );
+
+	const grid = new engine.THREE.Mesh();
 
 	engine.core.scene.add( grid, axesHelper );
 

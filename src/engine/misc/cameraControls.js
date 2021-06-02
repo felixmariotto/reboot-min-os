@@ -7,6 +7,12 @@ import params from '../params.js';
 
 //
 
+const _vec = new THREE.Vector3();
+const _vec0 = new THREE.Vector3();
+const previousTargetPos = new THREE.Vector3();
+
+//
+
 core.callInLoop( loop );
 
 let loopCallback;
@@ -26,25 +32,46 @@ function orbitWorldPlayer( world ) {
 	let movement = new THREE.Vector2();
 	let targetMovement = new THREE.Vector2();
 
+	const targetTarget = new THREE.Vector3().copy( target.position );
+
 	//
 
 	loopCallback = () => {
+
+		targetTarget.lerp( target.position, params.cameraEasing );
 
 		// tween the camera towards the target position
 
 		core.camera.position.lerp( world.state.cameraTargetPos, params.cameraEasing );
 
-		core.camera.lookAt( target.position );
+		core.camera.lookAt( targetTarget );
 
 		// update the vector shared with the worker so the worker can
 		// apply collision and update it.
 
 		targetMovement.clampLength( 0, 1 );
 
-		world.state.cameraTargetPos.x += targetMovement.x;
-		world.state.cameraTargetPos.y += targetMovement.y;
+		_vec.copy( world.state.cameraTargetPos );
+
+		_vec.sub( targetTarget );
+		_vec.applyAxisAngle( target.up, targetMovement.x * 0.2 );
+		_vec.add( targetTarget );
+
+		_vec0.copy( target.position ).sub( previousTargetPos );
+
+		_vec.add( _vec0 );
+
+		//
+
+		world.state.cameraTargetPos.x = _vec.x;
+		world.state.cameraTargetPos.y = _vec.y;
+		world.state.cameraTargetPos.z = _vec.z;
 
 		targetMovement.setScalar( 0 );
+
+		//
+
+		previousTargetPos.copy( target.position );
 
 	}
 

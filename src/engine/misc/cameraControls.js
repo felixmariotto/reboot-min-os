@@ -30,15 +30,14 @@ function orbitWorldPlayer( world ) {
 
 	loopCallback = () => {
 
-		//
-
-		
-
-		// console.log( world.state.cameraTargetPos )
+		// tween the camera towards the target position
 
 		core.camera.position.lerp( world.state.cameraTargetPos, params.cameraEasing );
 
 		core.camera.lookAt( target.position );
+
+		// update the vector shared with the worker so the worker can
+		// apply collision and update it.
 
 		targetMovement.clampLength( 0, 1 );
 
@@ -59,9 +58,6 @@ function orbitWorldPlayer( world ) {
 		movement.y = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
 		targetMovement.addScaledVector( movement, 0.003 );
-
-		// world.state.cameraTargetPos.x += ( movement.x * 0.003 );
-		// world.state.cameraTargetPos.y += ( movement.y * 0.003 );
 
 	});
 

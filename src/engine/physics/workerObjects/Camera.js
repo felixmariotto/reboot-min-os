@@ -72,7 +72,7 @@ function update( world, cameraTargetPos ) {
 
 					if ( penetrationVec ) {
 
-						this.position.sub( penetrationVec );
+						this.position.addScaledVector( penetrationVec, -1.05 );
 
 						mustBreak = true;
 

@@ -18,7 +18,7 @@ export default {
 	cameraVerticalSpeed: 10,
 	cameraEasing: 0.1,
 	cameraColliderRadius: 1,
-	cameraCollisionPasses: 6,
+	camStepDistance: 0.3, // step distance of the camera collision check in the physics loop
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),

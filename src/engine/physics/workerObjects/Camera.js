@@ -9,6 +9,7 @@ import Sphere from './Sphere.js';
 
 //
 
+const _vec = new THREE.Vector3();
 const targetVec = new THREE.Vector3();
 let penetrationVec;
 
@@ -20,8 +21,7 @@ export default function Camera() {
 		Body(),
 		{
 			isCamera: true,
-			update,
-			lastPosition: new THREE.Vector3()
+			update
 		}
 	);
 
@@ -48,14 +48,18 @@ function update( world, cameraTargetPos ) {
 
 	} );
 
-	//
+	// we check for collision every fixed distance step along the way
+	// between the camera position and its target position.
 
-	for ( let i=0 ; i<params.cameraCollisionPasses ; i++ ) {
+	const totalDist = this.position.distanceTo( cameraTargetPos );
+	const steps = Math.ceil( totalDist / params.camStepDistance ) || 1;
 
-		this.position.lerpVectors(
-			this.lastPosition,
+	for ( let i = 0 ; i < steps + 1 ; i++ ) {
+
+		_vec.lerpVectors(
+			this.position,
 			cameraTargetPos,
-			i / ( params.cameraCollisionPasses - 1 )
+			i / steps
 		);
 
 		this.updateMatrixWorld();
@@ -72,7 +76,7 @@ function update( world, cameraTargetPos ) {
 
 					if ( penetrationVec ) {
 
-						this.position.addScaledVector( penetrationVec, -1.05 );
+						_vec.addScaledVector( penetrationVec, -1.05 );
 
 						mustBreak = true;
 
@@ -90,7 +94,7 @@ function update( world, cameraTargetPos ) {
 
 	//
 
-	this.lastPosition.copy( this.position );
+	this.position.copy( _vec );
 
 	cameraTargetPos.x = this.position.x;
 	cameraTargetPos.y = this.position.y;

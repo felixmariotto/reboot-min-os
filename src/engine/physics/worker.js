@@ -43,7 +43,7 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			world = WorkerWorld( e.data.info );
 
-			world.camera.lastPosition.copy( e.data.state.cameraTargetPos );
+			world.camera.position.copy( e.data.state.cameraTargetPos );
 
 		} else if ( e.data.isEvent ) {
 

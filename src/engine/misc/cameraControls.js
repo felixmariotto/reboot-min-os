@@ -64,6 +64,8 @@ function orbitWorldPlayer( world ) {
 
 	loopCallback = () => {
 
+		// get camera position wanted by the user input
+
 		targetPosition.set(
 			0,
 			params.thirdPersCameraTarget.y,
@@ -76,9 +78,18 @@ function orbitWorldPlayer( world ) {
 
 		targetPosition.add( targetTarget );
 
-		core.camera.position.lerp( targetPosition, params.cameraEasing );
+		// lerp camera position with target position corrected by worker.
+		// the camera was collided against the world to avoid traversing walls etc..
+
+		core.camera.position.lerp( world.state.cameraTargetPos, params.cameraEasing );
 
 		core.camera.lookAt( targetTarget );
+
+		// give the worker the target position to collide against the world
+
+		world.state.cameraTargetPos.x = targetPosition.x;
+		world.state.cameraTargetPos.y = targetPosition.y;
+		world.state.cameraTargetPos.z = targetPosition.z;
 
 	}
 

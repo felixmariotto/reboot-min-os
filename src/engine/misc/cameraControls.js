@@ -97,9 +97,9 @@ function orbitWorldPlayer( world ) {
 		world.state.cameraTargetPos.y = _vec.y;
 		world.state.cameraTargetPos.z = _vec.z;
 
-		targetMovement.setScalar( 0 );
-
 		//
+
+		targetMovement.setScalar( 0 );
 
 		previousTargetPos.copy( target.position );
 

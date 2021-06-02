@@ -21,7 +21,8 @@ export default function Camera() {
 		Body(),
 		{
 			isCamera: true,
-			update
+			update,
+			lastPosition: new THREE.Vector3()
 		}
 	);
 
@@ -54,17 +55,17 @@ function update( world, cameraTargetPos ) {
 	const totalDist = this.position.distanceTo( cameraTargetPos );
 	const steps = Math.ceil( totalDist / params.camStepDistance ) || 1;
 
+	let mustBreak;
+
 	for ( let i = 0 ; i < steps + 1 ; i++ ) {
 
-		_vec.lerpVectors(
-			this.position,
+		this.position.lerpVectors(
+			this.lastPosition,
 			cameraTargetPos,
 			i / steps
 		);
 
 		this.updateMatrixWorld();
-
-		let mustBreak;
 
 		this.children.forEach( (shape) => {
 
@@ -76,7 +77,7 @@ function update( world, cameraTargetPos ) {
 
 					if ( penetrationVec ) {
 
-						_vec.addScaledVector( penetrationVec, -1.05 );
+						this.position.addScaledVector( penetrationVec, -1.05 );
 
 						mustBreak = true;
 
@@ -94,7 +95,7 @@ function update( world, cameraTargetPos ) {
 
 	//
 
-	this.position.copy( _vec );
+	this.lastPosition.copy( this.position );
 
 	cameraTargetPos.x = this.position.x;
 	cameraTargetPos.y = this.position.y;

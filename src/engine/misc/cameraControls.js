@@ -65,12 +65,12 @@ function orbitWorldPlayer( world ) {
 		// turn around the player according to x mousemove
 		
 		_vec.sub( targetTarget );
-		_vec.applyAxisAngle( target.up, targetMovement.x * 0.2 );
+		_vec.applyAxisAngle( target.up, targetMovement.x * params.cameraHorizontalSpeed );
 		_vec.add( targetTarget );
 
 		// slent around the player according to y mousemove
 
-		_vec.y += targetMovement.y;
+		_vec.y -= targetMovement.y * params.cameraVerticalSpeed;
 
 		// clamp slent
 

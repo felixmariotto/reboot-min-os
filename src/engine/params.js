@@ -9,11 +9,13 @@ export default {
 	// caused by worker <=> main thread message latency.
 	positionSmoothing: 0.5,
 
-	cameraFOV: 80,
+	cameraFOV: 85,
 	cameraNear: 0.1,
 	cameraFar: 200,
 	thirdPersCameraInit: new THREE.Vector3( 0, 8, 8 ),
 	camMinMaxHeight: [ 5, 10 ], // relative to the player position
+	cameraHorizontalSpeed: 0.25,
+	cameraVerticalSpeed: 10,
 	cameraEasing: 0.1,
 	cameraColliderRadius: 1,
 	cameraCollisionPasses: 6,

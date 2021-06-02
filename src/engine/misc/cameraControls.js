@@ -9,7 +9,9 @@ import params from '../params.js';
 
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
-const previousTargetPos = new THREE.Vector3();
+const _vec2 = new THREE.Vector3();
+
+const NOMINAL_PLAYER_CAM_DIST = params.thirdPersCameraInit.length();
 
 //
 
@@ -33,7 +35,7 @@ function orbitWorldPlayer( world ) {
 	let targetMovement = new THREE.Vector2();
 
 	const targetTarget = new THREE.Vector3().copy( target.position );
-
+	
 	//
 
 	loopCallback = () => {
@@ -54,19 +56,30 @@ function orbitWorldPlayer( world ) {
 		_vec.copy( world.state.cameraTargetPos );
 
 		// turn around the player according to x mousemove
+
 		_vec.sub( targetTarget );
 		_vec.applyAxisAngle( target.up, targetMovement.x * 0.2 );
 		_vec.add( targetTarget );
 
-		// follow the player
-		_vec0.copy( target.position ).sub( previousTargetPos );
+		// make the camera move horizontally toward its nominal distance to the player
 
-		_vec.add( _vec0 );
+		const playerToCamera = _vec0.copy( core.camera.position ).sub( target.position );
+		const flatLength = Math.sqrt( Math.pow( playerToCamera.x, 2 ) + Math.pow( playerToCamera.z, 2 ) );
+		const targetFlatLength = Math.sqrt( Math.pow( NOMINAL_PLAYER_CAM_DIST, 2 ) - Math.pow( playerToCamera.y, 2 ) );
+		
+		const easedFlatLength = ( targetFlatLength - flatLength ) * 0.1;
+		_vec2.set( playerToCamera.x, playerToCamera.z );
+		_vec2.setLength( easedFlatLength );
+
+		_vec.x += _vec2.x;
+		_vec.z += _vec2.z;
 
 		// slent around the player according to y mousemove
+		
 		_vec.y += targetMovement.y;
 
 		// clamp slent
+
 		_vec.y = THREE.MathUtils.clamp(
 			_vec.y,
 			targetTarget.y + params.camMinMaxHeight[0],
@@ -80,10 +93,6 @@ function orbitWorldPlayer( world ) {
 		world.state.cameraTargetPos.z = _vec.z;
 
 		targetMovement.setScalar( 0 );
-
-		//
-
-		previousTargetPos.copy( target.position );
 
 	}
 

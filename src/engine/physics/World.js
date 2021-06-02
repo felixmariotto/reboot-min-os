@@ -154,7 +154,8 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	// state parameters updated by the worker
 	world.state = {
 		playerIsColliding: false,
-		playerIsOnGround: false
+		playerIsOnGround: false,
+		cameraTargetPos: new THREE.Vector3()
 	}
 
 	// set player position now that the typed arrays are created

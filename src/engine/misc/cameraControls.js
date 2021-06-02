@@ -11,13 +11,17 @@ core.callInLoop( loop );
 
 let loopCallback;
 
+function loop() {
+
+	if ( loopCallback ) loopCallback();
+
+}
+
 //
 
-function orbitDynamicObj( target ) {
+function orbitWorldPlayer( world ) {
 
-	if ( !target.isBody ) {
-		console.warn('characterControl.controlVelocity : target is not a body');
-	}
+	const target = world.player;
 
 	const CAMERA_ROTATION_EASING = 0.1;
 
@@ -116,15 +120,7 @@ function orbitObj( target ) {
 
 //
 
-function loop() {
-
-	if ( loopCallback ) loopCallback();
-
-}
-
-//
-
 export default {
 	orbitObj,
-	orbitDynamicObj
+	orbitWorldPlayer
 }

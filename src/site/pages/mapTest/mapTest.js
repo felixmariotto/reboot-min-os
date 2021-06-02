@@ -17,9 +17,7 @@ gamePage.start = function start() {
 
 		const world = engine.physics.World( sceneGraph, true, true );
 
-		engine.cameraControls.orbitDynamicObj( world.player );
-		// engine.cameraControls.orbitObj( world.player );
-
+		engine.cameraControls.orbitWorldPlayer( world );
 		engine.characterControls.controlVelocity( world );
 
 		// react upon item collection

@@ -38,14 +38,6 @@ function orbitWorldPlayer( world ) {
 
 	//
 
-	setInterval( () => {
-
-		console.log( world.state.cameraTargetPos )
-
-	}, 1000 );
-
-	//
-
 	core.renderer.domElement.requestPointerLock();
 
 	core.renderer.domElement.addEventListener( 'mousemove', (event) => {

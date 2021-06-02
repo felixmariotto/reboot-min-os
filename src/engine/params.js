@@ -14,6 +14,7 @@ export default {
 	cameraFar: 200,
 	thirdPersCameraTarget: new THREE.Vector3( 0, 15, 15 ),
 	cameraEasing: 0.1,
+	cameraColliderRadius: 1,
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),

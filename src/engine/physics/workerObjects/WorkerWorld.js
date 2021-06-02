@@ -21,6 +21,7 @@ import Sphere from './Sphere.js';
 import Cylinder from './Cylinder.js';
 import ChainPoint from './ChainPoint.js';
 import Player from './Player.js';
+import Camera from './Camera.js';
 import SpatialIndex from './SpatialIndex.js';
 
 //
@@ -193,14 +194,19 @@ export default function WorkerWorld( info ) {
 
 		world.add( body );
 
-		return body
-
 	} );
 
 	// when all the static bodies are added to the world,
 	// we compute the spatial index nodes.
 
 	world.spatialIndex.computeTree();
+
+	// camera
+
+	world.camera = Camera();
+
+	// necessary for collision
+	world.add( world.camera );
 
 	// player
 
@@ -271,7 +277,8 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 			if (
 				child.isChainLink ||
-				child.isChainPoint
+				child.isChainPoint ||
+				child.isCamera
 			) {
 				return
 			}
@@ -370,7 +377,8 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 			if (
 				body.isChainLink ||
-				body.isChainPoint
+				body.isChainPoint ||
+				body.isCamera
 			) {
 				return
 			}
@@ -432,6 +440,10 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 		state.playerIsOnGround = this.player.isOnGround;
 		state.playerIsColliding = this.player.isColliding;
+
+		// update camera state
+
+		this.camera.update( this, state.cameraTargetPos );
 
 	}
 

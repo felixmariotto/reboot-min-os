@@ -53,13 +53,25 @@ function orbitWorldPlayer( world ) {
 
 		_vec.copy( world.state.cameraTargetPos );
 
+		// turn around the player according to x mousemove
 		_vec.sub( targetTarget );
 		_vec.applyAxisAngle( target.up, targetMovement.x * 0.2 );
 		_vec.add( targetTarget );
 
+		// follow the player
 		_vec0.copy( target.position ).sub( previousTargetPos );
 
 		_vec.add( _vec0 );
+
+		// slent around the player according to y mousemove
+		_vec.y += targetMovement.y;
+
+		// clamp slent
+		_vec.y = THREE.MathUtils.clamp(
+			_vec.y,
+			targetTarget.y + params.camMinMaxHeight[0],
+			targetTarget.y + params.camMinMaxHeight[1]
+		);
 
 		//
 

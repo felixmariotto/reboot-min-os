@@ -157,8 +157,8 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 		playerIsOnGround: false,
 		cameraTargetPos: new THREE.Vector3(
 			0,
-			params.thirdPersCameraTarget.y,
-			params.thirdPersCameraTarget.z
+			params.thirdPersCameraInit.y,
+			params.thirdPersCameraInit.z
 		)
 	}
 

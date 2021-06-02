@@ -20,7 +20,8 @@ export default function Camera() {
 		Body(),
 		{
 			isCamera: true,
-			update
+			update,
+			lastPosition: new THREE.Vector3()
 		}
 	);
 
@@ -36,10 +37,6 @@ export default function Camera() {
 
 function update( world, cameraTargetPos ) {
 
-	this.position.copy( cameraTargetPos );
-
-	this.updateMatrixWorld();
-
 	const colliders = world.children.filter( (child) => {
 
 		return (
@@ -51,25 +48,49 @@ function update( world, cameraTargetPos ) {
 
 	} );
 
-	this.children.forEach( (shape) => {
+	//
 
-		colliders.forEach( (collider) => {
+	for ( let i=0 ; i<params.cameraCollisionPasses ; i++ ) {
 
-			collider.children.forEach( (colliderShape) => {
+		this.position.lerpVectors(
+			this.lastPosition,
+			cameraTargetPos,
+			i / ( params.cameraCollisionPasses - 1 )
+		);
 
-				penetrationVec = shape.penetrationIn( colliderShape, targetVec );
+		this.updateMatrixWorld();
 
-				if ( penetrationVec ) {
+		let mustBreak;
 
-					this.position.sub( penetrationVec );
+		this.children.forEach( (shape) => {
 
-				}
+			colliders.forEach( (collider) => {
+
+				collider.children.forEach( (colliderShape) => {
+
+					penetrationVec = shape.penetrationIn( colliderShape, targetVec );
+
+					if ( penetrationVec ) {
+
+						this.position.sub( penetrationVec );
+
+						mustBreak = true;
+
+					}
+
+				} );
 
 			} );
 
 		} );
 
-	} );
+		if ( mustBreak ) break
+
+	}
+
+	//
+
+	this.lastPosition.copy( this.position );
 
 	cameraTargetPos.x = this.position.x;
 	cameraTargetPos.y = this.position.y;

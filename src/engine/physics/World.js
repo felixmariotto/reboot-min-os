@@ -155,7 +155,11 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	world.state = {
 		playerIsColliding: false,
 		playerIsOnGround: false,
-		cameraTargetPos: new THREE.Vector3()
+		cameraTargetPos: new THREE.Vector3(
+			0,
+			params.thirdPersCameraTarget.y,
+			params.thirdPersCameraTarget.z
+		)
 	}
 
 	// set player position now that the typed arrays are created
@@ -167,9 +171,8 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	);
 
 	// tells the worker to create a new world.
-	this.worker.postMessage( { info } );
+	this.worker.postMessage( { info, state: world.state } );
 
-	// initial kick of the messages loop.
 	const postUpdates = () => {
 
 		const chainPositions = world.chainTransferables.map( chainT => chainT.positions.buffer );
@@ -190,6 +193,7 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	}
 
+	// initial kick of the messages loop.
 	postUpdates();
 
 	//

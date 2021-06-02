@@ -43,6 +43,8 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			world = WorkerWorld( e.data.info );
 
+			world.camera.lastPosition.copy( e.data.state.cameraTargetPos );
+
 		} else if ( e.data.isEvent ) {
 
 			const eventName = e.data.eventName;

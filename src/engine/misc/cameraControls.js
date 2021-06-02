@@ -23,6 +23,50 @@ function orbitWorldPlayer( world ) {
 
 	const target = world.player;
 
+	let movement = new THREE.Vector2();
+	let targetMovement = new THREE.Vector2();
+
+	//
+
+	loopCallback = () => {
+
+		//
+
+		
+
+		// console.log( world.state.cameraTargetPos )
+
+		core.camera.position.lerp( world.state.cameraTargetPos, params.cameraEasing );
+
+		core.camera.lookAt( target.position );
+
+		targetMovement.clampLength( 0, 1 );
+
+		world.state.cameraTargetPos.x += targetMovement.x;
+		world.state.cameraTargetPos.y += targetMovement.y;
+
+		targetMovement.setScalar( 0 );
+
+	}
+
+	//
+
+	core.renderer.domElement.requestPointerLock();
+
+	core.renderer.domElement.addEventListener( 'mousemove', (event) => {
+
+		movement.x = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+		movement.y = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+		targetMovement.addScaledVector( movement, 0.003 );
+
+		// world.state.cameraTargetPos.x += ( movement.x * 0.003 );
+		// world.state.cameraTargetPos.y += ( movement.y * 0.003 );
+
+	});
+
+	/*
+
 	//
 
 	let movementX = 0;
@@ -84,6 +128,8 @@ function orbitWorldPlayer( world ) {
 		world.state.cameraTargetPos.z = targetPosition.z;
 
 	}
+
+	*/
 
 }
 

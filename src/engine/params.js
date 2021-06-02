@@ -9,12 +9,13 @@ export default {
 	// caused by worker <=> main thread message latency.
 	positionSmoothing: 0.5,
 
-	cameraFOV: 70,
+	cameraFOV: 80,
 	cameraNear: 0.1,
 	cameraFar: 200,
-	thirdPersCameraTarget: new THREE.Vector3( 0, 15, 15 ),
+	thirdPersCameraTarget: new THREE.Vector3( 0, 10, 10 ),
 	cameraEasing: 0.1,
 	cameraColliderRadius: 1,
+	cameraCollisionPasses: 6,
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),

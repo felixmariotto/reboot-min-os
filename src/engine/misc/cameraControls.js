@@ -23,24 +23,26 @@ function orbitWorldPlayer( world ) {
 
 	const target = world.player;
 
-	const CAMERA_ROTATION_EASING = 0.1;
+	//
 
 	let movementX = 0;
 	let movementY = 0;
 
-	// y rot
 	let targetRot = 0;
-	let lastRot = 0;
-
-	// slent
 	let targetSlent = 1;
-	let lastSlent = 1;
 
-	// camera position
-	const lastPosition = new THREE.Vector3();
+	//
+
 	const targetPosition = new THREE.Vector3();
-
 	const targetTarget = new THREE.Vector3().copy( target.position );
+
+	//
+
+	setInterval( () => {
+
+		console.log( world.state.cameraTargetPos )
+
+	}, 1000 );
 
 	//
 
@@ -62,34 +64,19 @@ function orbitWorldPlayer( world ) {
 
 	loopCallback = () => {
 
-		lastRot += ( targetRot - lastRot ) * CAMERA_ROTATION_EASING;
-		lastSlent += ( targetSlent - lastSlent ) * CAMERA_ROTATION_EASING;
-
-		targetTarget.lerp( target.position, 0.1 );
-
-		// _vec.copy( target.position );
-
-		//
-
 		targetPosition.set(
 			0,
 			params.thirdPersCameraTarget.y,
-			params.thirdPersCameraTarget.z * ( lastSlent * 0.5 + 0.5 )
+			params.thirdPersCameraTarget.z * ( targetSlent * 0.5 + 0.5 )
 		);
 
-		targetPosition.applyAxisAngle( target.up, lastRot );
+		targetPosition.applyAxisAngle( target.up, targetRot );
+
+		targetTarget.lerp( target.position, params.cameraEasing );
 
 		targetPosition.add( targetTarget );
 
-		lastPosition.set(
-			targetPosition.x,
-			THREE.MathUtils.lerp( lastPosition.y, targetPosition.y, 0.02 ),
-			targetPosition.z
-		);
-
-		//
-
-		core.camera.position.copy( lastPosition );
+		core.camera.position.lerp( targetPosition, params.cameraEasing );
 
 		core.camera.lookAt( targetTarget );
 

@@ -33,14 +33,7 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 
 			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
 
-			setInterval( () => {
-
-				console.log( this.world.state.cameraTargetPos )
-
-			}, 1000 );
-
 			cameraControls.orbitWorldPlayer( this.world );
-
 			characterControls.controlVelocity( this.world );
 
 			this.scene.add( this.world, staticModel );

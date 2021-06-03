@@ -333,8 +333,11 @@ function detachTransformControl() {
 // INITIALIZATION
 
 function loop() {
-	requestAnimationFrame(loop);
+
+	requestAnimationFrame( loop );
+
 	engine.core.render();
+
 }
 
 editorPage.start = function start() {
@@ -346,7 +349,7 @@ editorPage.start = function start() {
 
 		//
 
-		engine.core.init( editorViewport );
+		engine.core.init( editorViewport, true );
 
 		loop();
 

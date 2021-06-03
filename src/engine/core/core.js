@@ -45,7 +45,7 @@ window.addEventListener( 'resize', resize );
 
 //
 
-function init( domElement ) {
+function init( domElement, skipPointerLock ) {
 
 	container = domElement;
 
@@ -55,7 +55,7 @@ function init( domElement ) {
 
 	clock.start();
 
-	setupPointerLock();
+	if ( !skipPointerLock ) setupPointerLock();
 
 }
 

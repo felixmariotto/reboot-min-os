@@ -24,17 +24,109 @@ import ChainEntity from './ChainEntity.js';
 
 export default function World( info, makeKinematicHelpers , makeStaticHelpers ) {
 
+	const world = Object.assign(
+		Object.create( new THREE.Group() ),
+		{
+			isPaused: false,
+			init,
+			pause,
+			resume,
+			frame,
+			postUpdates,
+			addChainLength,
+			emitEvent,
+			handleEvent,
+			handleMessage,
+			receivedEvents: [],
+			worker: this.worker
+		}
+	);
+
+	core.scene.add( world );
+
+	world.init( info, makeKinematicHelpers , makeStaticHelpers );
+
+	return world
+
+}
+
+//
+
+function frame() {
+
+	if ( !this.isPaused ) {
+
+		core.render();
+
+		this.postUpdates();
+
+	}
+
+}
+
+function pause() {
+
+	this.isPaused = true;
+
+}
+
+function resume() {
+
+	this.isPaused = false;
+
+	this.frame();
+
+}
+
+//
+
+function postUpdates() {
+
+	const chainPositions = this.chainTransferables.map( chainT => chainT.positions.buffer );
+
+	this.worker.postMessage(
+		{
+			positions: this.positions,
+			velocities: this.velocities,
+			chains: this.chainTransferables,
+			state: this.state
+		},
+		[
+			this.positions.buffer,
+			this.velocities.buffer,
+			...chainPositions,
+		]
+	);
+
+}
+
+//
+
+function addChainLength( lengthToAdd ) {
+
+	const chainEntity = this.chains.find( chain => chain.active );
+
+	chainEntity.addLength( lengthToAdd );
+
+}
+
+// EVENTS
+
+function emitEvent( eventName, data ) {
+
+	this.worker.postMessage( { isEvent: true, eventName, data } );
+
+}
+
+function handleEvent( e ) { events.emit( e.eventName, e.data ) }
+
+// INIT
+
+function init( info, makeKinematicHelpers , makeStaticHelpers ) {
+
 	// keeps track of the nomber of entities the worker has to compute
 	// physics for.
 	info.serialCounter = 0;
-
-	// create a shallow world. In this main thread world we compute no physics,
-	// but we update entities position and state every time the worker send a
-	// message.
-
-	const world = new THREE.Group();
-
-	core.scene.add( world );
 
 	/////////////
 	// ENTITIES
@@ -42,14 +134,14 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	// BODIES
 
-	const entities = info.bodies.map( (bodyInfo) => {
+	this.entities = info.bodies.map( (bodyInfo) => {
 
 		bodyInfo.serial = info.serialCounter;
 		info.serialCounter ++;
 
 		const entity = Entity( bodyInfo );
 
-		world.add( entity );
+		this.add( entity );
 
 		if ( entity.isStatic && makeStaticHelpers ) entity.makeHelper();
 		else if ( !entity.isStatic && makeKinematicHelpers ) entity.makeHelper();
@@ -70,21 +162,21 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	info.player.serial = info.serialCounter;
 	info.serialCounter ++;
 
-	world.player = Entity( info.player );
+	this.player = Entity( info.player );
 
-	world.player.isPlayer = true;
+	this.player.isPlayer = true;
 
-	world.add( world.player );
+	this.add( this.player );
 
-	world.player.makeHelper();
+	this.player.makeHelper();
 
-	entities.push( world.player );
+	this.entities.push( this.player );
 
 	// CHAIN POINTS
 
-	const chainEntities = [];
+	this.chainEntities = [];
 
-	world.chains = info.chainPoints.map( (cpInfo, i) => {
+	this.chains = info.chainPoints.map( (cpInfo, i) => {
 
 		cpInfo.chainID = i;
 
@@ -95,19 +187,19 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 		// chain spheres are not added to entities, they are updated
 		// by looping through a chainEntity.sphereEntities.
 
-		chainEntities.push( chainEntity );
+		this.chainEntities.push( chainEntity );
 
 		if ( cpInfo.bodyName.length ) {
 
-			world.getObjectByName( cpInfo.bodyName ).add( chainEntity )
+			this.getObjectByName( cpInfo.bodyName ).add( chainEntity )
 
 		} else {
 
-			world.add( chainEntity );
+			this.add( chainEntity );
 
 		}
 
-		world.add( chainEntity.spheresContainer );
+		this.add( chainEntity.spheresContainer );
 
 		// update info object so we are sure the web worker
 		// will have the same chain
@@ -121,7 +213,7 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	} );
 
-	world.chainTransferables = world.chains.map( (chainEntity) => {
+	this.chainTransferables = this.chains.map( (chainEntity) => {
 
 		return {
 			chainID: chainEntity.chainID,
@@ -132,27 +224,16 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	} );
 
-	world.addChainLength = function addChainLength( lengthToAdd ) {
-
-		const chainEntity = world.chains.find( chain => chain.active );
-
-		chainEntity.addLength( lengthToAdd );
-
-	}
-
 	///////////
 	// WORKER
 	///////////
 
-	const clock = new THREE.Clock();
-	const targetDt = 1 / 60;
-
 	// arrays that get transferred to and from the worker.
-	world.positions = new Float32Array( info.serialCounter * 3 );
-	world.velocities = new Float32Array( info.serialCounter * 3 );
+	this.positions = new Float32Array( info.serialCounter * 3 );
+	this.velocities = new Float32Array( info.serialCounter * 3 );
 
 	// state parameters updated by the worker
-	world.state = {
+	this.state = {
 		playerIsColliding: false,
 		playerIsOnGround: false,
 		cameraTargetPos: new THREE.Vector3(
@@ -163,189 +244,33 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	}
 
 	// set player position now that the typed arrays are created
-	world.player.setVectorArray(
+	this.player.setVectorArray(
 		Number( info.player.x ),
 		Number( info.player.y ),
 		Number( info.player.z ),
-		world.positions
+		this.positions
 	);
 
 	// tells the worker to create a new world.
-	this.worker.postMessage( { info, state: world.state } );
-
-	const postUpdates = () => {
-
-		const chainPositions = world.chainTransferables.map( chainT => chainT.positions.buffer );
-
-		this.worker.postMessage(
-			{
-				positions: world.positions,
-				velocities: world.velocities,
-				chains: world.chainTransferables,
-				state: world.state
-			},
-			[
-				world.positions.buffer,
-				world.velocities.buffer,
-				...chainPositions,
-			]
-		);
-
-	}
+	this.worker.postMessage( { info, state: this.state } );
 
 	// initial kick of the messages loop.
-	postUpdates();
+	this.postUpdates();
 
 	//
 
-	const receivedEvents = [];
-
-	world.emitEvent = ( eventName, data ) => {
-
-		this.worker.postMessage( { isEvent: true, eventName, data } );
-
-	}
-
-	function handleEvent( e ) { events.emit( e.eventName, e.data ) }
-
-	//
-
-	this.worker.onmessage = function (e) {
-
-		if ( e.data.isEvent ) {
-
-			const eventName = e.data.eventName;
-			const data = e.data.data;
-
-			receivedEvents.push( { eventName, data } )
-
-		} else {
-
-			// we must access the data first thing, or it's not actually transferred.
-
-			world.positions = e.data.positions;
-			world.velocities = e.data.velocities;
-			world.chainTransferables = e.data.chains;
-			world.state = e.data.state;
-
-			// update chain entities
-
-			for ( let i=0 ; i<world.chainTransferables.length ; i++ ) {
-
-				if ( world.chainTransferables[i].active ) {
-
-					// we check if the main thread updated the chain entity since the last frame.
-
-					if ( world.chainTransferables[i].positions.length === world.chains[i].pointsNumber * 3 ) {
-
-						chainEntities[i].active = true;
-						chainEntities[i].spheresContainer.visible = true;
-						chainEntities[i].updateFromArray( world.chainTransferables[i].positions );
-
-					// if the main thread updated the chain entity length, we update the transferable
-					// object accordingly.
-
-					} else {
-
-						const oldArray = world.chainTransferables[i].positions;
-						const newArray = new Float32Array( world.chains[i].pointsNumber * 3 );
-
-						for ( let i=0 ; i<oldArray.length ; i++ ) {
-							newArray[i] = oldArray[i];
-						}
-
-						world.chainTransferables[i].spheresNumber = world.chains[i].spheresNumber
-						world.chainTransferables[i].positions = newArray;
-
-						// we add more info to the transferable object, because the
-						// worker will need it.
-						world.chainTransferables[i].length =  world.chains[i].length;
-
-						world.chains[i].setPosArray( world.chainTransferables[i].positions );
-
-					}
-
-				} else {
-
-					chainEntities[i].active = false;
-					chainEntities[i].spheresContainer.visible = false;
-
-				}
-
-			}
-
-			// update player state
-
-			world.player.isOnGround = world.state.playerIsOnGround;
-			world.player.isColliding = world.state.playerIsColliding;
-
-			// update each entity with the new positions.
-
-			entities.forEach( (entity) => {
-
-				entity.updatePosition( world.positions );
-				entity.updateVelocity( world.velocities )
-
-			} );
-
-			// handle events received from the worker
-
-			for ( let i = receivedEvents.length-1; i>-1 ; i-- ) {
-			
-				handleEvent( receivedEvents[i] );
-
-				receivedEvents.splice( i, 1 );
-
-			}
-
-			// update player with controls
-
-			if ( world.controller ) world.controller();
-
-			// render the updated scene and send a request for new data at 60 FPS.
-
-			requestAnimationFrame( frame )
-
-		}
-
-	}
-
-	function frame() {
-
-		if ( !world.isPaused ) {
-
-			core.render();
-
-			postUpdates();
-
-		}
-
-	}
-
-	world.pause = function pause() {
-
-		world.isPaused = true;
-
-	}
-
-	world.resume =  function resume() {
-
-		world.isPaused = false;
-
-		frame();
-
-	}
+	this.worker.onmessage = (e) => this.handleMessage(e);
 
 	// Linear interpolation between the entity position and the received position.
 	// This smooth out most of the jittering.
 
 	core.callInLoop( () => {
 
-		entities.forEach( (entity) => {
+		this.entities.forEach( (entity) => {
 
 			entity.position.lerp( entity.targetPos, params.positionSmoothing );
 
-			world.chains.forEach( (chain) => {
+			this.chains.forEach( (chain) => {
 
 				chain.sphereEntities.forEach( sEntity => sEntity.position.lerp( sEntity.targetPos, 0.3 ) )
 
@@ -355,8 +280,106 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	} );
 
-	//
+}
 
-	return world
+//
+
+function handleMessage(e) {
+
+	if ( e.data.isEvent ) {
+
+		const eventName = e.data.eventName;
+		const data = e.data.data;
+
+		this.receivedEvents.push( { eventName, data } )
+
+	} else {
+
+		// we must access the data first thing, or it's not actually transferred.
+
+		this.positions = e.data.positions;
+		this.velocities = e.data.velocities;
+		this.chainTransferables = e.data.chains;
+		this.state = e.data.state;
+
+		// update chain entities
+
+		for ( let i=0 ; i<this.chainTransferables.length ; i++ ) {
+
+			if ( this.chainTransferables[i].active ) {
+
+				// we check if the main thread updated the chain entity since the last frame.
+
+				if ( this.chainTransferables[i].positions.length === this.chains[i].pointsNumber * 3 ) {
+
+					this.chainEntities[i].active = true;
+					this.chainEntities[i].spheresContainer.visible = true;
+					this.chainEntities[i].updateFromArray( this.chainTransferables[i].positions );
+
+				// if the main thread updated the chain entity length, we update the transferable
+				// object accordingly.
+
+				} else {
+
+					const oldArray = this.chainTransferables[i].positions;
+					const newArray = new Float32Array( this.chains[i].pointsNumber * 3 );
+
+					for ( let i=0 ; i<oldArray.length ; i++ ) {
+						newArray[i] = oldArray[i];
+					}
+
+					this.chainTransferables[i].spheresNumber = this.chains[i].spheresNumber
+					this.chainTransferables[i].positions = newArray;
+
+					// we add more info to the transferable object, because the
+					// worker will need it.
+					this.chainTransferables[i].length =  this.chains[i].length;
+
+					this.chains[i].setPosArray( this.chainTransferables[i].positions );
+
+				}
+
+			} else {
+
+				this.chainEntities[i].active = false;
+				this.chainEntities[i].spheresContainer.visible = false;
+
+			}
+
+		}
+
+		// update player state
+
+		this.player.isOnGround = this.state.playerIsOnGround;
+		this.player.isColliding = this.state.playerIsColliding;
+
+		// update each entity with the new positions.
+
+		this.entities.forEach( (entity) => {
+
+			entity.updatePosition( this.positions );
+			entity.updateVelocity( this.velocities )
+
+		} );
+
+		// handle events received from the worker
+
+		for ( let i = this.receivedEvents.length-1; i>-1 ; i-- ) {
+		
+			this.handleEvent( this.receivedEvents[i] );
+
+			this.receivedEvents.splice( i, 1 );
+
+		}
+
+		// update player with controls
+
+		if ( this.controller ) this.controller();
+
+		// render the updated scene and send a request for new data at 60 FPS.
+
+		requestAnimationFrame( () => this.frame() )
+
+	}
 
 }

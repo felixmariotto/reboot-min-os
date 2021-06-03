@@ -9,7 +9,6 @@ import Sphere from './Sphere.js';
 
 //
 
-const _vec = new THREE.Vector3();
 const targetVec = new THREE.Vector3();
 let penetrationVec;
 

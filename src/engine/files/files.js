@@ -71,7 +71,7 @@ function loadModel( url ) {
 			// update every object matrix, so later we can compute the matrixWorld of meshes.
 			glb.scene.updateWorldMatrix( false, true );
 
-			for ( let instanceName in instances ) {
+			for ( const instanceName in instances ) {
 
 				const instList = instances[ instanceName ];
 

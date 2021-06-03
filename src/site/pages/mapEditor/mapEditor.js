@@ -332,6 +332,11 @@ function detachTransformControl() {
 
 // INITIALIZATION
 
+function loop() {
+	requestAnimationFrame(loop);
+	engine.core.render();
+}
+
 editorPage.start = function start() {
 
 	try {
@@ -344,11 +349,6 @@ editorPage.start = function start() {
 		engine.core.init( editorViewport );
 
 		loop();
-
-		function loop() {
-			requestAnimationFrame(loop);
-			engine.core.render();
-		}
 
 		addLights();
 

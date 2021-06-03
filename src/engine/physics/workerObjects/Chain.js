@@ -167,8 +167,6 @@ function resolve() {
 
 function constrainPoints( p1, p2 ) {
 
-	if ( !p1 ) debugger
-
 	// get the distance between the points
 
 	const diff = _vec

@@ -11,7 +11,6 @@ import params from '../params.js';
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 const _vec1 = new THREE.Vector3();
-const _vec2 = new THREE.Vector3();
 const previousTargetPos = new THREE.Vector3();
 
 const NOMINAL_PLAYER_CAM_DIST = params.thirdPersCameraInit.length();
@@ -34,8 +33,8 @@ function orbitWorldPlayer( world ) {
 
 	const target = world.player;
 
-	let movement = new THREE.Vector2();
-	let targetMovement = new THREE.Vector2();
+	const movement = new THREE.Vector2();
+	const targetMovement = new THREE.Vector2();
 
 	const targetTarget = new THREE.Vector3().copy( target.position );
 	

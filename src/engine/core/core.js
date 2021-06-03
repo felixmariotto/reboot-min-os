@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import params from '../params.js';
+import events from '../misc/events.js';
 
 // THREE.js
 
@@ -54,11 +55,7 @@ function init( domElement ) {
 
 	clock.start();
 
-	renderer.domElement.addEventListener( 'click', () => {
-
-		renderer.domElement.requestPointerLock();
-
-	} );
+	setupPointerLock();
 
 }
 
@@ -71,6 +68,40 @@ function resize() {
 
 	renderer.setSize( container.offsetWidth, container.offsetHeight );
 
+}
+
+//
+
+function setupPointerLock() {
+
+	renderer.domElement.requestPointerLock();
+
+	renderer.domElement.addEventListener( 'click', () => {
+
+		renderer.domElement.requestPointerLock();
+
+	} );
+
+	document.addEventListener( 'pointerlockchange', () => {
+
+		if ( !document.pointerLockElement ) {
+
+			// console.log( "Pointer unlocked" );
+
+			events.emit( 'pause' );
+
+		} else {
+
+			// console.log( "Pointer locked" );
+
+		}
+
+	}, false);
+
+}
+
+function pointerLockChange() {
+	console.log('hey')
 }
 
 //

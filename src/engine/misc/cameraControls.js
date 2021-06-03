@@ -107,8 +107,6 @@ function orbitWorldPlayer( world ) {
 
 	//
 
-	core.renderer.domElement.requestPointerLock();
-
 	core.renderer.domElement.addEventListener( 'mousemove', (event) => {
 
 		movement.x = event.movementX || event.mozMovementX || event.webkitMovementX || 0;

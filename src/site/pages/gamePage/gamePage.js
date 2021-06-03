@@ -23,6 +23,12 @@ gamePage.start = function start() {
 
 	} );
 
+	engine.on( 'pause', () => {
+
+		console.log('show menu')
+
+	} );
+
 	/*
 
 	engine.files.loadLocalMapFile( ( sceneGraph ) => {

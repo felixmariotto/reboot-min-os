@@ -90,19 +90,75 @@ function computeTargetDir() {
 // GAMEPAD
 ////////////
 
-let gamepad;
+const gamepadButtonsState = {
+	jump: false,
+	pull: false,
+	release: false
+};
 
-window.addEventListener( 'gamepadconnected', ( e ) => {
-
-	gamepad = e.gamepad;
-
-	core.callInLoop( updateGamepadState );
-
-} );
+core.callInLoop( updateGamepadState );
 
 function updateGamepadState() {
 
-	console.log( gamepad );
+	const gamepads = navigator.getGamepads();
+
+	if ( gamepads[0] ) {
+
+		api.targetDirection.x = -1 * gamepads[0].axes[0];
+		api.targetDirection.y = -1 * gamepads[0].axes[1];
+
+		// fire events on button press and wait after button release before firing again.
+
+		if ( gamepads[0].buttons[0].pressed ) {
+
+			if ( !gamepadButtonsState.jump ) {
+
+				events.emit( 'jump-key-down' );
+				gamepadButtonsState.jump = true;
+
+			}
+			
+		} else {
+
+			gamepadButtonsState.jump = false;
+
+		}
+
+		//
+
+		if ( gamepads[0].buttons[2].pressed ) {
+
+			if ( !gamepadButtonsState.pull ) {
+
+				events.emit( 'pull-key-down' );
+				gamepadButtonsState.pull = true;
+
+			}
+			
+		} else {
+
+			gamepadButtonsState.pull = false;
+
+		}
+
+		//
+
+		if ( gamepads[0].buttons[3].pressed ) {
+
+			if ( !gamepadButtonsState.release ) {
+
+				events.emit( 'release-key-down' );
+				gamepadButtonsState.release = true;
+
+			}
+			
+		} else {
+
+			gamepadButtonsState.release = false;
+
+		}
+
+	}
 
 }
 

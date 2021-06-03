@@ -1,6 +1,7 @@
 
 import * as THREE from 'three';
 import events from './events.js';
+import core from '../core/core.js';
 
 //
 
@@ -16,6 +17,10 @@ const arrowState = {
 	right: false,
 	left: false
 };
+
+/////////////
+// KEYBOARD
+/////////////
 
 window.addEventListener( 'keydown', (e) => {
 
@@ -78,6 +83,26 @@ function computeTargetDir() {
 	api.targetDirection.x = ( arrowState.right - arrowState.left );
 
 	api.targetDirection.normalize();
+
+}
+
+////////////
+// GAMEPAD
+////////////
+
+let gamepad;
+
+window.addEventListener( 'gamepadconnected', ( e ) => {
+
+	gamepad = e.gamepad;
+
+	core.callInLoop( updateGamepadState );
+
+} );
+
+function updateGamepadState() {
+
+	console.log( gamepad );
 
 }
 

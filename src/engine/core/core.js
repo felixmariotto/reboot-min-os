@@ -100,10 +100,6 @@ function setupPointerLock() {
 
 }
 
-function pointerLockChange() {
-	console.log('hey')
-}
-
 //
 
 const moveCallbacks = [];

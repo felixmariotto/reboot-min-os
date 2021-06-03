@@ -352,6 +352,8 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 					this.chain.clear();
 
+					this.player.currentLink = 0;
+
 				}
 
 				// create a new chain attached to the player and the chainPoint

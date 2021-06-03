@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 import core from '../core/core.js';
+import input from '../misc/input.js';
 import params from '../params.js';
 
 //
@@ -41,6 +42,13 @@ function orbitWorldPlayer( world ) {
 	//
 
 	loopCallback = () => {
+
+		// if the player has a gamepad,
+		// they can move the camera with the right joystick
+
+		targetMovement.addScaledVector( input.targetCamDirection, 0.5 );
+
+		// tween the focus point of the camera
 
 		targetTarget.lerp( target.position, params.cameraEasing );
 

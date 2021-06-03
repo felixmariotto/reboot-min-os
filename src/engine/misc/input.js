@@ -7,6 +7,7 @@ import core from '../core/core.js';
 
 const api = {
 	targetDirection: new THREE.Vector2(),
+	targetCamDirection: new THREE.Vector2()
 }
 
 //
@@ -104,6 +105,8 @@ function updateGamepadState() {
 
 	if ( gamepads[0] ) {
 
+		// MOVEMENT JOYSTICK
+
 		api.targetDirection.x = -1 * gamepads[0].axes[0];
 		api.targetDirection.y = -1 * gamepads[0].axes[1];
 
@@ -121,6 +124,26 @@ function updateGamepadState() {
 			api.targetDirection.y = 0;
 		}
 
+		// CAMERA JOYSTICK
+
+		api.targetCamDirection.x = gamepads[0].axes[2];
+		api.targetCamDirection.y = gamepads[0].axes[3];
+
+		if (
+			api.targetCamDirection.x < 0.1 &&
+			api.targetCamDirection.x > -0.1
+		) {
+			api.targetCamDirection.x = 0;
+		}
+
+		if (
+			api.targetCamDirection.y < 0.1 &&
+			api.targetCamDirection.y > -0.1
+		) {
+			api.targetCamDirection.y = 0;
+		}
+
+		// BUTTONS
 		// fire events on button press and wait after button release before firing again.
 
 		if ( gamepads[0].buttons[0].pressed ) {

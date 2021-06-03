@@ -54,6 +54,12 @@ function init( domElement ) {
 
 	clock.start();
 
+	renderer.domElement.addEventListener( 'click', () => {
+
+		renderer.domElement.requestPointerLock();
+
+	} );
+
 }
 
 //
@@ -74,7 +80,7 @@ const clickCallbacks = [];
 
 function onMouseMove( event ) {
 
-	// calculate mouse position in normalized device coordinates
+	// compute mouse position in normalized device coordinates
 	// (-1 to +1) for both mouse components
 
 	if ( moveCallbacks.length || clickCallbacks.length ) {

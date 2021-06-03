@@ -447,6 +447,11 @@ function update( delta, positions, velocities, chains, state, events ) {
 
 		this.camera.update( this, state.cameraTargetPos );
 
+		// we want to allow the player to jump a short time after they
+		// started falling ( also help because the player might quit the ground for 0.1s while runing )
+
+		if ( this.player.isOnGround ) this.lastTimePlayerOnGround = Date.now();
+
 	}
 
 }
@@ -601,7 +606,7 @@ function handleEvent( e ) {
 
 		case 'jump' :
 
-			if ( this.player.isOnGround ) {
+			if ( Date.now() < this.lastTimePlayerOnGround + params.jumpGiftDelay ) {
 
 				this.player.velocity.y += params.playerJumpSpeed;
 

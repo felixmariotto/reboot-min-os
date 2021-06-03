@@ -19,6 +19,7 @@ export default {
 	cameraEasing: 0.1,
 	cameraColliderRadius: 1,
 	camStepDistance: 0.3, // step distance of the camera collision check in the physics loop
+	cameraGamepadPower: 0.3,
 
 	helpersMaterial: new THREE.MeshNormalMaterial(),
 	cpHelpersMaterial: new THREE.MeshNormalMaterial({ wireframe: true }),
@@ -48,7 +49,8 @@ export default {
 	notOnGroundHandicap: 0.08, // how much the player speed is reduced if not touching the ground ( but still colliding )
 	notCollidingHandicap: 0.03,
 	playerWeight: 0.3,
-	playerMass: 1
+	playerMass: 1,
+	jumpGiftDelay: 150 // in ms. Delay during which the player is allowed to jump after leaving ground.
 
 }
 

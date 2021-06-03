@@ -94,7 +94,8 @@ function computeTargetDir() {
 const gamepadButtonsState = {
 	jump: false,
 	pull: false,
-	release: false
+	release: false,
+	pause: false
 };
 
 core.callInLoop( updateGamepadState );
@@ -146,7 +147,10 @@ function updateGamepadState() {
 		// BUTTONS
 		// fire events on button press and wait after button release before firing again.
 
-		if ( gamepads[0].buttons[0].pressed ) {
+		if (
+			gamepads[0].buttons[0].pressed ||
+			gamepads[0].buttons[1].pressed
+		) {
 
 			if ( !gamepadButtonsState.jump ) {
 
@@ -192,6 +196,27 @@ function updateGamepadState() {
 		} else {
 
 			gamepadButtonsState.release = false;
+
+		}
+
+		//
+
+		if (
+			gamepads[0].buttons[8].pressed ||
+			gamepads[0].buttons[9].pressed ||
+			gamepads[0].buttons[16].pressed
+		) {
+
+			if ( !gamepadButtonsState.pause ) {
+
+				events.emit( 'pause' );
+				gamepadButtonsState.pause = true;
+
+			}
+
+		} else {
+
+			gamepadButtonsState.pause = false;
 
 		}
 

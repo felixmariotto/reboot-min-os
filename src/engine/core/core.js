@@ -84,17 +84,7 @@ function setupPointerLock() {
 
 	document.addEventListener( 'pointerlockchange', () => {
 
-		if ( !document.pointerLockElement ) {
-
-			// console.log( "Pointer unlocked" );
-
-			events.emit( 'pause' );
-
-		} else {
-
-			// console.log( "Pointer locked" );
-
-		}
+		if ( !document.pointerLockElement ) events.emit( 'pause' )
 
 	}, false);
 

@@ -312,9 +312,27 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	function frame() {
 
-		core.render();
+		if ( !world.isPaused ) {
 
-		postUpdates();
+			core.render();
+
+			postUpdates();
+
+		}
+
+	}
+
+	world.pause = function pause() {
+
+		world.isPaused = true;
+
+	}
+
+	world.resume =  function resume() {
+
+		world.isPaused = false;
+
+		frame();
 
 	}
 

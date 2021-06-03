@@ -6,7 +6,9 @@ import Playground from './Playground.js';
 let currentLevel;
 
 export default {
-	loadLevel
+	loadLevel,
+	pause,
+	resume
 }
 
 //
@@ -26,6 +28,30 @@ function loadLevel( levelName ) {
 		default :
 			console.warn('level name unknown')
 			break
+
+	}
+
+}
+
+//
+
+function pause() {
+
+	if ( currentLevel && currentLevel.world ) {
+
+		currentLevel.world.pause();
+
+	}
+
+}
+
+//
+
+function resume() {
+
+	if ( currentLevel && currentLevel.world ) {
+
+		currentLevel.world.resume();
 
 	}
 

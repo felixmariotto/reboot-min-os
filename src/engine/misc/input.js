@@ -107,6 +107,20 @@ function updateGamepadState() {
 		api.targetDirection.x = -1 * gamepads[0].axes[0];
 		api.targetDirection.y = -1 * gamepads[0].axes[1];
 
+		if (
+			api.targetDirection.x < 0.1 &&
+			api.targetDirection.x > -0.1
+		) {
+			api.targetDirection.x = 0;
+		}
+
+		if (
+			api.targetDirection.y < 0.1 &&
+			api.targetDirection.y > -0.1
+		) {
+			api.targetDirection.y = 0;
+		}
+
 		// fire events on button press and wait after button release before firing again.
 
 		if ( gamepads[0].buttons[0].pressed ) {

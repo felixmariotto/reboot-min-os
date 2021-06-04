@@ -23,7 +23,7 @@ export default function Playground() {
 
 	level.start( true, false ).then( () => {
 
-		level.staticModel.then( v => console.log('static model children', v.children ))
+		// level.staticModel.then( v => console.log('static model children', v.children ))
 
 		// lights
 

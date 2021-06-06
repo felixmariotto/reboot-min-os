@@ -1,5 +1,6 @@
 
 import { elem } from '../../utils.js';
+import menu from '../../components/menu/menu.js';
 
 //
 
@@ -8,6 +9,8 @@ const gamePage = elem({ id:'game-page', classes: 'game-container' });
 //
 
 gamePage.start = function start() {
+
+	gamePage.append( menu );
 
 	engine.core.init( gamePage );
 

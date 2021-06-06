@@ -112,29 +112,38 @@ function updateGamepadState() {
 		newJoystickValues.y = -1 * gamepads[0].axes[1];
 
 		if (
-			newJoystickValues.x < 0.1 &&
-			newJoystickValues.x > -0.1
+			newJoystickValues.x < 0.15 &&
+			newJoystickValues.x > -0.15
 		) {
 			newJoystickValues.x = 0;
 		}
 
 		if (
-			newJoystickValues.y < 0.1 &&
-			newJoystickValues.y > -0.1
+			newJoystickValues.y < 0.15 &&
+			newJoystickValues.y > -0.15
 		) {
 			newJoystickValues.y = 0;
 		}
 
 		// send events for the user interface
+
 		if ( !api.targetDirection.y && newJoystickValues.y ) {
-			
 			if ( newJoystickValues.y > 0 ) {
 				events.emit( 'joystick-hit-up' );
 			} else {
 				events.emit( 'joystick-hit-down' );
 			}
-
 		}
+
+		if ( !api.targetDirection.x && newJoystickValues.x ) {
+			if ( newJoystickValues.x < 0 ) {
+				events.emit( 'joystick-hit-right' );
+			} else {
+				events.emit( 'joystick-hit-left' );
+			}
+		}
+
+		//
 
 		api.targetDirection.x = newJoystickValues.x;
 		api.targetDirection.y = newJoystickValues.y;

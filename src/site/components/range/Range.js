@@ -1,20 +1,31 @@
 
 import './range.css';
-import { elemFromHTML } from '../../utils.js';
+import { elem, elemFromHTML } from '../../utils.js';
 
 //
 
 export default function Range( valName, text, min, max, step ) {
 
-	const range = elemFromHTML(`
-		<button class="range">
-			<input type="range" id="menu-range-${ valName }" name="${ valName }"
-				min="${ min }" max="${ max }, step=${ step }">
-			<label for="${ valName }">${ text }</label>
-		</button>
+	const input = elemFromHTML(`
+		<input type="range" id="menu-range-${ valName }" name="${ valName }"
+		min="${ min }" max="${ max }, step=${ step }">
 	`);
 
+	const label = elemFromHTML(`<label for="${ valName }">${ text }</label>`);
+
+	const range = elem({ tagName: 'BUTTON', classes: 'range' });
+	range.append( input, label );
 	range.isSelectable = true;
+
+	range.moveRight = () => {
+		input.value = Number( input.value ) + step;
+		console.log( input.value )
+	}
+
+	range.moveLeft = () => {
+		input.value = Number( input.value ) - step;
+		console.log( input.value )
+	}
 
 	return range
 

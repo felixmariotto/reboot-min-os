@@ -74,11 +74,11 @@ menu.append( baseList );
 
 const optionsList = List();
 
-const camFOV = Range( 'fov', 'Camera FOV', '50', '110', '1' );
+const camFOV = Range( 'fov', 'Camera FOV', 50, 120, 10 );
 const invertCamX = Checkbox( 'invertCamX', 'Invert camera horizontally', false );
 const invertCamY = Checkbox( 'invertCamY', 'Invert camera Vertically', false );
-const musicVolume = Range( 'musicVolume', 'Music volume', '0', '100', '1' );
-const soundVolume = Range( 'soundVolume', 'Sound effects volume', '0', '100', '1' );
+const musicVolume = Range( 'musicVolume', 'Music volume', 0, 100, 10 );
+const soundVolume = Range( 'soundVolume', 'Sound effects volume', 0, 100, 10 );
 
 const backBtn = Button( 'Back' );
 

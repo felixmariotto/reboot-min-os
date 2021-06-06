@@ -18,8 +18,6 @@ export default function List() {
 
 		selectables[ currentElement ].focus();
 
-		console.log( selectables[ currentElement ] )
-
 	}
 
 	function click() {
@@ -39,6 +37,7 @@ export default function List() {
 	}
 
 	// Called on joystick hits up or down.
+	// Move the focus across the list elements.
 
 	function moveUp() {
 
@@ -66,6 +65,32 @@ export default function List() {
 
 	}
 
+	// Used only to move the range input cursor
+
+	function moveLeft() {
+
+		const selectables = getSelectables();
+
+		if ( selectables[ currentElement ].moveLeft ) {
+
+			selectables[ currentElement ].moveLeft();
+
+		}
+
+	}
+
+	function moveRight() {
+		
+		const selectables = getSelectables();
+
+		if ( selectables[ currentElement ].moveRight ) {
+
+			selectables[ currentElement ].moveRight();
+
+		}
+
+	}
+
 	// Gamepad controls enabling/disabling.
 	// Only enabled when the user is in the menu and actively browsing it.
 
@@ -82,6 +107,18 @@ export default function List() {
 			engine.on( 'joystick-hit-down', () => {
 
 				if ( handling ) moveDown();
+
+			} );
+
+			engine.on( 'joystick-hit-right', () => {
+
+				if ( handling ) moveRight();
+
+			} );
+
+			engine.on( 'joystick-hit-left', () => {
+
+				if ( handling ) moveLeft();
 
 			} );
 

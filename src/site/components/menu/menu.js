@@ -14,4 +14,10 @@ menuContainer.append( menu, overlay );
 
 //
 
+menuContainer.show = () => menuContainer.classList.add( 'visible' );
+
+menuContainer.hide = () => menuContainer.classList.remove( 'visible' );
+
+//
+
 export default menuContainer

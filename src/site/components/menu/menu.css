@@ -13,7 +13,12 @@
 		background-color: rgba( 0, 0, 0, 0.5 );
 		pointer-events: auto;
 		z-index: 0;
+		display: none;
 	}
+
+		#menu-container.visible > #menu-overlay {
+			display: unset;
+		}
 
 	#menu {
 		position: fixed;

@@ -30,8 +30,14 @@ gamePage.start = function start() {
 
 		engine.levelManager.pause();
 
+		menu.show();
+
 		setTimeout( () => {
+
 			engine.levelManager.resume();
+
+			menu.hide();
+
 		}, 1000)
 
 	} );

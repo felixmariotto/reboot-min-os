@@ -21,6 +21,11 @@ const resumeBtn = Button( 'Resume' );
 const restartBtn = Button( 'Restart Level' );
 const optionsBtn = Button( 'Options' );
 
+resumeBtn.onclick = () => {
+	engine.levelManager.resume();
+	menuContainer.hide();
+}
+
 optionsBtn.onclick = () => {
 	menu.removeChild( baseContainer );
 	menu.append( options );

@@ -22,8 +22,18 @@ const restartBtn = Button( 'Restart Level' );
 const optionsBtn = Button( 'Options' );
 
 resumeBtn.onclick = () => {
-	engine.levelManager.resume();
-	menuContainer.hide();
+
+	// Failure to enable pointerlock happen very easily in Chrome.
+	// See : https://bugs.chromium.org/p/chromium/issues/detail?id=1127223
+	engine.core.makeSurePointerLock()
+	.then( (resp) => {
+		if ( resp === 'success' ) {
+			engine.levelManager.resume();
+			menuContainer.hide();
+		}
+	} )
+	.catch( err => console.log(err) );
+
 }
 
 optionsBtn.onclick = () => {

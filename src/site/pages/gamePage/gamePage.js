@@ -26,7 +26,7 @@ gamePage.start = function start() {
 
 	} );
 
-	engine.on( 'pause', () => {
+	engine.on( 'pointerlock-disabled', () => {
 
 		engine.levelManager.pause();
 

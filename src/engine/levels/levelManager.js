@@ -1,4 +1,5 @@
 
+import core from '../core/core.js';
 import Playground from './Playground.js';
 
 //

@@ -84,9 +84,68 @@ function setupPointerLock() {
 
 	document.addEventListener( 'pointerlockchange', () => {
 
-		if ( !document.pointerLockElement ) events.emit( 'pause' )
+		if ( !document.pointerLockElement ) {
 
-	}, false);
+			events.emit( 'pointerlock-disabled' );
+
+		} else {
+
+			events.emit( 'pointerlock-enabled' );
+
+		}
+
+	}, false );
+
+	// Failure to enable pointerlock happen very easily in Chrome.
+	// See: https://bugs.chromium.org/p/chromium/issues/detail?id=1127223
+	document.addEventListener( 'pointerlockerror', () => {
+
+		events.emit( 'pointerlock-failed' );
+
+	} );
+
+}
+
+// this function exists because Google Chrome will not allow requesting
+// pointerlock too often, so it will fail very often. If it fails,
+// we want the user to click again. ( thank you, Google Chrome )
+
+function makeSurePointerLock() {
+
+	return new Promise( (resolve, reject) => {
+
+		const handleChange = () => {
+
+			if ( document.pointerLockElement ) {
+
+				resolve( 'success' );
+
+			} else {
+
+				resolve( 'failure' );
+
+			}
+
+			document.removeEventListener( 'pointerlockchange', handleChange );
+			document.removeEventListener( 'pointerlockerror', handleFailure );
+
+		}
+
+		const handleFailure = () => {
+
+			resolve( 'failure' );
+
+			document.removeEventListener( 'pointerlockchange', handleChange );
+			document.removeEventListener( 'pointerlockerror', handleFailure );
+
+		}
+
+		document.addEventListener( 'pointerlockchange', handleChange );
+		document.addEventListener( 'pointerlockerror', handleFailure );
+
+		renderer.domElement.requestPointerLock();
+
+	} );
 
 }
 
@@ -206,5 +265,6 @@ export default {
 	callInLoop,
 	listenClick,
 	listenMove,
-	render
+	render,
+	makeSurePointerLock
 }

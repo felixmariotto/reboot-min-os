@@ -1,0 +1,12 @@
+
+.checkbox {
+	background-color: transparent;
+	padding: 8px;
+	display: block;
+	border: none;
+	font-size: 1em;
+}
+
+.checkbox:focus {
+	background-color: red;
+}

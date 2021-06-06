@@ -1,5 +1,5 @@
 
-import './Button.css';
+import './button.css';
 import { elem } from '../../utils.js';
 
 //

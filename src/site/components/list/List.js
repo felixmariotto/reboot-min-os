@@ -18,6 +18,8 @@ export default function List() {
 
 		selectables[ currentElement ].focus();
 
+		console.log( selectables[ currentElement ] )
+
 	}
 
 	function click() {

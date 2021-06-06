@@ -15,6 +15,8 @@ function elem( options ) {
 
 	if ( options.classes ) element.classList.add( ...options.classes.split(' ') );
 
+	if ( options.type ) element.type = options.type;
+
 	return element
 
 }

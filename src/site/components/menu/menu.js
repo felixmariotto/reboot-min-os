@@ -1,7 +1,9 @@
 
 import './menu.css';
-import { elem, icon, elemFromHTML, vertSpace } from '../../utils.js';
+import { elem, icon, vertSpace } from '../../utils.js';
 import Button from '../button/Button.js';
+import Range from '../range/Range.js';
+import Checkbox from '../checkbox/Checkbox.js';
 import List from '../list/List.js';
 
 //
@@ -110,26 +112,6 @@ menuContainer.show = () => {
 menuContainer.hide = () => {
 	menuContainer.classList.remove( 'visible' );
 	baseList.disable();
-}
-
-function Range( valName, text, min, max, step ) {
-	return elemFromHTML(`
-		<div>
-			<input type="range" id="menu-range-${ valName }" name="${ valName }"
-				min="${ min }" max="${ max }, step=${ step }">
-			<label for="${ valName }">${ text }</label>
-		</div>
-	`);
-}
-
-function Checkbox( valName, text, checked ) {
-	return elemFromHTML(`
-		<div>
-			<input type="checkbox" id="scales" name="${ valName }"
-			${ checked ? 'checked' : '' }>
-			<label for="${ valName }">${ text }</label>
-		</div>
-	`)
 }
 
 //

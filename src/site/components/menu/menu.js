@@ -36,6 +36,21 @@ resumeBtn.onclick = () => {
 
 }
 
+restartBtn.onclick = () => {
+
+	// Failure to enable pointerlock happen very easily in Chrome.
+	// See : https://bugs.chromium.org/p/chromium/issues/detail?id=1127223
+	engine.core.makeSurePointerLock()
+	.then( (resp) => {
+		if ( resp === 'success' ) {
+			engine.levelManager.restart();
+			menuContainer.hide();
+		}
+	} )
+	.catch( err => console.log(err) );
+	
+}
+
 optionsBtn.onclick = () => {
 	menu.removeChild( baseContainer );
 	menu.append( options );

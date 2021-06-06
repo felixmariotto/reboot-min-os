@@ -9,7 +9,8 @@ let currentLevel;
 export default {
 	loadLevel,
 	pause,
-	resume
+	resume,
+	restart
 }
 
 //
@@ -55,5 +56,13 @@ function resume() {
 		currentLevel.world.resume();
 
 	}
+
+}
+
+//
+
+function restart() {
+
+	console.log('restart this level')
 
 }

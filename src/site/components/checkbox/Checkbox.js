@@ -14,15 +14,6 @@ export default function Checkbox( valName, text, checked ) {
 		</button>
 	`);
 
-	/*
-	const checkbox = elem({
-		tagName: 'INPUT',
-		type: 'checkbox',
-		classes: 'checkbox'
-	});
-	checkbox.checked = checked;
-	*/
-
 	checkbox.isSelectable = true;
 
 	return checkbox;

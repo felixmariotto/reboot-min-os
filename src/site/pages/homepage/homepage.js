@@ -2,6 +2,9 @@
 import './homepage.css';
 import { elem, icon } from '../../utils.js';
 
+import List from '../../components/list/List.js';
+import Button from '../../components/button/Button.js';
+
 import gamePage from '../gamePage/gamePage.js';
 import mapEditor from '../mapEditor/mapEditor.js';
 import mapTest from '../mapTest/mapTest.js';
@@ -15,9 +18,27 @@ homepage.style.backgroundImage = `url(${ backgroundImage })`;
 
 const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
 
-const gamePicking = elem({ id: 'homepage-picking-box', classes: 'hidden' });
+const gamesList = List();
+gamesList.id = 'homepage-picking-box';
+gamesList.classList.add( 'hidden' );
 
-gamePicking.append(
+const intervalToken = setInterval( enableGamesList, 50 );
+
+function enableGamesList() {
+
+	if ( window.engine ) {
+
+		clearInterval( intervalToken );
+
+		gamesList.enable();
+
+	}
+
+}
+
+// const gamesList = elem({ id: 'homepage-picking-box', classes: 'hidden' });
+
+gamesList.append(
 	makeGameButton( 'PLAY GAME', gamePage, 'fas fa-play-circle' ),
 	makeGameButton( 'EDIT map', mapEditor, 'fas fa-edit' ),
 	makeGameButton( 'TEST map', mapTest, 'fas fa-gamepad' )
@@ -25,14 +46,14 @@ gamePicking.append(
 
 homepage.append(
 	title,
-	gamePicking
+	gamesList
 );
 
 //
 
 function makeGameButton( name, gamePage, iconClass ) {
 
-	const button = elem({ tagName: 'BUTTON', html: name });
+	const button = Button( name );
 
 	if ( iconClass ) {
 		const x = icon( iconClass );
@@ -49,15 +70,17 @@ function makeGameButton( name, gamePage, iconClass ) {
 
 		button.blur();
 
+		gamesList.disable();
+
 	}
 
 	return button
 
 }
 
-gamePicking.setInitState = function setInitState() {
+gamesList.setInitState = function setInitState() {
 
-	gamePicking.classList.remove( 'hidden' );
+	gamesList.classList.remove( 'hidden' );
 
 }
 
@@ -65,7 +88,7 @@ gamePicking.setInitState = function setInitState() {
 
 window.addEventListener( 'engine-loaded', () => {
 
-	gamePicking.setInitState();
+	gamesList.setInitState();
 
 } );
 

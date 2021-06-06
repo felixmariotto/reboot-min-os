@@ -16,6 +16,8 @@ export default function List() {
 
 		const selectables = getSelectables();
 
+		if ( !selectables ) return
+
 		selectables[ currentElement ].focus();
 
 	}
@@ -23,6 +25,8 @@ export default function List() {
 	function click() {
 
 		const selectables = getSelectables();
+
+		if ( !selectables ) return
 
 		selectables[ currentElement ].click();
 
@@ -53,6 +57,8 @@ export default function List() {
 
 		const selectables = getSelectables();
 
+		if ( !selectables ) return
+
 		currentElement ++;
 
 		if ( currentElement > selectables.length - 1 ) {
@@ -71,6 +77,8 @@ export default function List() {
 
 		const selectables = getSelectables();
 
+		if ( !selectables ) return
+
 		if ( selectables[ currentElement ].moveLeft ) {
 
 			selectables[ currentElement ].moveLeft();
@@ -82,6 +90,8 @@ export default function List() {
 	function moveRight() {
 		
 		const selectables = getSelectables();
+
+		if ( !selectables ) return
 
 		if ( selectables[ currentElement ].moveRight ) {
 

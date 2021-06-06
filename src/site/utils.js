@@ -42,11 +42,23 @@ function elemFromHTML( htmlString ) {
 
 //
 
+function vertSpace( px ) {
+
+	const div = document.createElement( 'div' );
+	div.style.height = px + 'px';
+	return div
+
+}
+
+//
+
 export { elem }
 export { icon }
 export { elemFromHTML }
+export { vertSpace }
 export default {
 	elem,
 	icon,
-	elemFromHTML
+	elemFromHTML,
+	vertSpace
 }

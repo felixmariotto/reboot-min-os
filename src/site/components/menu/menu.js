@@ -1,6 +1,6 @@
 
 import './menu.css';
-import { elem, icon, elemFromHTML } from '../../utils.js';
+import { elem, icon, elemFromHTML, vertSpace } from '../../utils.js';
 
 //
 
@@ -14,13 +14,43 @@ menuContainer.append( menu, overlay );
 
 //
 
+const baseContainer = elem();
+
+const resumeBtn = elem({ html: 'Resume' });
+const restartBtn = elem({ html: 'Restart Level' });
+const optionsBtn = elem({ html: 'Options' });
+
+optionsBtn.onclick = () => {
+	menu.removeChild( baseContainer );
+	menu.append( options );
+}
+
+baseContainer.append(
+	resumeBtn,
+	restartBtn,
+	optionsBtn
+);
+
+menu.append( baseContainer );
+
+//
+
+const options = elem({ id: 'menu-options' });
+
 const camFOV = Range( 'fov', 'Camera FOV', '50', '110', '1' );
 const invertCamX = Checkbox( 'invertCamX', 'Invert camera horizontally', false );
 const invertCamY = Checkbox( 'invertCamY', 'Invert camera Vertically', false );
 const musicVolume = Range( 'musicVolume', 'Music volume', '0', '100', '1' );
 const soundVolume = Range( 'soundVolume', 'Sound effects volume', '0', '100', '1' );
 
-menu.append(
+const backBtn = elem({ html: 'Back' });
+
+backBtn.onclick = () => {
+	menu.removeChild( options );
+	menu.append( baseContainer );
+}
+
+options.append(
 	elem({ tagName: 'H1', html: 'Options' }),
 	elem({ tagName: 'H2', html: 'Camera' }),
 	camFOV,
@@ -28,8 +58,12 @@ menu.append(
 	invertCamY,
 	elem({ tagName: 'H2', html: 'Sound' }),
 	musicVolume,
-	soundVolume
+	soundVolume,
+	vertSpace( 15 ),
+	backBtn
 );
+
+// menu.append( options );
 
 //
 

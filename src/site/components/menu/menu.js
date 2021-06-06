@@ -48,7 +48,7 @@ restartBtn.onclick = () => {
 		}
 	} )
 	.catch( err => console.log(err) );
-	
+
 }
 
 optionsBtn.onclick = () => {
@@ -97,9 +97,15 @@ options.append(
 
 //
 
-menuContainer.show = () => menuContainer.classList.add( 'visible' );
+menuContainer.show = () => {
+	menuContainer.classList.add( 'visible' );
+	listenJoystick();
+}
 
-menuContainer.hide = () => menuContainer.classList.remove( 'visible' );
+menuContainer.hide = () => {
+	menuContainer.classList.remove( 'visible' );
+	forgetJoystick();
+}
 
 function Range( valName, text, min, max, step ) {
 	return elemFromHTML(`
@@ -119,6 +125,18 @@ function Checkbox( valName, text, checked ) {
 			<label for="${ valName }">${ text }</label>
 		</div>
 	`)
+}
+
+//
+
+function listenJoystick() {
+	engine.on( 'joystick-hit-up', () => {
+		console.log('up')
+	} )
+}
+
+function forgetJoystick() {
+	console.log('forget')
 }
 
 //

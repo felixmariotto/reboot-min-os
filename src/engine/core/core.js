@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import params from '../params.js';
 import events from '../misc/events.js';
+import input from '../misc/input.js';
 
 // THREE.js
 
@@ -39,9 +40,16 @@ const loopCallbacks = [];
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 
-//
-
 window.addEventListener( 'resize', resize );
+
+// this is started before any world is set up, because we want to control
+// the user interface with the gamepad.
+inputLoop();
+
+function inputLoop() {
+	input.updateGamepadState();
+	requestAnimationFrame( inputLoop );
+}
 
 //
 

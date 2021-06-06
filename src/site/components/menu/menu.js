@@ -55,6 +55,8 @@ restartBtn.onclick = () => {
 optionsBtn.onclick = () => {
 	menu.removeChild( baseList );
 	menu.append( optionsList );
+	baseList.disable();
+	optionsList.enable();
 }
 
 baseList.append(
@@ -81,6 +83,8 @@ const backBtn = Button( 'Back' );
 backBtn.onclick = () => {
 	menu.removeChild( optionsList );
 	menu.append( baseList );
+	optionsList.disable();
+	baseList.enable();
 }
 
 optionsList.append(

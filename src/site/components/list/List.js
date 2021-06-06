@@ -1,5 +1,7 @@
 
-// List element designed to be controlable with a gamepad
+// List element designed to be controlable with a gamepad.
+// When calling element.enable(), the element is listening for
+// gamepad inputs.
 
 export default function List() {
 
@@ -105,12 +107,18 @@ export default function List() {
 
 		focus();
 
-		handling = true;
+		// timeout to prevent click events to be listened right when this
+		// list was enabled.
+		setTimeout( () => {
+
+			handling = true;
+
+		}, 0 )
 		
 	}
 
 	elem.disable = function () {
-		
+
 		handling = false;
 
 	}

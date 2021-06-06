@@ -2,6 +2,7 @@
 import './menu.css';
 import { elem, icon, elemFromHTML, vertSpace } from '../../utils.js';
 import Button from '../button/Button.js';
+import List from '../list/List.js';
 
 //
 
@@ -15,7 +16,7 @@ menuContainer.append( menu, overlay );
 
 //
 
-const baseContainer = elem();
+const baseList = List();
 
 const resumeBtn = Button( 'Resume' );
 const restartBtn = Button( 'Restart Level' );
@@ -52,22 +53,22 @@ restartBtn.onclick = () => {
 }
 
 optionsBtn.onclick = () => {
-	menu.removeChild( baseContainer );
-	menu.append( options );
+	menu.removeChild( baseList );
+	menu.append( optionsList );
 }
 
-baseContainer.append(
+baseList.append(
 	elem({ tagName: 'H1', html: 'Menu' }),
 	resumeBtn,
 	restartBtn,
 	optionsBtn
 );
 
-menu.append( baseContainer );
+menu.append( baseList );
 
 //
 
-const options = elem({ id: 'menu-options' });
+const optionsList = List();
 
 const camFOV = Range( 'fov', 'Camera FOV', '50', '110', '1' );
 const invertCamX = Checkbox( 'invertCamX', 'Invert camera horizontally', false );
@@ -78,11 +79,11 @@ const soundVolume = Range( 'soundVolume', 'Sound effects volume', '0', '100', '1
 const backBtn = Button( 'Back' );
 
 backBtn.onclick = () => {
-	menu.removeChild( options );
-	menu.append( baseContainer );
+	menu.removeChild( optionsList );
+	menu.append( baseList );
 }
 
-options.append(
+optionsList.append(
 	elem({ tagName: 'H1', html: 'Options' }),
 	elem({ tagName: 'H2', html: 'Camera' }),
 	camFOV,
@@ -99,12 +100,12 @@ options.append(
 
 menuContainer.show = () => {
 	menuContainer.classList.add( 'visible' );
-	listenJoystick();
+	baseList.enable();
 }
 
 menuContainer.hide = () => {
 	menuContainer.classList.remove( 'visible' );
-	forgetJoystick();
+	baseList.disable();
 }
 
 function Range( valName, text, min, max, step ) {
@@ -125,18 +126,6 @@ function Checkbox( valName, text, checked ) {
 			<label for="${ valName }">${ text }</label>
 		</div>
 	`)
-}
-
-//
-
-function listenJoystick() {
-	engine.on( 'joystick-hit-up', () => {
-		console.log('up')
-	} )
-}
-
-function forgetJoystick() {
-	console.log('forget')
 }
 
 //

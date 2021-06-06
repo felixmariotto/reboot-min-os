@@ -10,11 +10,19 @@ export default function List() {
 
 	//
 
-	function select() {
+	function focus() {
 
 		const selectables = getSelectables();
 
 		selectables[ currentElement ].focus();
+
+	}
+
+	function click() {
+
+		const selectables = getSelectables();
+
+		selectables[ currentElement ].click();
 
 	}
 
@@ -34,7 +42,7 @@ export default function List() {
 
 		if ( currentElement < 0 ) currentElement = 0;
 
-		select();
+		focus();
 
 	}
 
@@ -50,7 +58,7 @@ export default function List() {
 
 		}
 
-		select();
+		focus();
 
 	}
 
@@ -73,9 +81,29 @@ export default function List() {
 
 			} );
 
+			engine.on( 'jump-key-down', () => {
+
+				if ( handling ) click();
+
+			} );
+
+			engine.on( 'pull-key-down', () => {
+
+				if ( handling ) click();
+
+			} );
+
+			engine.on( 'release-key-down', () => {
+
+				if ( handling ) click();
+
+			} );
+
 			listening = true;
 
 		}
+
+		focus();
 
 		handling = true;
 		

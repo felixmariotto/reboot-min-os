@@ -8,6 +8,10 @@
 	transition: all 0.05s linear;
 }
 
+.button:focus {
+	background-color: red;
+}
+
 @media ( hover: hover ) {
 	.button:hover {
 		background-color: #666666;

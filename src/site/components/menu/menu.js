@@ -1,6 +1,7 @@
 
 import './menu.css';
 import { elem, icon, elemFromHTML, vertSpace } from '../../utils.js';
+import Button from '../button/Button.js';
 
 //
 
@@ -16,9 +17,9 @@ menuContainer.append( menu, overlay );
 
 const baseContainer = elem();
 
-const resumeBtn = elem({ html: 'Resume' });
-const restartBtn = elem({ html: 'Restart Level' });
-const optionsBtn = elem({ html: 'Options' });
+const resumeBtn = Button( 'Resume' );
+const restartBtn = Button( 'Restart Level' );
+const optionsBtn = Button( 'Options' );
 
 optionsBtn.onclick = () => {
 	menu.removeChild( baseContainer );
@@ -26,6 +27,7 @@ optionsBtn.onclick = () => {
 }
 
 baseContainer.append(
+	elem({ tagName: 'H1', html: 'Menu' }),
 	resumeBtn,
 	restartBtn,
 	optionsBtn
@@ -43,7 +45,7 @@ const invertCamY = Checkbox( 'invertCamY', 'Invert camera Vertically', false );
 const musicVolume = Range( 'musicVolume', 'Music volume', '0', '100', '1' );
 const soundVolume = Range( 'soundVolume', 'Sound effects volume', '0', '100', '1' );
 
-const backBtn = elem({ html: 'Back' });
+const backBtn = Button( 'Back' );
 
 backBtn.onclick = () => {
 	menu.removeChild( options );
@@ -62,8 +64,6 @@ options.append(
 	vertSpace( 15 ),
 	backBtn
 );
-
-// menu.append( options );
 
 //
 

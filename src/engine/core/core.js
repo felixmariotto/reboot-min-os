@@ -114,6 +114,14 @@ function setupPointerLock() {
 
 }
 
+// manually exit pointerlock when the user press the gamepad pause button.
+
+events.on( 'pressed-pause-btn', () => {
+
+	document.exitPointerLock();
+
+} );
+
 // this function exists because Google Chrome will not allow requesting
 // pointerlock too often, so it will fail very often. If it fails,
 // we want the user to click again. ( thank you, Google Chrome )

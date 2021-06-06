@@ -223,7 +223,7 @@ function updateGamepadState() {
 
 			if ( !gamepadButtonsState.pause ) {
 
-				events.emit( 'pause' );
+				events.emit( 'pressed-pause-btn' );
 				gamepadButtonsState.pause = true;
 
 			}

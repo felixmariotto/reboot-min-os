@@ -32,9 +32,21 @@ function icon( classString ) {
 
 //
 
+function elemFromHTML( htmlString ) {
+
+	const div = document.createElement( 'div' );
+	div.innerHTML = htmlString.trim();
+	return div.firstChild;
+
+}
+
+//
+
 export { elem }
 export { icon }
+export { elemFromHTML }
 export default {
 	elem,
-	icon
+	icon,
+	elemFromHTML
 }

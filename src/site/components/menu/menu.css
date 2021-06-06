@@ -22,11 +22,12 @@
 
 	#menu {
 		position: fixed;
-		height: 100px;
-		width: 100px;
+		padding: 20px;
 		left: 50%;
 		top: 50%;
-		background-color: blue;
+		background-color: white;
+		border-radius: 10px;
+		border: solid black 2px;
 		pointer-events: auto;
 		z-index: 1;
 		transform: translate( -50%, -50% );

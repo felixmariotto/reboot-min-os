@@ -1,7 +1,13 @@
 
+import templates from './templates.js';
+import stories from './stories.js';
+
+//
+
 const intro = {
-	foo: 'bar'
-}
+	template: templates.narrative,
+	story: stories.intro
+};
 
 //
 

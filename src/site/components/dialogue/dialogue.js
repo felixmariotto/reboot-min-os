@@ -1,6 +1,6 @@
 
 import './dialogue.css';
-import { elem } from '../../utils.js';
+import { elem, icon } from '../../utils.js';
 
 //
 
@@ -8,9 +8,10 @@ const dialogueContainer = elem({ id: 'dialogue-container' });
 const dialogueFrame = elem({ id: 'dialogue-frame' });
 const thumbnail = elem({ id: 'dialogue-thumbnail' });
 const textContent = elem({ id: 'dialogue-text' });
+const arrow = icon( 'fas fa-caret-down' );
 
 dialogueContainer.append( dialogueFrame );
-dialogueFrame.append( thumbnail, textContent );
+dialogueFrame.append( thumbnail, textContent, arrow );
 
 //
 

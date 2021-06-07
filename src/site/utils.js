@@ -26,7 +26,7 @@ function elem( options ) {
 
 function icon( classString ) {
 	
-	const domElement = elem({ type: 'I', classes: classString })
+	const domElement = elem({ tagName: 'I', classes: classString })
 
 	return domElement
 

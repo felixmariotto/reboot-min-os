@@ -60,11 +60,17 @@
 					to { transform: translate( -50%, 50% ); }
 				}
 
-/* Dialogue Styles Templates */
+/* DIALOGUE STYLE TEMPLATES */
 
-#dialogue-container.narrative #dialogue-frame {
-	background-color: grey;
-	border-width: 2px;
-	border-color: black;
-	border-style: solid;
-}
+	/* Narrative */
+
+	#dialogue-container.narrative #dialogue-frame {
+		background-color: grey;
+		border-width: 2px;
+		border-color: black;
+		border-style: solid;
+	}
+
+	#dialogue-container.narrative  #dialogue-thumbnail {
+		display: none;
+	}

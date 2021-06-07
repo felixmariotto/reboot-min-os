@@ -14,7 +14,7 @@ dialogueFrame.append( thumbnail, textContent );
 
 //
 
-let currentStory, currentLine, currentChar;
+let currentStory, currentLine, currentChar, started, listeningNext;
 
 function setTemplate( template ) {
 
@@ -29,6 +29,21 @@ function readStory( story ) {
 	currentChar = 0;
 
 	console.log( 'story', story );
+
+}
+
+function nextLine() {
+
+	textContent.innerHTML = '';
+	currentLine ++;
+	currentChar = 0;
+
+	if ( currentLine > currentStory.length - 1 ) {
+
+		currentLine = 0;
+		dialogueContainer.end();
+
+	}
 
 }
 
@@ -59,7 +74,11 @@ function loop() {
 			// show arrow
 			// and listen for event
 
+			listeningNext = true;
+
 		} else {
+
+			listeningNext = false;
 
 			// print the current character
 
@@ -79,6 +98,30 @@ function loop() {
 
 dialogueContainer.start = function ( dialogueObj ) {
 
+	if ( !started ) {
+
+		engine.on( 'jump-key-down', () => {
+
+			if ( listeningNext ) nextLine();
+
+		} );
+
+		engine.on( 'pull-key-down', () => {
+
+			if ( listeningNext ) nextLine();
+
+		} );
+
+		engine.on( 'release-key-down', () => {
+
+			if ( listeningNext ) nextLine();
+
+		} );
+
+		started = true;
+
+	}
+
 	startLoop();
 
 	setTemplate( dialogueObj.template );
@@ -94,6 +137,8 @@ dialogueContainer.end = function () {
 	endLoop();
 
 	dialogueContainer.classList.remove( 'active' );
+
+	engine.levelManager.resume();
 
 }
 

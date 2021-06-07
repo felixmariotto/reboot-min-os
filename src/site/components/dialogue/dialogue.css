@@ -32,7 +32,6 @@
 		}
 
 		#dialogue-thumbnail {
-			background-color: green;
 			border-radius: 5px;
 			height: calc( 20vh - 60px );
 			width: calc( 20vh - 60px );

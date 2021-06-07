@@ -24,8 +24,6 @@ function readStory( story ) {
 	currentLine = 0;
 	currentChar = 0;
 
-	console.log( 'story', story );
-
 }
 
 function nextLine() {
@@ -136,9 +134,9 @@ dialogueContainer.start = function ( dialogueObj ) {
 
 	}
 
-	startLoop();
-
 	readStory( dialogueObj.story );
+
+	startLoop();
 
 	dialogueContainer.classList.add( 'active', dialogueObj.template );
 

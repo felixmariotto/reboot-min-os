@@ -10,3 +10,7 @@
 .checkbox:focus {
 	background-color: red;
 }
+
+	.checkbox > input {
+		pointer-events: none;
+	}

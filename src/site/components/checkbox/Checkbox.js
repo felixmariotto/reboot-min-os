@@ -18,9 +18,14 @@ export default function Checkbox( valName, text, checked ) {
 	checkbox.isSelectable = true;
 
 	checkbox.onclick = () => {
-
 		input.checked = !input.checked;
+	}
 
+	checkbox.getValue = () => {
+		return {
+			name: valName,
+			value: input.checked
+		}
 	}
 
 	return checkbox;

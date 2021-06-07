@@ -4,11 +4,11 @@ import { elem, elemFromHTML } from '../../utils.js';
 
 //
 
-export default function Range( valName, text, min, max, step ) {
+export default function Range( valName, text, min, max, step, value ) {
 
 	const input = elemFromHTML(`
 		<input type="range" id="menu-range-${ valName }" name="${ valName }"
-		min="${ min }" max="${ max }, step=${ step }">
+		min="${ min }" max="${ max }, step=${ step }" value="${ value }">
 	`);
 
 	const label = elemFromHTML(`<label for="${ valName }">${ text }</label>`);
@@ -19,12 +19,17 @@ export default function Range( valName, text, min, max, step ) {
 
 	range.moveRight = () => {
 		input.value = Number( input.value ) + step;
-		console.log( input.value )
 	}
 
 	range.moveLeft = () => {
 		input.value = Number( input.value ) - step;
-		console.log( input.value )
+	}
+
+	range.getValue = () => {
+		return {
+			name: valName,
+			value: Number( input.value )
+		}
 	}
 
 	return range

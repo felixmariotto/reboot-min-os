@@ -9,7 +9,7 @@ export default {
 	// caused by worker <=> main thread message latency.
 	positionSmoothing: 0.5,
 
-	cameraFOV: 85,
+	cameraFOV: 80,
 	cameraNear: 0.1,
 	cameraFar: 200,
 	thirdPersCameraInit: new THREE.Vector3( 0, 8, 8 ),

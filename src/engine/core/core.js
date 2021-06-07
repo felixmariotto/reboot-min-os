@@ -42,6 +42,24 @@ const raycaster = new THREE.Raycaster();
 
 window.addEventListener( 'resize', resize );
 
+// events emitted by the options menu, to update the camera
+// and sounds parameters.
+
+events.on( 'update-params', (e) => {
+
+	api.camera = new THREE.PerspectiveCamera(
+		e.detail.fov,
+		1,
+		params.cameraNear,
+		params.cameraFar
+	);
+
+	resize();
+
+	// console.log( 'core', e );
+
+} );
+
 // this is started before any world is set up, because we want to control
 // the user interface with the gamepad.
 inputLoop();
@@ -256,7 +274,7 @@ function render() {
 
 	loopCallbacks.forEach( callback => callback( delta ) );
 
-	renderer.render( scene, camera );
+	renderer.render( scene, api.camera );
 
 	if ( USE_STATS ) stats.update();
 
@@ -272,7 +290,7 @@ function callInLoop( fn ) {
 
 //
 
-export default {
+const api = {
 	init,
 	scene,
 	camera,
@@ -284,3 +302,5 @@ export default {
 	render,
 	makeSurePointerLock
 }
+
+export default api

@@ -30,6 +30,8 @@ export default function List() {
 
 		selectables[ currentElement ].click();
 
+		emitUpdates();
+
 	}
 
 	function getSelectables() {
@@ -37,6 +39,25 @@ export default function List() {
 		const children = Array.from( elem.children );
 
 		return children.filter( e => e.isSelectable );
+
+	}
+
+	function emitUpdates() {
+
+		const selectables = getSelectables();
+
+		const params = {};
+
+		selectables.forEach( (s) => {
+			if ( s.getValue ) {
+				const values = s.getValue();
+				params[ values.name ] = values.value;
+			}
+		} );
+
+		const event = new CustomEvent( 'update-values', { detail: params } );
+
+		elem.dispatchEvent( event );
 
 	}
 
@@ -85,6 +106,8 @@ export default function List() {
 
 		}
 
+		emitUpdates();
+
 	}
 
 	function moveRight() {
@@ -98,6 +121,8 @@ export default function List() {
 			selectables[ currentElement ].moveRight();
 
 		}
+
+		emitUpdates();
 
 	}
 

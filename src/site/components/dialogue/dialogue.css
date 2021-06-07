@@ -9,6 +9,7 @@
 }
 
 	#dialogue-container.active {
+		pointer-events: auto;
 		background-color: rgba( 0, 0, 0, 0.5 );
 	}
 
@@ -39,23 +40,24 @@
 		}
 
 		#dialogue-text {
+			position: relative;
 			background-color: orange;
 			height: 100%;
 			width: calc( 100% - 20vh + 60px );
 			margin-left: 30px;
 		}
 
-		#dialogue-frame > i {
-			position: absolute;
-			bottom: 0;
-			left: calc( 50% + 0.5 * ( 20vh - 60px ) );
-			transform: translateY( -15% );
-			font-size: 2em;
-			animation: swing_dialogue_carret 1s infinite linear;
-		}
-
-			@keyframes swing_dialogue_carret {
-				from { transform: translateY( -15% ); }
-				50% { transform: translateY( 15% ); }
-				to { transform: translateY( -15% ); }
+			#dialogue-text > i {
+				position: absolute;
+				bottom: 0;
+				left: calc( 50% );
+				transform: translate( -50%, 50% );
+				font-size: 2em;
+				animation: swing_dialogue_carret 1s infinite linear;
 			}
+
+				@keyframes swing_dialogue_carret {
+					from { transform: translate( -50%, 50% ); }
+					50% { transform: translate( -50%, 80% ); }
+					to { transform: translate( -50%, 50% ); }
+				}

@@ -11,7 +11,8 @@ const textContent = elem({ id: 'dialogue-text' });
 const arrow = icon( 'fas fa-caret-down' );
 
 dialogueContainer.append( dialogueFrame );
-dialogueFrame.append( thumbnail, textContent, arrow );
+dialogueFrame.append( thumbnail, textContent );
+textContent.append( arrow )
 
 //
 
@@ -36,6 +37,8 @@ function readStory( story ) {
 function nextLine() {
 
 	textContent.innerHTML = '';
+	textContent.append( arrow );
+
 	currentLine ++;
 	currentChar = 0;
 

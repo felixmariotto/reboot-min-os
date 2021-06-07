@@ -6,6 +6,16 @@ import { elem, elemFromHTML } from '../../utils.js';
 
 export default function Range( valName, text, min, max, step, value ) {
 
+	if ( min < 0 ) console.warn('I think there will be some issues with a negative value');
+
+	// looks like an html range max value can only be 100 or bellow.
+	const coeff = Math.max( 1, max / 100 );
+
+	min /= coeff;
+	max /= coeff;
+
+	//
+
 	const input = elemFromHTML(`
 		<input type="range" id="menu-range-${ valName }" name="${ valName }"
 		min="${ min }" max="${ max }, step=${ step }" value="${ value }">
@@ -28,7 +38,7 @@ export default function Range( valName, text, min, max, step, value ) {
 	range.getValue = () => {
 		return {
 			name: valName,
-			value: Number( input.value )
+			value: Number( input.value ) * coeff
 		}
 	}
 

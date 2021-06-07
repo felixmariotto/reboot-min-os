@@ -45,7 +45,12 @@ function orbitWorldPlayer( world ) {
 		// if the player has a gamepad,
 		// they can move the camera with the right joystick
 
-		targetMovement.addScaledVector( input.targetCamDirection, params.cameraGamepadPower );
+		_vec.copy( input.targetCamDirection );
+
+		if ( params.invertCamX ) _vec.x *= -1;
+		if ( params.invertCamY ) _vec.y *= -1;
+
+		targetMovement.addScaledVector( _vec, params.cameraGamepadPower );
 
 		// tween the focus point of the camera
 
@@ -118,6 +123,9 @@ function orbitWorldPlayer( world ) {
 
 		movement.x = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
 		movement.y = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+
+		if ( params.invertCamX ) movement.x *= -1;
+		if ( params.invertCamY ) movement.y *= -1;
 
 		targetMovement.addScaledVector( movement, 0.003 );
 

@@ -5,7 +5,29 @@ import params from '../params.js';
 import events from '../misc/events.js';
 import input from '../misc/input.js';
 
-// THREE.js
+//
+
+const api = {
+	scene: new THREE.Scene(),
+	camera: new THREE.PerspectiveCamera(
+		params.cameraFOV,
+		1,
+		params.cameraNear,
+		params.cameraFar
+	),
+	renderer: new THREE.WebGLRenderer({ antialias: true }),
+	clock: new THREE.Clock(),
+	init,
+	callInLoop,
+	listenClick,
+	listenMove,
+	render,
+	resize,
+	makeSurePointerLock,
+	setupPointerLock,
+}
+
+//
 
 const USE_STATS = true;
 
@@ -15,24 +37,13 @@ let container;
 const stats = new Stats();
 if ( USE_STATS ) document.body.appendChild( stats.dom );
 
-const scene = new THREE.Scene();
+api.renderer.shadowMap.enabled = true ;
+api.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+api.renderer.outputEncoding = THREE.sRGBEncoding;
+api.renderer.gammaFactor = 2.2;
+api.renderer.domElement.style.height = '100vh';
+api.renderer.domElement.style.width = '100vw';
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.shadowMap.enabled = true ;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.outputEncoding = THREE.sRGBEncoding;
-renderer.gammaFactor = 2.2;
-renderer.domElement.style.height = '100vh';
-renderer.domElement.style.width = '100vw';
-
-const camera = new THREE.PerspectiveCamera(
-	params.cameraFOV,
-	1,
-	params.cameraNear,
-	params.cameraFar
-);
-
-const clock = new THREE.Clock();
 const deltaClock = new THREE.Clock();
 
 const loopCallbacks = [];
@@ -40,12 +51,18 @@ const loopCallbacks = [];
 const mouse = new THREE.Vector2();
 const raycaster = new THREE.Raycaster();
 
-window.addEventListener( 'resize', resize );
+window.addEventListener( 'resize', () => {
+	api.resize();
+} );
 
 // events emitted by the options menu, to update the camera
 // and sounds parameters.
 
 events.on( 'update-params', (e) => {
+
+	// update camera fov
+
+	const oldCamera = api.camera;
 
 	api.camera = new THREE.PerspectiveCamera(
 		e.detail.fov,
@@ -54,9 +71,15 @@ events.on( 'update-params', (e) => {
 		params.cameraFar
 	);
 
-	resize();
+	api.camera.position.copy( oldCamera.position );
+	api.camera.rotation.copy( oldCamera.rotation );
 
-	// console.log( 'core', e );
+	api.resize();
+
+	// update camera controls
+
+	params.invertCamX = e.detail.invertCamX;
+	params.invertCamY = e.detail.invertCamY;
 
 } );
 
@@ -75,13 +98,13 @@ function init( domElement, skipPointerLock ) {
 
 	container = domElement;
 
-	container.append( renderer.domElement );
+	container.append( this.renderer.domElement );
 
-	resize();
+	this.resize();
 
-	clock.start();
+	this.clock.start();
 
-	if ( !skipPointerLock ) setupPointerLock();
+	if ( !skipPointerLock ) this.setupPointerLock();
 
 }
 
@@ -89,10 +112,14 @@ function init( domElement, skipPointerLock ) {
 
 function resize() {
 
-	camera.aspect = container.offsetWidth / container.offsetHeight;
-	camera.updateProjectionMatrix();
+	if ( !container ) return
 
-	renderer.setSize( container.offsetWidth, container.offsetHeight );
+	this.camera.aspect = container.offsetWidth / container.offsetHeight;
+	this.camera.updateProjectionMatrix();
+
+	this.renderer.setSize( container.offsetWidth, container.offsetHeight );
+
+	this.renderer.render( this.scene, this.camera );
 
 }
 
@@ -100,11 +127,11 @@ function resize() {
 
 function setupPointerLock() {
 
-	renderer.domElement.requestPointerLock();
+	this.renderer.domElement.requestPointerLock();
 
-	renderer.domElement.addEventListener( 'click', () => {
+	this.renderer.domElement.addEventListener( 'click', () => {
 
-		renderer.domElement.requestPointerLock();
+		this.renderer.domElement.requestPointerLock();
 
 	} );
 
@@ -177,7 +204,7 @@ function makeSurePointerLock() {
 		document.addEventListener( 'pointerlockchange', handleChange );
 		document.addEventListener( 'pointerlockerror', handleFailure );
 
-		renderer.domElement.requestPointerLock();
+		this.renderer.domElement.requestPointerLock();
 
 	} );
 
@@ -214,10 +241,10 @@ function onMouseMove( event ) {
 		if ( moveCallbacks.length ) {
 
 			// update the picking ray with the camera and mouse position
-			raycaster.setFromCamera( mouse, camera );
+			raycaster.setFromCamera( mouse, this.camera );
 
 			// calculate objects intersecting the picking ray
-			const intersects = raycaster.intersectObjects( scene.children );
+			const intersects = raycaster.intersectObjects( this.scene.children );
 
 			if ( intersects.length ) {
 
@@ -236,10 +263,10 @@ function onClick() {
 	if ( clickCallbacks.length ) {
 
 		// update the picking ray with the camera and mouse position
-		raycaster.setFromCamera( mouse, camera );
+		raycaster.setFromCamera( mouse, this.camera );
 
 		// calculate objects intersecting the picking ray
-		const intersects = raycaster.intersectObjects( scene.children, true );
+		const intersects = raycaster.intersectObjects( this.scene.children, true );
 
 		if ( intersects.length ) {
 
@@ -274,7 +301,7 @@ function render() {
 
 	loopCallbacks.forEach( callback => callback( delta ) );
 
-	renderer.render( scene, api.camera );
+	this.renderer.render( this.scene, this.camera );
 
 	if ( USE_STATS ) stats.update();
 
@@ -289,18 +316,5 @@ function callInLoop( fn ) {
 }
 
 //
-
-const api = {
-	init,
-	scene,
-	camera,
-	renderer,
-	clock,
-	callInLoop,
-	listenClick,
-	listenMove,
-	render,
-	makeSurePointerLock
-}
 
 export default api

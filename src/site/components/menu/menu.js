@@ -79,8 +79,6 @@ optionsList.addEventListener( 'update-values', (e) => {
 
 	engine.emit( 'update-params', e.detail );
 
-	// console.log( e.detail );
-
 } );
 
 const camFOV = Range( 'fov', 'Camera FOV', 50, 120, 10, 80 );

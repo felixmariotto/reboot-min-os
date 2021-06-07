@@ -134,6 +134,12 @@ export default function List() {
 
 		if ( !listening ) {
 
+			elem.addEventListener( 'mousemove', () => {
+
+				if ( handling ) emitUpdates();
+
+			} );
+
 			engine.on( 'joystick-hit-up', () => {
 
 				if ( handling ) moveUp();

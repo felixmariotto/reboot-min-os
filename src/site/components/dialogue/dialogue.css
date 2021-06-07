@@ -17,12 +17,30 @@
 		bottom: -20vh;
 		left: 60px;
 		background-color: blue;
+		border-radius: 15px;
 		height: 20vh;
+		padding: 30px;
 		width: calc( 100vw - 120px );
+		display: flex;
+		align-items: center;
 		transform: translateY( 0 );
 		transition: transform 0.3s;
 	}
 
 		#dialogue-container.active > #dialogue-frame {
 			transform: translateY( calc( -20vh - 60px ) );
+		}
+
+		#dialogue-thumbnail {
+			background-color: green;
+			border-radius: 5px;
+			height: calc( 20vh - 60px );
+			width: calc( 20vh - 60px );
+		}
+
+		#dialogue-text {
+			background-color: orange;
+			height: 100%;
+			width: calc( 100% - 20vh + 60px );
+			margin-left: 30px;
 		}

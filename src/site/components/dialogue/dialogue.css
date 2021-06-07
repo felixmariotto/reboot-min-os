@@ -17,7 +17,6 @@
 		position: fixed;
 		bottom: -20vh;
 		left: 60px;
-		background-color: blue;
 		border-radius: 15px;
 		height: 20vh;
 		padding: 30px;
@@ -41,7 +40,6 @@
 
 		#dialogue-text {
 			position: relative;
-			background-color: orange;
 			height: 100%;
 			width: calc( 100% - 20vh + 60px );
 			margin-left: 30px;
@@ -61,3 +59,12 @@
 					50% { transform: translate( -50%, 80% ); }
 					to { transform: translate( -50%, 50% ); }
 				}
+
+/* Dialogue Styles Templates */
+
+#dialogue-container.narrative #dialogue-frame {
+	background-color: grey;
+	border-width: 2px;
+	border-color: black;
+	border-style: solid;
+}

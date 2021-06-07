@@ -1,11 +1,10 @@
 
-import templates from './templates.js';
 import stories from './stories.js';
 
 //
 
 const intro = {
-	template: templates.narrative,
+	template: 'narrative',
 	story: stories.intro
 };
 

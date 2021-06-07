@@ -18,12 +18,6 @@ textContent.append( arrow )
 
 let currentStory, currentLine, currentChar, started, listeningNext;
 
-function setTemplate( template ) {
-
-	console.log( 'set template', template );
-
-}
-
 function readStory( story ) {
 
 	currentStory = story;
@@ -83,7 +77,7 @@ function endLoop() { isLoopOn = false }
 
 function loop() {
 
-	if ( isLoopOn ) setTimeout( loop, 50 )
+	if ( isLoopOn ) setTimeout( loop, 30 );
 
 	if ( isLoopOn && currentStory ) {
 
@@ -144,11 +138,9 @@ dialogueContainer.start = function ( dialogueObj ) {
 
 	startLoop();
 
-	setTemplate( dialogueObj.template );
-
 	readStory( dialogueObj.story );
 
-	dialogueContainer.classList.add( 'active' );
+	dialogueContainer.classList.add( 'active', dialogueObj.template );
 
 }
 

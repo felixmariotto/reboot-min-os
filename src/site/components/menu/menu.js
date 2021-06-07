@@ -83,7 +83,7 @@ optionsList.addEventListener( 'update-values', (e) => {
 
 const camFOV = Range( 'fov', 'Camera FOV', 50, 120, 10, 80 );
 const invertCamX = Checkbox( 'invertCamX', 'Invert camera horizontally', false );
-const invertCamY = Checkbox( 'invertCamY', 'Invert camera Vertically', false );
+const invertCamY = Checkbox( 'invertCamY', 'Invert camera vertically', false );
 const musicVolume = Range( 'musicVolume', 'Music volume', 0, 100, 10, 100 );
 const soundVolume = Range( 'soundVolume', 'Sound effects volume', 0, 100, 10, 100 );
 

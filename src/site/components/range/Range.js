@@ -13,6 +13,8 @@ export default function Range( valName, text, min, max, step, value ) {
 
 	min /= coeff;
 	max /= coeff;
+	value /= coeff;
+	step /= coeff;
 
 	//
 

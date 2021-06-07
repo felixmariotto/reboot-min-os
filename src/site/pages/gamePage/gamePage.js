@@ -33,6 +33,10 @@ gamePage.start = function start() {
 
 		dialogue.start( engine.dialogues.intro );
 
+		setTimeout( () => {
+			dialogue.end()
+		}, 1000 )
+
 		// menu.show();
 
 	} );

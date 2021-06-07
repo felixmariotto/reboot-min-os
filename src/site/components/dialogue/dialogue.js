@@ -14,6 +14,8 @@ dialogueFrame.append( thumbnail, textContent );
 
 //
 
+let currentStory, currentLine, currentChar;
+
 function setTemplate( template ) {
 
 	console.log( 'set template', template );
@@ -22,13 +24,62 @@ function setTemplate( template ) {
 
 function readStory( story ) {
 
+	currentStory = story;
+	currentLine = 0;
+	currentChar = 0;
+
 	console.log( 'story', story );
 
 }
 
 //
 
+let isLoopOn = false;
+
+function startLoop() {
+
+	isLoopOn = true;
+
+	loop();
+
+}
+
+function endLoop() { isLoopOn = false }
+
+function loop() {
+
+	if ( isLoopOn ) setTimeout( loop, 50 )
+
+	if ( currentStory ) {
+
+		const line = currentStory[ currentLine ];
+
+		if ( currentChar > line.m.length - 1 ) {
+
+			// show arrow
+			// and listen for event
+
+		} else {
+
+			// print the current character
+
+			textContent.append( line.m[ currentChar ] );
+
+			// will print the next character on next loop call.
+
+			currentChar ++;
+
+		}
+
+	}
+
+}
+
+//
+
 dialogueContainer.start = function ( dialogueObj ) {
+
+	startLoop();
 
 	setTemplate( dialogueObj.template );
 
@@ -39,6 +90,8 @@ dialogueContainer.start = function ( dialogueObj ) {
 }
 
 dialogueContainer.end = function () {
+
+	endLoop();
 
 	dialogueContainer.classList.remove( 'active' );
 

@@ -11,7 +11,8 @@ import files from './files/files.js';
 import constants from './misc/constants.js';
 import events from './misc/events.js';
 import materials from './graphics/materials.js';
-import levelManager from './levels/levelManager.js'
+import levelManager from './levels/levelManager.js';
+import dialogues from './dialogues/dialogues.js';
 
 import cameraControls from './misc/cameraControls.js';
 import characterControls from './misc/characterControls.js';
@@ -35,7 +36,8 @@ if ( window ) {
 			materials,
 			physics,
 			InfiniteGridHelper,
-			levelManager
+			levelManager,
+			dialogues
 		},
 		constants,
 		events

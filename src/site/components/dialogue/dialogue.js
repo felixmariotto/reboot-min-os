@@ -8,4 +8,12 @@ const dialogueContainer = elem({ id: 'dialogue-container' });
 
 //
 
+dialogueContainer.start = function ( dialogueObj ) {
+
+	console.log( 'dialogueObj', dialogueObj )
+
+}
+
+//
+
 export default dialogueContainer

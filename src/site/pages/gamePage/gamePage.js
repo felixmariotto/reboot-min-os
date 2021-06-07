@@ -31,7 +31,9 @@ gamePage.start = function start() {
 
 		engine.levelManager.pause();
 
-		menu.show();
+		dialogue.start( engine.dialogues.intro );
+
+		// menu.show();
 
 	} );
 

@@ -19,6 +19,7 @@ menuContainer.append( menu, overlay );
 //
 
 const baseList = List();
+baseList.id = 'menu-base-list';
 
 const resumeBtn = Button( 'Resume' );
 const restartBtn = Button( 'Restart Level' );

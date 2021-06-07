@@ -37,3 +37,8 @@
 		#menu-container.visible > #menu {
 			display: unset;
 		}
+
+		#menu-base-list {
+			display: flex;
+			flex-direction: column;
+		}

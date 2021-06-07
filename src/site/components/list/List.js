@@ -9,6 +9,7 @@ export default function List() {
 	let currentElement = 0;
 
 	const elem = document.createElement('DIV');
+	elem.classList.add( 'list' );
 
 	//
 

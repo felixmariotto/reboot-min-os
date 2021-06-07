@@ -84,11 +84,20 @@ function loop() {
 		if ( currentChar > line.m.length - 1 ) {
 
 			// show arrow
-			// and listen for event
+
+			arrow.classList.remove( 'hidden' );
+
+			// and listen for events
 
 			listeningNext = true;
 
 		} else {
+
+			// hide arrow
+
+			arrow.classList.add( 'hidden' );
+
+			// stop listening for events ( the player can't skip dialogue ( yes ) )
 
 			listeningNext = false;
 

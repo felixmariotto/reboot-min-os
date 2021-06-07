@@ -59,6 +59,10 @@
 					to { transform: translate( -50%, 50% ); }
 				}
 
+				#dialogue-text > i.hidden {
+					display: none;
+				}
+
 /* DIALOGUE STYLE TEMPLATES */
 
 	/* Narrative */

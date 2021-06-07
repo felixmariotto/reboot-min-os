@@ -36,16 +36,32 @@ function readStory( story ) {
 
 function nextLine() {
 
-	textContent.innerHTML = '';
-	textContent.append( arrow );
-
 	currentLine ++;
 	currentChar = 0;
 
 	if ( currentLine > currentStory.length - 1 ) {
 
 		currentLine = 0;
-		dialogueContainer.end();
+		endLoop();
+
+		// Failure to enable pointerlock happen very easily in Chrome.
+		// See : https://bugs.chromium.org/p/chromium/issues/detail?id=1127223
+		engine.core.makeSurePointerLock()
+		.then( (resp) => {
+			if ( resp === 'success' ) {
+
+				dialogueContainer.end();
+				textContent.innerHTML = '';
+				textContent.append( arrow );
+
+			}
+		} )
+		.catch( err => console.log(err) );
+
+	} else {
+
+		textContent.innerHTML = '';
+		textContent.append( arrow );
 
 	}
 
@@ -69,7 +85,7 @@ function loop() {
 
 	if ( isLoopOn ) setTimeout( loop, 50 )
 
-	if ( currentStory ) {
+	if ( isLoopOn && currentStory ) {
 
 		const line = currentStory[ currentLine ];
 

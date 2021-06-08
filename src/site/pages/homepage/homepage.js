@@ -9,12 +9,23 @@ import gamePage from '../gamePage/gamePage.js';
 import mapEditor from '../mapEditor/mapEditor.js';
 import mapTest from '../mapTest/mapTest.js';
 
-import backgroundImage from '../../../assets/background.png';
+import starrySkyImage from '../../../assets/images/starry-sky.jpg';
+import crashedShipImage from '../../../assets/images/homepage-background.jpg';
 
 //
 
 const homepage = elem({ id: 'homepage' });
-homepage.style.backgroundImage = `url(${ backgroundImage })`;
+homepage.style.backgroundImage = `url(${ starrySkyImage })`;
+const homepageBack = elem({ id: 'homepage-background' });
+homepageBack.style.backgroundImage = `url(${ crashedShipImage })`;
+
+// parallax in the home screen, to be remove on button click.
+window.addEventListener( 'mousemove', handleMouseMove );
+function handleMouseMove(e) {
+	const ratio = ( e.x / window.innerWidth ) * -1 + 0.5;
+	homepageBack.style.transform = `translateX(${ ratio * 10 }vw)`;
+	homepage.style.backgroundPosition = ( ( ratio * -1 + 5 ) * 12 ) + '%';
+}
 
 const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
 
@@ -45,6 +56,7 @@ gamesList.append(
 );
 
 homepage.append(
+	homepageBack,
 	title,
 	gamesList
 );
@@ -71,6 +83,8 @@ function makeGameButton( name, gamePage, iconClass ) {
 		button.blur();
 
 		gamesList.disable();
+
+		window.removeEventListener( 'mousemove', handleMouseMove );
 
 	}
 

@@ -1,6 +1,7 @@
 
 #homepage {
-	background-size: cover;
+	background-repeat: repeat-y;
+	background-size: 130%;
 	height: 100%;
 	width: 100%;
 	display: flex;
@@ -9,11 +10,21 @@
 	justify-content: center;
 }
 
-	#homepage > * {
+	#homepage-background {
+		position: fixed;
+		padding-top: 35.2%;
+		width: 110vw;
+		z-index: 0;
+		background-size: cover;
+	}
+
+	#homepage > h1,
+	#homepage > .list {
 		margin: 30px 0;
 		padding: 45px;
 		border-radius: 8px;
 		background-color: black;
+		z-index: 1;
 	}
 
 	#homepage > h1 {

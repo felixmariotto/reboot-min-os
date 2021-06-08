@@ -20,12 +20,38 @@ const homepageBack = elem({ id: 'homepage-background' });
 homepageBack.style.backgroundImage = `url(${ crashedShipImage })`;
 
 // parallax in the home screen, to be remove on button click.
+
+let mustStopBackgroundLoop;
+let lastTopPos = 0;
+let lastBackPos = 60;
+let targetTopPos, targetBackPos;
+
 window.addEventListener( 'mousemove', handleMouseMove );
+
 function handleMouseMove(e) {
 	const ratio = ( e.x / window.innerWidth ) * -1 + 0.5;
-	homepageBack.style.transform = `translateX(${ ratio * 10 }vw)`;
-	homepage.style.backgroundPosition = ( ( ratio * -1 + 5 ) * 12 ) + '%';
+	targetTopPos = ratio * 10;
+	targetBackPos = ( ( ratio * -1 + 5 ) * 12 );
 }
+
+backgroundLoop();
+function backgroundLoop() {
+	if ( !mustStopBackgroundLoop ) {
+		if ( targetTopPos ) {
+			const newTopPos = lastTopPos + ( ( targetTopPos - lastTopPos ) * 0.1 );
+			homepageBack.style.transform = `translateX(${ newTopPos }vw)`;
+			lastTopPos = newTopPos;
+		}
+		if ( targetBackPos ) {
+			const newBackPos = lastBackPos + ( ( targetBackPos - lastBackPos ) * 0.1 );
+			homepage.style.backgroundPosition = newBackPos + '%';
+			lastBackPos = newBackPos;
+		}
+		requestAnimationFrame( backgroundLoop );
+	}
+}
+
+//
 
 const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
 
@@ -85,6 +111,8 @@ function makeGameButton( name, gamePage, iconClass ) {
 		gamesList.disable();
 
 		window.removeEventListener( 'mousemove', handleMouseMove );
+
+		mustStopBackgroundLoop = true;
 
 	}
 

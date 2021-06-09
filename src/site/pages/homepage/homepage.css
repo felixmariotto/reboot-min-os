@@ -12,11 +12,30 @@
 
 	#homepage-background {
 		position: fixed;
-		padding-top: 35.2%;
-		width: 110vw;
+		padding-top: calc( 35.2% * 1.1 );
+		width: calc( 100vw * 1.1 );
+		height: 70vh;
+		bottom: 7vh;
 		z-index: 0;
 		background-size: cover;
 	}
+
+		/* size of the lanscape in the background */
+
+		@media ( max-aspect-ratio: 1/1 ) {
+			#homepage-background {
+				background-position: 70% 0%;
+				bottom: 25px;
+				height: 30vh;
+			}
+		}
+
+		@media ( min-aspect-ratio: 2/1 ) {
+			#homepage-background {
+				padding-top: calc( 35.2% * 1.3 * 1.1 );
+				width: calc( 100vw * 1.3 *  1.1 );
+			}
+		}
 
 	#homepage > h1,
 	#homepage > .list {

@@ -60,7 +60,7 @@ module.exports = env => {
 			rules: [
 
 				{
-					test: /\.(png|jpg|glb|txt)$/,
+					test: /\.(png|jpg|svg|glb|txt)$/,
 					use: [
 						'file-loader',
 					],

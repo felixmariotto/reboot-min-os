@@ -11,6 +11,7 @@ import mapTest from '../mapTest/mapTest.js';
 
 import starrySkyImage from '../../../assets/images/starry-sky.jpg';
 import crashedShipImage from '../../../assets/images/homepage-background.jpg';
+import logoImage from '../../../assets/images/logo.svg';
 
 //
 
@@ -30,7 +31,7 @@ window.addEventListener( 'mousemove', handleMouseMove );
 
 function handleMouseMove(e) {
 	const ratio = ( e.x / window.innerWidth ) * -1 + 0.5;
-	targetTopPos = ratio * 10;
+	targetTopPos = ratio * 8;
 	targetBackPos = ( ( ratio * -1 + 5 ) * 12 );
 }
 
@@ -39,7 +40,7 @@ function backgroundLoop() {
 	if ( !mustStopBackgroundLoop ) {
 		if ( targetTopPos ) {
 			const newTopPos = lastTopPos + ( ( targetTopPos - lastTopPos ) * 0.1 );
-			homepageBack.style.transform = `translateX(${ newTopPos }vw)`;
+			homepageBack.style.transform = `translateX( ${ newTopPos }% )`;
 			lastTopPos = newTopPos;
 		}
 		if ( targetBackPos ) {
@@ -53,7 +54,11 @@ function backgroundLoop() {
 
 //
 
-const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
+// const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
+const title = elem({ tagName: 'IMG' });
+title.src = logoImage;
+title.width = 512;
+title.height = 64;
 
 const gamesList = List();
 gamesList.id = 'homepage-picking-box';
@@ -83,7 +88,7 @@ gamesList.append(
 
 homepage.append(
 	homepageBack,
-	title,
+	// title,
 	gamesList
 );
 

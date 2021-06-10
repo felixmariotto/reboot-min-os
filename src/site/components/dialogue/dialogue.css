@@ -77,3 +77,7 @@
 	#dialogue-container.narrative  #dialogue-thumbnail {
 		display: none;
 	}
+
+	#dialogue-container.narrative  #dialogue-text {
+		font-family: 'Space Mono', monospace;
+	}

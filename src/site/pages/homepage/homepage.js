@@ -54,11 +54,8 @@ function backgroundLoop() {
 
 //
 
-// const title = elem({ tagName: 'H1', html: 'Chain Dungeon Game' });
-const title = elem({ tagName: 'IMG' });
+const title = elem({ id: 'title-image', tagName: 'IMG' });
 title.src = logoImage;
-title.width = 512;
-title.height = 64;
 
 const gamesList = List();
 gamesList.id = 'homepage-picking-box';
@@ -78,8 +75,6 @@ function enableGamesList() {
 
 }
 
-// const gamesList = elem({ id: 'homepage-picking-box', classes: 'hidden' });
-
 gamesList.append(
 	makeGameButton( 'PLAY GAME', gamePage, 'fas fa-play-circle' ),
 	makeGameButton( 'EDIT map', mapEditor, 'fas fa-edit' ),
@@ -88,7 +83,7 @@ gamesList.append(
 
 homepage.append(
 	homepageBack,
-	// title,
+	title,
 	gamesList
 );
 

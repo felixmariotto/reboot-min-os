@@ -4,10 +4,6 @@
 	background-size: 130%;
 	height: 100%;
 	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
 }
 
 	#homepage-background {
@@ -41,14 +37,29 @@
 			}
 		}
 
-	#homepage > h1,
 	#homepage > .list {
+		position: fixed;
+		display: inline-flex; /* so it has the size of its content */
 		margin: 30px 0;
 		padding: 45px;
 		border-radius: 8px;
-		background-color: black;
+		background-color: rgba( 0, 0, 0, 0.5 );
 		z-index: 1;
+		left: 33%;
+		top: 50%;
+		transform: translate( -50%, -50% );
 	}
+
+		@media ( max-aspect-ratio: 1/1 ) {
+			#homepage > .list {
+				left: 50%;
+				top: 33%;
+			}
+		}
+
+		#homepage > .list > .button {
+			
+		}
 
 	#homepage > h1 {
 		color: white;
@@ -69,4 +80,28 @@
 
 		#homepage-picking-box.hidden {
 			display: none;
+		}
+
+	#title-image {
+		position: fixed;
+		height: 96px;
+		width: 768px;
+		top: 20px;
+		left: 50%;
+		transform: translateX( -50% );
+	}
+
+		/* the title is on the left side if the screen is wide */
+
+		@media ( max-aspect-ratio: 1/1 ) {
+			#title-image {
+				height: 64px;
+				width: 512px;
+			}
+		}
+
+		@media ( min-aspect-ratio: 2/1 ) {
+			#title-image {
+				left: 33%;
+			}
 		}

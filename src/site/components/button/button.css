@@ -1,19 +1,32 @@
+:root {
+	--button-focus-color: rgba( 0, 170, 130, 0.7 );
+}
 
 .button {
-	background-color: #999999;
+	background-color: rgba( 0, 0, 0, 0 );
 	color: white;
-	padding: 8px 14px;
-	border-radius: 5px;
+	padding: 10px 16px;
+	border-radius: 50px;
+	border-style: solid;
+	border-color: white;
 	cursor: pointer;
-	transition: all 0.05s linear;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	transition: all 0.2s ease-in-out;
 }
 
-.button:focus {
-	background-color: red;
-}
-
-@media ( hover: hover ) {
-	.button:hover {
-		background-color: #666666;
+	.button:focus {
+		background-color: var(--button-focus-color);
+		outline: none;
 	}
-}
+
+	@media ( hover: hover ) {
+		.button:hover {
+			background-color: var(--button-focus-color);
+		}
+	}
+
+		.button > * {
+			margin-right: 20px;
+		}

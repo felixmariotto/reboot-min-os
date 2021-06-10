@@ -79,9 +79,7 @@
 	}
 
 		#homepage-picking-box > button {
-			padding: 6px 11px;
 			margin: 8px 0;
-			cursor: pointer;
 		}
 
 		#homepage-picking-box.hidden {

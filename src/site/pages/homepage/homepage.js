@@ -42,7 +42,6 @@ function backgroundLoop() {
 			const newTopPos = lastTopPos + ( ( targetTopPos - lastTopPos ) * 0.1 );
 			homepageBack.style.transform = `translateX( calc( -50% + ${ newTopPos }% ) )`;
 			lastTopPos = newTopPos;
-			// console.log( 'translation : ' + newTopPos + '%')
 		}
 		if ( targetBackPos ) {
 			const newBackPos = lastBackPos + ( ( targetBackPos - lastBackPos ) * 0.1 );

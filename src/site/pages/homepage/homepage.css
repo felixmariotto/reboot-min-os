@@ -2,6 +2,7 @@
 #homepage {
 	background-repeat: repeat-y;
 	background-size: 130%;
+	background-position: 60%;
 	height: 100%;
 	width: 100%;
 }
@@ -13,6 +14,7 @@
 		height: 70vh;
 		bottom: 7vh;
 		left: 50%;
+		transform: translateX( -50% );
 		z-index: 0;
 		background-size: cover;
 		background-color: black;

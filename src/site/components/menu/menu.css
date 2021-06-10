@@ -49,5 +49,19 @@
 		}
 
 			#menu-base-list > h1 {
-				margin-bottom: 20px;
+				margin-bottom: 25px;
+			}
+
+			/* OPTIONS */
+
+			#menu-options-list > h1 {
+				margin-bottom: 25px;
+			}
+
+			#menu-options-list input {
+				margin-right: 20px;
+			}
+
+			#menu-options-list label {
+				color: white;
 			}

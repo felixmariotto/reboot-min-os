@@ -74,6 +74,7 @@ menu.append( baseList );
 //
 
 const optionsList = List();
+optionsList.id = 'menu-options-list';
 
 optionsList.addEventListener( 'update-values', (e) => {
 

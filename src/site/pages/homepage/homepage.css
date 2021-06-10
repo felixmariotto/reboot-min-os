@@ -12,6 +12,7 @@
 		width: calc( 100vw * 1.1 );
 		height: 70vh;
 		bottom: 7vh;
+		left: 50%;
 		z-index: 0;
 		background-size: cover;
 		background-color: black;

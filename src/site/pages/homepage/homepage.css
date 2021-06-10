@@ -46,7 +46,7 @@
 		background-color: rgba( 0, 0, 0, 0.5 );
 		z-index: 1;
 		left: 33%;
-		top: 50%;
+		top: 58%;
 		transform: translate( -50%, -50% );
 	}
 
@@ -54,6 +54,12 @@
 			#homepage > .list {
 				left: 50%;
 				top: 33%;
+			}
+		}
+
+		@media ( min-aspect-ratio: 2/1 ) {
+			#homepage > .list {
+				top: 50%;
 			}
 		}
 
@@ -103,5 +109,6 @@
 		@media ( min-aspect-ratio: 2/1 ) {
 			#title-image {
 				left: 33%;
+				top: calc( 50% - 200px );
 			}
 		}

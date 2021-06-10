@@ -45,8 +45,8 @@
 		display: inline-flex; /* so it has the size of its content */
 		margin: 30px 0;
 		padding: 45px;
-		border-radius: 8px;
-		background-color: rgba( 0, 0, 0, 0.5 );
+		border-radius: 25px;
+		background-color: rgba( 0, 0, 0, 0.6 );
 		z-index: 1;
 		left: 33%;
 		top: 58%;
@@ -57,6 +57,7 @@
 			#homepage > .list {
 				left: 50%;
 				top: 33%;
+				background-color: rgba( 0, 0, 0, 0.3 );
 			}
 		}
 
@@ -64,10 +65,6 @@
 			#homepage > .list {
 				top: 50%;
 			}
-		}
-
-		#homepage > .list > .button {
-			
 		}
 
 	#homepage > h1 {

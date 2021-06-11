@@ -1,5 +1,6 @@
 # three.js chain game
 
+![Reboot min-OS social image](https://i.ibb.co/KwgpVFD/min-os-social-image.jpg)
 ![chain game showcase](https://i.ibb.co/c3pM8BW/opti.gif)
 
 # LIVE DEMO :

@@ -49,8 +49,8 @@ listContainer.append( chainPointList );
 //
 
 function selectLine( line ) {
-
-	if ( selectedLine ) selectedLine.classList.remove( 'selected' );
+	
+	if ( selectedLine ) selectedLine.domElement.classList.remove( 'selected' );
 
 	line.domElement.classList.add( 'selected' );
 

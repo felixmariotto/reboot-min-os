@@ -12,7 +12,8 @@ export default {
 	cameraFOV: 80,
 	cameraNear: 0.1,
 	cameraFar: 200,
-	thirdPersCameraInit: new THREE.Vector3( 0, 8, 8 ),
+	thirdPersCameraInit: new THREE.Vector3( 0, 1, 1 ),
+	camNominalDistance: 12,
 	camMinMaxHeight: [ 5, 10 ], // relative to the player position
 	cameraHorizontalSpeed: 0.25,
 	cameraVerticalSpeed: 10,

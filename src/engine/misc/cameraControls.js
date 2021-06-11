@@ -13,8 +13,6 @@ const _vec0 = new THREE.Vector3();
 const _vec1 = new THREE.Vector3();
 const previousTargetPos = new THREE.Vector3();
 
-const NOMINAL_PLAYER_CAM_DIST = params.thirdPersCameraInit.length();
-
 //
 
 core.callInLoop( loop );
@@ -98,7 +96,7 @@ function orbitWorldPlayer( world ) {
 
 		const resolutionVector = _vec1
 		.copy( playerToCamera )
-		.setLength( NOMINAL_PLAYER_CAM_DIST )
+		.setLength( params.camNominalDistance )
 		.sub( playerToCamera );
 
 		_vec.add( resolutionVector )
@@ -114,6 +112,9 @@ function orbitWorldPlayer( world ) {
 		targetMovement.setScalar( 0 );
 
 		previousTargetPos.copy( target.position );
+
+		// console.log( 'world.state.cameraTargetPos', world.state.cameraTargetPos )
+		// debugger
 
 	}
 

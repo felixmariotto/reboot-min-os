@@ -25,6 +25,8 @@ const api = {
 	resize,
 	makeSurePointerLock,
 	setupPointerLock,
+	onClick,
+	onMouseMove
 }
 
 //
@@ -278,8 +280,8 @@ function onClick() {
 
 }
 
-window.addEventListener( 'mousemove', onMouseMove, false );
-window.addEventListener( 'click', onClick, false );
+window.addEventListener( 'mousemove', (e) => api.onMouseMove(e), false );
+window.addEventListener( 'click', (e) => api.onClick(e), false );
 
 function listenClick( callback ) {
 

@@ -639,6 +639,6 @@ function handleEvent( e ) {
 
 function clear() {
 
-	console.warn('DELETE THIS WORLD FOR MEMORY')
+	// console.warn('DELETE THIS WORLD FOR MEMORY')
 
 }

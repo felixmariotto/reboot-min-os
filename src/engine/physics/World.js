@@ -382,7 +382,7 @@ function handleMessage(e) {
 
 		// render the updated scene and send a request for new data at 60 FPS.
 
-		requestAnimationFrame( () => this.frame() )
+		if ( !this.isCleared ) requestAnimationFrame( () => this.frame() )
 
 	}
 
@@ -403,5 +403,7 @@ function clear() {
 		chain.sphereEntities.forEach( entity => entity.clear() );
 
 	} );
+
+	this.isCleared = true;
 
 }

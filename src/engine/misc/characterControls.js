@@ -37,19 +37,19 @@ function controlVelocity( world ) {
 
 	events.on( 'jump-key-down', () => {
 
-		world.emitEvent( 'jump' );
+		if ( !world.isCleared ) world.emitEvent( 'jump' );
 
 	} );
 
 	events.on( 'pull-key-down', () => {
 
-		world.emitEvent( 'pull' );
+		if ( !world.isCleared ) world.emitEvent( 'pull' );
 
 	} );
 
 	events.on( 'release-key-down', () => {
 
-		world.emitEvent( 'release' );
+		if ( !world.isCleared ) world.emitEvent( 'release' );
 
 	} );
 

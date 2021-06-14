@@ -16,9 +16,10 @@ export default {
 	restart
 }
 
-//
+// playerMotionOrigin : "+x", "-x", etc...
+// the direction from which we animate the character, to show the player were they came from.
 
-function loadLevel( levelName ) {
+function loadLevel( levelName, playerInitPos, playerMotionOrigin ) {
 
 	if ( this.currentLevel ) this.currentLevel.clear();
 
@@ -27,21 +28,21 @@ function loadLevel( levelName ) {
 	switch ( levelName ) {
 
 		case 'playground':
-			this.currentLevel = Playground();
+			this.currentLevel = Playground( playerInitPos, playerMotionOrigin );
 			break
 
 		/* MEADOW */
 
 		case 'meadow-hub':
-			this.currentLevel = MeadowHub();
+			this.currentLevel = MeadowHub( playerInitPos, playerMotionOrigin );
 			break
 
 		case 'meadow-tuto-point':
-			this.currentLevel = MeadowTutoPoint();
+			this.currentLevel = MeadowTutoPoint( playerInitPos, playerMotionOrigin );
 			break
 
 		case 'meadow-tuto-jump':
-			this.currentLevel = MeadowTutoJump();
+			this.currentLevel = MeadowTutoJump( playerInitPos, playerMotionOrigin );
 			break
 
 		default :

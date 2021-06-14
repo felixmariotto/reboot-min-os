@@ -9,12 +9,14 @@ import characterControls from '../misc/characterControls.js';
 
 //
 
-export default function Level() {
+export default function Level( playerInitPos, playerMotionOrigin ) {
 
 	return {
 		scene: new THREE.Scene(),
 		start,
-		clear
+		clear,
+		playerInitPos,
+		playerMotionOrigin
 	}
 
 }
@@ -31,6 +33,26 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 
 			const sceneGraph = results[0];
 			const staticModel = results[1];
+
+			// override the sceneGraph player position
+			if ( this.playerInitPos ) {
+				sceneGraph.player.x = this.playerInitPos[0];
+				sceneGraph.player.y = this.playerInitPos[1];
+				sceneGraph.player.z = this.playerInitPos[2];
+			}
+
+			// set player initial velocity
+			sceneGraph.player.vel = new THREE.Vector3( 0, 0, 0 );
+			if ( this.playerMotionOrigin ) {
+				switch ( this.playerMotionOrigin ) {
+					case '+x' : sceneGraph.player.vel.x -= 0.5; break
+					case '-x' : sceneGraph.player.vel.x += 0.5; break
+					case '+z' : sceneGraph.player.vel.z -= 0.5; break
+					case '-z' : sceneGraph.player.vel.z += 0.5; break
+				}
+			}
+
+			//
 
 			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
 

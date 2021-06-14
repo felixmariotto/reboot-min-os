@@ -44,6 +44,8 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 		}
 	);
 
+	window.world = world;
+
 	core.scene.add( world );
 
 	world.init( info, makeKinematicHelpers , makeStaticHelpers );
@@ -251,6 +253,13 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 		Number( info.player.y ),
 		Number( info.player.z ),
 		this.positions
+	);
+
+	this.player.setVectorArray(
+		Number( info.player.vel.x ),
+		Number( info.player.vel.y ),
+		Number( info.player.vel.z ),
+		this.velocities
 	);
 
 	// tells the worker to create a new world.

@@ -9,10 +9,10 @@ import ShadowedLight from '../../misc/ShadowedLight.js';
 
 //
 
-export default function MeadowHub() {
+export default function MeadowHub( playerInitPos, playerMotionOrigin ) {
 
 	const level = Object.assign(
-		Level(),
+		Level( playerInitPos, playerMotionOrigin ),
 		{
 			name: 'meadow-hub',
 			mapFile: files.maps.meadowHub,

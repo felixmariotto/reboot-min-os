@@ -13,7 +13,8 @@ export default function Level() {
 
 	return {
 		scene: new THREE.Scene(),
-		start
+		start,
+		clear
 	}
 
 }
@@ -44,5 +45,15 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 		} );
 
 	} );
+
+}
+
+//
+
+function clear() {
+
+	core.scene.remove( this.scene );
+
+	this.world.clear();
 
 }

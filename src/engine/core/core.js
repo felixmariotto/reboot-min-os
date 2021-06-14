@@ -19,6 +19,7 @@ const api = {
 	clock: new THREE.Clock(),
 	init,
 	callInLoop,
+	removeFromLoop,
 	listenClick,
 	listenMove,
 	render,
@@ -314,6 +315,16 @@ function render() {
 function callInLoop( fn ) {
 
 	loopCallbacks.push( fn );
+
+}
+
+//
+
+function removeFromLoop( fn ) {
+
+	const idx = loopCallbacks.indexOf( fn );
+
+	if ( idx > -1 ) loopCallbacks.splice( idx, 1 );
 
 }
 

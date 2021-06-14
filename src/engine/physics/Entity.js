@@ -19,6 +19,7 @@ export default function Entity( info ) {
 			name: info.name,
 			serial: info.serial,
 			info,
+			clear,
 			makeHelper,
 			updatePosition,
 			updateVelocity,
@@ -71,6 +72,20 @@ function makeHelper() {
 		this.add( shape );
 
 	} );
+
+}
+
+// remove helpers
+
+function clear() {
+	
+	for ( let i=this.children.length - 1 ; i>-1 ; i-- ) {
+
+		const child = this.children[i];
+
+		if ( child.geometry ) child.geometry.dispose();
+
+	}
 
 }
 

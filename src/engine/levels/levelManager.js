@@ -20,7 +20,7 @@ export default {
 
 function loadLevel( levelName ) {
 
-	if ( this.currentLevel ) console.log('remove current level');
+	if ( this.currentLevel ) this.currentLevel.clear();
 
 	//
 

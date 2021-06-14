@@ -27,11 +27,13 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 	const world = Object.assign(
 		Object.create( new THREE.Group() ),
 		{
+			serial: Math.random() * 100000,
 			isPaused: false,
 			init,
 			pause,
 			resume,
 			frame,
+			clear,
 			postUpdates,
 			addChainLength,
 			emitEvent,
@@ -264,7 +266,7 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 	// Linear interpolation between the entity position and the received position.
 	// This smooth out most of the jittering.
 
-	core.callInLoop( () => {
+	this.animateFn = () => {
 
 		this.entities.forEach( (entity) => {
 
@@ -278,7 +280,9 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 
 		});
 
-	} );
+	}
+
+	core.callInLoop( this.animateFn );
 
 }
 
@@ -381,5 +385,23 @@ function handleMessage(e) {
 		requestAnimationFrame( () => this.frame() )
 
 	}
+
+}
+
+//
+
+function clear() {
+
+	if ( this.parent ) this.parent.remove( this );
+
+	core.removeFromLoop( this.animateFn );
+
+	this.entities.forEach( entity => entity.clear() );
+
+	this.chains.forEach( chain => {
+
+		chain.sphereEntities.forEach( entity => entity.clear() );
+
+	} );
 
 }

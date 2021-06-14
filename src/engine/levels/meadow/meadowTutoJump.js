@@ -14,6 +14,7 @@ export default function meadowTutoJump() {
 	const level = Object.assign(
 		Level(),
 		{
+			name: 'meadow-tuto-jump',
 			mapFile: files.maps.meadowTutoJump,
 			// staticModel: files.models.playgroundStaticModel
 		}

@@ -16,6 +16,7 @@ export default function Playground() {
 	const level = Object.assign(
 		Level(),
 		{
+			name: 'playground',
 			mapFile: files.maps.playground,
 			staticModel: files.models.playgroundStaticModel
 		}

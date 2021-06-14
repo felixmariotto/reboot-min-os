@@ -14,6 +14,7 @@ export default function MeadowTutoPoint() {
 	const level = Object.assign(
 		Level(),
 		{
+			name: 'meadow-tuto-point',
 			mapFile: files.maps.meadowTutoPoint,
 			// staticModel: files.models.playgroundStaticModel
 		}

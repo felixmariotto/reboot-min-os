@@ -14,6 +14,7 @@ export default function MeadowHub() {
 	const level = Object.assign(
 		Level(),
 		{
+			name: 'meadow-hub',
 			mapFile: files.maps.meadowHub,
 			// staticModel: files.models.playgroundStaticModel
 		}

@@ -9,8 +9,6 @@ import MeadowTutoPoint from './meadow/MeadowTutoPoint.js';
 
 //
 
-let currentLevel;
-
 export default {
 	loadLevel,
 	pause,
@@ -22,28 +20,28 @@ export default {
 
 function loadLevel( levelName ) {
 
-	if ( currentLevel ) console.log('remove current level');
+	if ( this.currentLevel ) console.log('remove current level');
 
 	//
 
 	switch ( levelName ) {
 
 		case 'playground':
-			currentLevel = Playground();
+			this.currentLevel = Playground();
 			break
 
 		/* MEADOW */
 
 		case 'meadow-hub':
-			currentLevel = MeadowHub();
+			this.currentLevel = MeadowHub();
 			break
 
 		case 'meadow-tuto-point':
-			currentLevel = MeadowTutoPoint();
+			this.currentLevel = MeadowTutoPoint();
 			break
 
 		case 'meadow-tuto-jump':
-			currentLevel = MeadowTutoJump();
+			this.currentLevel = MeadowTutoJump();
 			break
 
 		default :
@@ -58,9 +56,9 @@ function loadLevel( levelName ) {
 
 function pause() {
 
-	if ( currentLevel && currentLevel.world ) {
+	if ( this.currentLevel && this.currentLevel.world ) {
 
-		currentLevel.world.pause();
+		this.currentLevel.world.pause();
 
 	}
 
@@ -70,9 +68,9 @@ function pause() {
 
 function resume() {
 
-	if ( currentLevel && currentLevel.world ) {
+	if ( this.currentLevel && this.currentLevel.world ) {
 
-		currentLevel.world.resume();
+		this.currentLevel.world.resume();
 
 	}
 

@@ -17,13 +17,17 @@ gamePage.start = function start() {
 
 	//
 
-	engine.levelManager.loadLevel( 'meadow-tuto-jump' );
+	engine.levelManager.loadLevel( 'meadow-hub' );
 
-	engine.on( 'gate', (e) => {
+	engine.on( 'item-collected', (e) => {
 
-		const destinationLevel = e.detail;
+		const bodySerial = e.detail.serial;
+		const bodyName = e.detail.name;
+		const collectible = e.detail.collectible;
 
-		engine.levelManager.loadLevel( destinationLevel );
+		if ( collectible.includes( 'gate' ) ) {
+			openFromGate( collectible );
+		}
 
 	} );
 
@@ -36,6 +40,28 @@ gamePage.start = function start() {
 		menu.show();
 
 	} );
+
+}
+
+//
+
+function openFromGate( gateName ) {
+
+	switch ( engine.levelManager.currentLevel.name ) {
+
+		case 'meadow-hub':
+			switch ( gateName ) {
+				case 'gate-01' :
+					engine.levelManager.loadLevel( 'meadow-tuto-jump' );
+				break
+			}
+		break
+
+		default:
+			console.warn('current level name unknown')
+		break
+
+	}
 
 }
 

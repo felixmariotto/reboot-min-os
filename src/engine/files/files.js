@@ -12,6 +12,8 @@ import playgroundStaticURL from '../../assets/models/test.glb';
 import playgroundMapURL from '../../assets/mapFiles/playground.txt';
 // meadow
 import meadowHubMapURL from '../../assets/mapFiles/meadow/hub.txt';
+import meadowTutoPointMapURL from '../../assets/mapFiles/meadow/tuto-chain-point.txt';
+import meadowTutoJumpMapURL from '../../assets/mapFiles/meadow/tuto-jump.txt';
 
 // TEXTURES
 
@@ -33,7 +35,9 @@ const models = {
 
 const maps = {
 	playground: loadMap( playgroundMapURL ),
-	meadowHub: loadMap( meadowHubMapURL )
+	meadowHub: loadMap( meadowHubMapURL ),
+	meadowTutoPoint: loadMap( meadowTutoPointMapURL ),
+	meadowTutoJump: loadMap( meadowTutoJumpMapURL ),
 };
 
 // textures loading

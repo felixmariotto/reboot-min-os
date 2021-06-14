@@ -3,8 +3,9 @@ import core from '../core/core.js';
 import Playground from './Playground.js';
 
 // Meadow
-
 import MeadowHub from './meadow/Hub.js';
+import MeadowTutoJump from './meadow/MeadowTutoJump.js';
+import MeadowTutoPoint from './meadow/MeadowTutoPoint.js';
 
 //
 
@@ -31,8 +32,18 @@ function loadLevel( levelName ) {
 			currentLevel = Playground();
 			break
 
+		/* MEADOW */
+
 		case 'meadow-hub':
 			currentLevel = MeadowHub();
+			break
+
+		case 'meadow-tuto-point':
+			currentLevel = MeadowTutoPoint();
+			break
+
+		case 'meadow-tuto-jump':
+			currentLevel = MeadowTutoJump();
 			break
 
 		default :

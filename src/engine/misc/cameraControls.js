@@ -11,7 +11,6 @@ import params from '../params.js';
 const _vec = new THREE.Vector3();
 const _vec0 = new THREE.Vector3();
 const _vec1 = new THREE.Vector3();
-const previousTargetPos = new THREE.Vector3();
 
 //
 
@@ -34,8 +33,12 @@ function orbitWorldPlayer( world ) {
 	const movement = new THREE.Vector2();
 	const targetMovement = new THREE.Vector2();
 
+	const previousTargetPos = new THREE.Vector3();
+
 	const targetTarget = new THREE.Vector3().copy( target.position );
 	
+	core.camera.position.copy( target.position );
+
 	//
 
 	loopCallback = () => {
@@ -112,9 +115,6 @@ function orbitWorldPlayer( world ) {
 		targetMovement.setScalar( 0 );
 
 		previousTargetPos.copy( target.position );
-
-		// console.log( 'world.state.cameraTargetPos', world.state.cameraTargetPos )
-		// debugger
 
 	}
 

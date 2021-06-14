@@ -236,31 +236,38 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 	this.positions = new Float32Array( info.serialCounter * 3 );
 	this.velocities = new Float32Array( info.serialCounter * 3 );
 
+	// set player position now that the typed arrays are created
+
+	this.player.position.set(
+		Number( info.player.x ),
+		Number( info.player.y ),
+		Number( info.player.z ),
+	)
+
+	this.player.setVectorArray(
+		this.player.position.x,
+		this.player.position.y,
+		this.player.position.z,
+		this.positions
+	);
+
+	this.player.setVectorArray(
+		info.player.vel.x,
+		info.player.vel.y,
+		info.player.vel.z,
+		this.velocities
+	);
+
 	// state parameters updated by the worker
 	this.state = {
 		playerIsColliding: false,
 		playerIsOnGround: false,
 		cameraTargetPos: new THREE.Vector3(
-			0,
-			params.thirdPersCameraInit.y,
-			params.thirdPersCameraInit.z
+			Number( info.player.x ),
+			Number( info.player.y ),
+			Number( info.player.z )
 		)
 	}
-
-	// set player position now that the typed arrays are created
-	this.player.setVectorArray(
-		Number( info.player.x ),
-		Number( info.player.y ),
-		Number( info.player.z ),
-		this.positions
-	);
-
-	this.player.setVectorArray(
-		Number( info.player.vel.x ),
-		Number( info.player.vel.y ),
-		Number( info.player.vel.z ),
-		this.velocities
-	);
 
 	// tells the worker to create a new world.
 	this.worker.postMessage( { info, state: this.state } );

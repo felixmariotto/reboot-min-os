@@ -9,7 +9,7 @@ import editorConsole from './editorConsole.js';
 const filesOptions = elem({ id: 'editor-files-options', classes: 'tool-options' });
 
 filesOptions.append(
-	makeButton( 'fas fa-upload', 'import JSON', importJSON ),
+	makeButton( 'fas fa-upload', 'open map graph', importJSON ),
 	makeButton( 'fas fa-download', 'save map graph', emitSceneGraphRequest ),
 	makeButton( 'fas fa-download', 'save map as GLTF', exportGLTF )
 );

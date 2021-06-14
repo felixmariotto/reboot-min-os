@@ -36,7 +36,8 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 			cameraControls.orbitWorldPlayer( this.world );
 			characterControls.controlVelocity( this.world );
 
-			this.scene.add( this.world, staticModel );
+			this.scene.add( this.world );
+			if ( staticModel ) this.scene.add( staticModel );
 
 			resolve();
 

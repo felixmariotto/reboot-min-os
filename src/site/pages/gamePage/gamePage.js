@@ -17,7 +17,7 @@ gamePage.start = function start() {
 
 	//
 
-	engine.levelManager.loadLevel( 'playground' );
+	engine.levelManager.loadLevel( 'meadow-hub' );
 
 	engine.on( 'gate', (e) => {
 

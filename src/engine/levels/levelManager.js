@@ -2,6 +2,10 @@
 import core from '../core/core.js';
 import Playground from './Playground.js';
 
+// Meadow
+
+import MeadowHub from './meadow/Hub.js';
+
 //
 
 let currentLevel;
@@ -25,6 +29,10 @@ function loadLevel( levelName ) {
 
 		case 'playground':
 			currentLevel = Playground();
+			break
+
+		case 'meadow-hub':
+			currentLevel = MeadowHub();
 			break
 
 		default :

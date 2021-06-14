@@ -26,6 +26,8 @@ gamePage.start = function start() {
 
 			const data = e.detail;
 
+			console.log('item-collected :', data )
+
 			switch ( data.collectible ) {
 
 				case 'chain-extension-5' :

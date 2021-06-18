@@ -1,5 +1,6 @@
 
 import core from '../core/core.js';
+import events from '../misc/events.js';
 import Playground from './Playground.js';
 
 // Meadow
@@ -9,15 +10,46 @@ import MeadowTutoPoint from './meadow/MeadowTutoPoint.js';
 
 //
 
-export default {
+const levelManager = {
 	loadLevel,
 	pause,
 	resume,
-	restart
+	restart,
+	passGate
 }
+
+events.on( 'load-level', (e) => {
+
+	levelManager.loadLevel( e.detail );
+
+} );
+
+export default levelManager
 
 // playerMotionOrigin : "+x", "-x", etc...
 // the direction from which we animate the character, to show the player were they came from.
+
+function loadLevel( params ) {
+
+	if ( this.currentLevel ) this.currentLevel.clear();
+
+	this.currentLevel = ( () => {
+
+		switch ( params.levelName ) {
+			case 'playground': return Playground;
+			case 'meadow-hub': return MeadowHub;
+			case 'meadow-tuto-point': return MeadowTutoPoint;
+			case 'meadow-tuto-jump': return MeadowTutoJump;
+			default: console.error( 'not such level name: ', params.levelName );
+		}
+
+	} )();
+
+	this.currentLevel = this.currentLevel( params );
+
+}
+
+/*
 
 function loadLevel( levelName, playerInitPos, playerMotionOrigin, chainID ) {
 
@@ -30,8 +62,6 @@ function loadLevel( levelName, playerInitPos, playerMotionOrigin, chainID ) {
 		case 'playground':
 			this.currentLevel = Playground( playerInitPos, playerMotionOrigin, chainID );
 			break
-
-		/* MEADOW */
 
 		case 'meadow-hub':
 			this.currentLevel = MeadowHub( playerInitPos, playerMotionOrigin, chainID );
@@ -52,6 +82,7 @@ function loadLevel( levelName, playerInitPos, playerMotionOrigin, chainID ) {
 	}
 
 }
+*/
 
 //
 
@@ -82,5 +113,13 @@ function resume() {
 function restart() {
 
 	console.log('restart this level')
+
+}
+
+//
+
+function passGate( gateName ) {
+
+	this.currentLevel.passGate( gateName );
 
 }

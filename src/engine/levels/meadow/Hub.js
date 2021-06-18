@@ -9,16 +9,26 @@ import ShadowedLight from '../../misc/ShadowedLight.js';
 
 //
 
-export default function MeadowHub( playerInitPos, playerMotionOrigin, chainID ) {
+export default function MeadowHub( params ) {
 
 	const level = Object.assign(
-		Level( playerInitPos, playerMotionOrigin ),
+		Level( params ),
 		{
 			name: 'meadow-hub',
 			mapFile: files.maps.meadowHub,
 			// staticModel: files.models.playgroundStaticModel
 		}
 	);
+
+	// setup the routes from this level to another
+
+	level.routes[ 'gate-01' ] = {
+		levelName: 'meadow-tuto-jump',
+		playerInit: [ -13.5, 2.5, 22.5 ],
+		playerDir: '-z'
+	};
+
+	//
 
 	level.start( true, true ).then( () => {
 

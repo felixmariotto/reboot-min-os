@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 
 import core from '../core/core.js';
+import events from '../misc/events.js';
 import physics from '../physics/physics.js';
 
 import cameraControls from '../misc/cameraControls.js';
@@ -9,16 +10,19 @@ import characterControls from '../misc/characterControls.js';
 
 //
 
-export default function Level( playerInitPos, playerMotionOrigin, chainID ) {
+export default function Level( params ) {
 
-	return {
-		scene: new THREE.Scene(),
-		start,
-		clear,
-		playerInitPos,
-		playerMotionOrigin,
-		chainID
-	}
+	return Object.assign(
+		{},
+		{
+			scene: new THREE.Scene(),
+			start,
+			clear,
+			passGate,
+			routes: {}
+		},
+		params
+	)
 
 }
 
@@ -42,20 +46,21 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 			}
 
 			// override the sceneGraph player position
-			if ( this.playerInitPos ) {
-				sceneGraph.player.x = this.playerInitPos[0];
-				sceneGraph.player.y = this.playerInitPos[1];
-				sceneGraph.player.z = this.playerInitPos[2];
+			if ( this.playerInit ) {
+				sceneGraph.player.x = this.playerInit[0];
+				sceneGraph.player.y = this.playerInit[1];
+				sceneGraph.player.z = this.playerInit[2];
 			}
 
 			// set player initial velocity
 			sceneGraph.player.vel = new THREE.Vector3( 0, 0, 0 );
-			if ( this.playerMotionOrigin ) {
-				switch ( this.playerMotionOrigin ) {
-					case '+x' : sceneGraph.player.vel.x -= 0.5; break
-					case '-x' : sceneGraph.player.vel.x += 0.5; break
-					case '+z' : sceneGraph.player.vel.z -= 0.5; break
-					case '-z' : sceneGraph.player.vel.z += 0.5; break
+
+			if ( this.playerDir ) {
+				switch ( this.playerDir ) {
+					case '+x' : sceneGraph.player.vel.x += 0.5; break
+					case '-x' : sceneGraph.player.vel.x -= 0.5; break
+					case '+z' : sceneGraph.player.vel.z += 0.5; break
+					case '-z' : sceneGraph.player.vel.z -= 0.5; break
 				}
 			}
 
@@ -74,6 +79,22 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 		} );
 
 	} );
+
+}
+
+//
+
+function passGate( gateName ) {
+
+	if ( this.routes[ gateName ] ) {
+
+		events.emit( 'load-level', this.routes[ gateName ] );
+
+	} else {
+
+		console.warn( "this level doesn't have a route ", gateName );
+
+	}
 
 }
 

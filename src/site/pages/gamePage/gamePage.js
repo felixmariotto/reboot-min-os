@@ -17,7 +17,7 @@ gamePage.start = function start() {
 
 	//
 
-	engine.levelManager.loadLevel( 'meadow-tuto-point' );
+	engine.levelManager.loadLevel( { levelName: 'meadow-tuto-point' } );
 
 	engine.on( 'item-collected', (e) => {
 
@@ -26,7 +26,9 @@ gamePage.start = function start() {
 		const collectible = e.detail.collectible;
 
 		if ( collectible.includes( 'gate' ) ) {
-			openFromGate( collectible );
+
+			engine.levelManager.passGate( collectible );
+
 		}
 
 	} );
@@ -40,47 +42,6 @@ gamePage.start = function start() {
 		menu.show();
 
 	} );
-
-}
-
-//
-
-function openFromGate( gateName ) {
-
-	switch ( engine.levelManager.currentLevel.name ) {
-
-		case 'meadow-tuto-point':
-			switch ( gateName ) {
-				case 'gate-01' :
-					engine.levelManager.loadLevel( 'meadow-tuto-jump', [ 13.5, -0.5, -2.5 ], '+x' );
-				break
-			}
-		break
-
-		case 'meadow-tuto-jump':
-			switch ( gateName ) {
-				case 'gate-01' :
-					engine.levelManager.loadLevel( 'meadow-hub', [ -12, 3.5, 21.5 ], '+z' );
-				break
-				case 'gate-02' :
-					engine.levelManager.loadLevel( 'meadow-tuto-point', [ -14, -0.5, -6.5 ], '-x', 1 );
-				break
-			}
-		break
-
-		case 'meadow-hub':
-			switch ( gateName ) {
-				case 'gate-01' :
-					engine.levelManager.loadLevel( 'meadow-tuto-jump', [ -13.5, 2.5, 22.5 ], '+z' );
-				break
-			}
-		break
-
-		default:
-			console.warn('current level name unknown')
-		break
-
-	}
 
 }
 

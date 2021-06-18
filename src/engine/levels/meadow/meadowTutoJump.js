@@ -9,10 +9,10 @@ import ShadowedLight from '../../misc/ShadowedLight.js';
 
 //
 
-export default function MeadowTutoJump( playerInitPos, playerMotionOrigin ) {
+export default function MeadowTutoJump( playerInitPos, playerMotionOrigin, chainID ) {
 
 	const level = Object.assign(
-		Level( playerInitPos, playerMotionOrigin ),
+		Level( playerInitPos, playerMotionOrigin, chainID ),
 		{
 			name: 'meadow-tuto-jump',
 			mapFile: files.maps.meadowTutoJump,

@@ -9,14 +9,15 @@ import characterControls from '../misc/characterControls.js';
 
 //
 
-export default function Level( playerInitPos, playerMotionOrigin ) {
+export default function Level( playerInitPos, playerMotionOrigin, chainID ) {
 
 	return {
 		scene: new THREE.Scene(),
 		start,
 		clear,
 		playerInitPos,
-		playerMotionOrigin
+		playerMotionOrigin,
+		chainID
 	}
 
 }
@@ -33,6 +34,12 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 
 			const sceneGraph = results[0];
 			const staticModel = results[1];
+
+			// override the level initial chain point
+			if ( this.chainID !== undefined ) {
+				sceneGraph.chainPoints.forEach( cp => cp.init = false );
+				sceneGraph.chainPoints[ this.chainID ].init = true;
+			}
 
 			// override the sceneGraph player position
 			if ( this.playerInitPos ) {

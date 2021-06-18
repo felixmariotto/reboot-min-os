@@ -17,7 +17,7 @@ gamePage.start = function start() {
 
 	//
 
-	engine.levelManager.loadLevel( 'meadow-hub' );
+	engine.levelManager.loadLevel( 'meadow-tuto-point' );
 
 	engine.on( 'item-collected', (e) => {
 
@@ -63,7 +63,7 @@ function openFromGate( gateName ) {
 					engine.levelManager.loadLevel( 'meadow-hub', [ -12, 3.5, 21.5 ], '+z' );
 				break
 				case 'gate-02' :
-					engine.levelManager.loadLevel( 'meadow-tuto-point', [ -14, -0.5, -6.5 ], '+x' );
+					engine.levelManager.loadLevel( 'meadow-tuto-point', [ -14, -0.5, -6.5 ], '-x', 1 );
 				break
 			}
 		break

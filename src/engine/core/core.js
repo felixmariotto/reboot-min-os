@@ -15,7 +15,10 @@ const api = {
 		params.cameraNear,
 		params.cameraFar
 	),
-	renderer: new THREE.WebGLRenderer({ antialias: true }),
+	renderer: new THREE.WebGLRenderer({
+		antialias: true,
+		powerPreference: "high-performance"
+	}),
 	clock: new THREE.Clock(),
 	init,
 	callInLoop,

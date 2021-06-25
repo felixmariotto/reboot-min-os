@@ -49,41 +49,6 @@ function loadLevel( params ) {
 
 }
 
-/*
-
-function loadLevel( levelName, playerInitPos, playerMotionOrigin, chainID ) {
-
-	if ( this.currentLevel ) this.currentLevel.clear();
-
-	//
-
-	switch ( levelName ) {
-
-		case 'playground':
-			this.currentLevel = Playground( playerInitPos, playerMotionOrigin, chainID );
-			break
-
-		case 'meadow-hub':
-			this.currentLevel = MeadowHub( playerInitPos, playerMotionOrigin, chainID );
-			break
-
-		case 'meadow-tuto-point':
-			this.currentLevel = MeadowTutoPoint( playerInitPos, playerMotionOrigin, chainID );
-			break
-
-		case 'meadow-tuto-jump':
-			this.currentLevel = MeadowTutoJump( playerInitPos, playerMotionOrigin, chainID );
-			break
-
-		default :
-			console.warn('level name unknown')
-			break
-
-	}
-
-}
-*/
-
 //
 
 function pause() {

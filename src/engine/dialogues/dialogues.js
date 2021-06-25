@@ -8,8 +8,20 @@ const intro = {
 	story: stories.intro
 };
 
+const chain = {
+	template: 'narrative',
+	story: stories.chain
+};
+
+const jump = {
+	template: 'narrative',
+	story: stories.jump
+}
+
 //
 
 export default {
-	intro
+	intro,
+	chain,
+	jump
 }

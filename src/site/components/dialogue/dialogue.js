@@ -75,7 +75,7 @@ function endLoop() { isLoopOn = false }
 
 function loop() {
 
-	if ( isLoopOn ) setTimeout( loop, 30 );
+	if ( isLoopOn ) setTimeout( loop, 20 );
 
 	if ( isLoopOn && currentStory ) {
 
@@ -118,6 +118,8 @@ function loop() {
 //
 
 dialogueContainer.start = function ( dialogueObj ) {
+
+	engine.levelManager.pause();
 
 	if ( !started ) {
 

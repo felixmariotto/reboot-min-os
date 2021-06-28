@@ -22,7 +22,7 @@ import ChainEntity from './ChainEntity.js';
 
 //
 
-export default function World( info, makeKinematicHelpers , makeStaticHelpers ) {
+export default function World( info, makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers ) {
 
 	const world = Object.assign(
 		Object.create( new THREE.Group() ),
@@ -48,7 +48,7 @@ export default function World( info, makeKinematicHelpers , makeStaticHelpers ) 
 
 	core.scene.add( world );
 
-	world.init( info, makeKinematicHelpers , makeStaticHelpers );
+	world.init( info, makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers );
 
 	return world
 
@@ -126,7 +126,7 @@ function handleEvent( e ) { events.emit( e.eventName, e.data ) }
 
 // INIT
 
-function init( info, makeKinematicHelpers , makeStaticHelpers ) {
+function init( info, makeKinematicHelpers , makeStaticHelpers, makeMiscHelpers ) {
 
 	// keeps track of the nomber of entities the worker has to compute
 	// physics for.
@@ -172,7 +172,7 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 
 	this.add( this.player );
 
-	this.player.makeHelper();
+	if ( makeMiscHelpers ) this.player.makeHelper();
 
 	this.entities.push( this.player );
 
@@ -186,7 +186,10 @@ function init( info, makeKinematicHelpers , makeStaticHelpers ) {
 
 		const chainEntity = ChainEntity( cpInfo );
 
-		chainEntity.makeHelper();
+		if ( makeMiscHelpers ) {
+			chainEntity.makeHelper();
+			chainEntity.sphereEntities.forEach( c => c.makeHelper() );
+		}
 
 		// chain spheres are not added to entities, they are updated
 		// by looping through a chainEntity.sphereEntities.

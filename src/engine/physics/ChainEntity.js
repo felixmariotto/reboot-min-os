@@ -56,8 +56,6 @@ export default function ChainEntity( info ) {
 
 		chainEntity.spheresContainer.add( sphereEntity );
 
-		sphereEntity.makeHelper();
-
 	}
 
 	//

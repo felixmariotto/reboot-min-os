@@ -8,6 +8,8 @@ import physics from '../physics/physics.js';
 import cameraControls from '../misc/cameraControls.js';
 import characterControls from '../misc/characterControls.js';
 
+import ChainPoint from '../graphics/objects/ChainPoint.js';
+
 //
 
 export default function Level( params ) {
@@ -19,6 +21,8 @@ export default function Level( params ) {
 			start,
 			clear,
 			passGate,
+			setEnvmap,
+			addChainPointMeshes,
 			routes: {}
 		},
 		params
@@ -28,7 +32,7 @@ export default function Level( params ) {
 
 //
 
-function start( makeKinematicHelpers, makeStaticHelpers ) {
+function start( makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers ) {
 
 	return new Promise( (resolve) => {
 
@@ -66,7 +70,7 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 
 			//
 
-			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers );
+			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers );
 
 			cameraControls.orbitWorldPlayer( this.world );
 			characterControls.controlVelocity( this.world );
@@ -74,9 +78,44 @@ function start( makeKinematicHelpers, makeStaticHelpers ) {
 			this.scene.add( this.world );
 			if ( staticModel ) this.scene.add( staticModel );
 
+			//
+
+			this.addChainPointMeshes();
+
+			//
+
 			resolve();
 
 		} );
+
+	} );
+
+}
+
+//
+
+function setEnvmap( envmap ) {
+
+	// cannot be level.scene because it's not the root
+	core.scene.environment = envmap;
+	core.scene.background = envmap;
+
+}
+
+//
+
+function addChainPointMeshes() {
+
+	this.world.chainEntities.forEach( (chainEntity) => {
+
+		const cpObject = ChainPoint(
+			chainEntity.radius,
+			chainEntity.length
+		);
+
+		cpObject.position.copy( chainEntity.chainPointPos );
+
+		chainEntity.parent.add( cpObject );
 
 	} );
 

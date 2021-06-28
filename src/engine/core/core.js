@@ -1,5 +1,6 @@
 
 import * as THREE from 'three';
+import * as ThreeMeshUI from 'three-mesh-ui';
 import Stats from 'three/examples/jsm/libs/stats.module.js';
 import params from '../params.js';
 import events from '../misc/events.js';
@@ -310,6 +311,8 @@ function render() {
 	this.renderer.render( this.scene, this.camera );
 
 	if ( USE_STATS ) stats.update();
+
+	ThreeMeshUI.update();
 
 }
 

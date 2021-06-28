@@ -6,6 +6,7 @@ import loadLocalMapFile from './loadLocalMapFile.js';
 // MODELS
 
 import playgroundStaticURL from '../../assets/models/test.glb';
+import meadowTutoPointFileURL from '../../assets/models/mapModels/meadow/tutoChainPoint.glb';
 
 // MAP FILES
 
@@ -28,7 +29,8 @@ const textureLoader = new THREE.TextureLoader();
 // models loading
 
 const models = {
-	playgroundStaticModel: loadModel( playgroundStaticURL )
+	playgroundStaticModel: loadModel( playgroundStaticURL ),
+	meadowTutoPointStaticModel: loadModel( meadowTutoPointFileURL )
 };
 
 // map files loading

@@ -265,7 +265,11 @@ function collideWith( collider, speedRatio ) {
 
 function handleCollection( collider ) {
 
-	if ( collider.tags && collider.tags.collectible ) {
+	if (
+		this.isPlayer &&
+		collider.tags &&
+		collider.tags.collectible
+	) {
 
 		if ( !collider.tags.isCollected ) {
 

@@ -16,7 +16,7 @@ export default function MeadowTutoPoint( params ) {
 		{
 			name: 'meadow-tuto-point',
 			mapFile: files.maps.meadowTutoPoint,
-			// staticModel: files.models.playgroundStaticModel
+			staticModel: files.models.meadowTutoPointStaticModel
 		}
 	);
 
@@ -30,7 +30,7 @@ export default function MeadowTutoPoint( params ) {
 
 	//
 
-	level.start( true, true ).then( () => {
+	level.start( true, false ).then( () => {
 
 		// level.staticModel.then( v => console.log('static model children', v.children ))
 

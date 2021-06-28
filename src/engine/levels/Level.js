@@ -2,6 +2,7 @@
 import * as THREE from 'three';
 
 import core from '../core/core.js';
+import files from '../files/files.js';
 import events from '../misc/events.js';
 import physics from '../physics/physics.js';
 
@@ -22,7 +23,7 @@ export default function Level( params ) {
 			clear,
 			passGate,
 			setEnvmap,
-			addChainPointMeshes,
+			addMeshes,
 			routes: {}
 		},
 		params
@@ -80,7 +81,7 @@ function start( makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers ) {
 
 			//
 
-			this.addChainPointMeshes();
+			this.addMeshes();
 
 			//
 
@@ -104,7 +105,17 @@ function setEnvmap( envmap ) {
 
 //
 
-function addChainPointMeshes() {
+function addMeshes() {
+
+	// player
+
+	files.models.player.then( ( model ) => {
+
+		this.world.player.add( model );
+		
+	} );
+
+	// chain points
 
 	this.world.chainEntities.forEach( (chainEntity) => {
 

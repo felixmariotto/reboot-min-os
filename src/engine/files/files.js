@@ -8,6 +8,8 @@ import loadLocalMapFile from './loadLocalMapFile.js';
 import playgroundStaticURL from '../../assets/models/test.glb';
 import meadowTutoPointFileURL from '../../assets/models/mapModels/meadow/tutoChainPoint.glb';
 
+import playerFileURL from '../../assets/models/player.glb';
+
 // MAP FILES
 
 import playgroundMapURL from '../../assets/mapFiles/playground.txt';
@@ -30,7 +32,8 @@ const textureLoader = new THREE.TextureLoader();
 
 const models = {
 	playgroundStaticModel: loadModel( playgroundStaticURL ),
-	meadowTutoPointStaticModel: loadModel( meadowTutoPointFileURL )
+	meadowTutoPointStaticModel: loadModel( meadowTutoPointFileURL ),
+	player: loadModel( playerFileURL )
 };
 
 // map files loading

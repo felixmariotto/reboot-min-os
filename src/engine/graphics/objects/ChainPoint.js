@@ -49,7 +49,7 @@ function init() {
 
 	//
 
-	const message = new ThreeMeshUI.Block({
+	this.message = new ThreeMeshUI.Block({
 		width: 2,
 		height: 2,
 		borderRadius: 1,
@@ -58,7 +58,7 @@ function init() {
 		fontTexture: 'https://unpkg.com/three-mesh-ui/examples/assets/Roboto-msdf.png'
 	});
 
-	message.add(
+	this.message.add(
 
 		new ThreeMeshUI.Text({
 			content: String( this.length ),
@@ -67,11 +67,11 @@ function init() {
 
 	);
 
-	message.position.y += 2;
+	this.message.position.y += 2;
 
 	//
 
-	this.add( mesh, message );
+	this.add( mesh, this.message );
 
 	chainPoints.push( this );
 
@@ -81,6 +81,6 @@ function init() {
 
 function update( delta ) {
 
-	this.quaternion.copy( core.camera.quaternion );
+	this.message.quaternion.copy( core.camera.quaternion );
 
 }

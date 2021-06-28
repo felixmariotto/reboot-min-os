@@ -186,10 +186,7 @@ function init( info, makeKinematicHelpers , makeStaticHelpers, makeMiscHelpers )
 
 		const chainEntity = ChainEntity( cpInfo );
 
-		if ( makeMiscHelpers ) {
-			chainEntity.makeHelper();
-			chainEntity.sphereEntities.forEach( c => c.makeHelper() );
-		}
+		if ( makeMiscHelpers ) chainEntity.makeHelper();
 
 		// chain spheres are not added to entities, they are updated
 		// by looping through a chainEntity.sphereEntities.

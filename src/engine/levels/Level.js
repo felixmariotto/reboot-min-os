@@ -10,6 +10,7 @@ import cameraControls from '../misc/cameraControls.js';
 import characterControls from '../misc/characterControls.js';
 
 import ChainPoint from '../graphics/objects/ChainPoint.js';
+import ChainLink from '../graphics/objects/ChainLink.js';
 
 //
 
@@ -112,12 +113,14 @@ function addMeshes() {
 	files.models.player.then( ( model ) => {
 
 		this.world.player.add( model );
-		
+
 	} );
 
-	// chain points
+	// chains and chain points
 
 	this.world.chainEntities.forEach( (chainEntity) => {
+
+		// chain points
 
 		const cpObject = ChainPoint(
 			chainEntity.radius,
@@ -127,6 +130,16 @@ function addMeshes() {
 		cpObject.position.copy( chainEntity.chainPointPos );
 
 		chainEntity.parent.add( cpObject );
+
+		// chains
+
+		chainEntity.sphereEntities.forEach( (sphereEntity) => {
+
+			const link = ChainLink();
+
+			sphereEntity.add( link );
+
+		} );
 
 	} );
 

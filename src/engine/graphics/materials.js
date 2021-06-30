@@ -1,8 +1,9 @@
 
 import core from '../core/core.js';
 
-import characterMaterial from './characterMaterial.js';
-import grassMaterial from './grassMaterial.js';
+import characterMaterial from './materials/characterMaterial.js';
+import grassMaterial from './materials/grassMaterial.js';
+import chainMaterial from './materials/chainMaterial.js';
 
 //
 
@@ -12,6 +13,7 @@ core.callInLoop( function updateMaterials() {
 
 	characterMaterial.userData.update( elapsedTime );
 	grassMaterial.userData.update( elapsedTime );
+	chainMaterial.userData.update( elapsedTime );
 
 } );
 
@@ -19,5 +21,6 @@ core.callInLoop( function updateMaterials() {
 
 export default {
 	characterMaterial,
-	grassMaterial
+	grassMaterial,
+	chainMaterial
 }

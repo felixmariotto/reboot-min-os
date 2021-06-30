@@ -36,7 +36,7 @@ export default {
 
 	chainPasses: 5, // number of times the chain links are simulated per physics tick
 	chainPointDistance: 0.9,
-	chainSphereRadius: 0.4,
+	chainSphereRadius: 0.35,
 	chainWeight: 0.3,
 	chainMass: 0.03,
 	// How the chain pulls the player back.

@@ -3,6 +3,7 @@ import * as THREE from 'three';
 
 import core from '../core/core.js';
 import input from '../misc/input.js';
+import files from '../files/files.js';
 
 //
 
@@ -18,6 +19,18 @@ const animationManager = {
 };
 
 core.callInLoop( ( delta ) => animationManager.animate( delta ) );
+
+files.models.player.then( playerModel => {
+	
+	animationManager.playerModel = playerModel;
+
+	playerModel.traverse( child => {
+
+		if ( child.name === "wheels" ) animationManager.playerWheels = child;
+
+	} );
+
+} );
 
 export default animationManager
 
@@ -36,7 +49,11 @@ function animate( delta ) {
 
 	if ( this.level ) {
 
-		if ( input.targetDirection.length() > 0 ) {
+		const inputMovLen = input.targetDirection.length();
+
+		// if the player input movement, we compute the target player mesh rotation.
+
+		if ( inputMovLen > 0 ) {
 
 			_v0
 			.copy( core.camera.position )
@@ -57,12 +74,18 @@ function animate( delta ) {
 
 		}
 
+		// tweening of the player mesh towards the target rotation
+
 		_v0
 		.copy( targetDirection )
 		.lerp( this.player.getWorldDirection( _v1 ), 0.7 )
 		.add( this.player.position );
 
 		this.player.lookAt( _v0 );
+
+		// player wheels animation
+
+		if ( inputMovLen ) this.playerWheels.rotation.x -= 0.3; // * inputMovLen;
 
 	}
 

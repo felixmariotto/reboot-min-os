@@ -5,6 +5,7 @@ import core from '../core/core.js';
 import files from '../files/files.js';
 import events from '../misc/events.js';
 import physics from '../physics/physics.js';
+import animationManager from '../graphics/animationManager.js';
 
 import cameraControls from '../misc/cameraControls.js';
 import characterControls from '../misc/characterControls.js';
@@ -73,6 +74,8 @@ function start( makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers ) {
 			//
 
 			this.world = physics.World( sceneGraph, makeKinematicHelpers, makeStaticHelpers, makeMiscHelpers );
+
+			animationManager.animateLevel( this );
 
 			cameraControls.orbitWorldPlayer( this.world );
 			characterControls.controlVelocity( this.world );

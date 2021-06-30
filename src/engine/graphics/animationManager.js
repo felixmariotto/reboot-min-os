@@ -36,25 +36,33 @@ function animate( delta ) {
 
 	if ( this.level ) {
 
+		if ( input.targetDirection.length() > 0 ) {
+
+			_v0
+			.copy( core.camera.position )
+			.sub( this.player.position )
+			.setY( 0 );
+
+			let angle = _v0.angleTo( FORWARD );
+
+			_v1.crossVectors( _v0, FORWARD );
+
+			if ( _v1.dot( this.player.up ) < 0 ) angle = -angle;
+
+			// get world direction
+
+			targetDirection
+			.set( -input.targetDirection.x, 0, -input.targetDirection.y )
+			.applyAxisAngle( this.player.up, -angle );
+
+		}
+
 		_v0
-		.copy( core.camera.position )
-		.sub( this.player.position )
-		.setY( 0 );
-
-		let angle = _v0.angleTo( FORWARD );
-
-		_v1.crossVectors( _v0, FORWARD );
-
-		if ( _v1.dot( this.player.up ) < 0 ) angle = -angle;
-
-		// get world direction
-
-		targetDirection
-		.set( -input.targetDirection.x, 0, -input.targetDirection.y )
-		.applyAxisAngle( this.player.up, -angle )
+		.copy( targetDirection )
+		.lerp( this.player.getWorldDirection( _v1 ), 0.7 )
 		.add( this.player.position );
 
-		this.player.lookAt( targetDirection );
+		this.player.lookAt( _v0 );
 
 	}
 

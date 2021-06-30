@@ -36,10 +36,6 @@ const models = {
 	player: loadModel( playerFileURL )
 };
 
-models.player.then( (playerModel) => {
-	console.log( 'playerModel', playerModel )
-})
-
 // map files loading
 
 const maps = {

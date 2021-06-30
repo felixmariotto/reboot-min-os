@@ -308,6 +308,9 @@ function handleMessage(e) {
 
 	if ( e.data.isEvent ) {
 
+		// Propagate events emitted by the worker to the event module.
+		// So events.on( eventName ) will work in the main thread.
+
 		const eventName = e.data.eventName;
 		const data = e.data.data;
 

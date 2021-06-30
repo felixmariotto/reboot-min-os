@@ -3,6 +3,8 @@ import * as THREE from 'three';
 
 import core from '../core/core.js';
 import input from '../misc/input.js';
+import events from '../misc/events.js';
+import easing from '../misc/easing.js';
 import files from '../files/files.js';
 
 //
@@ -12,6 +14,9 @@ const FORWARD = new THREE.Vector3( 0, 0, -1 );
 const _v0 = new THREE.Vector3();
 const _v1 = new THREE.Vector3();
 const targetDirection = new THREE.Vector3();
+
+let lastJumpTime = 0;
+const PLAYER_JUMP_DURATION = 300; // in MS
 
 const animationManager = {
 	animateLevel,
@@ -34,7 +39,17 @@ files.models.player.then( playerModel => {
 
 export default animationManager
 
-//
+// events listeners
+
+events.on( 'player-jumped', () => {
+
+	lastJumpTime = Date.now();
+
+	// console.log('ok')
+
+} );
+
+// methods
 
 function animateLevel( level ) {
 
@@ -86,6 +101,18 @@ function animate( delta ) {
 		// player wheels animation
 
 		if ( inputMovLen ) this.playerWheels.rotation.x -= 0.3; // * inputMovLen;
+
+		// player jump animation
+
+		let t = ( Date.now() - lastJumpTime ) / PLAYER_JUMP_DURATION;
+
+		if ( t < 1 ) {
+
+			t = easing.easeOutQuad( t );
+
+			this.playerWheels.position.y = - 0.7 * Math.sin( t * Math.PI );
+
+		}
 
 	}
 

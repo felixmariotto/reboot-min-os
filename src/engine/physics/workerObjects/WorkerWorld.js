@@ -610,6 +610,8 @@ function handleEvent( e ) {
 
 				this.player.velocity.y += params.playerJumpSpeed;
 
+				emitEvent( 'player-jumped' );
+
 			}
 
 			break

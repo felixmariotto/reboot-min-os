@@ -5,10 +5,19 @@ import materials from '../materials.js';
 
 //
 
-export default function ChainLink() {
+export default function ChainLink( idx ) {
+
+	const geometry = new THREE.IcosahedronGeometry( params.chainSphereRadius, 1 );
+
+	const posAttrib = geometry.attributes.position;
+
+	const array = new Float32Array( posAttrib.count );
+	array.fill( idx );
+
+	geometry.setAttribute( 'idx', new THREE.BufferAttribute( array, 1 ) );
 
 	return new THREE.Mesh(
-		new THREE.IcosahedronGeometry( params.chainSphereRadius, 1 ),
+		geometry,
 		materials.chainMaterial
 	)
 

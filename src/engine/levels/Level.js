@@ -136,9 +136,9 @@ function addMeshes() {
 
 		// chains
 
-		chainEntity.sphereEntities.forEach( (sphereEntity) => {
+		chainEntity.sphereEntities.forEach( (sphereEntity, idx) => {
 
-			const link = ChainLink();
+			const link = ChainLink( idx );
 
 			sphereEntity.add( link );
 

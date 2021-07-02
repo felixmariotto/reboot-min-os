@@ -2,6 +2,7 @@
 import { elem } from '../../utils.js';
 import menu from '../../components/menu/menu.js';
 import dialogue from '../../components/dialogue/dialogue.js';
+import biomeOverlay from '../../components/biomeOverlay/biomeOverlay.js';
 
 //
 
@@ -11,7 +12,7 @@ const gamePage = elem({ id:'game-page', classes: 'game-container' });
 
 gamePage.start = function start() {
 
-	gamePage.append( menu, dialogue );
+	gamePage.append( biomeOverlay, menu, dialogue );
 
 	engine.core.init( gamePage );
 
@@ -53,6 +54,12 @@ gamePage.start = function start() {
 		engine.levelManager.pause();
 
 		menu.show();
+
+	} );
+
+	engine.on( 'enter-biome', (e) => {
+
+		biomeOverlay.animate();
 
 	} );
 

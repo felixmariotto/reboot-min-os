@@ -208,6 +208,12 @@ function passGate( gateName ) {
 
 		events.emit( 'load-level', this.routes[ gateName ] );
 
+		if ( this.routes[ gateName ].enterBiome ) {
+
+			events.emit( 'enter-biome', this.routes[ gateName ].enterBiome );
+
+		}
+
 	} else {
 
 		console.warn( "this level doesn't have a route ", gateName );

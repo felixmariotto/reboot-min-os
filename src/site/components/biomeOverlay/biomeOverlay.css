@@ -1,0 +1,30 @@
+
+#biome-overlay {
+	height: 80vh;
+	width: 100vw;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background: linear-gradient(180deg, rgba(1,0,23,1) 0%, rgba(255,255,255,0) 100%);
+	pointer-events: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+}
+
+	#biome-overlay > img {
+		height: 70%;
+	}
+
+		#biome-overlay.animate {
+			animation-name: animate_biome_overlay;
+			animation-duration: 4s;
+		}
+
+		@keyframes animate_biome_overlay {
+			from   { opacity: 0; }
+			25%  { opacity: 1; }
+			75%  { opacity: 1; }
+			to { opacity: 0; }
+		}

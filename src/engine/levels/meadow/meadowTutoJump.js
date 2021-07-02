@@ -26,7 +26,8 @@ export default function MeadowTutoJump( params ) {
 	level.routes[ 'gate-01' ] = {
 		levelName: 'meadow-hub',
 		playerInit: [ -12, 3.5, 21.5 ],
-		playerDir: '-z'
+		playerDir: '-z',
+		enterBiome: 'meadows'
 	};
 
 	level.routes[ 'gate-02' ] = {

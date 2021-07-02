@@ -12,6 +12,8 @@ import params from '../params.js';
 
 export default function Entity( info ) {
 
+	const tags = info.tags ? JSON.parse( info.tags ) : {};
+
 	return Object.assign(
 		Object.create( new THREE.Object3D() ),
 		{
@@ -19,6 +21,7 @@ export default function Entity( info ) {
 			name: info.name,
 			serial: info.serial,
 			info,
+			tags,
 			clear,
 			makeHelper,
 			updatePosition,

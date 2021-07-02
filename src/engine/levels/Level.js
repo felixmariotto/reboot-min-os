@@ -12,6 +12,7 @@ import characterControls from '../misc/characterControls.js';
 
 import ChainPoint from '../graphics/objects/ChainPoint.js';
 import ChainLink from '../graphics/objects/ChainLink.js';
+import DialogueMarker from '../graphics/objects/DialogueMarker.js';
 
 //
 
@@ -143,6 +144,28 @@ function addMeshes() {
 			sphereEntity.add( link );
 
 		} );
+
+	} );
+
+	//
+
+	this.world.entities.forEach( (entity) => {
+
+		// process entities with tags
+
+		if ( Object.keys( entity.tags ).length ) {
+
+			// dialogues
+
+			if ( entity.tags.collectible.includes( 'dialogue' ) ) {
+
+				const dialogueMarker = DialogueMarker();
+
+				entity.add( dialogueMarker );
+
+			}
+
+		}
 
 	} );
 

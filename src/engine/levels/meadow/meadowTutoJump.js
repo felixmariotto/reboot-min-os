@@ -38,7 +38,7 @@ export default function MeadowTutoJump( params ) {
 
 	//
 
-	level.start( true, true, true ).then( () => level.init() );
+	level.start( true, true, false ).then( () => level.init() );
 
 	//
 

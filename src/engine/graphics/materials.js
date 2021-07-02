@@ -5,6 +5,7 @@ import characterMaterial from './materials/characterMaterial.js';
 import grassMaterial from './materials/grassMaterial.js';
 import chainMaterial from './materials/chainMaterial.js';
 import dialogueSignMaterial from './materials/dialogueSignMaterial.js';
+import dialogueSphereMaterial from './materials/dialogueSphereMaterial.js';
 
 //
 
@@ -16,6 +17,7 @@ core.callInLoop( function updateMaterials() {
 	grassMaterial.userData.update( elapsedTime );
 	chainMaterial.userData.update( elapsedTime );
 	dialogueSignMaterial.userData.update( elapsedTime );
+	dialogueSphereMaterial.userData.update( elapsedTime );
 
 } );
 
@@ -25,5 +27,6 @@ export default {
 	characterMaterial,
 	grassMaterial,
 	chainMaterial,
-	dialogueSignMaterial
+	dialogueSignMaterial,
+	dialogueSphereMaterial
 }

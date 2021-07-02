@@ -23,6 +23,20 @@ const simpleNoise = `
 	}
 `;
 
+const easeOutQuad = `
+	float easeOutQuad ( float x ) {
+		return 1.0 - ( 1.0 - x ) * ( 1.0 - x );
+	}
+`;
+
+const easeInQuad = `
+	float easeInQuad ( float x ) {
+		return x * x;
+	}
+`;
+
 export default {
-	simpleNoise
+	simpleNoise,
+	easeOutQuad,
+	easeInQuad
 }

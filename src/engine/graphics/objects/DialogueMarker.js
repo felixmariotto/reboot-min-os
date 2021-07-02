@@ -46,6 +46,8 @@ function init() {
 
 	dialogueMarkers.push( this );
 
+	// SIGN
+
 	files.models.dialogueSign.then( model => {
 
 		model.traverse( child => {
@@ -60,15 +62,13 @@ function init() {
 
 	} );
 
-	//
+	// SPHERE
 
-	const geometry = new THREE.IcosahedronGeometry( 1.2, 1 );
+	const geometry = new THREE.IcosahedronGeometry( 1.4, 3 );
 
-	const material = new THREE.MeshNormalMaterial({ wireframe: true });
+	const mesh = new THREE.Mesh( geometry, materials.dialogueSphereMaterial );
 
-	const mesh = new THREE.Mesh( geometry, material );
-
-	this.add( mesh );
+	group.add( mesh );
 
 }
 

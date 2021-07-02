@@ -3,9 +3,26 @@ import * as THREE from 'three';
 import core from '../../core/core.js';
 
 import files from '../../files/files.js';
+import events from '../../misc/events.js';
 import Level from '../Level.js';
 
 import ShadowedLight from '../../misc/ShadowedLight.js';
+
+//
+
+let deleteDialogue;
+
+events.on( 'item-collected', (e) => {
+
+	const collectible = e.detail.collectible;
+
+	if ( collectible && collectible.includes('dialogue-chain') ) {
+
+		if ( deleteDialogue ) deleteDialogue();
+
+	}
+
+} );
 
 //
 
@@ -32,6 +49,14 @@ export default function MeadowTutoPoint( params ) {
 	//
 
 	level.start( false, false, false ).then( () => level.init() );
+
+	//
+
+	deleteDialogue = () => {
+
+		level.removeDialogueMesh( 'dialogue-chain' );
+
+	}
 
 	//
 

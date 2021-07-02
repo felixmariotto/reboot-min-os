@@ -42,6 +42,8 @@ function init() {
 
 	const group = new THREE.Group();
 
+	group.name = 'dialogue-marker';
+
 	this.add( group );
 
 	dialogueMarkers.push( this );

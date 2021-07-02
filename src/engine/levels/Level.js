@@ -27,6 +27,7 @@ export default function Level( params ) {
 			passGate,
 			setEnvmap,
 			addMeshes,
+			removeDialogueMesh,
 			routes: {}
 		},
 		params
@@ -162,6 +163,34 @@ function addMeshes() {
 				const dialogueMarker = DialogueMarker();
 
 				entity.add( dialogueMarker );
+
+			}
+
+		}
+
+	} );
+
+}
+
+//
+
+function removeDialogueMesh( dialogueName ) {
+
+	this.world.entities.forEach( (entity) => {
+
+		// process entities with tags
+
+		if ( Object.keys( entity.tags ).length ) {
+
+			// dialogues
+
+			if ( entity.tags.collectible.includes( dialogueName ) ) {
+
+				entity.traverse( (child) => {
+
+					if ( child.name === 'dialogue-marker' ) child.clear();
+
+				} );
 
 			}
 

@@ -10,26 +10,52 @@ const material = new THREE.MeshStandardMaterial({
 
 material.onBeforeCompile = function ( shader ) {
 
-	shader.vertexShader = `
-	attribute float idx;
-	varying float vIdx;
-	` + shader.vertexShader;
+	// VERTEX
 
-	shader.vertexShader = shader.vertexShader.replace(
-		'vViewPosition = - mvPosition.xyz;',
-		`
-		vViewPosition = - mvPosition.xyz;
-		vIdx = idx;
-		`
-	);
+	shader.vertexShader = `
+
+	attribute float idx;
+
+	varying float vIdx;
+
+	varying vec2 vUv;
+
+	` + shader.vertexShader;
 
 	//
 
+	shader.vertexShader = shader.vertexShader.replace(
+
+		'vViewPosition = - mvPosition.xyz;',
+
+		//
+
+		`
+
+		vViewPosition = - mvPosition.xyz;
+
+		vIdx = idx;
+
+		vUv = uv;
+
+		`
+	);
+
+	// FRAGMENT
+
 	shader.fragmentShader = shader.fragmentShader.replace(
+
 		'void main()',
+
+		//
+
 		`
 		uniform float time;
+
 		varying float vIdx;
+
+		varying vec2 vUv;
+
 		vec2 getMatcapUV() {
 			vec3 normal = normalize( vNormal );
 			vec3 viewDir = normalize( vViewPosition );
@@ -37,24 +63,38 @@ material.onBeforeCompile = function ( shader ) {
 			vec3 y = cross( viewDir, x );
 			return vec2( dot( x, normal ), dot( y, normal ) ) * 0.497 + 0.5;
 		}
+
 		void main()
+
 		`
 	);
 
+	//
+
 	shader.fragmentShader = shader.fragmentShader.replace(
+
 		'gl_FragColor = vec4( outgoingLight, diffuseColor.a );',
+
+		//
+
 		`
+
 		vec2 matcapUV = getMatcapUV();
+
 	  	matcapUV -= 0.5;
+
 	    matcapUV *= 2.0;
+
 	    float centerDist = length( matcapUV );
-	    centerDist *= 0.5 + 0.5 * sin( time * 10.0 - vIdx );
-	    vec3 color = mix( outgoingLight, vec3( 1.0 ), centerDist );
+
+	    centerDist *= 1.0 + 0.5 * sin( time * 10.0 - vIdx ) * 1.2;
+
+	    vec3 color = mix( vec3( 1.0 ), outgoingLight, centerDist );
+
 	    gl_FragColor = vec4( color, 1 );
+
 		`
 	)
-
-	console.log( shader.fragmentShader )
 
 	shader.uniforms.time = { value: 0 };
 	material.userData.uniforms = shader.uniforms;

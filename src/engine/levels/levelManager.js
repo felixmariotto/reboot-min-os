@@ -42,6 +42,7 @@ events.on( 'item-collected', (e) => {
 		case 'energy': levelManager.addEnergy(); break
 		case 'dialogue-energy-meadow':
 			levelManager.currentLevel.world.emitEvent( 'enable-body', 'dfofo' );
+			levelManager.poweredBiomes.meadow = true;
 			// console.log('start dialogue + add meadow as poweredBiomes + remove door');
 			break
 	}
@@ -102,7 +103,7 @@ function resume() {
 
 function restart() {
 
-	console.log('restart this level')
+	console.log( 'restart this level' );
 
 }
 

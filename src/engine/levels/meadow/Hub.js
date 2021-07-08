@@ -33,8 +33,8 @@ export default function MeadowHub( params ) {
 	level.routes[ 'gate-02' ] = {
 		levelName: 'meadow-room-01',
 		playerInit: [ 18, 2, 0 ],
-		// playerDir: '-z',
-		chainID: 1
+		playerDir: '-x',
+		chainID: 0
 	};
 
 	//

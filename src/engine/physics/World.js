@@ -394,7 +394,7 @@ function handleMessage(e) {
 		this.entities.forEach( (entity) => {
 
 			entity.updatePosition( this.positions );
-			entity.updateVelocity( this.velocities )
+			entity.updateVelocity( this.velocities );
 
 		} );
 

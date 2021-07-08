@@ -17,9 +17,9 @@ const levelManager = {
 	resume,
 	restart,
 	passGate,
-	addEnergy,
+	addBattery,
 	collectedRewards: {
-		energy: 0,
+		batteries: 0,
 		reports: []
 	},
 	poweredBiomes: {
@@ -39,11 +39,10 @@ events.on( 'load-level', (e) => {
 events.on( 'item-collected', (e) => {
 
 	switch ( e.detail.collectible ) {
-		case 'energy': levelManager.addEnergy(); break
-		case 'dialogue-energy-meadow':
+		case 'battery': levelManager.addBattery(); break
+		case 'dialogue-batteries-meadow':
 			levelManager.currentLevel.world.emitEvent( 'enable-body', 'dfofo' );
 			levelManager.poweredBiomes.meadow = true;
-			// console.log('start dialogue + add meadow as poweredBiomes + remove door');
 			break
 	}
 
@@ -117,8 +116,8 @@ function passGate( gateName ) {
 
 //
 
-function addEnergy() {
+function addBattery() {
 
-	this.collectedRewards.energy ++;
+	this.collectedRewards.batteries ++;
 
 }

@@ -43,8 +43,8 @@ gamePage.start = function start() {
 			switch ( collectible ) {
 				case 'dialogue-chain': dialogue.start( engine.dialogues.chain ); break
 				case 'dialogue-jump': dialogue.start( engine.dialogues.jump ); break
-				case 'dialogue-orbs': dialogue.start( engine.dialogues.energy ); break
-				case 'dialogue-energy-meadow': dialogue.start( engine.dialogues.unlockMeadow ); break
+				case 'dialogue-batteries': dialogue.start( engine.dialogues.energy ); break
+				case 'dialogue-batteries-meadow': dialogue.start( engine.dialogues.unlockMeadow ); break
 			}
 
 		}

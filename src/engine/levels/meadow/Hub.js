@@ -75,7 +75,7 @@ function init() {
 
 	this.setEnvmap( files.textures.roomEnvmap );
 
-	// if the player didn't gather enough energy to go to the meadow biome :
+	// if the player didn't gather enough batteries to go to the meadow biome :
 
 	if ( levelManager.poweredBiomes.meadow ) {
 
@@ -84,14 +84,14 @@ function init() {
 
 	} else {
 
-		if ( levelManager.collectedRewards.energy > 0 ) {
+		if ( levelManager.collectedRewards.batteries > 0 ) {
 
 			// hide unlocking dialogue
 			this.world.emitEvent( 'enable-body', 'q8zi' );
 
 		} else {
 
-			// hide energy tuto dialogue
+			// hide batteries tuto dialogue
 			this.world.emitEvent( 'enable-body', '1669' );
 
 		}

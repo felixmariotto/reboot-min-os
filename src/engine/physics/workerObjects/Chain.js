@@ -113,7 +113,7 @@ function initChainPos() {
 		this.spheres[i].position.lerpVectors(
 			this.startPoint,
 			this.endPoint,
-			i / this.spheresNumber
+			( i + 1 ) / ( this.spheresNumber + 2 )
 		);
 
 	}
@@ -178,7 +178,7 @@ function constrainPoints( p1, p2 ) {
 	// get the fractional distance the points need to move toward or away from center of 
 	// line to make line length correct
 
-	const fraction = ( ( this.linkLength - distance ) / distance ) / 2; // divide by 2 as each point moves half the distance
+	const fraction = ( Math.min( 0, this.linkLength - distance ) / distance ) / 2; // divide by 2 as each point moves half the distance
 	diff.multiplyScalar( fraction );
 
 	//

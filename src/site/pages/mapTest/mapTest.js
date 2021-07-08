@@ -15,7 +15,7 @@ gamePage.start = function start() {
 
 	engine.files.loadLocalMapFile( ( sceneGraph ) => {
 
-		const world = engine.physics.World( sceneGraph, true, true );
+		const world = engine.physics.World( sceneGraph, true, true, true );
 
 		engine.cameraControls.orbitWorldPlayer( world );
 		engine.characterControls.controlVelocity( world );

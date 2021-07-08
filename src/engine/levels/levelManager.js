@@ -7,6 +7,7 @@ import Playground from './Playground.js';
 import MeadowHub from './meadow/Hub.js';
 import MeadowTutoJump from './meadow/MeadowTutoJump.js';
 import MeadowTutoPoint from './meadow/MeadowTutoPoint.js';
+import MeadowFirstRoom from './meadow/MeadowFirstRoom.js';
 
 //
 
@@ -40,6 +41,7 @@ function loadLevel( params ) {
 			case 'meadow-hub': return MeadowHub;
 			case 'meadow-tuto-point': return MeadowTutoPoint;
 			case 'meadow-tuto-jump': return MeadowTutoJump;
+			case 'meadow-room-01': return MeadowFirstRoom;
 			default: console.error( 'not such level name: ', params.levelName );
 		}
 

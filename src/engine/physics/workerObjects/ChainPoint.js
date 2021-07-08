@@ -58,7 +58,6 @@ function intersectPlayer( player ) {
 function makeChain( player ) {
 
 	const chain = Chain( this );
-	// chain.makeHelper();
 	chain.chainID = this.chainID;
 
 	chain.attachStartTo( this, 0, 0, 0 );

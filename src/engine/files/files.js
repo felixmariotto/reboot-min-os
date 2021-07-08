@@ -18,6 +18,7 @@ import playgroundMapURL from '../../assets/mapFiles/playground.txt';
 import meadowHubMapURL from '../../assets/mapFiles/meadow/hub.txt';
 import meadowTutoPointMapURL from '../../assets/mapFiles/meadow/tuto-chain-point.txt';
 import meadowTutoJumpMapURL from '../../assets/mapFiles/meadow/tuto-jump.txt';
+import meadowFirstRoomURL from '../../assets/mapFiles/meadow/room-01.txt';
 
 // TEXTURES
 
@@ -45,6 +46,7 @@ const maps = {
 	meadowHub: loadMap( meadowHubMapURL ),
 	meadowTutoPoint: loadMap( meadowTutoPointMapURL ),
 	meadowTutoJump: loadMap( meadowTutoJumpMapURL ),
+	meadowFirstRoom: loadMap( meadowFirstRoomURL )
 };
 
 // textures loading

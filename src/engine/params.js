@@ -32,7 +32,7 @@ export default {
 	frictionResultToStop: Math.pow( 0.0017, 2 ), // resulting velocity length after friction to stop motion.
 
 	bodyDefaultBounciness: 0,
-	bodyDefaultDamping: 0.05,
+	bodyDefaultDamping: 0.1,
 
 	chainPasses: 5, // number of times the chain links are simulated per physics tick
 	chainPointDistance: 0.9,

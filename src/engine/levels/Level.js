@@ -216,7 +216,7 @@ function passGate( gateName ) {
 
 	} else {
 
-		console.warn( "this level doesn't have a route ", gateName );
+		console.warn( "this level doesn't have a route :", gateName );
 
 	}
 

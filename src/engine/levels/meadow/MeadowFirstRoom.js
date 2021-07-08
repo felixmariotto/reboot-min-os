@@ -15,7 +15,7 @@ export default function MeadowHub( params ) {
 		Level( params ),
 		{
 			name: 'meadow-hub',
-			mapFile: files.maps.meadowHub,
+			mapFile: files.maps.meadowFirstRoom,
 			// staticModel: files.models.playgroundStaticModel,
 			init
 		}
@@ -24,17 +24,11 @@ export default function MeadowHub( params ) {
 	// setup the routes from this level to another
 
 	level.routes[ 'gate-01' ] = {
-		levelName: 'meadow-tuto-jump',
-		playerInit: [ -13.5, 2.5, 22.5 ],
-		playerDir: '-z',
-		chainID: 1
-	};
-
-	level.routes[ 'gate-02' ] = {
-		levelName: 'meadow-room-01',
-		playerInit: [ 18, 2, 0 ],
-		// playerDir: '-z',
-		chainID: 1
+		levelName: 'meadow-hub',
+		playerInit: [ -21.5, 3.5, 0.5 ],
+		playerDir: '+x',
+		chainID: 0,
+		enterBiome: true
 	};
 
 	//

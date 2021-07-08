@@ -186,7 +186,17 @@ function init( info, makeKinematicHelpers , makeStaticHelpers, makeMiscHelpers )
 
 		const chainEntity = ChainEntity( cpInfo );
 
-		if ( makeMiscHelpers ) chainEntity.makeHelper();
+		if ( makeMiscHelpers ) {
+
+			chainEntity.makeHelper();
+
+			chainEntity.sphereEntities.forEach( (sphereEntity) => {
+
+				sphereEntity.makeHelper();
+
+			} );
+
+		}
 
 		// chain spheres are not added to entities, they are updated
 		// by looping through a chainEntity.sphereEntities.
@@ -250,6 +260,9 @@ function init( info, makeKinematicHelpers , makeStaticHelpers, makeMiscHelpers )
 		this.player.position.z,
 		this.positions
 	);
+
+	// for testing
+	info.player.vel = info.player.vel || new THREE.Vector3();
 
 	this.player.setVectorArray(
 		info.player.vel.x,

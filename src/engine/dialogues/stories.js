@@ -26,10 +26,23 @@ const jump = [
 	{ m: "You will have to make do with the equipment available to you." }
 ];
 
+const energy = [
+	{ m: 'It seems the modules behind this gate are unpowered.' },
+	{ m: 'Look here on the right side of the gate, this is an emergency batteries socket.' },
+	{ m: 'You only need one emergency battery to power up the gate and the area beyond, go find one and come back here.' }
+];
+
+const unlockMeadow = [
+	{ m: 'You got a emergency battery !' },
+	{ m: "Let's plug it in the socket and explore the are beyond this gate." }
+];
+
 //
 
 export default {
 	intro,
 	chain,
-	jump
+	jump,
+	energy,
+	unlockMeadow
 }

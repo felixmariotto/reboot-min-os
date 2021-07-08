@@ -16,6 +16,16 @@ const chain = {
 const jump = {
 	template: 'narrative',
 	story: stories.jump
+};
+
+const energy = {
+	template: 'narrative',
+	story: stories.energy
+}
+
+const unlockMeadow = {
+	template: 'narrative',
+	story: stories.unlockMeadow
 }
 
 //
@@ -23,5 +33,7 @@ const jump = {
 export default {
 	intro,
 	chain,
-	jump
+	jump,
+	energy,
+	unlockMeadow
 }

@@ -4,6 +4,7 @@ import core from '../../core/core.js';
 
 import files from '../../files/files.js';
 import Level from '../Level.js';
+import levelManager from '../levelManager.js';
 
 import ShadowedLight from '../../misc/ShadowedLight.js';
 
@@ -73,5 +74,26 @@ function init() {
 	this.scene.add( light, dirLight, dirLight.helpers );
 
 	this.setEnvmap( files.textures.roomEnvmap );
+
+	// if the player didn't gather enough energy to go to the meadow biome :
+
+	if ( levelManager.collectedRewards.energy > 0 ) {
+
+		// hide unlocking dialogue
+		this.world.emitEvent( 'enable-body', 'q8zi' );
+
+	} else {
+
+		// hide energy tuto dialogue
+		this.world.emitEvent( 'enable-body', '1669' );
+
+	}
+
+	if ( levelManager.poweredBiomes.meadow ) {
+
+		// hide body blocking the door
+		this.world.emitEvent( 'enable-body', 'dfofo' );
+
+	}
 
 }

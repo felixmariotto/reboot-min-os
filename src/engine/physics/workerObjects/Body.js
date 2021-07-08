@@ -387,11 +387,14 @@ function updateVelFromArr( typedArr ) {
 
 }
 
-function updateTransform( time ) {
+// use the transform function defined in the editor.
+// isEnabled is optional, for objects with dual states, like doors.
+
+function updateTransform( time, isEnabled ) {
 
 	if ( this.transformFunction ) {
 
-		this.transformFunction( time );
+		this.transformFunction( time, isEnabled );
 
 	}
 	

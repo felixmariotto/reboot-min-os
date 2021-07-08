@@ -44,6 +44,7 @@ export default function WorkerWorld( info ) {
 			enabled: true,
 			chains: [],
 			chainPoints: [],
+			enabledBodies: {},
 			spatialIndex: SpatialIndex(),
 			info,
 			update,
@@ -80,7 +81,7 @@ export default function WorkerWorld( info ) {
 
 		if ( bodyInfo.trans ) {
 
-			body.transformFunction = Function( 'time', bodyInfo.trans );
+			body.transformFunction = Function( 'time', 'isEnabled', bodyInfo.trans );
 
 		}
 
@@ -473,7 +474,7 @@ function updatePhysics( delta ) {
 			body.updateTransform
 		) {
 
-			body.updateTransform( nowTime );
+			body.updateTransform( nowTime, this.enabledBodies[ body.name ] );
 
 			body.lastTransformTime = nowTime;
 

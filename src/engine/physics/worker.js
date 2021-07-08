@@ -53,6 +53,14 @@ if ( typeof importScripts !== 'undefined' ) {
 
 			events.push( { eventName, data } )
 
+			if ( world && eventName === 'enable-body' ) {
+
+				world.enabledBodies[ data ] = true;
+
+				console.log( 'world.enabledBodies', world.enabledBodies )
+
+			}
+
 		} else {
 
 			if ( LOG_PERF ) {

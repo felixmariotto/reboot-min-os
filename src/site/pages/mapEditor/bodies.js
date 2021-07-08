@@ -175,7 +175,7 @@ function fromInfo( info ) {
 
 	if ( info.trans ) {
 
-		newBody.transformFunction = Function( 'time', info.trans );
+		newBody.transformFunction = Function( 'time', 'isEnabled', info.trans );
 
 	}
 
@@ -294,7 +294,7 @@ codeInput.addEventListener( 'validate', (e) => {
 
 		selectedBody.transformCode = transformCode;
 
-		selectedBody.transformFunction = Function( 'time', transformCode );
+		selectedBody.transformFunction = Function( 'time', 'isEnabled', transformCode );
 
 	}
 

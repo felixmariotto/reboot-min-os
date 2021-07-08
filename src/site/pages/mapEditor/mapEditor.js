@@ -509,7 +509,7 @@ editorPage.start = function start() {
 
 				if ( body.transformFunction ) {
 
-					body.transformFunction.call( body.threeObj, time );
+					body.transformFunction.call( body.threeObj, time, true );
 
 				}
 

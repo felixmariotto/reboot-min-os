@@ -16,12 +16,35 @@ const levelManager = {
 	pause,
 	resume,
 	restart,
-	passGate
+	passGate,
+	addEnergy,
+	collectedRewards: {
+		energy: 0,
+		reports: []
+	},
+	poweredBiomes: {
+		meadow: false,
+		canopy: false,
+		darkForest: false,
+		crypt: false
+	}
 }
 
 events.on( 'load-level', (e) => {
 
 	levelManager.loadLevel( e.detail );
+
+} );
+
+events.on( 'item-collected', (e) => {
+
+	switch ( e.detail.collectible ) {
+		case 'energy': levelManager.addEnergy(); break
+		case 'dialogue-energy-meadow':
+			levelManager.currentLevel.world.emitEvent( 'enable-body', 'dfofo' );
+			// console.log('start dialogue + add meadow as poweredBiomes + remove door');
+			break
+	}
 
 } );
 
@@ -88,5 +111,13 @@ function restart() {
 function passGate( gateName ) {
 
 	this.currentLevel.passGate( gateName );
+
+}
+
+//
+
+function addEnergy() {
+
+	this.collectedRewards.energy ++;
 
 }
